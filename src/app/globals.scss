@@ -1,0 +1,29 @@
+body {
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  background-color: $gunmetal;
+  color: $babyPowder;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  margin: 0;
+
+  ::-webkit-scrollbar{
+    width: 8px;
+    background: rgba($babyPowder, .1);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb{
+    background: $babyPowder;
+    border-radius: 5px;
+  }
+}
+
+button, input {
+  font-family: Roboto, sans-serif;
+  color: $gunmetal;
+}
+
+div.dragStart {
+  background: rgba($gunmetal, .6);
+}

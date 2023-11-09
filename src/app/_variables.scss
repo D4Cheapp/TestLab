@@ -1,0 +1,86 @@
+$zomp: #67BB94;
+$jungleGreen: #549A79;
+$skyBlue: #74C0D2;
+$ecru: #d5BB74;
+$oldRose: #D37577;
+$babyPowder: #FAFFFD;
+$mintCream: #E8EFED;
+$payneGray: #545E75;
+$charcoal: #3D4452;
+$gunmetal: #2E3139;
+$black: #000;
+
+@mixin colorButton($color) {
+  transition: border-color .2s, color .2s;
+
+  &:hover {
+    border-color: $color;
+    color: $color;
+  }
+}
+
+@mixin loadingCircle($width) {
+  width: $width;
+  height: $width;
+  border: 1vh solid transparent;
+  border-top-color: $babyPowder;
+  border-left-color: $babyPowder;
+  border-radius: 50%;
+  animation: loading 1s linear infinite;
+
+  @keyframes loading {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin cross($width, $thick) {
+  display: grid;
+  place-items: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: $width;
+    height: $thick;
+    rotate: -45deg;
+    background-color: $babyPowder;
+    transition: .2s;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: $width;
+    height: $thick;
+    rotate: 45deg;
+    background-color: $babyPowder;
+    transition: .2s;
+  }
+
+  &:hover {
+    &::after, &::before {
+      background-color: $oldRose;
+    }
+  }
+}
+
+@mixin formInput($fz) {
+  outline: none;
+  padding-inline: 1em;
+  padding-block: .4em;
+  box-sizing: border-box;
+  font-size: $fz;
+  color: $babyPowder;
+  border-radius: 5px;
+  border: 2px $babyPowder solid;
+  background: $charcoal;
+
+  &::placeholder {
+    color: rgba($babyPowder, .7);
+  }
+}
