@@ -1,3 +1,19 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "next",
+    "prettier"
+  ],
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": 0,
+    "no-unused-vars": "off"
+  }
 }
