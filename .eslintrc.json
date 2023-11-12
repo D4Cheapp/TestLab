@@ -13,6 +13,18 @@
     "prettier"
   ],
   "rules": {
+    "import/order": ["error",
+      { "groups" :
+      [
+        "external",
+        "builtin",
+        "internal",
+        "sibling",
+        "parent",
+        "index"
+      ]
+      }
+    ],
     "@typescript-eslint/ban-ts-comment": 0,
     "no-unused-vars": "off"
   }

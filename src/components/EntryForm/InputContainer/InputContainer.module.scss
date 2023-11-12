@@ -1,0 +1,86 @@
+div.inputContainer {
+  position: relative;
+  width: 80%;
+
+  div.inputLabel {
+    position: absolute;
+    top: -.5em;
+    left: 1em;
+    padding-inline: .5em;
+    font-size: 1vw;
+    color: $babyPowder;
+    background-color: $charcoal;
+    opacity: 0;
+
+    @media screen and (width <= 1024px) {
+      font-size: 2.2vh;
+    }
+  }
+
+  input.input {
+    width: 100%;
+    height: 2.7em;
+    @include formInput(1.3vw);
+    transition: border .2s;
+
+    &::placeholder {
+      color: rgba($babyPowder, .5);
+    }
+
+    &:focus {
+      border-color: $zomp;
+
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+
+    &:focus + div.inputLabel {
+      opacity: 1;
+      color: $zomp;
+    }
+
+    &:not(:placeholder-shown) + div.inputLabel {
+      opacity: 1;
+    }
+
+    @media screen and (width <= 1024px) {
+      height: 3em;
+      font-size: 3vh;
+    }
+  }
+
+  button.showPassword {
+    background-image: url("~public/images/svg/visiblePassword.svg");
+  }
+
+  button.hidePassword {
+    background-image: url("~public/images/svg/hiddenPassword.svg");
+  }
+
+  button.passwordEye {
+    position: absolute;
+    width: 1.5vw;
+    aspect-ratio: 1/1;
+    right: 1em;
+    top: 50%;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    opacity: 0.6;
+    background-color: transparent;
+    background-size: contain;
+    background-position: center;
+    transition: background-image .2s;
+
+    @media screen and (width <= 1024px) {
+      width: 3.5vh;
+    }
+  }
+
+  @media screen and (width <= 1024px) {
+    width: 90%;
+    font-size: 2.2vh;
+  }
+}
