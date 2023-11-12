@@ -1,4 +1,3 @@
-import { profileLoginActionType, profileRegisterActionType } from '@/src/types/reducerActionTypes';
 import {
   all,
   call,
@@ -9,6 +8,7 @@ import {
   put,
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { profileLoginActionType, profileRegisterActionType } from '@/src/types/reducerActionTypes';
 import { sagaErrorHandling } from '@/src/utils/sagaErrorHandling';
 import {
   actionTypes,
@@ -16,7 +16,7 @@ import {
   setCurrentProfile,
   setLoadingState,
 } from '@/src/reduxjs/reducers/testReducer';
-import { profileAuthReceiveType, profileLogoutType } from '@/src/types/receiveTypes';
+import { profileAuthReceiveType, profileLogoutReceiveType } from '@/src/types/receiveTypes';
 import { createFetch } from '@/src/utils/createFetch';
 
 type sagaGeneratorType<T> = Generator<
@@ -78,10 +78,10 @@ function* getCurrentProfileSaga(): sagaGeneratorType<profileAuthReceiveType> {
   yield sagaErrorHandling(response.ok, data, () => put(setCurrentProfile(data)));
 }
 
-function* profileLogoutSaga(): sagaGeneratorType<profileLogoutType> {
+function* profileLogoutSaga(): sagaGeneratorType<profileLogoutReceiveType> {
   yield put(setLoadingState(true));
-  const [data, response]: [profileLogoutType, Response] = yield call(() =>
-    createFetch<profileLogoutType>({
+  const [data, response]: [profileLogoutReceiveType, Response] = yield call(() =>
+    createFetch<profileLogoutReceiveType>({
       method: 'DELETE',
       href: '/logout',
     }),

@@ -19,7 +19,7 @@ interface TestSliceInterface {
 
 const testSlice = createSlice({
   name: 'testSlice',
-  initialState: { currentProfile: null, loadingState: false, errors: [] } as TestSliceInterface,
+  initialState: { currentProfile: undefined, loadingState: false, errors: [] } as TestSliceInterface,
   reducers: {
     profileRegister: (state, profileInfo: profileRegisterActionType) => {},
 
