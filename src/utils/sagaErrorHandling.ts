@@ -4,7 +4,7 @@ import { setErrorsState, setLoadingState } from '@/src/reduxjs/reducers/testRedu
 const createErrorsString = (response: object): string => {
   return Object.entries(response).map(([key, value]): string => {
     const errorType: string = (key.charAt(0).toUpperCase() + key.slice(1)).replace('_', ' ');
-    return `${errorType} ${value}`;
+    return `${errorType}: ${value}`;
   })[0];
 };
 
@@ -16,8 +16,6 @@ function* sagaErrorHandling(
   if (!isResponseOk && response) {
     const errors = createErrorsString(response);
     yield put(setErrorsState(errors));
-  } else if (response instanceof Error) {
-    yield put(setErrorsState(response.message));
   }
 
   if (action) {
