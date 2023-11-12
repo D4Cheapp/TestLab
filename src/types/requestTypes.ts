@@ -6,9 +6,10 @@ export type profileRegisterRequestType = profileLoginRequestType & {
 };
 export type createTestRequestType = { title: string };
 export type paginationTestRequestType = { page: number; per: number; search: string; sort: string };
-export type questionCreateRequestType = {
+export type createQuestoinRequestType = {
+  test_id: number;
   title: string;
   question_type: 'single' | 'multiple' | 'number';
   answer: number;
 };
-export type answerCreateRequestType = { text: string; is_right: boolean };
+export type createAnswerRequestType = { text: string; is_right: boolean };

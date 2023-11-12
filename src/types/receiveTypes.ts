@@ -19,4 +19,4 @@ export type paginationTestsReceiveType = {
   tests: testReceiveType[];
 };
 export type deleteRecieveType = { status: 'ok' | 'not-found' };
-export type changeAnswerPositionRecieveType = deleteRecieveType;
+export type moveAnswerRecieveType = deleteRecieveType;

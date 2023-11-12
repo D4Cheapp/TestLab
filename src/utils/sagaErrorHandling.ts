@@ -1,5 +1,5 @@
-import { setErrorsState, setLoadingState } from '@/src/reduxjs/reducers/testReducer';
 import { put } from 'redux-saga/effects';
+import { setErrorsState, setLoadingState } from '@/src/reduxjs/reducers/testReducer';
 
 const createErrorsString = (response: object): string => {
   return Object.entries(response).map(([key, value]): string => {

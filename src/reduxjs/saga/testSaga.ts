@@ -1,31 +1,4 @@
 import {
-  actionTypes,
-  deleteCurrentProfile,
-  setCurrentProfile,
-  setLoadingState,
-  setPaginationTests,
-  setTest,
-} from '@/src/reduxjs/reducers/testReducer';
-import {
-  deleteRecieveType,
-  paginationTestsReceiveType,
-  profileAuthReceiveType,
-  profileLogoutReceiveType,
-  testReceiveType,
-} from '@/src/types/receiveTypes';
-import {
-  createTestActionType,
-  deleteTestActionType,
-  getPaginationTestActionType,
-  getTestActionType,
-  profileLoginActionType,
-  profileRegisterActionType,
-  testEditActionType,
-} from '@/src/types/reducerActionTypes';
-import { createFetch } from '@/src/utils/createFetch';
-import { sagaErrorHandling } from '@/src/utils/sagaErrorHandling';
-import { PayloadAction } from '@reduxjs/toolkit';
-import {
   all,
   call,
   CallEffectDescriptor,
@@ -34,6 +7,42 @@ import {
   SimpleEffect,
   takeEvery,
 } from 'redux-saga/effects';
+import { PayloadAction } from '@reduxjs/toolkit';
+import {
+  actionTypes,
+  deleteCurrentProfile,
+  setCurrentProfile,
+  setLoadingState,
+  setPaginationTests,
+  setTest,
+} from '@/src/reduxjs/reducers/testReducer';
+import {
+  createAnswerReciveType,
+  createQuestionRecieveType,
+  deleteRecieveType,
+  moveAnswerRecieveType,
+  paginationTestsReceiveType,
+  profileAuthReceiveType,
+  profileLogoutReceiveType,
+  testReceiveType,
+} from '@/src/types/receiveTypes';
+import {
+  createAnswerActionType,
+  createQuestionActionType,
+  createTestActionType,
+  deleteTestActionType,
+  editAnswerActionType,
+  editQuestionActionType,
+  getPaginationTestActionType,
+  getTestActionType,
+  profileLoginActionType,
+  profileRegisterActionType,
+  editTestActionType,
+  moveAnswerActionType,
+  deleteAnswerActionType,
+} from '@/src/types/reducerActionTypes';
+import { createFetch } from '@/src/utils/createFetch';
+import { sagaErrorHandling } from '@/src/utils/sagaErrorHandling';
 
 type sagaGeneratorType<T> = Generator<
   | SimpleEffect<'PUT', PutEffectDescriptor<PayloadAction<boolean, 'testSlice/setLoadingState'>>>
@@ -117,7 +126,7 @@ function* createTestSaga(action: createTestActionType): sagaGeneratorType<testRe
   yield sagaErrorHandling(response.ok, data);
 }
 
-function* editTestSaga(action: testEditActionType): sagaGeneratorType<testReceiveType> {
+function* editTestSaga(action: editTestActionType): sagaGeneratorType<testReceiveType> {
   yield put(setLoadingState(true));
   const [data, response]: [testReceiveType, Response] = yield call(() =>
     createFetch<testReceiveType>({
@@ -165,6 +174,97 @@ function* getPaginationTestsSaga(
   yield sagaErrorHandling(response.ok, data, () => put(setPaginationTests(data)));
 }
 
+function* createQuestionSaga(
+  action: createQuestionActionType,
+): sagaGeneratorType<createQuestionRecieveType> {
+  yield put(setLoadingState(true));
+  const { title, question_type, answer } = action.payload;
+  const [data, response]: [createQuestionRecieveType, Response] = yield call(() =>
+    createFetch<createQuestionRecieveType>({
+      method: 'POST',
+      href: `/tests/${action.payload.test_id}/questions`,
+      body: { title, question_type, answer },
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
+function* editQuestionSaga(
+  action: editQuestionActionType,
+): sagaGeneratorType<createQuestionRecieveType> {
+  yield put(setLoadingState(true));
+  const { title, question_type, answer } = action.payload;
+  const [data, response]: [createQuestionRecieveType, Response] = yield call(() =>
+    createFetch<createQuestionRecieveType>({
+      method: 'PATCH',
+      href: `/question/${action.payload.id}`,
+      body: { title, question_type, answer },
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
+function* deleteQuestoinSaga(action: deleteTestActionType): sagaGeneratorType<deleteRecieveType> {
+  yield put(setLoadingState(true));
+  const [data, response]: [deleteRecieveType, Response] = yield call(() =>
+    createFetch<deleteRecieveType>({
+      method: 'DELETE',
+      href: `/question/${action.payload.id}`,
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
+function* createAnswerSaga(
+  action: createAnswerActionType,
+): sagaGeneratorType<createAnswerReciveType> {
+  yield put(setLoadingState(true));
+  const { text, is_right } = action.payload;
+  const [data, response]: [createAnswerReciveType, Response] = yield call(() =>
+    createFetch<createAnswerReciveType>({
+      method: 'POST',
+      href: `/questions/${action.payload.question_id}/answers`,
+      body: { text, is_right },
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
+function* editAnswerSaga(action: editAnswerActionType): sagaGeneratorType<createAnswerReciveType> {
+  yield put(setLoadingState(true));
+  const { text, is_right } = action.payload;
+  const [data, response]: [createAnswerReciveType, Response] = yield call(() =>
+    createFetch<createAnswerReciveType>({
+      method: 'PATCH',
+      href: `/answers/${action.payload.id}`,
+      body: { text, is_right },
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
+function* moveAnswerSaga(action: moveAnswerActionType): sagaGeneratorType<moveAnswerRecieveType> {
+  yield put(setLoadingState(true));
+  const [data, response]: [moveAnswerRecieveType, Response] = yield call(() =>
+    createFetch<moveAnswerRecieveType>({
+      method: 'PATCH',
+      href: `/answers/${action.payload.id}/insert_at/:position`,
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
+function* deleteAnswerSaga(action: deleteAnswerActionType): sagaGeneratorType<deleteRecieveType> {
+  yield put(setLoadingState(true));
+  const [data, response]: [deleteRecieveType, Response] = yield call(() =>
+    createFetch<deleteRecieveType>({
+      method: 'DELETE',
+      href: `/answers/${action.payload.id}`,
+    }),
+  );
+  yield sagaErrorHandling(response.ok, data);
+}
+
 export default function* testSaga() {
   yield all([
     takeEvery(actionTypes.getCurrentProfile, getCurrentProfileSaga),
@@ -176,5 +276,12 @@ export default function* testSaga() {
     takeEvery(actionTypes.deleteTest, deleteTestSaga),
     takeEvery(actionTypes.getTest, getTestSaga),
     takeEvery(actionTypes.getPaginationTests, getPaginationTestsSaga),
+    takeEvery(actionTypes.createQuestion, createQuestionSaga),
+    takeEvery(actionTypes.editQuestion, editQuestionSaga),
+    takeEvery(actionTypes.deleteQuestoin, deleteQuestoinSaga),
+    takeEvery(actionTypes.createAnswer, createAnswerSaga),
+    takeEvery(actionTypes.editAnswer, editAnswerSaga),
+    takeEvery(actionTypes.moveAnswer, moveAnswerSaga),
+    takeEvery(actionTypes.deleteAnswer, deleteAnswerSaga),
   ]);
 }

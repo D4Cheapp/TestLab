@@ -1,11 +1,18 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import { paginationTestsReceiveType, testReceiveType } from '@/src/types/receiveTypes';
 import {
+  createAnswerActionType,
+  createQuestionActionType,
   createTestActionType,
+  deleteAnswerActionType,
   deleteErrorStateActionType,
+  deleteQuestionActionType,
   deleteTestActionType,
+  editAnswerActionType,
+  editQuestionActionType,
   getPaginationTestActionType,
   getTestActionType,
+  moveAnswerActionType,
   profileLoginActionType,
   profileLogoutActionType,
   profileRegisterActionType,
@@ -14,7 +21,7 @@ import {
   setLoadinfStateActionType,
   setPaginationTestActionType,
   setTestActionType,
-  testEditActionType,
+  editTestActionType,
 } from '@/src/types/reducerActionTypes';
 import { currentProfileType } from '@/src/types/reducerInitialTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
@@ -60,7 +67,7 @@ const testSlice = createSlice({
 
     createTest: (state, action: createTestActionType) => {},
 
-    editTest: (state, action: testEditActionType) => {},
+    editTest: (state, action: editTestActionType) => {},
 
     deleteTest: (state, action: deleteTestActionType) => {},
 
@@ -76,6 +83,20 @@ const testSlice = createSlice({
       state.testsMeta = action.payload.meta;
       state.tests = action.payload.tests;
     },
+
+    createQuestion: (state, action: createQuestionActionType) => {},
+
+    editQuestion: (state, action: editQuestionActionType) => {},
+
+    deleteQuestion: (state, action: deleteQuestionActionType) => {},
+
+    createAnswer: (state, action: createAnswerActionType) => {},
+
+    editAnswer: (state, action: editAnswerActionType) => {},
+
+    moveAnswer: (state, action: moveAnswerActionType) => {},
+
+    deleteAnswer: (state, action: deleteAnswerActionType) => {},
 
     setLoadingState: (state, isLoading: setLoadinfStateActionType) => {
       state.loadingState = isLoading.payload;
@@ -113,6 +134,13 @@ export const {
   setTest,
   getPaginationTests,
   setPaginationTests,
+  createQuestion,
+  editQuestion,
+  deleteQuestion,
+  createAnswer,
+  editAnswer,
+  moveAnswer,
+  deleteAnswer,
   setLoadingState,
   setErrorsState,
   deleteErrorState,
