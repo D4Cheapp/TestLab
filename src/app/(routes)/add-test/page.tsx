@@ -1,7 +1,12 @@
 import React from 'react';
+import { Authentication } from '@/src/components';
 
 function AddTest(): React.ReactNode {
-  return <div>add test</div>;
+  return (
+    <Authentication isAdmin={true}>
+      <div>add test</div>
+    </Authentication>
+  );
 }
 
 export default AddTest;

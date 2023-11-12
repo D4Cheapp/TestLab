@@ -1,8 +1,11 @@
-import React from "react";
+import React from 'react';
+import { Authentication } from '@/src/components';
 
 function EditTest(): React.ReactNode {
   return (
-   <div>edit test</div>
+    <Authentication isAdmin={true}>
+      <div>edit test</div>
+    </Authentication>
   );
 }
 

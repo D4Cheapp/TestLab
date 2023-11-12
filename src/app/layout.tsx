@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+import { ErrorContainer, Providers } from "@/src/components";
 import './globals.scss';
-import Providers from "@/src/components/Provider/Providers";
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 interface RootLayoutInterface {
-children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutInterface) {
@@ -24,7 +24,8 @@ export default function RootLayout({ children }: RootLayoutInterface) {
     <html lang="en">
       <body className={roboto.className}>
         <Providers>
-           {children}
+          <ErrorContainer/>
+          {children}
         </Providers>
       </body>
     </html>

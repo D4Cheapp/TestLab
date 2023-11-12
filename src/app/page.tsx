@@ -1,7 +1,14 @@
-export default function Home() {
+import React from "react";
+import { Authentication } from "@/src/components";
+
+function Home() {
   return (
-   <div>
-     Home page
-   </div>
+   <Authentication isAdmin={false}>
+     <div>
+       Home page
+     </div>
+   </Authentication>
   )
 }
+
+export default Home;
