@@ -1,14 +1,14 @@
-import { testReceiveType } from "@/src/types/receiveTypes";
-import { requestTypesType, testCreateType } from "@/src/types/requestTypes";
-import { createFetch } from '@/src/utils/createFetch';
+import { testReceiveType } from '@/src/types/receiveTypes';
+import { createTestRequestType, requestTypesType } from '@/src/types/requestTypes';
 import { authApiHadndler } from '@/src/utils/authApiHandler';
-import { NextRequest } from 'next/server';
+import { createFetch } from '@/src/utils/createFetch';
 import { cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const url= req.url;
+  const url = req.url;
   let searchParams = '?';
-  if (url.includes('?')){
+  if (url.includes('?')) {
     searchParams += url.split('?')[1];
   }
 
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const cookie = cookies().get('_session_id');
-    const reqBody = await Promise.resolve<testCreateType>(req.json());
+    const reqBody = await Promise.resolve<createTestRequestType>(req.json());
     const data = await createFetch<testReceiveType>({
       method: req.method as requestTypesType,
       href: `/tests`,

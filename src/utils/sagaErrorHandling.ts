@@ -1,5 +1,5 @@
-import { put } from 'redux-saga/effects';
 import { setErrorsState, setLoadingState } from '@/src/reduxjs/reducers/testReducer';
+import { put } from 'redux-saga/effects';
 
 const createErrorsString = (response: object): string => {
   return Object.entries(response).map(([key, value]): string => {
@@ -16,13 +16,14 @@ function* sagaErrorHandling(
   if (!isResponseOk && response) {
     const errors = createErrorsString(response);
     yield put(setErrorsState(errors));
+    yield put(setLoadingState(false));
+    return;
   }
 
   if (action) {
     yield action();
+    yield put(setLoadingState(false));
   }
-
-  yield put(setLoadingState(false));
 }
 
 export { sagaErrorHandling };

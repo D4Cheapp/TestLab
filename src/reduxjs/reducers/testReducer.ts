@@ -1,25 +1,44 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
-import { createSlice } from '@reduxjs/toolkit';
-import createActionTypes from '@/src/utils/createActionTypes';
-import { currentProfileType } from '@/src/types/reducerInitialTypes';
+import { paginationTestsReceiveType, testReceiveType } from '@/src/types/receiveTypes';
 import {
-  deleteCurrentProfileActionType, deleteErrorStateActionType,
+  createTestActionType,
+  deleteErrorStateActionType,
+  deleteTestActionType,
+  getPaginationTestActionType,
+  getTestActionType,
   profileLoginActionType,
+  profileLogoutActionType,
   profileRegisterActionType,
   setCurrentProfileActionType,
   setErrorStateActionType,
   setLoadinfStateActionType,
+  setPaginationTestActionType,
+  setTestActionType,
+  testEditActionType,
 } from '@/src/types/reducerActionTypes';
+import { currentProfileType } from '@/src/types/reducerInitialTypes';
+import createActionTypes from '@/src/utils/createActionTypes';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface TestSliceInterface {
   currentProfile: currentProfileType;
+  currentTest: testReceiveType | undefined;
+  tests: testReceiveType[];
+  testsMeta: paginationTestsReceiveType['meta'];
   loadingState: boolean;
   errors: string[];
 }
 
 const testSlice = createSlice({
   name: 'testSlice',
-  initialState: { currentProfile: undefined, loadingState: false, errors: [] } as TestSliceInterface,
+  initialState: {
+    currentProfile: undefined,
+    currentTest: undefined,
+    tests: [],
+    testsMeta: { total_count: 5, total_pages: 0 },
+    loadingState: false,
+    errors: [],
+  } as TestSliceInterface,
   reducers: {
     profileRegister: (state, profileInfo: profileRegisterActionType) => {},
 
@@ -33,10 +52,29 @@ const testSlice = createSlice({
       state.currentProfile = profileInfo.payload;
     },
 
-    deleteCurrentProfile: (state, isSuccess: deleteCurrentProfileActionType) => {
+    deleteCurrentProfile: (state, isSuccess: profileLogoutActionType) => {
       if (isSuccess.payload.success) {
         state.currentProfile = null;
       }
+    },
+
+    createTest: (state, action: createTestActionType) => {},
+
+    editTest: (state, action: testEditActionType) => {},
+
+    deleteTest: (state, action: deleteTestActionType) => {},
+
+    getTest: (state, action: getTestActionType) => {},
+
+    setTest: (state, action: setTestActionType) => {
+      state.currentTest = action.payload;
+    },
+
+    getPaginationTests: (state, action: getPaginationTestActionType) => {},
+
+    setPaginationTests: (state, action: setPaginationTestActionType) => {
+      state.testsMeta = action.payload.meta;
+      state.tests = action.payload.tests;
     },
 
     setLoadingState: (state, isLoading: setLoadinfStateActionType) => {
@@ -68,6 +106,13 @@ export const {
   getCurrentProfile,
   setCurrentProfile,
   deleteCurrentProfile,
+  createTest,
+  editTest,
+  deleteTest,
+  getTest,
+  setTest,
+  getPaginationTests,
+  setPaginationTests,
   setLoadingState,
   setErrorsState,
   deleteErrorState,

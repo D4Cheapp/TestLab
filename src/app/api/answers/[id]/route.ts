@@ -1,5 +1,5 @@
 import { deleteRecieveType } from "@/src/types/receiveTypes";
-import { answerCreateType, requestTypesType } from "@/src/types/requestTypes";
+import { answerCreateRequestType, requestTypesType } from "@/src/types/requestTypes";
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHadndler } from '@/src/utils/authApiHandler';
 import { NextRequest } from 'next/server';
@@ -23,7 +23,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: numbe
 export async function PATCH(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
-    const reqBody = await Promise.resolve<answerCreateType>(req.json());
+    const reqBody = await Promise.resolve<answerCreateRequestType>(req.json());
     const data = await createFetch<object>({
       method: req.method as requestTypesType,
       href: `/answers/${params.id}`,
