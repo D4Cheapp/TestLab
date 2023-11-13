@@ -23,7 +23,7 @@ function Authentication({ children, isAdmin }: AuthenticationInterface): React.R
 
   useEffect(() => {
     if (currentProfile !== undefined) {
-      if (!currentProfile === null) {
+      if (currentProfile === null) {
         return router.push('/login');
       }
 

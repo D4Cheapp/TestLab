@@ -1,12 +1,12 @@
-import {profileAuthReceiveType} from "@/src/types/receiveTypes";
-import { createFetch } from '@/src/utils/createFetch';
+import { profileAuthReceiveType } from '@/src/types/receiveTypes';
+import { profileLoginRequestType, requestTypesType } from '@/src/types/requestTypes';
 import { authApiHadndler } from '@/src/utils/authApiHandler';
+import { createFetch } from '@/src/utils/createFetch';
 import { NextRequest } from 'next/server';
-import { loginInfoType, requestTypesType } from '@/src/types/requestTypes';
 
 export async function POST(req: NextRequest) {
   try {
-    const reqBody = await Promise.resolve<loginInfoType>(req.json());
+    const reqBody = await Promise.resolve<profileLoginRequestType>(req.json());
     const data = await createFetch<profileAuthReceiveType>({
       method: req.method as requestTypesType,
       href: '/signin',

@@ -16,13 +16,14 @@ function* sagaErrorHandling(
   if (!isResponseOk && response) {
     const errors = createErrorsString(response);
     yield put(setErrorsState(errors));
+    yield put(setLoadingState(false));
+    return;
   }
 
   if (action) {
     yield action();
+    yield put(setLoadingState(false));
   }
-
-  yield put(setLoadingState(false));
 }
 
 export { sagaErrorHandling };
