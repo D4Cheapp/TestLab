@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { getCurrentProfile } from '@/src/reduxjs/reducers/testReducer';
+import { getCurrentProfile } from "@/src/reduxjs/reducers/authReducer";
 import styles from './Authentication.module.scss';
 
 interface AuthenticationInterface {
@@ -12,7 +12,7 @@ interface AuthenticationInterface {
 }
 
 function Authentication({ children, isAdmin }: AuthenticationInterface): React.ReactNode {
-  const currentProfile = useAppSelector((state) => state.test.currentProfile);
+  const currentProfile = useAppSelector((state) => state.auth.currentProfile);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();
   const router = useRouter();

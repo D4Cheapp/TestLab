@@ -1,9 +1,9 @@
-import {profileAuthReceiveType} from "@/src/types/receiveTypes";
+import { profileAuthReceiveType } from '@/src/types/receiveTypes';
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHadndler } from '@/src/utils/authApiHandler';
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import {requestTypesType} from "@/src/types/requestTypes";
+import { requestTypesType } from '@/src/types/requestTypes';
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       method: req.method as requestTypesType,
       href: '/users/current',
       isLocal: false,
-      cookie
+      cookie,
     });
     return authApiHadndler(data);
   } catch (e) {

@@ -1,7 +1,14 @@
-import { sliceActions, testSliceActionType } from '@/src/reduxjs/reducers/testReducer';
+import { CaseReducerActions } from '@reduxjs/toolkit';
 
-type createActionType = ({ actions }: { actions: testSliceActionType }) => {
-  [key in (typeof sliceActions)[number]]: string;
+type createActionType = ({
+  actions,
+  actionKeys,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  actions: CaseReducerActions<any, any>,
+  actionKeys: string[],
+}) => {
+  [key in (typeof actionKeys)[number]]: string;
 };
 
 const createActionTypes: createActionType = ({ actions }) =>

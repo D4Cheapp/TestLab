@@ -1,12 +1,12 @@
 'use client';
 import React, { useCallback, useEffect } from 'react';
-import { deleteErrorState } from "@/src/reduxjs/reducers/testReducer";
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
+import { deleteErrorState } from "@/src/reduxjs/reducers/baseReducer";
 import { ErrorMessage } from './ErrorMessage';
 import styles from './ErrorContainer.module.scss';
 
 function ErrorContainer(): React.ReactNode {
-  const errorsState = useAppSelector((state) => state.test.errors);
+  const errorsState = useAppSelector((state) => state.base.errors);
   const dispatch = useAppDispatch();
 
   const onCloseClick = useCallback(
