@@ -2,9 +2,10 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { profileLogin, profileRegister, setErrorsState } from '@/src/reduxjs/reducers/testReducer';
 import { entryFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
+import { setErrorsState } from "@/src/reduxjs/reducers/baseReducer";
+import { profileLogin, profileRegister } from "@/src/reduxjs/reducers/authReducer";
 import { InputContainer } from './InputContainer';
 import styles from './EntryForm.module.scss';
 
@@ -26,7 +27,7 @@ function EntryForm({
   const { register, handleSubmit, formState } = useForm<entryFormType>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const currentProfile = useAppSelector((state) => state.test.currentProfile);
+  const currentProfile = useAppSelector((state) => state.auth.currentProfile);
   const dispatch = useAppDispatch();
   const router = useRouter();
 

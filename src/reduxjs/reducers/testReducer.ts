@@ -5,7 +5,6 @@ import {
   createQuestionActionType,
   createTestActionType,
   deleteAnswerActionType,
-  deleteErrorStateActionType,
   deleteQuestionActionType,
   deleteTestActionType,
   editAnswerActionType,
@@ -17,18 +16,14 @@ import {
   profileLogoutActionType,
   profileRegisterActionType,
   setCurrentProfileActionType,
-  setErrorStateActionType,
-  setLoadinfStateActionType,
   setPaginationTestActionType,
   setTestActionType,
   editTestActionType,
 } from '@/src/types/reducerActionTypes';
-import { currentProfileType } from '@/src/types/reducerInitialTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface TestSliceInterface {
-  currentProfile: currentProfileType;
   currentTest: testReceiveType | undefined;
   tests: testReceiveType[];
   testsMeta: paginationTestsReceiveType['meta'];
@@ -39,7 +34,6 @@ interface TestSliceInterface {
 const testSlice = createSlice({
   name: 'testSlice',
   initialState: {
-    currentProfile: undefined,
     currentTest: undefined,
     tests: [],
     testsMeta: { total_count: 5, total_pages: 0 },
@@ -47,24 +41,6 @@ const testSlice = createSlice({
     errors: [],
   } as TestSliceInterface,
   reducers: {
-    profileRegister: (state, profileInfo: profileRegisterActionType) => {},
-
-    profileLogin: (state, profileInfo: profileLoginActionType) => {},
-
-    profileLogout: (state) => {},
-
-    getCurrentProfile: (state) => {},
-
-    setCurrentProfile: (state, profileInfo: setCurrentProfileActionType) => {
-      state.currentProfile = profileInfo.payload;
-    },
-
-    deleteCurrentProfile: (state, isSuccess: profileLogoutActionType) => {
-      if (isSuccess.payload.success) {
-        state.currentProfile = null;
-      }
-    },
-
     createTest: (state, action: createTestActionType) => {},
 
     editTest: (state, action: editTestActionType) => {},
@@ -97,36 +73,15 @@ const testSlice = createSlice({
     moveAnswer: (state, action: moveAnswerActionType) => {},
 
     deleteAnswer: (state, action: deleteAnswerActionType) => {},
-
-    setLoadingState: (state, isLoading: setLoadinfStateActionType) => {
-      state.loadingState = isLoading.payload;
-    },
-
-    setErrorsState: (state, errors: setErrorStateActionType) => {
-      if (errors.payload !== undefined) {
-        state.errors = [...state.errors, errors.payload];
-      } else {
-        state.errors = [];
-      }
-    },
-
-    deleteErrorState: (state, errorIndex: deleteErrorStateActionType) => {
-      state.errors = state.errors.filter((error, index) => index !== errorIndex.payload);
-    },
   },
 });
 
-export const sliceActions = Object.keys(testSlice);
-export type testSliceActionType = typeof testSlice.actions;
-export const actionTypes = createActionTypes({ actions: testSlice.actions });
+export const testActionTypes = createActionTypes({
+  actions: testSlice.actions,
+  actionKeys: Object.keys(testSlice),
+});
 
 export const {
-  profileRegister,
-  profileLogin,
-  profileLogout,
-  getCurrentProfile,
-  setCurrentProfile,
-  deleteCurrentProfile,
   createTest,
   editTest,
   deleteTest,
@@ -141,8 +96,5 @@ export const {
   editAnswer,
   moveAnswer,
   deleteAnswer,
-  setLoadingState,
-  setErrorsState,
-  deleteErrorState,
 } = testSlice.actions;
 export default testSlice.reducer;
