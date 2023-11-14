@@ -1,0 +1,80 @@
+div.home {
+  width: 70%;
+  height: 80vh;
+  margin-block: 10vh;
+  padding-inline: 15%;
+
+  button.addButton {
+    position: relative;
+    width: 100%;
+    height: 6%;
+    padding-block: .1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    color: $babyPowder;
+    background: $charcoal;
+    border: 2px $babyPowder solid;
+    font-size: 2em;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+
+    &:hover {
+      border-color: $zomp;
+      color: $zomp;
+    }
+  }
+
+  @media screen and (width <= 1440px) {
+    width: 80%;
+    padding-inline: 10%;
+  }
+
+  @media screen and (width <= 850px) {
+    width: 90%;
+    height: 90vh;
+    padding-inline: 5%;
+    margin-block: 5vh;
+  }
+}
+
+section.testContainer {
+  width: 100%;
+  max-height: calc(71% - 4em);
+  box-sizing: border-box;
+  padding-right: 1em;
+  margin-block: 2em;
+  overflow: hidden;
+  overflow-y: scroll;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1em;
+
+  @media screen and (width < 859px) {
+    max-height: calc(73% - 4em);
+  }
+
+  @media screen and (width < 600px) {
+    max-height: calc(72% - 4em);
+  }
+}
+
+section.loadingContainer {
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (width < 850px) {
+    height: 65vh;
+  }
+}
+
+section.emptyContainer {
+  overflow-y: hidden;
+}
+
+div.loading {
+  @include loadingCircle(5vh);
+}
