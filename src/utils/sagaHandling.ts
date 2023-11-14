@@ -45,7 +45,6 @@ function* sagaHandling<T>({
 
   if (action !== undefined) {
     if (isDataInAction) {
-      yield action();
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       yield action(response[0]);

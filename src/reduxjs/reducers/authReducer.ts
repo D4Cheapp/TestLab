@@ -28,7 +28,6 @@ const authSlice = createSlice({
     getCurrentProfile: (state) => {},
 
     setCurrentProfile: (state, profileInfo: setCurrentProfileActionType) => {
-      console.log(profileInfo.payload);
       state.currentProfile = profileInfo.payload;
     },
 

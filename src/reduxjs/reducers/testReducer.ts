@@ -36,7 +36,7 @@ const testSlice = createSlice({
   initialState: {
     currentTest: undefined,
     tests: [],
-    testsMeta: { total_count: 5, total_pages: 0 },
+    testsMeta: { total_count: 7, total_pages: 0 },
     loadingState: false,
     errors: [],
   } as TestSliceInterface,

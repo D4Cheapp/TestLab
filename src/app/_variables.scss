@@ -39,6 +39,7 @@ $black: #000;
 }
 
 @mixin cross($width, $thick) {
+  position: relative;
   display: grid;
   place-items: center;
 
