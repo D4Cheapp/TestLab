@@ -33,8 +33,10 @@ div.errorMessage {
       scale 0.2s;
     @include cross(2.6vh, 2px);
 
-    &:hover {
-      background-color: $babyPowder;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $babyPowder;
+      }
     }
 
     &:active {

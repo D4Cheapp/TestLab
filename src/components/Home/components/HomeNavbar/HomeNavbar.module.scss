@@ -1,6 +1,6 @@
 @mixin navButton {
   width: fit-content;
-  padding-block: .5em;
+  padding-block: 0.5em;
   padding-inline: 1em;
   font-size: 1.4em;
   white-space: nowrap;
@@ -9,7 +9,9 @@
   color: $babyPowder;
   border-radius: 5px;
   border: 2px solid $babyPowder;
-  transition: color .2s, border-color .2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
 }
 
 nav.nav {
@@ -17,11 +19,11 @@ nav.nav {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  gap: .5em;
+  gap: 0.5em;
 
   h1.navTitle {
     font-size: 2.5em;
-    margin: 0 0 .3em;
+    margin: 0 0 0.3em;
 
     @media screen and (width <= 600px) {
       display: none;
@@ -37,16 +39,16 @@ nav.nav {
     border-radius: 5px;
     outline: none;
     background: $charcoal;
-    padding-block: .5em;
+    padding-block: 0.5em;
     padding-inline: 1em;
 
     &::placeholder {
-      color: rgba($babyPowder, .5);
+      color: rgba($babyPowder, 0.5);
     }
   }
 
   @media screen and (width <= 850px) {
-    gap: .5em;
+    gap: 0.5em;
   }
 }
 
@@ -54,15 +56,17 @@ div.secondLine {
   display: inline-flex;
   justify-content: space-between;
   width: 100%;
-  gap: .5em;
+  gap: 0.5em;
 
   button.dateSort {
     cursor: pointer;
     @include navButton;
 
-    &:hover {
-      color: $skyBlue;
-      border-color: $skyBlue;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: $skyBlue;
+        border-color: $skyBlue;
+      }
     }
 
     @media screen and (width <= 600px) {
@@ -75,9 +79,11 @@ div.secondLine {
 
     text-decoration: none;
 
-    &:hover {
-      color: $oldRose;
-      border-color: $oldRose;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: $oldRose;
+        border-color: $oldRose;
+      }
     }
 
     @media screen and (width <= 600px) {

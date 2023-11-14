@@ -32,7 +32,8 @@ const authSlice = createSlice({
     },
 
     deleteCurrentProfile: (state, isSuccess: profileLogoutActionType) => {
-      if (isSuccess.payload.success) {
+      const isDeleteSuccess = isSuccess.payload.success;
+      if (isDeleteSuccess) {
         state.currentProfile = null;
       }
     },

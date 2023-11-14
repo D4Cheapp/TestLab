@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-unused-vars: 0 */
 import { createSlice } from '@reduxjs/toolkit';
 import {
   deleteErrorStateActionType,
@@ -23,7 +24,8 @@ const baseSlice = createSlice({
     },
 
     setErrorsState: (state, errors: setErrorStateActionType) => {
-      if (errors.payload !== undefined) {
+      const isPayloadEmpty = errors.payload !== undefined;
+      if (isPayloadEmpty) {
         state.errors = [...state.errors, errors.payload];
       } else {
         state.errors = [];

@@ -8,7 +8,7 @@ div.test {
   border: 2px $babyPowder solid;
   border-radius: 5px;
   background: $charcoal;
-  padding-block: .7em;
+  padding-block: 0.7em;
 
   p.testTitle {
     font-size: 1.5em;
@@ -20,7 +20,7 @@ div.test {
 
 div.buttonsContainer {
   display: inline-flex;
-  gap: .5em;
+  gap: 0.5em;
 
   button.testButton {
     box-sizing: border-box;
@@ -33,28 +33,32 @@ div.buttonsContainer {
   }
 
   button.passTestButton {
-    transition: background-image .2s;
-    background-image: url("~public/images/svg/selectArrow.svg");
+    transition: background-image 0.2s;
+    background-image: url('~public/images/svg/selectArrow.svg');
     background-position-x: center;
     background-position-y: 40%;
     background-size: 140%;
     @include colorButton($skyBlue);
 
-    &:hover {
-      background-image: url("~public/images/svg/selectArrowActive.svg");
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-image: url('~public/images/svg/selectArrowActive.svg');
+      }
     }
   }
 
   button.editTestButton {
-    transition: background-image .2s;
-    background-image: url("~public/images/svg/editPencil.svg");
+    transition: background-image 0.2s;
+    background-image: url('~public/images/svg/editPencil.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: auto;
     @include colorButton($ecru);
 
-    &:hover {
-      background-image: url("~public/images/svg/editPencilActive.svg");
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-image: url('~public/images/svg/editPencilActive.svg');
+      }
     }
   }
 

@@ -65,9 +65,11 @@ button.submit {
     color 0.2s,
     scale 0.2s;
 
-  &:hover {
-    color: $mintCream;
-    border-color: $zomp;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: $mintCream;
+      border-color: $zomp;
+    }
   }
 
   &:active {
@@ -110,8 +112,10 @@ div.additionalContent {
       border-bottom-color 0.2s,
       color 0.2s;
 
-    &:hover {
-      border-bottom-color: $babyPowder;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-bottom-color: $babyPowder;
+      }
     }
 
     &:active {

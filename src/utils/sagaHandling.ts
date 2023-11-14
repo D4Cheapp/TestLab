@@ -34,17 +34,23 @@ function* sagaHandling<T>({
     }),
   );
 
-  if (response instanceof Error) {
+  const isActionExist = action !== undefined;
+  const isResponseCrashed = response instanceof Error;
+  const isResponseIncorrect =
+    // @ts-ignore
+    !(response instanceof Error) && !response[1].ok && 'error' in response[0];
+
+  if (isResponseCrashed) {
     yield put(setErrorsState(response.message));
   } else {
-    // @ts-ignore
-    if (!response[1].ok && 'error' in response[0]) {
+    if (isResponseIncorrect) {
+      // @ts-ignore
       const errors = createErrorsString(response[0]);
       yield put(setErrorsState(errors));
     }
   }
 
-  if (action !== undefined) {
+  if (isActionExist) {
     if (isDataInAction) {
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

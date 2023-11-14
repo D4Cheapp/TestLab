@@ -7,8 +7,10 @@ import { createFetch } from '@/src/utils/createFetch';
 
 export async function GET(req: NextRequest) {
   const url = req.url;
+  const isUrlIncludeParams = url.includes('?');
   let searchParams = '?';
-  if (url.includes('?')) {
+
+  if (isUrlIncludeParams) {
     searchParams += url.split('?')[1];
   }
 

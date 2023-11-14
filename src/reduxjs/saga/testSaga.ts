@@ -63,7 +63,7 @@ function* getPaginationTestsSaga(action: getPaginationTestActionType) {
     body: action.payload,
     isDataInAction: true,
     action: (data: paginationTestsReceiveType | undefined) =>
-      data !== undefined ? put(setPaginationTests(data)) : {},
+      data !== undefined ? put(setPaginationTests({ ...data, ...action.payload })) : {},
   });
 }
 

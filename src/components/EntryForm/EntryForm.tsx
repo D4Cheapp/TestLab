@@ -44,13 +44,15 @@ function EntryForm({
     const valuesArray = Object.values(data).map((value) =>
       typeof value === 'string' ? (!!value.trim() ? value : undefined) : value,
     );
+    const isProfileInfoEmpty = valuesArray.includes(undefined);
 
-    if (valuesArray.includes(undefined)) {
+    if (isProfileInfoEmpty) {
       dispatch(setErrorsState('Error: Fill in all the necessary data'));
       return false;
     }
 
-    if (isRegister && data.password !== data.password_confirmation) {
+    const isRegisterDataCorrect = isRegister && data.password !== data.password_confirmation;
+    if (isRegisterDataCorrect) {
       dispatch(setErrorsState("Error: Passwords don't match"));
       return false;
     }
@@ -65,7 +67,8 @@ function EntryForm({
   };
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful && currentProfile?.id) {
+    const isDataCorrectAndSent = formState.isSubmitSuccessful && currentProfile?.id;
+    if (isDataCorrectAndSent) {
       router.push('/');
     }
   }, [currentProfile?.id, formState.isSubmitSuccessful, router]);

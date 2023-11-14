@@ -1,9 +1,9 @@
-import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 import { profileLogoutReceiveType } from '@/src/types/receiveTypes';
-import { createFetch } from '@/src/utils/createFetch';
-import { authApiHandler } from '@/src/utils/authApiHandler';
 import { requestTypesType } from '@/src/types/requestTypes';
+import { authApiHandler } from '@/src/utils/authApiHandler';
+import { createFetch } from '@/src/utils/createFetch';
 
 export async function DELETE(req: NextRequest) {
   try {

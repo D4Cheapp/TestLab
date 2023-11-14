@@ -50,7 +50,12 @@ const testSlice = createSlice({
     getPaginationTests: (state, action: getPaginationTestActionType) => {},
 
     setPaginationTests: (state, action: setPaginationTestActionType) => {
-      state.tests = action.payload.tests;
+      const isPageFirst = action.payload.page === 1;
+      if (isPageFirst) {
+        state.tests = action.payload.tests;
+      } else {
+        state.tests = [...state.tests, ...action.payload.tests];
+      }
     },
 
     createQuestion: (state, action: createQuestionActionType) => {},
