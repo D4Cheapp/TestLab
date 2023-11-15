@@ -1,19 +1,20 @@
 div.test {
-  width: 100%;
   display: inline-flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   box-sizing: border-box;
+  width: 100%;
   padding: 1em;
   border: 2px $babyPowder solid;
   border-radius: 5px;
   background: $charcoal;
+  padding-block: .7em;
 
   p.testTitle {
-    width: 80%;
+    font-size: 1.5em;
     overflow: hidden;
+    width: 80%;
     margin: 0;
-    font-size: 1.4em;
   }
 }
 
@@ -22,21 +23,21 @@ div.buttonsContainer {
   gap: .5em;
 
   button.testButton {
-    cursor: pointer;
-    width: 2.7em;
-    aspect-ratio: 1/1;
     box-sizing: border-box;
-    background: none;
+    width: 2.3em;
+    cursor: pointer;
     border: 2px $babyPowder solid;
     border-radius: 5px;
+    background: none;
+    aspect-ratio: 1/1;
   }
 
   button.passTestButton {
+    transition: background-image .2s;
     background-image: url("~public/images/svg/selectArrow.svg");
-    background-size: 140%;
     background-position-x: center;
     background-position-y: 40%;
-    transition: background-image .2s;
+    background-size: 140%;
     @include colorButton($skyBlue);
 
     &:hover {
@@ -45,10 +46,11 @@ div.buttonsContainer {
   }
 
   button.editTestButton {
-    background-image: url("~public/images/svg/editPencil.svg");
-    background-position: center;
-    background-size: 90%;
     transition: background-image .2s;
+    background-image: url("~public/images/svg/editPencil.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
     @include colorButton($ecru);
 
     &:hover {
