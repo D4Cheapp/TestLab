@@ -6,8 +6,8 @@
     "start": "next dev",
     "build": "next build",
     "deploy": "gh-pages -d docs",
-    "lint:ts": "tsc && next lint && prettier --check src/",
-    "lint:ts:fix": "tsc && next lint --fix && prettier --write src/"
+    "lint": "tsc && next lint && prettier --check src/",
+    "lint:fix": "tsc && next lint --fix && prettier --write src/"
   },
   "browserslist": [
     "> 1%",

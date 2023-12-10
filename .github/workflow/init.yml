@@ -16,7 +16,5 @@ jobs:
         run: npm install yarn --global
       - name: install modules
         run: yarn install
-      - name: Lint ts
-        run: yarn run test:ts
-      - name: Lint style
-        run: yarn run test:style
+      - name: lint
+        run: yarn run lint
