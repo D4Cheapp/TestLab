@@ -1,9 +1,9 @@
 import { all, put, takeEvery } from 'redux-saga/effects';
 import { reducersActions } from '@/src/reduxjs/store/store';
-import { profileLoginActionType, profileRegisterActionType } from "@/src/types/reducerActionTypes";
-import { sagaHandling } from "@/src/utils/sagaHandling";
-import { profileAuthReceiveType, profileLogoutReceiveType } from "@/src/types/receiveTypes";
-import { deleteCurrentProfile, setCurrentProfile } from "@/src/reduxjs/reducers/authReducer";
+import { profileLoginActionType, profileRegisterActionType } from '@/src/types/reducerActionTypes';
+import { sagaHandling } from '@/src/utils/sagaHandling';
+import { profileAuthReceiveType, profileLogoutReceiveType } from '@/src/types/receiveTypes';
+import { deleteCurrentProfile, setCurrentProfile } from '@/src/reduxjs/reducers/authReducer';
 
 function* profileRegisterSaga(action: profileRegisterActionType) {
   yield sagaHandling<profileAuthReceiveType>({
@@ -32,7 +32,7 @@ function* getCurrentProfileSaga() {
     href: '/users/current',
     isDataInAction: true,
     action: (data: profileAuthReceiveType | undefined) =>
-        put(setCurrentProfile(!data || 'error' in data ? null : data)),
+      put(setCurrentProfile(!data || 'error' in data ? null : data)),
   });
 }
 
@@ -42,7 +42,7 @@ function* profileLogoutSaga() {
     href: '/logout',
     isDataInAction: true,
     action: (data: profileLogoutReceiveType | undefined) =>
-        data !== undefined ? put(deleteCurrentProfile(data)) : {},
+      data !== undefined ? put(deleteCurrentProfile(data)) : {},
   });
 }
 

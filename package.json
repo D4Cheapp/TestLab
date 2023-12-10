@@ -3,14 +3,11 @@
   "version": "0.1.0",
   "homepage": "https://d4cheapp.github.io/TestLab/",
   "scripts": {
-    "dev": "next dev",
+    "start": "next dev",
     "build": "next build",
-    "start": "next start",
     "deploy": "gh-pages -d docs",
-    "lint:ts": "tsc && next lint",
-    "lint:ts:fix": "tsc && next lint --fix",
-    "lint:style": "stylelint **/*.scss",
-    "lint:style:fix": "stylelint **/*.scss --fix"
+    "lint:ts": "tsc && next lint && prettier --check src/",
+    "lint:ts:fix": "tsc && next lint --fix && prettier --write src/"
   },
   "browserslist": [
     "> 1%",
@@ -43,7 +40,7 @@
     "postcss": "^8.4.32",
     "prettier": "^3.1.1",
     "sass": "^1.69.5",
-    "stylelint": "^16.0.1",
+    "stylelint": "15.11.0",
     "stylelint-config-prettier-scss": "^1.0.0",
     "stylelint-config-standard-scss": "^11.1.0",
     "typescript": "^5.3.3"

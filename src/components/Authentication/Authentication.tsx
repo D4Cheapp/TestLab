@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { getCurrentProfile } from "@/src/reduxjs/reducers/authReducer";
+import { getCurrentProfile } from '@/src/reduxjs/reducers/authReducer';
 import styles from './Authentication.module.scss';
 
 interface AuthenticationInterface {

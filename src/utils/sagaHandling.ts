@@ -36,11 +36,12 @@ function* sagaHandling<T>({
 
   if (response instanceof Error) {
     yield put(setErrorsState(response.message));
-  } else { // @ts-ignore
+  } else {
+    // @ts-ignore
     if (!response[1].ok && 'error' in response[0]) {
-        const errors = createErrorsString(response[0]);
-        yield put(setErrorsState(errors));
-      }
+      const errors = createErrorsString(response[0]);
+      yield put(setErrorsState(errors));
+    }
   }
 
   if (action !== undefined) {

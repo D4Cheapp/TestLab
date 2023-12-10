@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import { ErrorContainer, Providers } from "@/src/components";
+import { ErrorContainer, Providers } from '@/src/components';
 import './globals.scss';
 
 const roboto = Roboto({
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutInterface) {
     <html lang="en">
       <body className={roboto.className}>
         <Providers>
-          <ErrorContainer/>
+          <ErrorContainer />
           {children}
         </Providers>
       </body>

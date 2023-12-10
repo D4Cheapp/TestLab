@@ -43,4 +43,4 @@ const createFetch = async <T>({
     .catch((error: Error) => error);
 };
 
-export {createFetch};
+export { createFetch };

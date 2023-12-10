@@ -36,7 +36,6 @@ const baseSlice = createSlice({
   },
 });
 
-
 export const baseActionTypes = createActionTypes({
   actions: baseSlice.actions,
   actionKeys: Object.keys(baseSlice),

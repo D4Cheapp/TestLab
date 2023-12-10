@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { UseFormRegister } from 'react-hook-form';
-import { entryFormType } from "@/src/types/formTypes";
+import { entryFormType } from '@/src/types/formTypes';
 import styles from './InputContainer.module.scss';
 
 interface InputContainerInterface {

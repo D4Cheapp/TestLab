@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { cookies } from "next/headers";
-import { deleteReceiveType, testReceiveType } from "@/src/types/receiveTypes";
-import { requestTypesType } from "@/src/types/requestTypes";
+import { cookies } from 'next/headers';
+import { deleteReceiveType, testReceiveType } from '@/src/types/receiveTypes';
+import { requestTypesType } from '@/src/types/requestTypes';
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 
@@ -12,7 +12,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: numbe
       method: req.method as requestTypesType,
       href: `/tests/${params.id}`,
       isLocal: false,
-      cookie
+      cookie,
     });
     return authApiHandler(data);
   } catch (e) {
@@ -51,4 +51,3 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
     return authApiHandler(new Error('Error during proxy fetching'));
   }
 }
-
