@@ -1,5 +1,5 @@
-import * as querystring from 'querystring';
 import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
+import * as querystring from 'querystring';
 
 type createFetchPropsType = {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -16,7 +16,7 @@ const createFetch = async <T>({
   cookie,
   isLocal = true,
 }: createFetchPropsType): Promise<[T, Response] | Error> => {
-  let serverHref: string = (isLocal ? '/api' : 'https://interns-test-fe.snp.agency/api/v1') + href;
+  let serverHref: string = (isLocal ? '/api' : process.env.SERVER_URL) + href;
 
   const init: RequestInit = {
     method,
@@ -24,7 +24,7 @@ const createFetch = async <T>({
     headers: {
       Cookie: cookie ? `${cookie.name}=${cookie.value}` : 'null',
       Accept: 'application/json',
-      'scope-key': 'P)uN)W6y9CbjK#;9',
+      'scope-key': process.env.SCOPE_KEY ?? '',
       'Content-Type': 'application/json',
     },
   };

@@ -6,7 +6,7 @@ export type profileRegisterRequestType = profileLoginRequestType & {
 };
 export type createTestRequestType = { title: string };
 export type paginationTestRequestType = { page: number; per: number; search: string; sort: string };
-export type createQuestoinRequestType = {
+export type createQuestionRequestType = {
   test_id: number;
   title: string;
   question_type: 'single' | 'multiple' | 'number';

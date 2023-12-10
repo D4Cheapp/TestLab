@@ -1,5 +1,6 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import {
-  createQuestionRecieveType,
+  createQuestionReceiveType,
   paginationTestsReceiveType,
   profileLogoutReceiveType,
   testReceiveType,
@@ -10,10 +11,9 @@ import {
   paginationTestRequestType,
   profileLoginRequestType,
   profileRegisterRequestType,
-  createQuestoinRequestType,
+  createQuestionRequestType,
   createAnswerRequestType,
 } from '@/src/types/requestTypes';
-import { PayloadAction } from '@reduxjs/toolkit';
 
 export type profileRegisterActionType = PayloadAction<profileRegisterRequestType>;
 export type profileLoginActionType = PayloadAction<profileLoginRequestType>;
@@ -28,8 +28,8 @@ export type setTestActionType = PayloadAction<testReceiveType>;
 export type getPaginationTestActionType = PayloadAction<paginationTestRequestType>;
 export type setPaginationTestActionType = PayloadAction<paginationTestsReceiveType>;
 
-export type createQuestionActionType = PayloadAction<createQuestoinRequestType>;
-export type editQuestionActionType = PayloadAction<createQuestionRecieveType & { id: number }>;
+export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
+export type editQuestionActionType = PayloadAction<createQuestionReceiveType & { id: number }>;
 export type deleteQuestionActionType = PayloadAction<{ id: number }>;
 
 export type createAnswerActionType = PayloadAction<
@@ -39,6 +39,6 @@ export type editAnswerActionType = PayloadAction<createAnswerRequestType & { id:
 export type moveAnswerActionType = PayloadAction<{ id: number; position: number }>;
 export type deleteAnswerActionType = PayloadAction<{ id: number }>;
 
-export type setLoadinfStateActionType = PayloadAction<boolean>;
+export type setLoadingStateActionType = PayloadAction<boolean>;
 export type setErrorStateActionType = PayloadAction<string>;
 export type deleteErrorStateActionType = PayloadAction<number>;

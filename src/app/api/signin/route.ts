@@ -1,8 +1,8 @@
+import { NextRequest } from 'next/server';
 import { profileAuthReceiveType } from '@/src/types/receiveTypes';
 import { profileLoginRequestType, requestTypesType } from '@/src/types/requestTypes';
-import { authApiHadndler } from '@/src/utils/authApiHandler';
+import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
-import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,8 +13,8 @@ export async function POST(req: NextRequest) {
       isLocal: false,
       body: reqBody,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }

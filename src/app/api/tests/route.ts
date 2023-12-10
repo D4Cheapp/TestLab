@@ -1,9 +1,9 @@
-import { testReceiveType } from '@/src/types/receiveTypes';
-import { createTestRequestType, requestTypesType } from '@/src/types/requestTypes';
-import { authApiHadndler } from '@/src/utils/authApiHandler';
-import { createFetch } from '@/src/utils/createFetch';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
+import { testReceiveType } from '@/src/types/receiveTypes';
+import { createTestRequestType, requestTypesType } from '@/src/types/requestTypes';
+import { authApiHandler } from '@/src/utils/authApiHandler';
+import { createFetch } from '@/src/utils/createFetch';
 
 export async function GET(req: NextRequest) {
   const url = req.url;
@@ -20,9 +20,9 @@ export async function GET(req: NextRequest) {
       isLocal: false,
       cookie,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }
 
@@ -37,8 +37,8 @@ export async function POST(req: NextRequest) {
       body: reqBody,
       cookie,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }

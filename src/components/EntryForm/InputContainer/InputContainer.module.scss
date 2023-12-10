@@ -21,6 +21,7 @@ div.inputContainer {
     width: 100%;
     height: 2.7em;
     @include formInput(1.3vw);
+
     transition: border .2s;
 
     &::placeholder {
