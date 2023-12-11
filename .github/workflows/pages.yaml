@@ -1,17 +1,23 @@
-name: Git pages deploy workflow
-on:
-  merge:
-    branches: [develop]
+name: Deploy workflow
+on: 
+  pull_request:
+    branches: 
+      - develop
 jobs:
   init:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v3
-      - name: install yarn
-        run: npm install yarn --global
+      - name: Staring Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: install modules
-        run: yarn install
+        run: npm install
       - name: app build
-        run: yarn run build
+        run: npm run build
       - name: git pages deploy
-        run: yarn run deploy
+        run: npm run deploy
