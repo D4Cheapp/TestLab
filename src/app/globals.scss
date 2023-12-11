@@ -3,27 +3,27 @@ body {
   font-weight: 400;
   background-color: $gunmetal;
   color: $babyPowder;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden hidden;
   margin: 0;
 
-  ::-webkit-scrollbar{
+  ::-webkit-scrollbar {
     width: 8px;
-    background: rgba($babyPowder, .1);
+    background: rgba($babyPowder, 0.1);
     border-radius: 5px;
   }
 
-  ::-webkit-scrollbar-thumb{
+  ::-webkit-scrollbar-thumb {
     background: $babyPowder;
     border-radius: 5px;
   }
 }
 
-button, input {
+button,
+input {
   font-family: Roboto, sans-serif;
   color: $gunmetal;
 }
 
 div.dragStart {
-  background: rgba($gunmetal, .6);
+  background: rgba($gunmetal, 0.6);
 }

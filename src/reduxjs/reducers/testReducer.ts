@@ -1,4 +1,5 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
+import { createSlice } from '@reduxjs/toolkit';
 import { paginationTestsReceiveType, testReceiveType } from '@/src/types/receiveTypes';
 import {
   createAnswerActionType,
@@ -12,16 +13,11 @@ import {
   getPaginationTestActionType,
   getTestActionType,
   moveAnswerActionType,
-  profileLoginActionType,
-  profileLogoutActionType,
-  profileRegisterActionType,
-  setCurrentProfileActionType,
   setPaginationTestActionType,
   setTestActionType,
   editTestActionType,
 } from '@/src/types/reducerActionTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
-import { createSlice } from '@reduxjs/toolkit';
 
 interface TestSliceInterface {
   currentTest: testReceiveType | undefined;

@@ -1,8 +1,8 @@
-import { profileLogoutReceiveType } from '@/src/types/receiveTypes';
-import { createFetch } from '@/src/utils/createFetch';
-import { authApiHadndler } from '@/src/utils/authApiHandler';
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
+import { profileLogoutReceiveType } from '@/src/types/receiveTypes';
+import { createFetch } from '@/src/utils/createFetch';
+import { authApiHandler } from '@/src/utils/authApiHandler';
 import { requestTypesType } from '@/src/types/requestTypes';
 
 export async function DELETE(req: NextRequest) {
@@ -14,8 +14,8 @@ export async function DELETE(req: NextRequest) {
       isLocal: false,
       cookie,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }

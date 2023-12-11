@@ -1,28 +1,28 @@
-import { createQuestoinRequestType, requestTypesType } from '@/src/types/requestTypes';
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
+import { createQuestionRequestType, requestTypesType } from '@/src/types/requestTypes';
 import { createFetch } from '@/src/utils/createFetch';
-import { authApiHadndler } from '@/src/utils/authApiHandler';
+import { authApiHandler } from '@/src/utils/authApiHandler';
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
-    const data = await createFetch<createQuestoinRequestType>({
+    const data = await createFetch<createQuestionRequestType>({
       method: req.method as requestTypesType,
       href: `/questions/${params.id}`,
       isLocal: false,
       cookie,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
-    const reqBody = await Promise.resolve<createQuestoinRequestType>(req.json());
+    const reqBody = await Promise.resolve<createQuestionRequestType>(req.json());
     const data = await createFetch<object>({
       method: req.method as requestTypesType,
       href: `/questions/${params.id}`,
@@ -30,8 +30,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
       body: reqBody,
       cookie,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }

@@ -1,10 +1,13 @@
-import { requestTypesType } from "@/src/types/requestTypes";
-import { NextRequest } from "next/server";
-import { cookies } from "next/headers";
-import { createFetch } from "@/src/utils/createFetch";
-import { authApiHadndler } from "@/src/utils/authApiHandler";
+import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
+import { requestTypesType } from '@/src/types/requestTypes';
+import { createFetch } from '@/src/utils/createFetch';
+import { authApiHandler } from '@/src/utils/authApiHandler';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: number, position: number } }) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: number; position: number } },
+) {
   try {
     const cookie = cookies().get('_session_id');
     const data = await createFetch<object>({
@@ -13,8 +16,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
       isLocal: false,
       cookie,
     });
-    return authApiHadndler(data);
+    return authApiHandler(data);
   } catch (e) {
-    return authApiHadndler(new Error('Error during proxy fetching'));
+    return authApiHandler(new Error('Error during proxy fetching'));
   }
 }

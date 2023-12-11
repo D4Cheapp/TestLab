@@ -1,10 +1,10 @@
+import { createSlice } from '@reduxjs/toolkit';
 import {
   deleteErrorStateActionType,
   setErrorStateActionType,
-  setLoadinfStateActionType,
+  setLoadingStateActionType,
 } from '@/src/types/reducerActionTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
-import { createSlice } from '@reduxjs/toolkit';
 
 interface BaseSliceInterface {
   loadingState: boolean;
@@ -18,7 +18,7 @@ const baseSlice = createSlice({
     errors: [],
   } as BaseSliceInterface,
   reducers: {
-    setLoadingState: (state, isLoading: setLoadinfStateActionType) => {
+    setLoadingState: (state, isLoading: setLoadingStateActionType) => {
       state.loadingState = isLoading.payload;
     },
 
@@ -35,7 +35,6 @@ const baseSlice = createSlice({
     },
   },
 });
-
 
 export const baseActionTypes = createActionTypes({
   actions: baseSlice.actions,

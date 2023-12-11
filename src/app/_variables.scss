@@ -1,17 +1,19 @@
-$zomp: #67BB94;
-$jungleGreen: #549A79;
-$skyBlue: #74C0D2;
-$ecru: #d5BB74;
-$oldRose: #D37577;
-$babyPowder: #FAFFFD;
-$mintCream: #E8EFED;
-$payneGray: #545E75;
-$charcoal: #3D4452;
-$gunmetal: #2E3139;
+$zomp: #67bb94;
+$jungleGreen: #549a79;
+$skyBlue: #74c0d2;
+$ecru: #d5bb74;
+$oldRose: #d37577;
+$babyPowder: #fafffd;
+$mintCream: #e8efed;
+$payneGray: #545e75;
+$charcoal: #3d4452;
+$gunmetal: #2e3139;
 $black: #000;
 
 @mixin colorButton($color) {
-  transition: border-color .2s, color .2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
 
   &:hover {
     border-color: $color;
@@ -32,6 +34,7 @@ $black: #000;
     0% {
       transform: rotate(0);
     }
+
     100% {
       transform: rotate(360deg);
     }
@@ -49,7 +52,7 @@ $black: #000;
     height: $thick;
     rotate: -45deg;
     background-color: $babyPowder;
-    transition: .2s;
+    transition: 0.2s;
   }
 
   &::before {
@@ -59,11 +62,12 @@ $black: #000;
     height: $thick;
     rotate: 45deg;
     background-color: $babyPowder;
-    transition: .2s;
+    transition: 0.2s;
   }
 
   &:hover {
-    &::after, &::before {
+    &::after,
+    &::before {
       background-color: $oldRose;
     }
   }
@@ -72,7 +76,7 @@ $black: #000;
 @mixin formInput($fz) {
   outline: none;
   padding-inline: 1em;
-  padding-block: .4em;
+  padding-block: 0.4em;
   box-sizing: border-box;
   font-size: $fz;
   color: $babyPowder;
@@ -81,6 +85,6 @@ $black: #000;
   background: $charcoal;
 
   &::placeholder {
-    color: rgba($babyPowder, .7);
+    color: rgba($babyPowder, 0.7);
   }
 }

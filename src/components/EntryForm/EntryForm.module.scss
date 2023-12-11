@@ -60,7 +60,10 @@ button.submit {
   border-radius: 5px;
   border: 1px solid transparent;
   background-color: $jungleGreen;
-  transition: border-color .2s, color .2s, scale .2s;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    scale 0.2s;
 
   &:hover {
     color: $mintCream;
@@ -68,7 +71,7 @@ button.submit {
   }
 
   &:active {
-    scale: .97;
+    scale: 0.97;
   }
 
   @media screen and (width <= 1024px) {
@@ -103,7 +106,9 @@ div.additionalContent {
     color: $babyPowder;
     border-bottom: 1px solid transparent;
     background-color: transparent;
-    transition: border-bottom-color .2s, color .2s;
+    transition:
+      border-bottom-color 0.2s,
+      color 0.2s;
 
     &:hover {
       border-bottom-color: $babyPowder;
@@ -149,7 +154,7 @@ label.isAdmin {
 
     &::before {
       position: absolute;
-      content: "";
+      content: '';
       opacity: 0;
       width: 25%;
       height: 60%;
@@ -157,7 +162,7 @@ label.isAdmin {
       rotate: 45deg;
       border-bottom: 2px solid rgba($zomp, 1);
       border-right: 2px solid rgba($zomp, 1);
-      transition: opacity .2s;
+      transition: opacity 0.2s;
     }
 
     @media screen and (width <= 1024px) {

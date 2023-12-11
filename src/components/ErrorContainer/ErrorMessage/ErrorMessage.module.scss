@@ -10,7 +10,7 @@ div.errorMessage {
   padding-inline: 3%;
   border-radius: 5px;
   border: 2px $babyPowder solid;
-  background-color: rgba($oldRose, .9);
+  background-color: rgba($oldRose, 0.9);
 
   p.error {
     margin: 0;
@@ -28,7 +28,9 @@ div.errorMessage {
     border: none;
     cursor: pointer;
     background-color: transparent;
-    transition: background-color .3s, scale .2s;
+    transition:
+      background-color 0.3s,
+      scale 0.2s;
     @include cross(2.6vh, 2px);
 
     &:hover {
@@ -36,7 +38,7 @@ div.errorMessage {
     }
 
     &:active {
-      scale: .9;
+      scale: 0.9;
     }
   }
 }

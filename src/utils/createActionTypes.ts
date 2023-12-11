@@ -5,8 +5,8 @@ type createActionType = ({
   actionKeys,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  actions: CaseReducerActions<any, any>,
-  actionKeys: string[],
+  actions: CaseReducerActions<any, any>;
+  actionKeys: string[];
 }) => {
   [key in (typeof actionKeys)[number]]: string;
 };

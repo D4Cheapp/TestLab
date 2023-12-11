@@ -1,7 +1,7 @@
 'use client';
 import React, { useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { deleteErrorState } from "@/src/reduxjs/reducers/baseReducer";
+import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
 import { ErrorMessage } from './ErrorMessage';
 import styles from './ErrorContainer.module.scss';
 

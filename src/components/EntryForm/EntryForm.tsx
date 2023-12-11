@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { entryFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setErrorsState } from "@/src/reduxjs/reducers/baseReducer";
-import { profileLogin, profileRegister } from "@/src/reduxjs/reducers/authReducer";
+import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import { profileLogin, profileRegister } from '@/src/reduxjs/reducers/authReducer';
 import { InputContainer } from './InputContainer';
 import styles from './EntryForm.module.scss';
 
@@ -51,7 +51,7 @@ function EntryForm({
     }
 
     if (isRegister && data.password !== data.password_confirmation) {
-      dispatch(setErrorsState('Error: Passwords don\'t match'));
+      dispatch(setErrorsState("Error: Passwords don't match"));
       return false;
     }
 

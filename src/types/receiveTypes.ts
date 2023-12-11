@@ -1,10 +1,10 @@
 export type profileAuthReceiveType = { id: number; is_admin: boolean; username: string };
 export type profileLogoutReceiveType = { success: boolean };
-export type createAnswerReciveType = { id: number; is_right: boolean; text: string };
-export type createQuestionRecieveType = {
+export type createAnswerReceiveType = { id: number; is_right: boolean; text: string };
+export type createQuestionReceiveType = {
   id: number;
   answer: number;
-  answers: createAnswerReciveType[];
+  answers: createAnswerReceiveType[];
   question_type: 'single' | 'multiple' | 'number';
   title: string;
 };
@@ -12,11 +12,11 @@ export type testReceiveType = {
   id: number;
   created_at: string;
   title: string;
-  questions: createQuestionRecieveType[];
+  questions: createQuestionReceiveType[];
 };
 export type paginationTestsReceiveType = {
   meta: { total_pages: number; total_count: number };
   tests: testReceiveType[];
 };
-export type deleteRecieveType = { status: 'ok' | 'not-found' };
-export type moveAnswerRecieveType = deleteRecieveType;
+export type deleteReceiveType = { status: 'ok' | 'not-found' };
+export type moveAnswerReceiveType = deleteReceiveType;

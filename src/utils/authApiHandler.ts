@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-export const authApiHadndler = (data: [object, Response] | Error) => {
+export const authApiHandler = (data: [object, Response] | Error) => {
   if (!(data instanceof Error) && data[1].ok) {
     const cookie = data[1].headers.get('Set-Cookie');
 

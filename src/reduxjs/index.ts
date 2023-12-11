@@ -1,3 +1,3 @@
 export { testReducer } from './reducers';
-export { saga } from './saga';
+export { rootSaga } from './saga';
 export { store } from './store';

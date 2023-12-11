@@ -1,4 +1,5 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
+import { createSlice } from '@reduxjs/toolkit';
 import {
   profileLoginActionType,
   profileLogoutActionType,
@@ -7,9 +8,8 @@ import {
 } from '@/src/types/reducerActionTypes';
 import { currentProfileType } from '@/src/types/reducerInitialTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
-import { createSlice } from '@reduxjs/toolkit';
 
-interface AuthSilceInterface {
+interface AuthSliceInterface {
   currentProfile: currentProfileType;
 }
 
@@ -17,7 +17,7 @@ const authSlice = createSlice({
   name: 'authSlice',
   initialState: {
     currentProfile: undefined,
-  } as AuthSilceInterface,
+  } as AuthSliceInterface,
   reducers: {
     profileRegister: (state, profileInfo: profileRegisterActionType) => {},
 
