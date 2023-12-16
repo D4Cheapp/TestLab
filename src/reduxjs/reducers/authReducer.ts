@@ -28,12 +28,12 @@ const authSlice = createSlice({
     getCurrentProfile: (state) => {},
 
     setCurrentProfile: (state, profileInfo: setCurrentProfileActionType) => {
-      console.log(profileInfo.payload);
       state.currentProfile = profileInfo.payload;
     },
 
     deleteCurrentProfile: (state, isSuccess: profileLogoutActionType) => {
-      if (isSuccess.payload.success) {
+      const isDeleteSuccess = isSuccess.payload.success;
+      if (isDeleteSuccess) {
         state.currentProfile = null;
       }
     },

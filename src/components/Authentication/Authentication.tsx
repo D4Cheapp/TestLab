@@ -22,12 +22,16 @@ function Authentication({ children, isAdmin }: AuthenticationInterface): React.R
   }, [dispatch]);
 
   useEffect(() => {
-    if (currentProfile !== undefined) {
-      if (currentProfile === null) {
+    const isProfileUnset = currentProfile !== undefined;
+
+    if (isProfileUnset) {
+      const isProfileEmpty = currentProfile === null;
+      if (isProfileEmpty) {
         return router.push('/login');
       }
 
-      if (!currentProfile?.is_admin && isAdmin) {
+      const isProfileHaveAccess = !currentProfile?.is_admin && isAdmin;
+      if (isProfileHaveAccess) {
         return router.push('/');
       }
 

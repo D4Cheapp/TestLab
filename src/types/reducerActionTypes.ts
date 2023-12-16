@@ -26,7 +26,9 @@ export type deleteTestActionType = PayloadAction<{ id: number }>;
 export type getTestActionType = PayloadAction<{ id: number }>;
 export type setTestActionType = PayloadAction<testReceiveType>;
 export type getPaginationTestActionType = PayloadAction<paginationTestRequestType>;
-export type setPaginationTestActionType = PayloadAction<paginationTestsReceiveType>;
+export type setPaginationTestActionType = PayloadAction<
+  paginationTestsReceiveType & paginationTestRequestType
+>;
 
 export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
 export type editQuestionActionType = PayloadAction<createQuestionReceiveType & { id: number }>;

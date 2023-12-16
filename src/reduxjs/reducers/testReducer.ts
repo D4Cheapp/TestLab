@@ -22,7 +22,7 @@ import createActionTypes from '@/src/utils/createActionTypes';
 interface TestSliceInterface {
   currentTest: testReceiveType | undefined;
   tests: testReceiveType[];
-  testsMeta: paginationTestsReceiveType['meta'];
+  testMeta: paginationTestsReceiveType['meta'];
   loadingState: boolean;
   errors: string[];
 }
@@ -32,7 +32,7 @@ const testSlice = createSlice({
   initialState: {
     currentTest: undefined,
     tests: [],
-    testsMeta: { total_count: 5, total_pages: 0 },
+    testMeta: { total_count: -1, total_pages: -1 },
     loadingState: false,
     errors: [],
   } as TestSliceInterface,
@@ -52,8 +52,14 @@ const testSlice = createSlice({
     getPaginationTests: (state, action: getPaginationTestActionType) => {},
 
     setPaginationTests: (state, action: setPaginationTestActionType) => {
-      state.testsMeta = action.payload.meta;
-      state.tests = action.payload.tests;
+      const isPageFirst = action.payload.page === 1;
+      state.testMeta = action.payload.meta;
+
+      if (isPageFirst) {
+        state.tests = action.payload.tests;
+      } else {
+        state.tests = [...state.tests, ...action.payload.tests];
+      }
     },
 
     createQuestion: (state, action: createQuestionActionType) => {},

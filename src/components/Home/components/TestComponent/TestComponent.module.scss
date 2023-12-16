@@ -1,0 +1,68 @@
+div.test {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1em;
+  border: 2px $babyPowder solid;
+  border-radius: 5px;
+  background: $charcoal;
+
+  p.testTitle {
+    font-size: 1.5em;
+    overflow: hidden;
+    width: 80%;
+    margin: 0;
+  }
+}
+
+div.buttonsContainer {
+  display: inline-flex;
+  gap: 0.9em;
+
+  button.testButton {
+    box-sizing: border-box;
+    width: 2.4em;
+    cursor: pointer;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: none;
+    aspect-ratio: 1/1;
+  }
+
+  button.passTestButton {
+    transition: background-image 0.2s;
+    background-image: url('~public/images/svg/selectArrow.svg');
+    background-position-x: center;
+    background-position-y: 40%;
+    background-size: 140%;
+    @include colorButton($skyBlue);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-image: url('~public/images/svg/selectArrowActive.svg');
+      }
+    }
+  }
+
+  button.editTestButton {
+    transition: background-image 0.2s;
+    background-image: url('~public/images/svg/editPencil.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+    @include colorButton($ecru);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-image: url('~public/images/svg/editPencilActive.svg');
+      }
+    }
+  }
+
+  button.deleteTestButton {
+    @include cross(1.4em, 3px);
+    @include colorButton($oldRose);
+  }
+}

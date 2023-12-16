@@ -15,9 +15,11 @@ $black: #000;
     border-color 0.2s,
     color 0.2s;
 
-  &:hover {
-    border-color: $color;
-    color: $color;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: $color;
+      color: $color;
+    }
   }
 }
 
@@ -42,6 +44,7 @@ $black: #000;
 }
 
 @mixin cross($width, $thick) {
+  position: relative;
   display: grid;
   place-items: center;
 
@@ -65,10 +68,12 @@ $black: #000;
     transition: 0.2s;
   }
 
-  &:hover {
-    &::after,
-    &::before {
-      background-color: $oldRose;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      &::after,
+      &::before {
+        background-color: $oldRose;
+      }
     }
   }
 }

@@ -17,7 +17,7 @@ const createFetch = async <T>({
   isLocal = true,
 }: createFetchPropsType): Promise<[T, Response] | Error> => {
   let serverHref: string = (isLocal ? '/api' : process.env.SERVER_URL) + href;
-
+  const isGetFetch = method === 'GET' && isLocal;
   const init: RequestInit = {
     method,
     credentials: 'include',
@@ -30,7 +30,7 @@ const createFetch = async <T>({
   };
 
   if (body) {
-    if (method === 'GET' && isLocal) {
+    if (isGetFetch) {
       // @ts-ignore
       serverHref += `?${querystring.stringify(body)}`;
     } else {
