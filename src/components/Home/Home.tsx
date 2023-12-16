@@ -1,5 +1,12 @@
 'use client';
-import React, { ChangeEvent, UIEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  UIEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { HomeNavbar, TestComponent } from '@/src/components/Home/components';
@@ -9,13 +16,17 @@ import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
 import styles from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
-  return !!filter?.trim() ? filter.replace(/\s+/gm, ' ').trim().toLowerCase() : '';
+  return !!filter?.trim()
+    ? filter.replace(/\s+/gm, ' ').trim().toLowerCase()
+    : '';
 }
 
 function Home(): React.ReactNode {
   const testList = useAppSelector((state) => state.test.tests);
+  const testMeta = useAppSelector((state) => state.test.testMeta);
   const isLoading = useAppSelector((state) => state.base.loadingState);
-  const isAdmin = useAppSelector((state) => state.auth.currentProfile)?.is_admin;
+  const isAdmin = useAppSelector((state) => state.auth.currentProfile)
+    ?.is_admin;
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -23,7 +34,9 @@ function Home(): React.ReactNode {
   const testListRef = useRef<HTMLDivElement>(null);
 
   const [isReverseDate, setIsReverseDate] = useState<boolean>(false);
-  const [filterValue, setFilterValue] = useState<string>(validateFilterValue(queryParams));
+  const [filterValue, setFilterValue] = useState<string>(
+    validateFilterValue(queryParams),
+  );
   const [testPage, setTestPage] = useState<number>(1);
 
   const onPassTestClick = useCallback(
@@ -46,7 +59,10 @@ function Home(): React.ReactNode {
     router.push('/login');
   }, [dispatch, router]);
 
-  const onFilterReverseClick = useCallback(() => setIsReverseDate(!isReverseDate), [isReverseDate]);
+  const onFilterReverseClick = useCallback(
+    () => setIsReverseDate(!isReverseDate),
+    [isReverseDate],
+  );
 
   const onFilterInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setFilterValue(e.target.value),
@@ -55,17 +71,22 @@ function Home(): React.ReactNode {
 
   const onTestScroll = useCallback(
     (e: UIEvent<HTMLDivElement>) => {
-      const height = e.currentTarget.offsetHeight;
       const scrollHeight = e.currentTarget.scrollHeight;
+      const scrollTop = e.currentTarget.scrollTop;
+      const offsetHeight = e.currentTarget.offsetHeight;
 
-      const scrollPercentHeight = parseInt('' + (height / scrollHeight) * 100, 10);
-      const isHeightApproximatelyEqual = scrollPercentHeight > 90;
+      const isPaddingState =
+        scrollHeight - (scrollTop + offsetHeight) < 20 && !isLoading;
+      const isPaddingReady =
+        isPaddingState &&
+        !!testMeta.total_pages &&
+        testPage < testMeta.total_pages;
 
-      if (isHeightApproximatelyEqual) {
+      if (isPaddingReady) {
         setTestPage(testPage + 1);
       }
     },
-    [testPage],
+    [isLoading, testMeta.total_pages, testPage],
   );
 
   const setFilter = () => {
@@ -81,16 +102,21 @@ function Home(): React.ReactNode {
   };
 
   useEffect(() => {
+    const per =
+      !!testMeta.total_pages && testPage === testMeta.total_pages - 1
+        ? testMeta.total_count - testList.length
+        : 7;
+
     dispatch(
       getPaginationTests({
         page: testPage,
-        per: 7,
+        per,
         search: queryParams ?? '',
         sort: isReverseDate ? 'created_at_asc' : 'created_at_desc',
       }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryParams, dispatch, isReverseDate]);
+  }, [queryParams, dispatch, isReverseDate, testPage]);
 
   useEffect(() => {
     const filterTimeout = setTimeout(() => setFilter(), 1500);
@@ -99,17 +125,29 @@ function Home(): React.ReactNode {
   }, [filterValue]);
 
   useEffect(() => {
-    const height = testListRef.current?.clientHeight;
-    const scrollHeight = testListRef.current?.scrollHeight;
-    const isTestListRender = height && scrollHeight && testList.length !== 0;
+    if (testListRef.current) {
+      const scrollHeight = testListRef.current.scrollHeight;
+      const scrollTop = testListRef.current.scrollTop;
+      const offsetHeight = testListRef.current.offsetHeight;
+      const isPaddingState =
+        scrollHeight - (scrollTop + offsetHeight) < 20 &&
+        !isLoading &&
+        testList.length !== 0;
 
-    if (isTestListRender) {
-      const scrollPercentHeight = parseInt('' + (height / scrollHeight) * 100, 10);
-      const isHeightApproximatelyEqual = scrollPercentHeight > 90;
-
-      if (isHeightApproximatelyEqual) {
+      if (isPaddingState) {
         setTestPage(testPage + 1);
       }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testList]);
+
+  useEffect(() => {
+    const scrollHeight = testListRef.current?.scrollHeight;
+    const isReadyToScroll = testPage > 1 && scrollHeight;
+
+    if (isReadyToScroll) {
+      testListRef.current.scrollTop =
+        scrollHeight - scrollHeight / (testList.length / 7);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testList]);

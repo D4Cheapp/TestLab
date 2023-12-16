@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import { createSlice } from '@reduxjs/toolkit';
-import { testReceiveType } from '@/src/types/receiveTypes';
+import { paginationTestsReceiveType, testReceiveType } from '@/src/types/receiveTypes';
 import {
   createAnswerActionType,
   createQuestionActionType,
@@ -22,6 +22,7 @@ import createActionTypes from '@/src/utils/createActionTypes';
 interface TestSliceInterface {
   currentTest: testReceiveType | undefined;
   tests: testReceiveType[];
+  testMeta: paginationTestsReceiveType['meta'];
   loadingState: boolean;
   errors: string[];
 }
@@ -31,6 +32,7 @@ const testSlice = createSlice({
   initialState: {
     currentTest: undefined,
     tests: [],
+    testMeta: { total_count: -1, total_pages: -1 },
     loadingState: false,
     errors: [],
   } as TestSliceInterface,
@@ -51,6 +53,8 @@ const testSlice = createSlice({
 
     setPaginationTests: (state, action: setPaginationTestActionType) => {
       const isPageFirst = action.payload.page === 1;
+      state.testMeta = action.payload.meta;
+
       if (isPageFirst) {
         state.tests = action.payload.tests;
       } else {

@@ -22,7 +22,6 @@ div.home {
     border: 2px $babyPowder solid;
     border-radius: 5px;
     background: $charcoal;
-    padding-block: 0.1em;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {

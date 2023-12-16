@@ -8,7 +8,6 @@ div.test {
   border: 2px $babyPowder solid;
   border-radius: 5px;
   background: $charcoal;
-  padding-block: 0.7em;
 
   p.testTitle {
     font-size: 1.5em;
@@ -20,11 +19,11 @@ div.test {
 
 div.buttonsContainer {
   display: inline-flex;
-  gap: 0.5em;
+  gap: 0.9em;
 
   button.testButton {
     box-sizing: border-box;
-    width: 2.3em;
+    width: 2.4em;
     cursor: pointer;
     border: 2px $babyPowder solid;
     border-radius: 5px;
