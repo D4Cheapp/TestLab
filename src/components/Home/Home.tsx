@@ -13,20 +13,18 @@ import { HomeNavbar, TestComponent } from '@/src/components/Home/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { profileLogout } from '@/src/reduxjs/reducers/authReducer';
 import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
+import { setModalWindowState } from '@/src/reduxjs/reducers/modalWindowReducer';
 import styles from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
-  return !!filter?.trim()
-    ? filter.replace(/\s+/gm, ' ').trim().toLowerCase()
-    : '';
+  return !!filter?.trim() ? filter.replace(/\s+/gm, ' ').trim().toLowerCase() : '';
 }
 
 function Home(): React.ReactNode {
   const testList = useAppSelector((state) => state.test.tests);
   const testMeta = useAppSelector((state) => state.test.testMeta);
   const isLoading = useAppSelector((state) => state.base.loadingState);
-  const isAdmin = useAppSelector((state) => state.auth.currentProfile)
-    ?.is_admin;
+  const isAdmin = useAppSelector((state) => state.auth.currentProfile)?.is_admin;
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -40,8 +38,15 @@ function Home(): React.ReactNode {
   const [testPage, setTestPage] = useState<number>(1);
 
   const onPassTestClick = useCallback(
-    (index: number) => router.push(`/pass-test?id=${index}`),
-    [router],
+    (index: number) =>
+      dispatch(
+        setModalWindowState({
+          title: 'Начать прохождение теста?',
+          content: { type: 'test-pass', id: index },
+          buttons: { withConfirmButton: true },
+        }),
+      ),
+    [dispatch],
   );
 
   const onEditTestClick = useCallback(
@@ -75,12 +80,9 @@ function Home(): React.ReactNode {
       const scrollTop = e.currentTarget.scrollTop;
       const offsetHeight = e.currentTarget.offsetHeight;
 
-      const isPaddingState =
-        scrollHeight - (scrollTop + offsetHeight) < 20 && !isLoading;
+      const isPaddingState = scrollHeight - (scrollTop + offsetHeight) < 20 && !isLoading;
       const isPaddingReady =
-        isPaddingState &&
-        !!testMeta.total_pages &&
-        testPage < testMeta.total_pages;
+        isPaddingState && !!testMeta.total_pages && testPage < testMeta.total_pages;
 
       if (isPaddingReady) {
         setTestPage(testPage + 1);
@@ -146,8 +148,7 @@ function Home(): React.ReactNode {
     const isReadyToScroll = testPage > 1 && scrollHeight;
 
     if (isReadyToScroll) {
-      testListRef.current.scrollTop =
-        scrollHeight - scrollHeight / (testList.length / 7);
+      testListRef.current.scrollTop = scrollHeight - scrollHeight / (testList.length / 7);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testList]);

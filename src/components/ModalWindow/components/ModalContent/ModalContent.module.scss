@@ -1,0 +1,16 @@
+div.root {
+  height: 70%;
+  margin-block: 1em;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1em;
+
+  @media screen and (width < 500px) {
+    height: 60%;
+  }
+}
+
+div.numberAnswer {
+  height: 40%;
+  justify-content: space-around;
+}

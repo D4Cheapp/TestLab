@@ -29,7 +29,12 @@ function ErrorContainer(): React.ReactNode {
   return (
     <div className={styles.container}>
       {errorsState.map((error, index) => (
-        <ErrorMessage key={index} error={error} index={index} onCloseClick={onCloseClick} />
+        <ErrorMessage
+          key={index}
+          error={error}
+          index={index}
+          onCloseClick={onCloseClick}
+        />
       ))}
     </div>
   );

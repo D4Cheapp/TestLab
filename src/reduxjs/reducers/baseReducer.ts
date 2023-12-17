@@ -16,6 +16,8 @@ const baseSlice = createSlice({
   name: 'baseSlice',
   initialState: {
     loadingState: false,
+    modalWindow: undefined,
+    questions: [],
     errors: [],
   } as BaseSliceInterface,
   reducers: {

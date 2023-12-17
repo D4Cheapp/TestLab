@@ -1,0 +1,62 @@
+div.answer {
+  position: relative;
+  width: 98%;
+  display: inline-flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-inline: 1em;
+  padding-block: 0.5em;
+  border-radius: 5px;
+  border: 2px $babyPowder solid;
+
+  label.answerLabel {
+    position: relative;
+    font-size: 1.2em;
+  }
+
+  div.customCheckbox {
+    position: absolute;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 0;
+    width: 0.8em;
+    height: 0.8em;
+    border: 2px $babyPowder solid;
+    border-radius: 3px;
+
+    &:after {
+      content: '';
+      opacity: 0;
+      width: 25%;
+      height: 65%;
+      rotate: 45deg;
+      border-bottom: 2px $babyPowder solid;
+      border-right: 2px $babyPowder solid;
+      transition: opacity 0.1s;
+    }
+  }
+
+  input.answerCheckbox {
+    opacity: 0;
+    margin-right: 1em;
+
+    &:checked + div.customCheckbox:after {
+      opacity: 1;
+    }
+  }
+
+  button.answerDeleteButton {
+    @include cross(1em, 2px);
+    cursor: pointer;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding-inline: 0.6em;
+    padding-block: 0.1em;
+    border: none;
+    background: transparent;
+    transition: background-color 0.2s;
+  }
+}

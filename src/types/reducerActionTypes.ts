@@ -5,7 +5,11 @@ import {
   profileLogoutReceiveType,
   testReceiveType,
 } from '@/src/types/receiveTypes';
-import { currentProfileType } from '@/src/types/reducerInitialTypes';
+import {
+  currentProfileType,
+  modalWindowType,
+  questionDataType,
+} from '@/src/types/reducerInitialTypes';
 import {
   createTestRequestType,
   paginationTestRequestType,
@@ -30,15 +34,26 @@ export type setPaginationTestActionType = PayloadAction<
   paginationTestsReceiveType & paginationTestRequestType
 >;
 
-export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
-export type editQuestionActionType = PayloadAction<createQuestionReceiveType & { id: number }>;
+export type setModalWindowActionType = PayloadAction<modalWindowType>;
+export type addQuestionActionType = PayloadAction<
+  questionDataType & { isEdit: boolean | undefined }
+>;
+export type addCurrentQuestionActionType = PayloadAction<questionDataType | undefined>;
 export type deleteQuestionActionType = PayloadAction<{ id: number }>;
-
+export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
+export type editQuestionActionType = PayloadAction<
+  createQuestionReceiveType & { id: number }
+>;
 export type createAnswerActionType = PayloadAction<
   createAnswerRequestType & { question_id: number }
 >;
-export type editAnswerActionType = PayloadAction<createAnswerRequestType & { id: number }>;
-export type moveAnswerActionType = PayloadAction<{ id: number; position: number }>;
+export type editAnswerActionType = PayloadAction<
+  createAnswerRequestType & { id: number }
+>;
+export type moveAnswerActionType = PayloadAction<{
+  id: number;
+  position: number;
+}>;
 export type deleteAnswerActionType = PayloadAction<{ id: number }>;
 
 export type setLoadingStateActionType = PayloadAction<boolean>;

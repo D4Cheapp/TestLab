@@ -12,7 +12,10 @@ type sagaHandlingPropsType<T> = {
 
 const createErrorsString = (response: { error: string }): string => {
   return Object.entries(response).map(([key, value]): string => {
-    const errorType: string = (key.charAt(0).toUpperCase() + key.slice(1)).replace('_', ' ');
+    const errorType: string = (key.charAt(0).toUpperCase() + key.slice(1)).replace(
+      '_',
+      ' ',
+    );
     return `${errorType}: ${value}`;
   })[0];
 };
