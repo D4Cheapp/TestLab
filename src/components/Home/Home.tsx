@@ -13,8 +13,8 @@ import { HomeNavbar, TestComponent } from '@/src/components/Home/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { profileLogout } from '@/src/reduxjs/reducers/authReducer';
 import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
-import styles from './Home.module.scss';
 import { setModalWindowState } from '@/src/reduxjs/reducers/modalWindowReducer';
+import styles from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
   return !!filter?.trim() ? filter.replace(/\s+/gm, ' ').trim().toLowerCase() : '';
