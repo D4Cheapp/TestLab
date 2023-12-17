@@ -5,9 +5,14 @@ export type profileRegisterRequestType = profileLoginRequestType & {
   is_admin: boolean;
 };
 export type createTestRequestType = { title: string };
-export type paginationTestRequestType = { page: number; per: number; search: string; sort: string };
+export type paginationTestRequestType = {
+  page: number;
+  per: number;
+  search: string;
+  sort: string;
+};
 export type createQuestionRequestType = {
-  test_id: number;
+  test_id?: number;
   title: string;
   question_type: 'single' | 'multiple' | 'number';
   answer: number;

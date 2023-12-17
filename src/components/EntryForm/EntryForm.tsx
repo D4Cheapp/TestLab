@@ -51,7 +51,8 @@ function EntryForm({
       return false;
     }
 
-    const isRegisterDataCorrect = isRegister && data.password !== data.password_confirmation;
+    const isRegisterDataCorrect =
+      isRegister && data.password !== data.password_confirmation;
     if (isRegisterDataCorrect) {
       dispatch(setErrorsState("Error: Passwords don't match"));
       return false;
@@ -75,11 +76,20 @@ function EntryForm({
 
   return (
     <div className={styles.formContainer}>
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-      <form className={styles.form} onSubmit={handleSubmit(onSubmitFunc)} name="EntryForm">
+      <form
+        className={styles.form}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={handleSubmit(onSubmitFunc)}
+        name="EntryForm"
+      >
         <h1 className={styles.title}>{title}</h1>
 
-        <InputContainer title="Логин" name="username" register={register} isPassword={false} />
+        <InputContainer
+          title="Логин"
+          name="username"
+          register={register}
+          isPassword={false}
+        />
 
         <InputContainer
           isPassword

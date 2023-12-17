@@ -1,6 +1,14 @@
-export type profileAuthReceiveType = { id: number; is_admin: boolean; username: string };
+export type profileAuthReceiveType = {
+  id: number;
+  is_admin: boolean;
+  username: string;
+};
 export type profileLogoutReceiveType = { success: boolean };
-export type createAnswerReceiveType = { id: number; is_right: boolean; text: string };
+export type createAnswerReceiveType = {
+  id: number;
+  is_right: boolean;
+  text: string;
+};
 export type createQuestionReceiveType = {
   id: number;
   answer: number;

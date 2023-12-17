@@ -52,7 +52,8 @@ function* getTestSaga(action: getTestActionType) {
     method: 'GET',
     href: `/tests/${action.payload.id}/`,
     isDataInAction: true,
-    action: (data: testReceiveType | undefined) => (data !== undefined ? put(setTest(data)) : {}),
+    action: (data: testReceiveType | undefined) =>
+      data !== undefined ? put(setTest(data)) : {},
   });
 }
 
