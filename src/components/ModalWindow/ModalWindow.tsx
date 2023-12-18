@@ -73,9 +73,15 @@ function ModalWindow(): React.ReactNode {
   const onGoToTestListClick = useCallback(() => router.push('/'), [router]);
 
   const onConfirmClick = useCallback(() => {
-    if (windowData?.buttons.delete) {
-      const target = windowData.buttons.delete?.deleteTarget;
-      const deleteId = windowData.buttons.delete?.id;
+    const isDeleteButton = windowData?.buttons && windowData.buttons.delete;
+    const isTestPass =
+      windowData?.content?.type === 'test-pass' && windowData?.content?.id;
+
+    if (isDeleteButton) {
+      const target = windowData?.buttons?.delete?.deleteTarget;
+      const deleteId = windowData.buttons?.delete?.id
+        ? windowData.buttons?.delete?.id
+        : 0;
 
       if (target === 'question') {
         dispatch(deleteLocalQuestionState({ id: deleteId }));
@@ -83,14 +89,15 @@ function ModalWindow(): React.ReactNode {
         dispatch(deleteTest({ id: deleteId }));
       }
     }
-    if (windowData?.content?.type === 'test-pass') {
-      router.push(`/pass-test?id=${windowData.content.id}`);
+    if (isTestPass) {
+      //@ts-ignore
+      router.push(`/pass-test?id=${+windowData.content?.id}`);
       return dispatch(setModalWindowState(undefined));
     }
-  }, [dispatch, router, windowData?.buttons.delete, windowData?.content]);
+  }, [dispatch, router, windowData?.buttons, windowData?.content]);
 
   const onSaveClick = useCallback(() => {
-    const target = windowData?.buttons.save?.saveTarget;
+    const target = windowData?.buttons?.save?.saveTarget;
     const isQuestionSave =
       windowData &&
       target === 'question' &&

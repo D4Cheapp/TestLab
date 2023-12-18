@@ -22,7 +22,7 @@ export type modalWindowType =
             type: 'test-pass';
             id: number;
           };
-      buttons: {
+      buttons?: {
         delete?: {
           deleteTarget: 'test' | 'question';
           id: number;

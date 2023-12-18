@@ -20,7 +20,8 @@ function* profileRegisterSaga(action: profileRegisterActionType) {
     href: '/signup',
     body: action.payload,
     isDataInAction: true,
-    action: (data: profileAuthReceiveType | undefined) => put(setCurrentProfile(data)),
+    action: (data: profileAuthReceiveType | undefined) =>
+      put(setCurrentProfile(data)),
   });
   yield put(setCurrentProfile(null));
 }
@@ -31,7 +32,8 @@ function* profileLoginSaga(action: profileLoginActionType) {
     href: '/signin',
     body: action.payload,
     isDataInAction: true,
-    action: (data: profileAuthReceiveType | undefined) => put(setCurrentProfile(data)),
+    action: (data: profileAuthReceiveType | undefined) =>
+      put(setCurrentProfile(data)),
   });
 }
 

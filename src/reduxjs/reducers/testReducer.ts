@@ -1,6 +1,9 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import { createSlice } from '@reduxjs/toolkit';
-import { paginationTestsReceiveType, testReceiveType } from '@/src/types/receiveTypes';
+import {
+  paginationTestsReceiveType,
+  testReceiveType,
+} from '@/src/types/receiveTypes';
 import {
   createAnswerActionType,
   createQuestionActionType,

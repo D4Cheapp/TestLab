@@ -1,0 +1,93 @@
+div.editContainer {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media screen and (width < 850px){
+    flex-direction: column;
+    gap: 1em;
+    height: auto;
+  }
+}
+
+div.contentContainer {
+  width: 47%;
+  height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+
+  h2.testNameTitle {
+    text-align: center;
+    margin: 0;
+    font-size: 1.8em;
+  }
+
+  input.testNameInput, select.questionType {
+    @include formInput(1.4em);
+  }
+
+  input.testNameInput {
+    width: 100%;
+
+    &::placeholder {
+      color: rgba($babyPowder, .7);
+    }
+  }
+
+  @media screen and (width < 850px){
+    gap: 1em;
+    width: 100%;
+  }
+
+}
+
+div.chooseQuestionContainer {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+
+  select.questionType {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    appearance: none;
+    padding-right: 2em;
+    padding-block: .4em;
+    background-image: url("~public/images/svg/selectArrow.svg");
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: calc(100% - .5em);
+
+    option.questionTypeOption:not([value=""]){
+      color: $babyPowder;
+    }
+
+    &:has(option.questionTypeOption[value=""]:checked), option.questionTypeOption[value=""]{
+      color: rgba($babyPowder, .7);
+    }
+
+    @media screen and (width < 850px){
+      width: 100%;
+    }
+  }
+
+  button.addButton {
+    padding-inline: .7em;
+    padding-block: .4em;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 2px $babyPowder solid;
+    color: $babyPowder;
+    font-size: 1.4em;
+    background: $charcoal;
+    @include colorButton($zomp);
+  }
+}
+

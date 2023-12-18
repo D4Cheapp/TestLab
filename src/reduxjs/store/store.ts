@@ -28,7 +28,8 @@ export const reducersActions = Object.assign(
 const store = configureStore({
   reducer: rootReducer,
   //@ts-ignore
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);

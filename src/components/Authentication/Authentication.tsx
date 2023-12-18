@@ -11,7 +11,10 @@ interface AuthenticationInterface {
   isAdmin: boolean;
 }
 
-function Authentication({ children, isAdmin }: AuthenticationInterface): React.ReactNode {
+function Authentication({
+  children,
+  isAdmin,
+}: AuthenticationInterface): React.ReactNode {
   const currentProfile = useAppSelector((state) => state.auth.currentProfile);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();

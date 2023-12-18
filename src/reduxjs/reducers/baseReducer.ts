@@ -35,7 +35,9 @@ const baseSlice = createSlice({
     },
 
     deleteErrorState: (state, errorIndex: deleteErrorStateActionType) => {
-      state.errors = state.errors.filter((error, index) => index !== errorIndex.payload);
+      state.errors = state.errors.filter(
+        (error, index) => index !== errorIndex.payload,
+      );
     },
   },
 });
@@ -44,5 +46,6 @@ export const baseActionTypes = createActionTypes({
   actions: baseSlice.actions,
   actionKeys: Object.keys(baseSlice),
 });
-export const { setLoadingState, setErrorsState, deleteErrorState } = baseSlice.actions;
+export const { setLoadingState, setErrorsState, deleteErrorState } =
+  baseSlice.actions;
 export default baseSlice.reducer;

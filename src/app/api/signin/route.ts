@@ -1,6 +1,9 @@
 import { NextRequest } from 'next/server';
 import { profileAuthReceiveType } from '@/src/types/receiveTypes';
-import { profileLoginRequestType, requestTypesType } from '@/src/types/requestTypes';
+import {
+  profileLoginRequestType,
+  requestTypesType,
+} from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 
