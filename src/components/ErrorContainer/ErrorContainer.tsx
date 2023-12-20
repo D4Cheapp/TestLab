@@ -17,10 +17,7 @@ function ErrorContainer(): React.ReactNode {
 
   useEffect(() => {
     if (!isErrorsEmpty) {
-      const timer = setTimeout(
-        () => onCloseClick(errorsState.length - 1),
-        5000,
-      );
+      const timer = setTimeout(() => onCloseClick(errorsState.length - 1), 5000);
       return () => clearTimeout(timer);
     }
   }, [dispatch, errorsState.length, isErrorsEmpty, onCloseClick]);

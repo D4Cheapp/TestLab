@@ -1,28 +1,40 @@
 import React from 'react';
 import { UseFormRegister } from 'react-hook-form';
+import clsx from 'clsx';
 import { testFormType } from '@/src/types/formTypes';
 import styles from './TestFormInfoEdit.module.scss';
 
 interface TestFormInfoEditInterface {
+  title: string | undefined;
   withDeleteButton: boolean;
   onAddQuestionClick: () => void;
   register: UseFormRegister<testFormType>;
 }
 
 function TestFormInfoEdit({
+  title,
   withDeleteButton,
   onAddQuestionClick,
   register,
 }: TestFormInfoEditInterface): React.ReactNode {
   return (
-    <div className={styles.editContainer}>
-      <div className={styles.contentContainer}>
+    <div
+      className={clsx(styles.editContainer, {
+        [styles.singleContainer]: withDeleteButton,
+      })}
+    >
+      <div
+        className={clsx(styles.contentContainer, {
+          [styles.mainInput]: withDeleteButton,
+        })}
+      >
         <h2 className={styles.testNameTitle}>Название теста</h2>
         <input
           className={styles.testNameInput}
           type="text"
           readOnly={withDeleteButton}
           placeholder="Введите название теста"
+          defaultValue={title ?? ''}
           {...register('title', { required: true })}
         />
       </div>

@@ -1,38 +1,43 @@
 import React, { useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { testFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setCurrentQuestionState, setModalWindowState } from '@/src/reduxjs/reducers/modalWindowReducer';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
+import { setCurrentQuestion } from '@/src/reduxjs/reducers/testReducer';
 import { questionDataType } from '@/src/types/reducerInitialTypes';
-import { createQuestionReceiveType } from '@/src/types/receiveTypes';
+import { testReceiveType } from '@/src/types/receiveTypes';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
 import styles from './TestForm.module.scss';
 
 interface TestFormInterface {
+  initTest?: testReceiveType;
   title: string;
-  initialQuestions?: createQuestionReceiveType[];
   withDeleteButton?: boolean;
   action: SubmitHandler<testFormType>;
 }
 
 function TestForm({
+  initTest,
   title,
   withDeleteButton = false,
   action,
 }: TestFormInterface): React.ReactNode {
   const { register, handleSubmit, getValues } = useForm<testFormType>();
-  const questions = useAppSelector((state) => state.modalWindow.questions);
+  const questions = useAppSelector((state) => state.test.questions);
   const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const onGoBackButtonClick = useCallback(() => router.push('/'), [router]);
 
   const onAddQuestionClick = useCallback(() => {
     const questionType = getValues('questionSelect');
-
-    if (
+    const isQuestion =
       questionType === 'single' ||
       questionType === 'multiple' ||
-      questionType === 'number'
-    ) {
+      questionType === 'number';
+
+    if (isQuestion) {
       dispatch(
         setModalWindowState({
           title: 'Добавление вопроса',
@@ -40,7 +45,7 @@ function TestForm({
         }),
       );
     } else {
-      dispatch(setErrorsState('Ошибка: Прежде чем добавить вопрос выберите его тип'));
+      dispatch(setErrorsState('Error: Before adding a question, select its type'));
     }
   }, [dispatch, getValues]);
 
@@ -58,7 +63,7 @@ function TestForm({
 
   const onEditQuestionClick = useCallback(
     (question: questionDataType) => {
-      dispatch(setCurrentQuestionState(question));
+      dispatch(setCurrentQuestion(question));
       dispatch(
         setModalWindowState({
           title: 'Добавление вопроса',
@@ -81,6 +86,7 @@ function TestForm({
       <h1 className={styles.formTitle}>{title}</h1>
 
       <TestFormInfoEdit
+        title={initTest?.title}
         withDeleteButton={withDeleteButton}
         onAddQuestionClick={onAddQuestionClick}
         register={register}
@@ -92,7 +98,10 @@ function TestForm({
         onEditQuestionClick={onEditQuestionClick}
       />
 
-      <TestFormButtons withDeleteButton={withDeleteButton} />
+      <TestFormButtons
+        onGoBackButtonClick={onGoBackButtonClick}
+        withDeleteButton={withDeleteButton}
+      />
     </form>
   );
 }

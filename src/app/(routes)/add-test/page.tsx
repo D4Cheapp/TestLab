@@ -1,14 +1,16 @@
 'use client';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { Authentication } from '@/src/components';
 import { TestForm } from '@/src/components/TestForm';
-import { useAppDispatch } from '@/src/hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { testFormType } from '@/src/types/formTypes';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import { createTest } from '@/src/reduxjs/reducers/testReducer';
+import { createTest, setTest } from '@/src/reduxjs/reducers/testReducer';
+import { LoadingContainer } from '@/src/components/LoadingContainer';
 
 function AddTest(): React.ReactNode {
+  const isLoading = useAppSelector((state) => state.base.loadingState);
   const dispatch = useAppDispatch();
 
   const addTestAction: SubmitHandler<testFormType> = useCallback(
@@ -16,19 +18,28 @@ function AddTest(): React.ReactNode {
       event?.preventDefault();
 
       if (!data.title.trim()) {
-        dispatch(setErrorsState('Ошибка: Поле названия теста должно быть заполнено'));
+        dispatch(setErrorsState('Error: Test title should not be empty'));
         return false;
       }
 
+      console.log(data);
       dispatch(createTest({ title: data.title }));
       return false;
     },
     [dispatch],
   );
 
+  useEffect(() => {
+    dispatch(setTest(undefined));
+  }, [dispatch]);
+
   return (
     <Authentication isAdmin>
-      <TestForm action={addTestAction} title="Добавление теста" />
+      {isLoading ? (
+        <LoadingContainer />
+      ) : (
+        <TestForm action={addTestAction} title="Добавление теста" />
+      )}
     </Authentication>
   );
 }

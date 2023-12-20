@@ -1,1 +1,1 @@
-export { default as TestFormInfoEdit } from "./TestFormInfoEdit";
+export { default as TestFormInfoEdit } from './TestFormInfoEdit';

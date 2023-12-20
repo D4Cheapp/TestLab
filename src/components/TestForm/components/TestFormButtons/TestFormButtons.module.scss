@@ -1,10 +1,11 @@
 div.testFromButtons {
   width: 100%;
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-around;
 
   button.formButton {
-    width: 60%;
+    width: 45%;
     border-radius: 5px;
     outline: none;
     cursor: pointer;
@@ -12,9 +13,9 @@ div.testFromButtons {
     background: $charcoal;
     color: $babyPowder;
     font-size: 1.4em;
-    padding-block: .3em;
+    padding-block: 0.3em;
 
-    @media screen and (width < 850px){
+    @media screen and (width < 850px) {
       width: 100%;
     }
   }
@@ -27,4 +28,7 @@ div.testFromButtons {
     @include colorButton($oldRose);
   }
 
+  button.goBackButton {
+    @include colorButton($skyBlue);
+  }
 }

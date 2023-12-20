@@ -7,7 +7,6 @@ import {
   authReducer,
   baseActionTypes,
   baseReducer,
-  modalWindowReducer,
   testActionTypes,
   testReducer,
 } from '@/src/reduxjs/reducers';
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
   test: testReducer,
   base: baseReducer,
   auth: authReducer,
-  modalWindow: modalWindowReducer,
 });
 export const reducersActions = Object.assign(
   testActionTypes,
@@ -28,8 +26,7 @@ export const reducersActions = Object.assign(
 const store = configureStore({
   reducer: rootReducer,
   //@ts-ignore
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);

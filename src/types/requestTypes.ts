@@ -1,10 +1,16 @@
+import { createQuestionReceiveType } from './receiveTypes';
+
 export type requestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 export type profileLoginRequestType = { username: string; password: string };
 export type profileRegisterRequestType = profileLoginRequestType & {
   password_confirmation: string;
   is_admin: boolean;
 };
-export type createTestRequestType = { title: string };
+export type createTestRequestType = {
+  title: string;
+  created_at?: string;
+  questions?: createQuestionReceiveType[];
+};
 export type paginationTestRequestType = {
   page: number;
   per: number;

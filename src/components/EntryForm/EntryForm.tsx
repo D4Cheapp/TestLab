@@ -5,10 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { entryFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import {
-  profileLogin,
-  profileRegister,
-} from '@/src/reduxjs/reducers/authReducer';
+import { profileLogin, profileRegister } from '@/src/reduxjs/reducers/authReducer';
 import { InputContainer } from './InputContainer';
 import styles from './EntryForm.module.scss';
 
@@ -71,8 +68,7 @@ function EntryForm({
   };
 
   useEffect(() => {
-    const isDataCorrectAndSent =
-      formState.isSubmitSuccessful && currentProfile?.id;
+    const isDataCorrectAndSent = formState.isSubmitSuccessful && currentProfile?.id;
     if (isDataCorrectAndSent) {
       router.push('/');
     }
@@ -116,9 +112,7 @@ function EntryForm({
             />
 
             <label className={styles.isAdmin}>
-              <p className={styles.isAdminTitle}>
-                Учетная запись администратора
-              </p>
+              <p className={styles.isAdminTitle}>Учетная запись администратора</p>
 
               <input
                 className={styles.checkbox}
@@ -137,11 +131,7 @@ function EntryForm({
             {submitTitle}
           </button>
 
-          <button
-            type="button"
-            className={styles.redirectLink}
-            onClick={onRedirectClick}
-          >
+          <button type="button" className={styles.redirectLink} onClick={onRedirectClick}>
             {redirectTitle}
           </button>
         </div>

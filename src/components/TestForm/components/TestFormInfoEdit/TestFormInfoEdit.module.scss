@@ -4,11 +4,19 @@ div.editContainer {
   align-items: center;
   justify-content: space-between;
 
-  @media screen and (width < 850px){
+  @media screen and (width < 850px) {
     flex-direction: column;
     gap: 1em;
     height: auto;
   }
+}
+
+div.singleContainer {
+  justify-content: center;
+}
+
+div.mainInput {
+  width: 80% !important;
 }
 
 div.contentContainer {
@@ -26,7 +34,8 @@ div.contentContainer {
     font-size: 1.8em;
   }
 
-  input.testNameInput, select.questionType {
+  input.testNameInput,
+  select.questionType {
     @include formInput(1.4em);
   }
 
@@ -34,15 +43,14 @@ div.contentContainer {
     width: 100%;
 
     &::placeholder {
-      color: rgba($babyPowder, .7);
+      color: rgba($babyPowder, 0.7);
     }
   }
 
-  @media screen and (width < 850px){
+  @media screen and (width < 850px) {
     gap: 1em;
     width: 100%;
   }
-
 }
 
 div.chooseQuestionContainer {
@@ -58,28 +66,29 @@ div.chooseQuestionContainer {
     width: 100%;
     appearance: none;
     padding-right: 2em;
-    padding-block: .4em;
-    background-image: url("~public/images/svg/selectArrow.svg");
+    padding-block: 0.4em;
+    background-image: url('~public/images/svg/selectArrow.svg');
     background-repeat: no-repeat;
     background-position-y: center;
-    background-position-x: calc(100% - .5em);
+    background-position-x: calc(100% - 0.5em);
 
-    option.questionTypeOption:not([value=""]){
+    option.questionTypeOption:not([value='']) {
       color: $babyPowder;
     }
 
-    &:has(option.questionTypeOption[value=""]:checked), option.questionTypeOption[value=""]{
-      color: rgba($babyPowder, .7);
+    &:has(option.questionTypeOption[value='']:checked),
+    option.questionTypeOption[value=''] {
+      color: rgba($babyPowder, 0.7);
     }
 
-    @media screen and (width < 850px){
+    @media screen and (width < 850px) {
       width: 100%;
     }
   }
 
   button.addButton {
-    padding-inline: .7em;
-    padding-block: .4em;
+    padding-inline: 0.7em;
+    padding-block: 0.4em;
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 5px;
@@ -90,4 +99,3 @@ div.chooseQuestionContainer {
     @include colorButton($zomp);
   }
 }
-

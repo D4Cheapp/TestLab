@@ -1,8 +1,5 @@
 import { all, put, takeEvery } from 'redux-saga/effects';
-import {
-  setPaginationTests,
-  setTest,
-} from '@/src/reduxjs/reducers/testReducer';
+import { setPaginationTests, setTest } from '@/src/reduxjs/reducers/testReducer';
 import {
   createAnswerReceiveType,
   createQuestionReceiveType,
@@ -67,9 +64,7 @@ function* getPaginationTestsSaga(action: getPaginationTestActionType) {
     body: action.payload,
     isDataInAction: true,
     action: (data: paginationTestsReceiveType | undefined) =>
-      data !== undefined
-        ? put(setPaginationTests({ ...data, ...action.payload }))
-        : {},
+      data !== undefined ? put(setPaginationTests({ ...data, ...action.payload })) : {},
   });
 }
 

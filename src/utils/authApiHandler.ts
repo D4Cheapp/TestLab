@@ -15,10 +15,7 @@ export const authApiHandler = (data: [object, Response] | Error) => {
       status: 200,
     });
   }
-  return NextResponse.json(
-    data instanceof Error ? { error: data.message } : data[0],
-    {
-      status: 500,
-    },
-  );
+  return NextResponse.json(data instanceof Error ? { error: data.message } : data[0], {
+    status: 500,
+  });
 };

@@ -5,10 +5,7 @@ import { requestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: number } },
-) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
     const data = await createFetch<deleteReceiveType>({
@@ -23,10 +20,7 @@ export async function DELETE(
   }
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: number } },
-) {
+export async function GET(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
     const data = await createFetch<testReceiveType>({
@@ -41,10 +35,7 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: number } },
-) {
+export async function PATCH(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
     const reqBody = await Promise.resolve<{ title: string }>(req.json());

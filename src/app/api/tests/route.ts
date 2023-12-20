@@ -1,10 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 import { testReceiveType } from '@/src/types/receiveTypes';
-import {
-  createTestRequestType,
-  requestTypesType,
-} from '@/src/types/requestTypes';
+import { createTestRequestType, requestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 

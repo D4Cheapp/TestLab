@@ -3,22 +3,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import {
-  addLocalQuestionState,
-  deleteLocalQuestionState,
-  setCurrentQuestionState,
-  setModalWindowState,
-} from '@/src/reduxjs/reducers/modalWindowReducer';
-import { createTest, deleteTest } from '@/src/reduxjs/reducers/testReducer';
+  addLocalQuestion,
+  createTest,
+  deleteLocalQuestion,
+  deleteTest,
+  setCurrentQuestion,
+} from '@/src/reduxjs/reducers/testReducer';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import { ModalWindowContext, questionAnswerType } from './ModalWindowContext';
 import { ModalButtons, ModalContent } from './components';
 import styles from './ModalWindow.module.scss';
 
 function ModalWindow(): React.ReactNode {
-  const currentQuestion = useAppSelector((state) => state.modalWindow.currentQuestion);
-  const currentTest = useAppSelector((state) => state.modalWindow.currentTest);
-  const windowData = useAppSelector((state) => state.modalWindow.modalWindow);
+  const currentQuestion = useAppSelector((state) => state.test.currentQuestion);
+  const currentTest = useAppSelector((state) => state.test.currentTest);
+  const windowData = useAppSelector((state) => state.base.modalWindow);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -40,7 +40,7 @@ function ModalWindow(): React.ReactNode {
 
   const onCloseWindowClick = useCallback(() => {
     dispatch(setModalWindowState(undefined));
-    dispatch(setCurrentQuestionState(undefined));
+    dispatch(setCurrentQuestion(undefined));
   }, [dispatch]);
 
   const onEscapeKeyDown = useCallback(
@@ -84,11 +84,15 @@ function ModalWindow(): React.ReactNode {
         : 0;
 
       if (target === 'question') {
-        dispatch(deleteLocalQuestionState({ id: deleteId }));
+        dispatch(deleteLocalQuestion({ id: deleteId }));
+        return dispatch(setModalWindowState(undefined));
       } else if (target === 'test') {
         dispatch(deleteTest({ id: deleteId }));
+        router.push('/');
+        return dispatch(setModalWindowState(undefined));
       }
     }
+
     if (isTestPass) {
       //@ts-ignore
       router.push(`/pass-test?id=${+windowData.content?.id}`);
@@ -159,7 +163,7 @@ function ModalWindow(): React.ReactNode {
       const isInputCorrect = questionTitleRef.current?.value && checkedAnswerCount;
       if (isInputCorrect) {
         dispatch(
-          addLocalQuestionState({
+          addLocalQuestion({
             id: currentQuestion?.id,
             question: {
               question_type: questionType,

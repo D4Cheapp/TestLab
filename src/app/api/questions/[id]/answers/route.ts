@@ -3,15 +3,9 @@ import { cookies } from 'next/headers';
 import { createAnswerReceiveType } from '@/src/types/receiveTypes';
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHandler } from '@/src/utils/authApiHandler';
-import {
-  createAnswerRequestType,
-  requestTypesType,
-} from '@/src/types/requestTypes';
+import { createAnswerRequestType, requestTypesType } from '@/src/types/requestTypes';
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: number } },
-) {
+export async function POST(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
     const reqBody = await Promise.resolve<createAnswerRequestType>(req.json());
