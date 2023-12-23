@@ -12,6 +12,7 @@ export type modalWindowType =
         | {
             type: 'question';
             questionType: 'single' | 'multiple' | 'number';
+            isLocal: boolean;
           }
         | {
             type: 'test-result';
@@ -29,7 +30,8 @@ export type modalWindowType =
         };
         save?: {
           saveTarget: 'test' | 'question';
-          id: number;
+          title?: string;
+          id?: number;
         };
         withGoBackButton?: boolean;
         withConfirmButton?: boolean;
@@ -38,9 +40,18 @@ export type modalWindowType =
   | undefined;
 export type questionDataType = {
   question: createQuestionRequestType;
-  answers: {
+  answer?: number;
+  answers?: {
+    id: number;
     text: string;
     is_right: boolean;
   }[];
-  id?: number;
+  id: number;
 };
+export type currentTestType =
+  | {
+      id?: number;
+      title?: string;
+      questions?: questionDataType[];
+    }
+  | undefined;

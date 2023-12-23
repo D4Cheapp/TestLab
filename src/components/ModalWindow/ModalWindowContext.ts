@@ -1,14 +1,16 @@
 import { createContext, RefObject } from 'react';
 
 export type questionAnswerType = {
-  answer: { text: string; is_right: boolean };
-  dragInfo: { id: number; order: number };
+  id: number;
+  text: string;
+  is_right: boolean;
+  order: number;
 };
 
 interface ModalWindowContext {
   title: string | undefined;
   answers: questionAnswerType[];
-  numberAnswer: number | undefined;
+  currentQuestionNumberAnswer?: number;
   onInputCheck: (id: number) => void;
   clickEvents: {
     onAddAnswerClick: () => void;

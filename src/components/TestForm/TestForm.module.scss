@@ -1,9 +1,8 @@
 form.root {
   height: 80vh;
   width: 80vw;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr 1fr 4fr 1fr;
   padding-inline: 10vw;
   padding-block: 10vh;
 

@@ -33,9 +33,9 @@ function CheckboxModalAnswer({
           id={`answer-${index}`}
           name="singleAnswer"
           onChange={() => onInputCheck(index)}
-          defaultChecked={answer.answer.is_right}
+          defaultChecked={answer.is_right}
         />
-        {answer.answer.text}
+        {answer.text}
         <div className={styles.customCheckbox} />
       </label>
       <button

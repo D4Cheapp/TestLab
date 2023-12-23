@@ -1,5 +1,5 @@
-import { all, put, takeEvery } from 'redux-saga/effects';
-import { setPaginationTests, setTest } from '@/src/reduxjs/reducers/testReducer';
+import { all, call, put, takeEvery } from 'redux-saga/effects';
+import { getTest, setPaginationTests, setTest } from '@/src/reduxjs/reducers/testReducer';
 import {
   createAnswerReceiveType,
   createQuestionReceiveType,
@@ -20,16 +20,43 @@ import {
   editTestActionType,
   moveAnswerActionType,
   deleteAnswerActionType,
+  deleteQuestionActionType,
 } from '@/src/types/reducerActionTypes';
 import { sagaHandling } from '@/src/utils/sagaHandling';
 import { reducersActions } from '@/src/reduxjs/store/store';
 
 function* createTestSaga(action: createTestActionType) {
-  yield sagaHandling<testReceiveType>({
+  const { title, questions } = action.payload;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const data: testReceiveType | { error: boolean } = yield sagaHandling<testReceiveType>({
     method: 'POST',
     href: `/tests`,
-    body: { title: action.payload.title },
+    body: { title },
   });
+
+  if (questions && !('error' in data) && data?.id) {
+    for (const question of questions) {
+      const { title, question_type } = question.question;
+      const questionData = { title, question_type, test_id: data.id };
+
+      if (question.answer) {
+        //@ts-ignore
+        questionData.answer = question.answer;
+      }
+
+      if (question.answers) {
+        //@ts-ignore
+        questionData.answers = question.answers;
+      }
+
+      yield call(() =>
+        createQuestionSaga({
+          payload: questionData,
+          type: 'testSlice/createQuestion',
+        }),
+      );
+    }
+  }
 }
 
 function* editTestSaga(action: editTestActionType) {
@@ -69,27 +96,67 @@ function* getPaginationTestsSaga(action: getPaginationTestActionType) {
 }
 
 function* createQuestionSaga(action: createQuestionActionType) {
-  const { title, question_type, answer } = action.payload;
-  yield sagaHandling<createQuestionReceiveType>({
-    method: 'POST',
-    href: `/tests/${action.payload.test_id}/questions`,
-    body: { title, question_type, answer },
-  });
+  const { title, question_type, answer, answers } = action.payload;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const data: createQuestionReceiveType | { error: boolean } =
+    yield sagaHandling<createQuestionReceiveType>({
+      method: 'POST',
+      href: `/tests/${action.payload.test_id}/questions`,
+      body: { title, question_type, answer },
+    });
+
+  if (answers && !('error' in data) && data?.id) {
+    for (const ans of answers) {
+      yield call(() =>
+        createAnswerSaga({
+          payload: {
+            question_id: data.id,
+            text: ans.text,
+            is_right: ans.is_right,
+          },
+          type: 'testSlice/createAnswer',
+        }),
+      );
+    }
+  }
+
+  yield action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined;
 }
 
 function* editQuestionSaga(action: editQuestionActionType) {
-  const { title, question_type, answer } = action.payload;
-  yield sagaHandling<createQuestionReceiveType>({
-    method: 'PATCH',
-    href: `/question/${action.payload.id}`,
-    body: { title, question_type, answer },
-  });
+  const { title, question_type, answer, answers } = action.payload;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const data: createQuestionReceiveType | { error: boolean } =
+    yield sagaHandling<createQuestionReceiveType>({
+      method: 'PATCH',
+      href: `/questions/${action.payload.id}`,
+      body: { title, question_type, answer },
+    });
+
+  if (answers && !('error' in data) && data?.id) {
+    for (const ans of answers) {
+      yield call(() =>
+        editAnswerSaga({
+          payload: {
+            id: data.id,
+            text: ans.text,
+            is_right: ans.is_right,
+          },
+          type: 'testSlice/createAnswer',
+        }),
+      );
+    }
+  }
+
+  yield action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined;
 }
 
-function* deleteQuestionSaga(action: deleteTestActionType) {
+function* deleteQuestionSaga(action: deleteQuestionActionType) {
   yield sagaHandling<deleteReceiveType>({
     method: 'DELETE',
-    href: `/question/${action.payload.id}`,
+    href: `/questions/${action.payload.id}/`,
+    action: () =>
+      action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined,
   });
 }
 
@@ -122,6 +189,8 @@ function* deleteAnswerSaga(action: deleteAnswerActionType) {
   yield sagaHandling<deleteReceiveType>({
     method: 'DELETE',
     href: `/answers/${action.payload.id}`,
+    action: () =>
+      action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined,
   });
 }
 

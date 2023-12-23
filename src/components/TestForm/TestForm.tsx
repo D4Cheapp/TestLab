@@ -5,13 +5,12 @@ import { testFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import { setCurrentQuestion } from '@/src/reduxjs/reducers/testReducer';
-import { questionDataType } from '@/src/types/reducerInitialTypes';
-import { testReceiveType } from '@/src/types/receiveTypes';
+import { currentTestType, questionDataType } from '@/src/types/reducerInitialTypes';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
 import styles from './TestForm.module.scss';
 
 interface TestFormInterface {
-  initTest?: testReceiveType;
+  initTest?: currentTestType;
   title: string;
   withDeleteButton?: boolean;
   action: SubmitHandler<testFormType>;
@@ -24,9 +23,10 @@ function TestForm({
   action,
 }: TestFormInterface): React.ReactNode {
   const { register, handleSubmit, getValues } = useForm<testFormType>();
-  const questions = useAppSelector((state) => state.test.questions);
+  const questions = useAppSelector((state) => state.test.currentTest?.questions);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const isLocal = !initTest;
 
   const onGoBackButtonClick = useCallback(() => router.push('/'), [router]);
 
@@ -41,13 +41,19 @@ function TestForm({
       dispatch(
         setModalWindowState({
           title: 'Добавление вопроса',
-          content: { type: 'question', questionType },
+          content: { type: 'question', questionType, isLocal },
+          buttons: {
+            save: {
+              saveTarget: 'question',
+              id: isLocal ? questions?.length : initTest.id,
+            },
+          },
         }),
       );
     } else {
       dispatch(setErrorsState('Error: Before adding a question, select its type'));
     }
-  }, [dispatch, getValues]);
+  }, [dispatch, getValues, initTest?.id, isLocal, questions?.length]);
 
   const onDeleteQuestionClick = useCallback(
     (id: number) => {
@@ -67,16 +73,20 @@ function TestForm({
       dispatch(
         setModalWindowState({
           title: 'Добавление вопроса',
-          content: { type: 'question', questionType: question.question.question_type },
+          content: {
+            type: 'question',
+            questionType: question.question.question_type,
+            isLocal: !initTest,
+          },
+          buttons: { save: { saveTarget: 'question', id: question.id } },
           isEdit: true,
         }),
       );
     },
-    [dispatch],
+    [dispatch, initTest],
   );
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form
       className={styles.root}
       name="testForm"

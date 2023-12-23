@@ -9,7 +9,7 @@ interface ModalQuestionsInterface {
 }
 
 function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactNode {
-  const { numberAnswer, title, answers, clickEvents, refs } =
+  const { currentQuestionNumberAnswer, title, answers, clickEvents, refs } =
     useContext(ModalWindowContext);
   return (
     <>
@@ -19,7 +19,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
           ref={refs.questionTitleRef}
           type="text"
           placeholder="Введите вопрос"
-          name="questionTitle"
+          id="questionTitle"
           defaultValue={title}
         />
         <label className={styles.inputTitle} htmlFor="questionTitle">
@@ -34,7 +34,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
             type="text"
             placeholder="Введите вариант ответа"
             ref={refs.answerInputRef}
-            name="answerVariant"
+            id="answerVariant"
           />
           <label className={styles.inputTitle} htmlFor="answerVariant">
             Вариант ответа
@@ -56,9 +56,9 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
       >
         {((questionType === 'single' || questionType === 'multiple') &&
           answers
-            .sort((a, b) => (a.dragInfo.order > b.dragInfo.order ? 1 : -1))
-            .map((answer, index) => (
-              <CheckboxModalAnswer key={index} index={index} answer={answer} />
+            .sort((a, b) => (a.order > b.order ? 1 : -1))
+            .map((answer) => (
+              <CheckboxModalAnswer key={answer.id} index={answer.id} answer={answer} />
             ))) ||
           (questionType === 'number' && (
             <div className={styles.numberAnswerContainer}>
@@ -68,7 +68,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
                 type="number"
                 name="numberAnswer"
                 placeholder="Введите ответ на вопрос"
-                defaultValue={numberAnswer}
+                defaultValue={currentQuestionNumberAnswer}
               />
               <label className={styles.inputTitle} htmlFor="numberAnswer">
                 Ответ

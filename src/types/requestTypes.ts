@@ -1,4 +1,4 @@
-import { createQuestionReceiveType } from './receiveTypes';
+import { questionDataType } from './reducerInitialTypes';
 
 export type requestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 export type profileLoginRequestType = { username: string; password: string };
@@ -8,8 +8,7 @@ export type profileRegisterRequestType = profileLoginRequestType & {
 };
 export type createTestRequestType = {
   title: string;
-  created_at?: string;
-  questions?: createQuestionReceiveType[];
+  questions?: questionDataType[];
 };
 export type paginationTestRequestType = {
   page: number;
@@ -21,6 +20,7 @@ export type createQuestionRequestType = {
   test_id?: number;
   title: string;
   question_type: 'single' | 'multiple' | 'number';
-  answer: number;
+  answer?: number;
+  answers?: { text: string; is_right: boolean; id: number }[];
 };
 export type createAnswerRequestType = { text: string; is_right: boolean };

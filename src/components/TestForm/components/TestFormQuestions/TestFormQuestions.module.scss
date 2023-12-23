@@ -1,5 +1,4 @@
 div.content {
-  height: 35%;
   overflow: hidden;
   margin-block: 2em;
 }
@@ -28,7 +27,7 @@ div.question {
   p.questionTitle {
     width: 100%;
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.4em;
     box-sizing: border-box;
     border-radius: 5px;
     padding-inline: 1em;
@@ -43,7 +42,7 @@ div.questionButtons {
   gap: 0.5em;
 
   button.questionButton {
-    width: 3em;
+    width: 3.5em;
     background: transparent;
     cursor: pointer;
     box-sizing: border-box;
@@ -52,6 +51,9 @@ div.questionButtons {
     padding-block: 0.4em;
     background: $charcoal;
     border: 2px $babyPowder solid;
+    transition:
+      border-color 0.2s,
+      background-image 0.2s;
   }
 
   button.editButton {
@@ -59,14 +61,18 @@ div.questionButtons {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 65%, contain;
-    transition: background-image 0.2s;
 
     &:hover {
+      border-color: $ecru;
       background-image: url('~public/images/svg/editPencilActive.svg');
     }
   }
 
   button.deleteButton {
     @include cross(1.4em, 2px);
+
+    &:hover {
+      border-color: $oldRose;
+    }
   }
 }

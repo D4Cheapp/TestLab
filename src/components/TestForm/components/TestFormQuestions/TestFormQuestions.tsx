@@ -19,7 +19,7 @@ function TestFormQuestions({
       <div className={styles.root}>
         {questions &&
           questions.map((question, id) => (
-            <div className={styles.question} key={question.question.title} id={id + ''}>
+            <div className={styles.question} key={id}>
               <p className={styles.questionTitle}>{question.question.title}</p>
 
               <div className={styles.questionButtons}>
@@ -31,7 +31,7 @@ function TestFormQuestions({
                 <button
                   type="button"
                   className={clsx(styles.questionButton, styles.deleteButton)}
-                  onClick={() => onDeleteQuestionClick(id)}
+                  onClick={() => onDeleteQuestionClick(question.id)}
                 />
               </div>
             </div>

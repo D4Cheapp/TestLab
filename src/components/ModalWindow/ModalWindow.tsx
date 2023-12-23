@@ -4,9 +4,15 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import {
   addLocalQuestion,
+  createQuestion,
   createTest,
+  deleteAnswer,
   deleteLocalQuestion,
+  deleteQuestion,
   deleteTest,
+  editLocalQuestion,
+  editQuestion,
+  getTest,
   setCurrentQuestion,
 } from '@/src/reduxjs/reducers/testReducer';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
@@ -29,13 +35,14 @@ function ModalWindow(): React.ReactNode {
   const numberAnswerRef = useRef<HTMLInputElement>(null);
   const questionTitleRef = useRef<HTMLInputElement>(null);
 
+  const isLocal = windowData?.content?.type === 'question' && windowData.content.isLocal;
   const isVisibleContent =
     windowData?.content?.type === 'question' ||
     windowData?.content?.type === 'test-result';
   const title = currentQuestion?.question.title;
-  const numberAnswer =
+  const currentQuestionNumberAnswer =
     currentQuestion?.question.question_type === 'number'
-      ? +currentQuestion.answers[0].text
+      ? currentQuestion.question.answer
       : undefined;
 
   const onCloseWindowClick = useCallback(() => {
@@ -57,11 +64,10 @@ function ModalWindow(): React.ReactNode {
       const changedAnswers = answers.map((answer, index) => {
         return index === id
           ? {
-              answer: {
-                text: answer.answer.text,
-                is_right: !answer.answer.is_right,
-              },
-              dragInfo: answer.dragInfo,
+              id: answer.id,
+              text: answer.text,
+              is_right: !answer.is_right,
+              order: answer.order,
             }
           : answer;
       });
@@ -76,6 +82,9 @@ function ModalWindow(): React.ReactNode {
     const isDeleteButton = windowData?.buttons && windowData.buttons.delete;
     const isTestPass =
       windowData?.content?.type === 'test-pass' && windowData?.content?.id;
+    const isTestSave =
+      windowData?.buttons?.save?.saveTarget === 'test' &&
+      windowData?.buttons?.save?.title;
 
     if (isDeleteButton) {
       const target = windowData?.buttons?.delete?.deleteTarget;
@@ -84,9 +93,15 @@ function ModalWindow(): React.ReactNode {
         : 0;
 
       if (target === 'question') {
-        dispatch(deleteLocalQuestion({ id: deleteId }));
+        dispatch(
+          isLocal
+            ? deleteLocalQuestion({ id: deleteId })
+            : deleteQuestion({ id: deleteId, test_id: currentTest?.id }),
+        );
         return dispatch(setModalWindowState(undefined));
-      } else if (target === 'test') {
+      }
+
+      if (target === 'test') {
         dispatch(deleteTest({ id: deleteId }));
         router.push('/');
         return dispatch(setModalWindowState(undefined));
@@ -98,7 +113,82 @@ function ModalWindow(): React.ReactNode {
       router.push(`/pass-test?id=${+windowData.content?.id}`);
       return dispatch(setModalWindowState(undefined));
     }
-  }, [dispatch, router, windowData?.buttons, windowData?.content]);
+
+    if (isTestSave) {
+      dispatch(
+        createTest({
+          //@ts-ignore
+          title: windowData.buttons?.save?.title,
+          questions: currentTest?.questions,
+        }),
+      );
+
+      onCloseWindowClick();
+      return router.push('/');
+    }
+  }, [
+    currentTest?.id,
+    currentTest?.questions,
+    dispatch,
+    isLocal,
+    onCloseWindowClick,
+    router,
+    windowData?.buttons,
+    windowData?.content,
+  ]);
+
+  const questionValidation = (
+    title: string | undefined,
+    questionType: 'number' | 'multiple' | 'single',
+    checkedAnswerCount: number | undefined,
+  ): boolean => {
+    const isTitleEmpty = !title?.trim();
+    const isMultiplyCheckNotCorrect =
+      questionType === 'multiple' && (!checkedAnswerCount || checkedAnswerCount < 2);
+    const isNumberQuestion =
+      questionType === 'number' && numberAnswerRef.current?.value === undefined;
+
+    if (isTitleEmpty) {
+      dispatch(setErrorsState('Error: Enter a question'));
+      return false;
+    }
+
+    if (isMultiplyCheckNotCorrect) {
+      dispatch(
+        setErrorsState(
+          !checkedAnswerCount
+            ? 'Error: Question should be 1 answer option in the question'
+            : 'Error: There cannot be less than 2 correct answers in the question',
+        ),
+      );
+      return false;
+    }
+
+    if (questionType === 'single') {
+      if (!checkedAnswerCount) {
+        dispatch(
+          setErrorsState('Error: Question should be 1 answer option in the question'),
+        );
+        return false;
+      }
+
+      if (checkedAnswerCount >= 2) {
+        dispatch(
+          setErrorsState(
+            'Error: There cannot be more than 2 correct answers in the question',
+          ),
+        );
+        return false;
+      }
+    }
+
+    if (isNumberQuestion) {
+      dispatch(setErrorsState('Error: Input field should not be empty'));
+      return false;
+    }
+
+    return true;
+  };
 
   const onSaveClick = useCallback(() => {
     const target = windowData?.buttons?.save?.saveTarget;
@@ -110,12 +200,6 @@ function ModalWindow(): React.ReactNode {
 
     if (isQuestionSave) {
       const questionTitle = questionTitleRef?.current?.value;
-      const isTitleEmpty = !questionTitle?.trim();
-
-      if (isTitleEmpty) {
-        return dispatch(setErrorsState('Error: Enter a question'));
-      }
-
       //@ts-ignore
       const questionType = windowData.content?.questionType as
         | 'number'
@@ -123,72 +207,90 @@ function ModalWindow(): React.ReactNode {
         | 'single';
       const checkedAnswerCount: number | undefined =
         answers.length > 1
-          ? answers.reduce((counter, answer) => (counter += +answer.answer.is_right), 0)
+          ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
           : undefined;
-      const isMultiplyCheckNotCorrect =
-        questionType === 'multiple' && (!checkedAnswerCount || checkedAnswerCount < 2);
-      const isNumberQuestion =
-        questionType === 'number' && numberAnswerRef.current?.value === undefined;
+      const numberAnswer = !!numberAnswerRef.current?.value
+        ? +numberAnswerRef.current.value
+        : undefined;
 
-      if (isMultiplyCheckNotCorrect) {
-        return dispatch(
-          setErrorsState(
-            !checkedAnswerCount
-              ? 'Error: Question should be 1 answer option in the question'
-              : 'Error: There cannot be less than 2 correct answers in the question',
-          ),
-        );
-      }
-
-      if (questionTitle === 'single') {
-        if (!checkedAnswerCount) {
-          return dispatch(
-            setErrorsState('Error: Question should be 1 answer option in the question'),
-          );
-        }
-
-        if (checkedAnswerCount < 2) {
-          return dispatch(
-            setErrorsState(
-              'Error: There cannot be less than 2 correct answers in the question',
-            ),
-          );
-        }
-      }
-
-      if (isNumberQuestion) {
-        return dispatch(setErrorsState('Error: Input field should not be empty'));
-      }
-
-      const isInputCorrect = questionTitleRef.current?.value && checkedAnswerCount;
-      if (isInputCorrect) {
-        dispatch(
-          addLocalQuestion({
-            id: currentQuestion?.id,
+      if (questionValidation(questionTitle, questionType, checkedAnswerCount)) {
+        //@ts-ignore
+        if (isLocal) {
+          const questionData = {
+            id: currentQuestion?.id ?? currentTest?.questions?.length ?? 0,
             question: {
               question_type: questionType,
-              title: questionTitleRef.current?.value,
-              answer: checkedAnswerCount,
+              title: questionTitle,
+              answer: numberAnswer,
             },
             answers:
-              questionType === 'number' && numberAnswerRef.current?.value
-                ? [{ text: numberAnswerRef.current.value, is_right: true }]
-                : answers.map((answer) => answer.answer),
-            isEdit: windowData.isEdit,
-          }),
-        );
-      }
-    } else if (target === 'test') {
-      const isTitleFilled = currentTest && currentTest.title && currentTest?.title.trim();
-      if (!isTitleFilled) {
-        return dispatch(setErrorsState('Error: Test title should not be empty'));
-      }
+              numberAnswer !== undefined
+                ? undefined
+                : answers.map((answer, index) => {
+                    return {
+                      id: index,
+                      text: answer.text,
+                      is_right: answer.is_right,
+                    };
+                  }),
+          };
 
-      if (isTitleFilled) {
-        dispatch(createTest({ title: currentTest.title }));
+          dispatch(
+            windowData.isEdit
+              ? //@ts-ignore
+                editLocalQuestion(questionData)
+              : //@ts-ignore
+                addLocalQuestion(questionData),
+          );
+        }
+
+        const isRequest = !isLocal && questionTitle && questionType;
+        if (isRequest) {
+          const testId = windowData.buttons?.save?.id;
+          const questionData = {
+            title: questionTitle,
+            question_type: questionType,
+          };
+
+          if (numberAnswer) {
+            //@ts-ignore
+            questionData.answer = numberAnswer;
+          } else {
+            //@ts-ignore
+            questionData.answers = answers.map((answer) => {
+              return {
+                text: answer.text,
+                is_right: answer.is_right,
+              };
+            });
+          }
+
+          dispatch(
+            windowData.isEdit && currentQuestion?.id
+              ? editQuestion({ ...questionData, id: currentQuestion.id })
+              : createQuestion({
+                  ...questionData,
+                  test_id: windowData.buttons?.save?.id,
+                }),
+          );
+
+          if (testId) {
+            dispatch(getTest({ id: testId }));
+          }
+        }
+        return onCloseWindowClick();
       }
     }
-  }, [windowData, answers, dispatch, currentQuestion?.id, currentTest]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    windowData,
+    answers,
+    dispatch,
+    currentQuestion?.id,
+    currentTest,
+    onCloseWindowClick,
+  ]);
 
   const onAddAnswerClick = useCallback(() => {
     const answerValue = answerInputRef.current?.value;
@@ -197,8 +299,10 @@ function ModalWindow(): React.ReactNode {
       setAnswers([
         ...answers,
         {
-          answer: { text: answerValue, is_right: false },
-          dragInfo: { id: answers.length, order: answers.length },
+          id: answers.length,
+          text: answerValue,
+          is_right: false,
+          order: answers.length,
         },
       ]);
       answerInputRef.current.value = '';
@@ -211,10 +315,16 @@ function ModalWindow(): React.ReactNode {
 
   const onDeleteAnswerClick = useCallback(
     (answerIndex: number) => {
-      const changedAnswers = answers.filter((value, index) => index !== answerIndex);
-      setAnswers(changedAnswers);
+      if (isLocal) {
+        const changedAnswers = answers.filter((value, index) => index !== answerIndex);
+        setAnswers(changedAnswers);
+      } else {
+        dispatch(deleteAnswer({ id: answerIndex, test_id: currentTest?.id }));
+      }
+
+      onCloseWindowClick();
     },
-    [answers],
+    [answers, currentTest?.id, dispatch, isLocal, onCloseWindowClick],
   );
 
   const onAnswerDragStart = useCallback((answer: questionAnswerType) => {
@@ -236,19 +346,13 @@ function ModalWindow(): React.ReactNode {
       setAnswers(
         answers.map((mapAnswer) => {
           const isCurrentDragAnswer =
-            draggableAnswer && mapAnswer.dragInfo.id === draggableAnswer.dragInfo.id;
-          const isDroppedAnswer =
-            draggableAnswer && mapAnswer.dragInfo.id === answer.dragInfo.id;
+            draggableAnswer && mapAnswer.id === draggableAnswer.id;
+          const isDroppedAnswer = draggableAnswer && mapAnswer.id === answer.id;
 
           return isDroppedAnswer || isCurrentDragAnswer
             ? {
-                answer: mapAnswer.answer,
-                dragInfo: {
-                  id: mapAnswer.dragInfo.id,
-                  order: isDroppedAnswer
-                    ? draggableAnswer.dragInfo.order
-                    : answer.dragInfo.order,
-                },
+                ...mapAnswer,
+                order: isDroppedAnswer ? draggableAnswer.order : answer.order,
               }
             : mapAnswer;
         }),
@@ -281,11 +385,13 @@ function ModalWindow(): React.ReactNode {
   useEffect(() => {
     const isCurrentQuestionEmptyOrNumber =
       currentQuestion !== undefined &&
-      currentQuestion.question.question_type !== 'number';
+      currentQuestion.question.question_type !== 'number' &&
+      currentQuestion?.answers;
 
     if (isCurrentQuestionEmptyOrNumber) {
+      //@ts-ignore
       const changedAnswers = currentQuestion.answers.map((answer, index) => {
-        return { answer: answer, dragInfo: { id: index, order: index } };
+        return { ...answer, order: index };
       });
       setAnswers(changedAnswers);
     } else {
@@ -322,7 +428,7 @@ function ModalWindow(): React.ReactNode {
               onInputCheck,
               answers,
               title,
-              numberAnswer,
+              currentQuestionNumberAnswer,
               dragEvents,
               refs,
               clickEvents,

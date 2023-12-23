@@ -35,6 +35,7 @@ function TestFormInfoEdit({
           readOnly={withDeleteButton}
           placeholder="Введите название теста"
           defaultValue={title ?? ''}
+          id="title"
           {...register('title', { required: true })}
         />
       </div>
@@ -47,6 +48,7 @@ function TestFormInfoEdit({
             <select
               className={styles.questionType}
               defaultValue={''}
+              id="questionSelect"
               {...register('questionSelect')}
             >
               <option className={styles.questionTypeOption} value="">

@@ -6,7 +6,7 @@ import { Authentication } from '@/src/components';
 import { TestForm } from '@/src/components/TestForm';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { testFormType } from '@/src/types/formTypes';
-import { setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import { getTest } from '@/src/reduxjs/reducers/testReducer';
 import { LoadingContainer } from '@/src/components/LoadingContainer';
 
@@ -20,9 +20,24 @@ function EditTest(): React.ReactNode {
   const saveTestAction: SubmitHandler<testFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
-      dispatch(setModalWindowState(undefined));
+
+      const isTitleFilled = data.title && data.title.trim();
+
+      if (!isTitleFilled) {
+        return dispatch(setErrorsState('Error: Test title should not be empty'));
+      }
+
+      dispatch(
+        setModalWindowState({
+          title: 'Сохранить созданный тест?',
+          buttons: {
+            save: { saveTarget: 'test', title: data.title, id: testId },
+            withConfirmButton: true,
+          },
+        }),
+      );
     },
-    [dispatch],
+    [dispatch, testId],
   );
 
   useEffect(() => {

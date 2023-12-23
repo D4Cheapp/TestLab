@@ -4,13 +4,14 @@ div.test {
   justify-content: space-between;
   box-sizing: border-box;
   width: 100%;
-  padding: 1em;
+  padding-block: 0.6em;
+  padding-inline: 1em;
   border: 2px $babyPowder solid;
   border-radius: 5px;
   background: $charcoal;
 
   p.testTitle {
-    font-size: 1.5em;
+    font-size: 1.4em;
     overflow: hidden;
     width: 80%;
     margin: 0;
