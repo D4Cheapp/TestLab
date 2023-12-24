@@ -27,7 +27,7 @@ function AddTest(): React.ReactNode {
         setModalWindowState({
           title: 'Сохранить созданный тест?',
           buttons: {
-            save: { saveTarget: 'test', title: data.title },
+            save: { saveTarget: 'test', title: data.title.replace(/\s+/gm, ' ').trim() },
             withConfirmButton: true,
           },
         }),

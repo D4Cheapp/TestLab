@@ -11,6 +11,13 @@ div.answer {
 
   label.answerLabel {
     position: relative;
+  }
+
+  input.answerTitle {
+    background: transparent;
+    outline: none;
+    border: none;
+    color: $babyPowder;
     font-size: 1.2em;
   }
 
@@ -49,7 +56,7 @@ div.answer {
   }
 
   button.answerDeleteButton {
-    @include cross(1em, 2px);
+    @include cross(1.3em, 2px);
     cursor: pointer;
     border-radius: 5px;
     box-sizing: border-box;

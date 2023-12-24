@@ -13,6 +13,7 @@ $black: #000;
 @mixin colorButton($color) {
   transition:
     border-color 0.2s,
+    background-image 0.2s,
     color 0.2s;
 
   @media (hover: hover) and (pointer: fine) {

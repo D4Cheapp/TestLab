@@ -6,19 +6,16 @@ import {
 import styles from './CheckboxModalAnswer.module.scss';
 
 interface CheckboxModalAnswerProps {
-  index: number;
   answer: questionAnswerType;
 }
 
-function CheckboxModalAnswer({
-  index,
-  answer,
-}: CheckboxModalAnswerProps): React.ReactNode {
-  const { onInputCheck, clickEvents, dragEvents } = useContext(ModalWindowContext);
+function CheckboxModalAnswer({ answer }: CheckboxModalAnswerProps): React.ReactNode {
+  const { onInputCheck, onAnswerFocusOut, clickEvents, dragEvents } =
+    useContext(ModalWindowContext);
   return (
     <div
       className={styles.answer}
-      key={index}
+      key={answer.id}
       draggable={true}
       onDragStart={() => dragEvents.onAnswerDragStart(answer)}
       onDragEnd={dragEvents.onAnswerDragEnd}
@@ -26,22 +23,31 @@ function CheckboxModalAnswer({
       onDragOver={dragEvents.onAnswerDragOver}
       onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
     >
-      <label className={styles.answerLabel} htmlFor={`answer-${index}`}>
+      <label className={styles.answerLabel} htmlFor={`answer-checkbox-${answer.id}`}>
         <input
           className={styles.answerCheckbox}
           type="checkbox"
-          id={`answer-${index}`}
+          id={`answer-checkbox-${answer.id}`}
           name="singleAnswer"
-          onChange={() => onInputCheck(index)}
+          onChange={() => onInputCheck(answer.id)}
           defaultChecked={answer.is_right}
         />
-        {answer.text}
         <div className={styles.customCheckbox} />
+
+        <input
+          className={styles.answerTitle}
+          type="text"
+          id={`answer-title-${answer.id}`}
+          name={`answer-${answer.id}`}
+          defaultValue={answer.text}
+          //@ts-ignore
+          onBlur={(event) => onAnswerFocusOut(event, answer.id)}
+        />
       </label>
       <button
         className={styles.answerDeleteButton}
         type="button"
-        onClick={() => clickEvents.onDeleteAnswerClick(index)}
+        onClick={() => clickEvents.onDeleteAnswerClick(answer.id)}
       >
         -
       </button>

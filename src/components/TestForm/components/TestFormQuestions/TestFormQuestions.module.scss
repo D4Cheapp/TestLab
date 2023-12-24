@@ -42,7 +42,7 @@ div.questionButtons {
   gap: 0.5em;
 
   button.questionButton {
-    width: 3.5em;
+    width: 3.6em;
     background: transparent;
     cursor: pointer;
     box-sizing: border-box;
@@ -69,7 +69,7 @@ div.questionButtons {
   }
 
   button.deleteButton {
-    @include cross(1.4em, 2px);
+    @include cross(1.4em, 3px);
 
     &:hover {
       border-color: $oldRose;

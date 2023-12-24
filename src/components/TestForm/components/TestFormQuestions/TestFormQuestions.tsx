@@ -5,12 +5,14 @@ import styles from './TestFormQuestions.module.scss';
 
 interface TestFromQuestionsInterface {
   questions: questionDataType[] | undefined;
+  withDeleteButton: boolean;
   onDeleteQuestionClick: (id: number) => void;
   onEditQuestionClick: (question: questionDataType) => void;
 }
 
 function TestFormQuestions({
   questions,
+  withDeleteButton,
   onDeleteQuestionClick,
   onEditQuestionClick,
 }: TestFromQuestionsInterface): React.ReactNode {
@@ -23,11 +25,14 @@ function TestFormQuestions({
               <p className={styles.questionTitle}>{question.question.title}</p>
 
               <div className={styles.questionButtons}>
-                <button
-                  type="button"
-                  className={clsx(styles.questionButton, styles.editButton)}
-                  onClick={() => onEditQuestionClick(question)}
-                />
+                {!withDeleteButton && (
+                  <button
+                    type="button"
+                    className={clsx(styles.questionButton, styles.editButton)}
+                    onClick={() => onEditQuestionClick(question)}
+                  />
+                )}
+
                 <button
                   type="button"
                   className={clsx(styles.questionButton, styles.deleteButton)}

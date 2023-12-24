@@ -104,6 +104,7 @@ function TestForm({
 
       <TestFormQuestions
         questions={questions}
+        withDeleteButton={withDeleteButton}
         onDeleteQuestionClick={onDeleteQuestionClick}
         onEditQuestionClick={onEditQuestionClick}
       />

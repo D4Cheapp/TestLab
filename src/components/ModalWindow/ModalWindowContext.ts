@@ -12,6 +12,7 @@ interface ModalWindowContext {
   answers: questionAnswerType[];
   currentQuestionNumberAnswer?: number;
   onInputCheck: (id: number) => void;
+  onAnswerFocusOut: (event: FocusEvent, id?: number) => void;
   clickEvents: {
     onAddAnswerClick: () => void;
     onDeleteAnswerClick: (index: number) => void;

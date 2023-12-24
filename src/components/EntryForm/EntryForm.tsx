@@ -118,6 +118,7 @@ function EntryForm({
                 className={styles.checkbox}
                 type="checkbox"
                 defaultChecked={false}
+                id="is_admin"
                 {...register('is_admin')}
               />
 

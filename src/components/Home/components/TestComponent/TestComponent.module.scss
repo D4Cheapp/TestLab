@@ -34,15 +34,15 @@ div.buttonsContainer {
 
   button.passTestButton {
     transition: background-image 0.2s;
-    background-image: url('~public/images/svg/selectArrow.svg');
+    background-image: url('~public/images/svg/testPass.svg');
     background-position-x: center;
     background-position-y: 40%;
-    background-size: 140%;
+    background-size: 90%;
     @include colorButton($skyBlue);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-image: url('~public/images/svg/selectArrowActive.svg');
+        background-image: url('~public/images/svg/testPassActive.svg');
       }
     }
   }

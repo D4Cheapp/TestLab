@@ -31,7 +31,11 @@ function EditTest(): React.ReactNode {
         setModalWindowState({
           title: 'Сохранить созданный тест?',
           buttons: {
-            save: { saveTarget: 'test', title: data.title, id: testId },
+            save: {
+              saveTarget: 'test',
+              title: data.title.replace(/\s+/gm, ' ').trim(),
+              id: testId,
+            },
             withConfirmButton: true,
           },
         }),

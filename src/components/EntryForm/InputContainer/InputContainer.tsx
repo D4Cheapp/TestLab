@@ -27,6 +27,7 @@ function InputContainer({
         type={isPassword ? (isShownPassword ? 'text' : 'password') : 'text'}
         required
         placeholder={title}
+        id={name}
         {...register(name, { required: true })}
       />
 

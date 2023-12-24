@@ -9,8 +9,14 @@ interface ModalQuestionsInterface {
 }
 
 function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactNode {
-  const { currentQuestionNumberAnswer, title, answers, clickEvents, refs } =
-    useContext(ModalWindowContext);
+  const {
+    currentQuestionNumberAnswer,
+    onAnswerFocusOut,
+    title,
+    answers,
+    clickEvents,
+    refs,
+  } = useContext(ModalWindowContext);
   return (
     <>
       <div className={styles.questionAddTitle}>
@@ -57,17 +63,18 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
         {((questionType === 'single' || questionType === 'multiple') &&
           answers
             .sort((a, b) => (a.order > b.order ? 1 : -1))
-            .map((answer) => (
-              <CheckboxModalAnswer key={answer.id} index={answer.id} answer={answer} />
-            ))) ||
+            .map((answer) => <CheckboxModalAnswer key={answer.id} answer={answer} />)) ||
           (questionType === 'number' && (
             <div className={styles.numberAnswerContainer}>
               <input
                 className={styles.answerNumber}
                 ref={refs.numberAnswerRef}
                 type="number"
+                id='numberAnswer'
                 name="numberAnswer"
                 placeholder="Введите ответ на вопрос"
+                //@ts-ignore
+                onBlur={(event) => onAnswerFocusOut(event)}
                 defaultValue={currentQuestionNumberAnswer}
               />
               <label className={styles.inputTitle} htmlFor="numberAnswer">

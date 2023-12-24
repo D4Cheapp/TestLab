@@ -39,7 +39,7 @@ export type addCurrentQuestionActionType = PayloadAction<questionDataType | unde
 export type deleteQuestionActionType = PayloadAction<{ id: number; test_id?: number }>;
 export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
 export type editQuestionActionType = PayloadAction<
-  createQuestionRequestType & { id: number }
+  createQuestionRequestType & { id: number; test_id?: number }
 >;
 export type createAnswerActionType = PayloadAction<
   createAnswerRequestType & { question_id: number }
@@ -49,6 +49,7 @@ export type editAnswerActionType = PayloadAction<
 >;
 export type moveAnswerActionType = PayloadAction<{
   id: number;
+  test_id?: number;
   position: number;
 }>;
 export type deleteAnswerActionType = PayloadAction<{ id: number; test_id?: number }>;

@@ -70,9 +70,9 @@ div.formHeader {
   }
 
   button.closeButton {
-    @include cross(1.5em, 2px);
-    width: 32px;
-    height: 32px;
+    @include cross(1.3em, 3px);
+    width: 38px;
+    height: 38px;
     outline: none;
     cursor: pointer;
     background: transparent;

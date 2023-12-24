@@ -68,9 +68,10 @@ div.chooseQuestionContainer {
     padding-right: 2em;
     padding-block: 0.4em;
     background-image: url('~public/images/svg/selectArrow.svg');
+    background-size: 15%;
     background-repeat: no-repeat;
     background-position-y: center;
-    background-position-x: calc(100% - 0.5em);
+    background-position-x: calc(100% - 0.2em);
 
     option.questionTypeOption:not([value='']) {
       color: $babyPowder;
@@ -87,14 +88,14 @@ div.chooseQuestionContainer {
   }
 
   button.addButton {
-    padding-inline: 0.7em;
-    padding-block: 0.4em;
+    padding-inline: 0.5em;
+    padding-block: 0.15em;
     box-sizing: border-box;
     cursor: pointer;
     border-radius: 5px;
     border: 2px $babyPowder solid;
     color: $babyPowder;
-    font-size: 1.4em;
+    font-size: 1.8em;
     background: $charcoal;
     @include colorButton($zomp);
   }

@@ -34,7 +34,8 @@ function* createTestSaga(action: createTestActionType) {
     body: { title },
   });
 
-  if (questions && !('error' in data) && data?.id) {
+  const isCorrectData = questions && !('error' in data) && data?.id;
+  if (isCorrectData) {
     for (const question of questions) {
       const { title, question_type } = question.question;
       const questionData = { title, question_type, test_id: data.id };
@@ -60,10 +61,11 @@ function* createTestSaga(action: createTestActionType) {
 }
 
 function* editTestSaga(action: editTestActionType) {
+  const { id, title } = action.payload;
   yield sagaHandling<testReceiveType>({
     method: 'PATCH',
-    href: `/tests/${action.payload.id}`,
-    body: { title: action.payload.title },
+    href: `/tests/${id}`,
+    body: { title: title },
   });
 }
 
@@ -96,7 +98,7 @@ function* getPaginationTestsSaga(action: getPaginationTestActionType) {
 }
 
 function* createQuestionSaga(action: createQuestionActionType) {
-  const { title, question_type, answer, answers } = action.payload;
+  const { title, test_id, question_type, answer, answers } = action.payload;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const data: createQuestionReceiveType | { error: boolean } =
     yield sagaHandling<createQuestionReceiveType>({
@@ -105,7 +107,8 @@ function* createQuestionSaga(action: createQuestionActionType) {
       body: { title, question_type, answer },
     });
 
-  if (answers && !('error' in data) && data?.id) {
+  const isCorrectData = answers && !('error' in data) && data?.id;
+  if (isCorrectData) {
     for (const ans of answers) {
       yield call(() =>
         createAnswerSaga({
@@ -120,11 +123,11 @@ function* createQuestionSaga(action: createQuestionActionType) {
     }
   }
 
-  yield action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined;
+  yield test_id ? put(getTest({ id: test_id })) : undefined;
 }
 
 function* editQuestionSaga(action: editQuestionActionType) {
-  const { title, question_type, answer, answers } = action.payload;
+  const { title, test_id, question_type, answer, answers } = action.payload;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const data: createQuestionReceiveType | { error: boolean } =
     yield sagaHandling<createQuestionReceiveType>({
@@ -133,12 +136,15 @@ function* editQuestionSaga(action: editQuestionActionType) {
       body: { title, question_type, answer },
     });
 
-  if (answers && !('error' in data) && data?.id) {
+  const isCorrectData = answers && !('error' in data) && data?.id;
+  if (isCorrectData) {
     for (const ans of answers) {
+      console.log(ans);
+      
       yield call(() =>
         editAnswerSaga({
           payload: {
-            id: data.id,
+            id: ans.id,
             text: ans.text,
             is_right: ans.is_right,
           },
@@ -148,7 +154,8 @@ function* editQuestionSaga(action: editQuestionActionType) {
     }
   }
 
-  yield action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined;
+  console.log(test_id);
+  yield test_id ? put(getTest({ id: test_id })) : undefined;
 }
 
 function* deleteQuestionSaga(action: deleteQuestionActionType) {
@@ -179,18 +186,20 @@ function* editAnswerSaga(action: editAnswerActionType) {
 }
 
 function* moveAnswerSaga(action: moveAnswerActionType) {
+  const { test_id, id, position } = action.payload;
   yield sagaHandling<moveAnswerReceiveType>({
     method: 'PATCH',
-    href: `/answers/${action.payload.id}/insert_at/:position`,
+    href: `/answers/${id}/insert_at/${position}`,
+    action: () => (test_id ? put(getTest({ id: test_id })) : undefined),
   });
 }
 
 function* deleteAnswerSaga(action: deleteAnswerActionType) {
+  const { id, test_id } = action.payload;
   yield sagaHandling<deleteReceiveType>({
     method: 'DELETE',
-    href: `/answers/${action.payload.id}`,
-    action: () =>
-      action.payload.test_id ? put(getTest({ id: action.payload.test_id })) : undefined,
+    href: `/answers/${id}`,
+    action: () => (test_id ? put(getTest({ id: test_id })) : undefined),
   });
 }
 
