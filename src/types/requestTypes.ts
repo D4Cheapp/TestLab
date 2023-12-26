@@ -1,4 +1,4 @@
-import { questionDataType } from './reducerInitialTypes';
+import { questionAnswerType } from "../components/ModalWindow/ModalWindowContext";
 
 export type requestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 export type profileLoginRequestType = { username: string; password: string };
@@ -8,7 +8,7 @@ export type profileRegisterRequestType = profileLoginRequestType & {
 };
 export type createTestRequestType = {
   title: string;
-  questions?: questionDataType[];
+  questions?: createQuestionRequestType[];
 };
 export type paginationTestRequestType = {
   page: number;
@@ -18,9 +18,11 @@ export type paginationTestRequestType = {
 };
 export type createQuestionRequestType = {
   test_id?: number;
+  id?: number;
   title: string;
   question_type: 'single' | 'multiple' | 'number';
+  isQuestionLocal?: boolean;
   answer?: number;
-  answers?: { text: string; is_right: boolean; id: number }[];
+  answers?: questionAnswerType[];
 };
 export type createAnswerRequestType = { text: string; is_right: boolean };

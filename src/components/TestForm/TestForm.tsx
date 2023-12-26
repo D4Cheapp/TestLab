@@ -5,7 +5,8 @@ import { testFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import { setCurrentQuestion } from '@/src/reduxjs/reducers/testReducer';
-import { currentTestType, questionDataType } from '@/src/types/reducerInitialTypes';
+import { currentTestType } from '@/src/types/reducerInitialTypes';
+import { createQuestionRequestType } from '@/src/types/requestTypes';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
 import styles from './TestForm.module.scss';
 
@@ -68,14 +69,14 @@ function TestForm({
   );
 
   const onEditQuestionClick = useCallback(
-    (question: questionDataType) => {
+    (question: createQuestionRequestType) => {
       dispatch(setCurrentQuestion(question));
       dispatch(
         setModalWindowState({
           title: 'Добавление вопроса',
           content: {
             type: 'question',
-            questionType: question.question.question_type,
+            questionType: question.question_type,
             isLocal: !initTest,
           },
           buttons: { save: { saveTarget: 'question', id: question.id } },

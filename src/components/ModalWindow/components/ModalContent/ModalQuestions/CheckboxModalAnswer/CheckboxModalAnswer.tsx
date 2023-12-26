@@ -10,7 +10,7 @@ interface CheckboxModalAnswerProps {
 }
 
 function CheckboxModalAnswer({ answer }: CheckboxModalAnswerProps): React.ReactNode {
-  const { onInputCheck, onAnswerFocusOut, clickEvents, dragEvents } =
+  const { onAnswerCheckClick, onAnswerFocusOut, clickEvents, dragEvents } =
     useContext(ModalWindowContext);
   return (
     <div
@@ -29,7 +29,7 @@ function CheckboxModalAnswer({ answer }: CheckboxModalAnswerProps): React.ReactN
           type="checkbox"
           id={`answer-checkbox-${answer.id}`}
           name="singleAnswer"
-          onChange={() => onInputCheck(answer.id)}
+          onChange={() => onAnswerCheckClick(answer.id)}
           defaultChecked={answer.is_right}
         />
         <div className={styles.customCheckbox} />

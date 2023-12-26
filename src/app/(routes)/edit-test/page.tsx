@@ -30,6 +30,7 @@ function EditTest(): React.ReactNode {
       dispatch(
         setModalWindowState({
           title: 'Сохранить созданный тест?',
+          isEdit: true,
           buttons: {
             save: {
               saveTarget: 'test',

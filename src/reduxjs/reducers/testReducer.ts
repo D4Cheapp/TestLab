@@ -21,12 +21,13 @@ import {
   editLocalQuestionAction,
 } from '@/src/types/reducerActionTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
-import { currentTestType, questionDataType } from '@/src/types/reducerInitialTypes';
+import { currentTestType } from '@/src/types/reducerInitialTypes';
+import { createQuestionRequestType } from '@/src/types/requestTypes';
 
 interface TestSliceInterface {
   tests: testReceiveType[];
-  currentTest: currentTestType;
-  currentQuestion: questionDataType | undefined;
+  currentTest?: currentTestType;
+  currentQuestion?: createQuestionRequestType;
   testMeta: paginationTestsReceiveType['meta'];
   loadingState: boolean;
   errors: string[];
@@ -57,7 +58,9 @@ const testSlice = createSlice({
         const { title, question_type, answer, answers, id } = question;
         return {
           id,
-          question: { title, question_type, answer },
+          title,
+          question_type,
+          answer,
           answers: answers.map((answer) => {
             return {
               id: answer.id,

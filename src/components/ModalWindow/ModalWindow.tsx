@@ -4,17 +4,14 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import {
   addLocalQuestion,
-  createAnswer,
   createQuestion,
   createTest,
-  deleteAnswer,
   deleteLocalQuestion,
   deleteQuestion,
   deleteTest,
-  editAnswer,
   editLocalQuestion,
   editQuestion,
-  moveAnswer,
+  editTest,
   setCurrentQuestion,
 } from '@/src/reduxjs/reducers/testReducer';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
@@ -41,11 +38,9 @@ function ModalWindow(): React.ReactNode {
   const isVisibleContent =
     windowData?.content?.type === 'question' ||
     windowData?.content?.type === 'test-result';
-  const title = currentQuestion?.question.title;
+  const title = currentQuestion?.title;
   const currentQuestionNumberAnswer =
-    currentQuestion?.question.question_type === 'number'
-      ? currentQuestion.question.answer
-      : undefined;
+    currentQuestion?.question_type === 'number' ? currentQuestion.answer : undefined;
 
   const onCloseWindowClick = useCallback(() => {
     dispatch(setModalWindowState(undefined));
@@ -54,90 +49,98 @@ function ModalWindow(): React.ReactNode {
 
   const onEscapeKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      const isEscapePressed = event.key === 'Escape';
+      if (isEscapePressed) {
         onCloseWindowClick();
       }
     },
     [onCloseWindowClick],
   );
 
-  const onInputCheck = useCallback(
-    (id: number) => {
-      const changedAnswers = answers.map((answer, index) => {
-        return index === id
-          ? {
-              id: answer.id,
-              text: answer.text,
-              is_right: !answer.is_right,
-              order: answer.order,
-            }
-          : answer;
-      });
-      setAnswers(changedAnswers);
-    },
-    [answers],
-  );
-
   const onGoToTestListClick = useCallback(() => router.push('/'), [router]);
 
   const onConfirmClick = useCallback(() => {
-    const isDeleteButton = windowData?.buttons && windowData.buttons.delete;
-    const isTestPass =
+    const isDeleteConfirm =
+      windowData?.buttons?.delete &&
+      windowData.buttons.delete?.deleteTarget &&
+      windowData.buttons.delete.id;
+    const isTestPassConfirm =
       windowData?.content?.type === 'test-pass' && windowData?.content?.id;
-    const isTestSave =
+    const isTestSaveConfirm =
       windowData?.buttons?.save?.saveTarget === 'test' &&
       windowData?.buttons?.save?.title;
 
-    if (isDeleteButton) {
-      const target = windowData?.buttons?.delete?.deleteTarget;
-      const deleteId = windowData.buttons?.delete?.id
-        ? windowData.buttons?.delete?.id
-        : 0;
+    if (isDeleteConfirm) {
+      //@ts-ignore
+      const deleteTarget = windowData.buttons.delete.deleteTarget;
+      //@ts-ignore
+      const deleteId = windowData.buttons.delete.id;
 
-      if (target === 'question') {
+      if (deleteTarget === 'question') {
         dispatch(
           isLocal
             ? deleteLocalQuestion({ id: deleteId })
             : deleteQuestion({ id: deleteId, test_id: currentTest?.id }),
         );
-        return dispatch(setModalWindowState(undefined));
       }
 
-      if (target === 'test') {
+      if (deleteTarget === 'test') {
         dispatch(deleteTest({ id: deleteId }));
         router.push('/');
-        return dispatch(setModalWindowState(undefined));
       }
+
+      return onCloseWindowClick();
     }
 
-    if (isTestPass) {
+    if (isTestPassConfirm) {
       //@ts-ignore
-      router.push(`/pass-test?id=${+windowData.content?.id}`);
-      return dispatch(setModalWindowState(undefined));
+      router.push(`/pass-test?id=${+windowData.content.id}`);
+      return onCloseWindowClick();
     }
 
-    if (isTestSave) {
+    if (isTestSaveConfirm) {
+      //@ts-ignore
+      const title: string = windowData.buttons.save.title;
+      const questions = currentTest?.questions;
+      const isTestEdit = windowData.isEdit && currentTest?.id;
+
       dispatch(
-        createTest({
-          //@ts-ignore
-          title: windowData.buttons?.save?.title,
-          questions: currentTest?.questions,
-        }),
+        isTestEdit
+          ? //@ts-ignore
+            editTest({ title, id: currentTest?.id })
+          : createTest({ title, questions }),
       );
 
       onCloseWindowClick();
       return router.push('/');
     }
   }, [
-    currentTest?.id,
-    currentTest?.questions,
     dispatch,
-    isLocal,
     onCloseWindowClick,
     router,
-    windowData?.buttons,
+    isLocal,
+    currentTest?.id,
+    windowData?.isEdit,
     windowData?.content,
+    windowData?.buttons,
+    currentTest?.questions,
   ]);
+
+  const onAnswerCheckClick = useCallback(
+    (id: number) => {
+      const changedAnswers = answers.map((answer) =>
+        answer.id === id
+          ? {
+              ...answer,
+              is_right: !answer?.is_right,
+              isLocalInfo: true,
+            }
+          : answer,
+      );
+      setAnswers(changedAnswers);
+    },
+    [answers],
+  );
 
   const questionValidation = (
     title: string | undefined,
@@ -192,7 +195,7 @@ function ModalWindow(): React.ReactNode {
     return true;
   };
 
-  const onSaveClick = useCallback(() => {
+  const onSaveQuestionClick = useCallback(() => {
     const target = windowData?.buttons?.save?.saveTarget;
     const isQuestionSave =
       windowData &&
@@ -201,40 +204,31 @@ function ModalWindow(): React.ReactNode {
       windowData.content?.questionType;
 
     if (isQuestionSave) {
-      const questionTitle = questionTitleRef?.current?.value;
+      const title = questionTitleRef?.current?.value;
       //@ts-ignore
-      const questionType = windowData.content?.questionType as
+      const question_type = windowData.content?.questionType as
         | 'number'
         | 'multiple'
         | 'single';
-      const checkedAnswerCount: number | undefined =
-        answers.length > 1
-          ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
-          : undefined;
-      const numberAnswer = !!numberAnswerRef.current?.value
-        ? +numberAnswerRef.current.value
+      const checkedAnswerCount: number | undefined = answers
+        ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
         : undefined;
+      const numberAnswer =
+        numberAnswerRef.current?.value !== undefined
+          ? +numberAnswerRef.current.value
+          : undefined;
 
-      if (questionValidation(questionTitle, questionType, checkedAnswerCount)) {
-        //@ts-ignore
-        if (isLocal) {
+      if (questionValidation(title, question_type, checkedAnswerCount)) {
+        const isServerQuestion = !isLocal && title && question_type;
+
+        if (!isServerQuestion) {
           const questionData = {
-            id: currentQuestion?.id ?? currentTest?.questions?.length ?? 0,
-            question: {
-              question_type: questionType,
-              title: questionTitle,
-              answer: numberAnswer,
-            },
-            answers:
-              numberAnswer !== undefined
-                ? undefined
-                : answers.map((answer, index) => {
-                    return {
-                      id: index,
-                      text: answer.text,
-                      is_right: answer.is_right,
-                    };
-                  }),
+            id: windowData.isEdit && currentQuestion ? currentQuestion.id : Date.now(),
+            question_type,
+            title,
+            isQuestionLocal: true,
+            answer: numberAnswer,
+            answers: answers ?? undefined,
           };
 
           dispatch(
@@ -246,39 +240,26 @@ function ModalWindow(): React.ReactNode {
           );
         }
 
-        const isServerQuestion = !isLocal && questionTitle && questionType;
         if (isServerQuestion) {
           const test_id = currentTest?.id;
+          const isEdit = windowData.isEdit && currentQuestion?.id;
           const questionData = {
-            title: questionTitle,
-            question_type: questionType,
+            title,
+            question_type,
+            isQuestionLocal: currentQuestion?.isQuestionLocal,
+            answer: numberAnswer,
+            answers: answers ?? undefined,
+            test_id,
           };
 
-          // if (numberAnswer) {
-          //   //@ts-ignore
-          //   questionData.answer = numberAnswer;
-          // } else {
-          //   //@ts-ignore
-          //   questionData.answers = answers.map((answer) => {
-          //     return {
-          //       id: answer.id,
-          //       text: answer.text,
-          //       is_right: answer.is_right,
-          //     };
-          //   });
-          // }
-
           dispatch(
-            windowData.isEdit && currentQuestion?.id
+            isEdit
               ? editQuestion({
                   ...questionData,
+                  //@ts-ignore
                   id: currentQuestion.id,
-                  test_id,
                 })
-              : createQuestion({
-                  ...questionData,
-                  test_id,
-                }),
+              : createQuestion(questionData),
           );
         }
         return onCloseWindowClick();
@@ -287,57 +268,44 @@ function ModalWindow(): React.ReactNode {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    windowData,
-    answers,
     dispatch,
-    currentQuestion?.id,
-    currentTest,
     onCloseWindowClick,
+    answers,
+    windowData,
+    currentTest,
+    currentQuestion?.id,
   ]);
 
   const onAddAnswerClick = useCallback(() => {
     const answerValue = answerInputRef.current?.value;
 
     if (answerValue) {
-      if (isLocal) {
-        setAnswers([
-          ...answers,
-          {
-            id: Date.now(),
-            text: answerValue,
-            is_right: false,
-            order: answers.length,
-          },
-        ]);
-      } else {
-        if (currentQuestion?.id) {
-          dispatch(
-            createAnswer({
-              question_id: currentQuestion?.id,
-              text: answerValue,
-              is_right: false,
-            }),
-          );
-        }
-      }
+      setAnswers([
+        ...answers,
+        {
+          id: Date.now(),
+          text: answerValue,
+          is_right: false,
+          position: answers.length,
+          isCreated: true,
+        },
+      ]);
       answerInputRef.current.value = '';
     } else {
       dispatch(
         setErrorsState('Error: Fill in the contents of the response before adding it'),
       );
     }
-  }, [isLocal, answers, currentQuestion?.id, dispatch]);
+  }, [answers, dispatch]);
 
   const onDeleteAnswerClick = useCallback(
-    (answerIndex: number) => {
-      if (isLocal) {
-        const changedAnswers = answers.filter((value, index) => index !== answerIndex);
-        setAnswers(changedAnswers);
-      } else {
-        dispatch(deleteAnswer({ id: answerIndex, test_id: currentTest?.id }));
-      }
+    (answerId: number) => {
+      const changedAnswers = answers.map((ans) =>
+        ans.id === answerId ? { ...ans, isDeleted: true } : ans,
+      );
+      setAnswers(changedAnswers);
     },
-    [answers, currentTest?.id, dispatch, isLocal],
+    [answers],
   );
 
   const onAnswerFocusOut = useCallback(
@@ -350,17 +318,11 @@ function ModalWindow(): React.ReactNode {
         !id;
 
       if (isNumberAnswer) {
-        const isDataExists = currentQuestion?.id && currentQuestion?.question.title;
+        const isDataExists = currentQuestion?.id && currentQuestion?.title;
         if (isDataExists) {
-          const editedQuestionData = {
-            id: currentQuestion?.id,
-            question_type: 'number',
-            title: currentQuestion?.question.title,
-            answer: +changedAnswerValue,
-          };
-
-          //@ts-ignore
-          dispatch(editQuestion(editedQuestionData));
+          dispatch(
+            setCurrentQuestion({ ...currentQuestion, answer: +changedAnswerValue }),
+          );
         }
       }
 
@@ -371,25 +333,22 @@ function ModalWindow(): React.ReactNode {
 
         if (isCorrectAnswer) {
           !!changedAnswerValue?.trim()
-            ? dispatch(
-                editAnswer({
-                  id,
-                  text: changedAnswerValue.replace(/\s+/gm, ' ').trim(),
-                  is_right: currentAnswer.is_right,
-                }),
+            ? setAnswers(
+                answers.map((ans) =>
+                  ans.id === id
+                    ? {
+                        ...ans,
+                        isLocalInfo: true,
+                        text: changedAnswerValue.replace(/\s+/gm, ' ').trim(),
+                      }
+                    : ans,
+                ),
               )
-            : dispatch(deleteAnswer({ id, test_id: currentTest?.id }));
+            : onDeleteAnswerClick(id);
         }
       }
     },
-    [
-      answers,
-      currentQuestion?.id,
-      currentQuestion?.question.title,
-      currentTest?.id,
-      dispatch,
-      windowData?.content,
-    ],
+    [dispatch, onDeleteAnswerClick, answers, currentQuestion, windowData?.content],
   );
 
   const onAnswerDragStart = useCallback((answer: questionAnswerType) => {
@@ -408,36 +367,25 @@ function ModalWindow(): React.ReactNode {
   const onAnswerDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>, answer: questionAnswerType) => {
       event.preventDefault();
-      const isRemoteDrag = !isLocal && draggableAnswer;
 
       setAnswers(
-        answers.map((mapAnswer) => {
-          const isCurrentDragAnswer =
-            draggableAnswer && mapAnswer.id === draggableAnswer.id;
-          const isDroppedAnswer = draggableAnswer && mapAnswer.id === answer.id;
+        answers.map((ans) => {
+          const isCurrentDragAnswer = draggableAnswer && ans.id === draggableAnswer.id;
+          const isDroppedAnswer = draggableAnswer && ans.id === answer.id;
           return isDroppedAnswer || isCurrentDragAnswer
             ? {
-                ...mapAnswer,
-                order: isDroppedAnswer ? draggableAnswer.order : answer.order,
+                ...ans,
+                isLocalPosition: true,
+                position: isDroppedAnswer ? draggableAnswer.position : answer.position,
               }
-            : mapAnswer;
+            : ans;
         }),
       );
-
-      if (isRemoteDrag) {
-        dispatch(
-          moveAnswer({
-            id: draggableAnswer.id,
-            test_id: currentTest?.id,
-            position: answer.order,
-          }),
-        );
-      }
 
       event.currentTarget.classList.remove('dragStart');
       setDraggableAnswer(null);
     },
-    [answers, currentTest?.id, dispatch, draggableAnswer, isLocal],
+    [answers, draggableAnswer],
   );
 
   const dragEvents = {
@@ -461,13 +409,13 @@ function ModalWindow(): React.ReactNode {
   useEffect(() => {
     const isCurrentQuestionEmptyOrNumber =
       currentQuestion !== undefined &&
-      currentQuestion.question.question_type !== 'number' &&
+      currentQuestion.question_type !== 'number' &&
       currentQuestion?.answers;
 
     if (isCurrentQuestionEmptyOrNumber) {
       //@ts-ignore
       const changedAnswers = currentQuestion.answers.map((answer, index) => {
-        return { ...answer, order: index };
+        return { ...answer, position: index };
       });
       setAnswers(changedAnswers);
     } else {
@@ -501,7 +449,7 @@ function ModalWindow(): React.ReactNode {
         {isVisibleContent && windowData.content && (
           <ModalWindowContext.Provider
             value={{
-              onInputCheck,
+              onAnswerCheckClick,
               onAnswerFocusOut,
               answers,
               title,
@@ -519,7 +467,7 @@ function ModalWindow(): React.ReactNode {
           windowData={windowData}
           onGoToTestListClick={onGoToTestListClick}
           onConfirmClick={onConfirmClick}
-          onSaveClick={onSaveClick}
+          onSaveQuestionClick={onSaveQuestionClick}
           onCloseWindowClick={onCloseWindowClick}
         />
       </div>

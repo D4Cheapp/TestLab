@@ -10,7 +10,7 @@ import createActionTypes from '@/src/utils/createActionTypes';
 import { modalWindowType } from '@/src/types/reducerInitialTypes';
 
 interface BaseSliceInterface {
-  modalWindow: modalWindowType;
+  modalWindow?: modalWindowType;
   loadingState: boolean;
   errors: string[];
 }
@@ -18,7 +18,6 @@ interface BaseSliceInterface {
 const baseSlice = createSlice({
   name: 'baseSlice',
   initialState: {
-    modalWindow: undefined,
     loadingState: false,
     questions: [],
     errors: [],

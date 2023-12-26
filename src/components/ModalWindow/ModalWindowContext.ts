@@ -2,16 +2,20 @@ import { createContext, RefObject } from 'react';
 
 export type questionAnswerType = {
   id: number;
+  isLocalInfo?: boolean;
+  isLocalPosition?: boolean;
+  isDeleted?: boolean;
+  isCreated?: boolean;
+  position: number;
   text: string;
   is_right: boolean;
-  order: number;
 };
 
 interface ModalWindowContext {
   title: string | undefined;
   answers: questionAnswerType[];
   currentQuestionNumberAnswer?: number;
-  onInputCheck: (id: number) => void;
+  onAnswerCheckClick: (id: number) => void;
   onAnswerFocusOut: (event: FocusEvent, id?: number) => void;
   clickEvents: {
     onAddAnswerClick: () => void;

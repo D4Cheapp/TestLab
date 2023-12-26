@@ -1,13 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import { questionDataType } from '@/src/types/reducerInitialTypes';
+import { createQuestionRequestType } from '@/src/types/requestTypes';
 import styles from './TestFormQuestions.module.scss';
 
 interface TestFromQuestionsInterface {
-  questions: questionDataType[] | undefined;
+  questions?: createQuestionRequestType[];
   withDeleteButton: boolean;
   onDeleteQuestionClick: (id: number) => void;
-  onEditQuestionClick: (question: questionDataType) => void;
+  onEditQuestionClick: (question: createQuestionRequestType) => void;
 }
 
 function TestFormQuestions({
@@ -22,7 +22,7 @@ function TestFormQuestions({
         {questions &&
           questions.map((question, id) => (
             <div className={styles.question} key={id}>
-              <p className={styles.questionTitle}>{question.question.title}</p>
+              <p className={styles.questionTitle}>{question.title}</p>
 
               <div className={styles.questionButtons}>
                 {!withDeleteButton && (
@@ -36,7 +36,9 @@ function TestFormQuestions({
                 <button
                   type="button"
                   className={clsx(styles.questionButton, styles.deleteButton)}
-                  onClick={() => onDeleteQuestionClick(question.id)}
+                  onClick={() =>
+                    question.id ? onDeleteQuestionClick(question.id) : undefined
+                  }
                 />
               </div>
             </div>

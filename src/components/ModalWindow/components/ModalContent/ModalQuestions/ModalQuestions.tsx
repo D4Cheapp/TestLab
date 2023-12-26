@@ -62,15 +62,19 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
       >
         {((questionType === 'single' || questionType === 'multiple') &&
           answers
-            .sort((a, b) => (a.order > b.order ? 1 : -1))
-            .map((answer) => <CheckboxModalAnswer key={answer.id} answer={answer} />)) ||
+            .sort((a, b) => (a.position > b.position ? 1 : -1))
+            .map((answer) =>
+              !answer.isDeleted ? (
+                <CheckboxModalAnswer key={answer.id} answer={answer} />
+              ) : undefined,
+            )) ||
           (questionType === 'number' && (
             <div className={styles.numberAnswerContainer}>
               <input
                 className={styles.answerNumber}
                 ref={refs.numberAnswerRef}
                 type="number"
-                id='numberAnswer'
+                id="numberAnswer"
                 name="numberAnswer"
                 placeholder="Введите ответ на вопрос"
                 //@ts-ignore

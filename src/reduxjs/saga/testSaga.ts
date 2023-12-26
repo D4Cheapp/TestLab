@@ -37,7 +37,7 @@ function* createTestSaga(action: createTestActionType) {
   const isCorrectData = questions && !('error' in data) && data?.id;
   if (isCorrectData) {
     for (const question of questions) {
-      const { title, question_type } = question.question;
+      const { title, question_type } = question;
       const questionData = { title, question_type, test_id: data.id };
 
       if (question.answer) {
@@ -128,7 +128,7 @@ function* createQuestionSaga(action: createQuestionActionType) {
 
 function* editQuestionSaga(action: editQuestionActionType) {
   const { title, test_id, question_type, answer, answers } = action.payload;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const data: createQuestionReceiveType | { error: boolean } =
     yield sagaHandling<createQuestionReceiveType>({
       method: 'PATCH',
@@ -139,22 +139,61 @@ function* editQuestionSaga(action: editQuestionActionType) {
   const isCorrectData = answers && !('error' in data) && data?.id;
   if (isCorrectData) {
     for (const ans of answers) {
-      console.log(ans);
-      
-      yield call(() =>
-        editAnswerSaga({
-          payload: {
-            id: ans.id,
-            text: ans.text,
-            is_right: ans.is_right,
-          },
-          type: 'testSlice/createAnswer',
-        }),
-      );
+      const isReadyToMove = ans.isLocalPosition && ans.position;
+      const isLocallyChanged = ans.isLocalInfo;
+      const isCreated = ans.isCreated;
+      const isDeleted = ans.isDeleted;
+
+      if (isDeleted) {
+        yield call(() =>
+          deleteAnswerSaga({
+            payload: { id: ans.id },
+            type: 'testSlice/createAnswer',
+          }),
+        );
+      }
+
+      if (isCreated) {
+        yield call(() =>
+          createAnswerSaga({
+            payload: {
+              question_id: data.id,
+              text: ans.text,
+              is_right: ans.is_right,
+            },
+            type: 'testSlice/createAnswer',
+          }),
+        );
+      }
+
+      if (isReadyToMove) {
+        yield call(() =>
+          moveAnswerSaga({
+            payload: {
+              id: ans.id,
+              //@ts-ignore
+              position: ans.position,
+            },
+            type: 'testSlice/createAnswer',
+          }),
+        );
+      }
+
+      if (isLocallyChanged) {
+        yield call(() =>
+          editAnswerSaga({
+            payload: {
+              id: ans.id,
+              text: ans.text,
+              is_right: ans.is_right,
+            },
+            type: 'testSlice/createAnswer',
+          }),
+        );
+      }
     }
   }
 
-  console.log(test_id);
   yield test_id ? put(getTest({ id: test_id })) : undefined;
 }
 
@@ -186,20 +225,17 @@ function* editAnswerSaga(action: editAnswerActionType) {
 }
 
 function* moveAnswerSaga(action: moveAnswerActionType) {
-  const { test_id, id, position } = action.payload;
+  const { id, position } = action.payload;
   yield sagaHandling<moveAnswerReceiveType>({
     method: 'PATCH',
     href: `/answers/${id}/insert_at/${position}`,
-    action: () => (test_id ? put(getTest({ id: test_id })) : undefined),
   });
 }
 
 function* deleteAnswerSaga(action: deleteAnswerActionType) {
-  const { id, test_id } = action.payload;
   yield sagaHandling<deleteReceiveType>({
     method: 'DELETE',
-    href: `/answers/${id}`,
-    action: () => (test_id ? put(getTest({ id: test_id })) : undefined),
+    href: `/answers/${action.payload.id}`,
   });
 }
 

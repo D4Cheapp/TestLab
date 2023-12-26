@@ -4,11 +4,7 @@ import {
   profileLogoutReceiveType,
   testReceiveType,
 } from '@/src/types/receiveTypes';
-import {
-  currentProfileType,
-  modalWindowType,
-  questionDataType,
-} from '@/src/types/reducerInitialTypes';
+import { currentProfileType, modalWindowType } from '@/src/types/reducerInitialTypes';
 import {
   createTestRequestType,
   paginationTestRequestType,
@@ -20,7 +16,7 @@ import {
 
 export type profileRegisterActionType = PayloadAction<profileRegisterRequestType>;
 export type profileLoginActionType = PayloadAction<profileLoginRequestType>;
-export type setCurrentProfileActionType = PayloadAction<currentProfileType>;
+export type setCurrentProfileActionType = PayloadAction<currentProfileType | undefined>;
 export type profileLogoutActionType = PayloadAction<profileLogoutReceiveType>;
 
 export type createTestActionType = PayloadAction<createTestRequestType>;
@@ -33,9 +29,11 @@ export type setPaginationTestActionType = PayloadAction<
   paginationTestsReceiveType & paginationTestRequestType
 >;
 
-export type addLocalQuestionActionType = PayloadAction<questionDataType>;
-export type editLocalQuestionAction = PayloadAction<questionDataType>;
-export type addCurrentQuestionActionType = PayloadAction<questionDataType | undefined>;
+export type addLocalQuestionActionType = PayloadAction<createQuestionRequestType>;
+export type editLocalQuestionAction = PayloadAction<createQuestionRequestType>;
+export type addCurrentQuestionActionType = PayloadAction<
+  createQuestionRequestType | undefined
+>;
 export type deleteQuestionActionType = PayloadAction<{ id: number; test_id?: number }>;
 export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
 export type editQuestionActionType = PayloadAction<
@@ -49,12 +47,11 @@ export type editAnswerActionType = PayloadAction<
 >;
 export type moveAnswerActionType = PayloadAction<{
   id: number;
-  test_id?: number;
   position: number;
 }>;
-export type deleteAnswerActionType = PayloadAction<{ id: number; test_id?: number }>;
+export type deleteAnswerActionType = PayloadAction<{ id: number }>;
 
-export type setModalWindowActionType = PayloadAction<modalWindowType>;
+export type setModalWindowActionType = PayloadAction<modalWindowType | undefined>;
 export type setLoadingStateActionType = PayloadAction<boolean>;
 export type setErrorStateActionType = PayloadAction<string>;
 export type deleteErrorStateActionType = PayloadAction<number>;

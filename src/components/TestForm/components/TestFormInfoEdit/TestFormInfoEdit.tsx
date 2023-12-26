@@ -36,7 +36,7 @@ function TestFormInfoEdit({
           placeholder="Введите название теста"
           defaultValue={title ?? ''}
           id="title"
-          {...register('title', { required: true })}
+          {...register('title')}
         />
       </div>
 

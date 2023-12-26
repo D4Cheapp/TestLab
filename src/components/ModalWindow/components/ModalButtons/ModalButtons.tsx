@@ -5,7 +5,7 @@ import styles from './ModalButtons.module.scss';
 
 interface ModalButtonsInterface {
   windowData: modalWindowType;
-  onSaveClick: () => void;
+  onSaveQuestionClick: () => void;
   onConfirmClick: () => void;
   onCloseWindowClick: () => void;
   onGoToTestListClick: () => void;
@@ -13,7 +13,7 @@ interface ModalButtonsInterface {
 
 function ModalButtons({
   windowData,
-  onSaveClick,
+  onSaveQuestionClick,
   onConfirmClick,
   onCloseWindowClick,
   onGoToTestListClick,
@@ -42,7 +42,7 @@ function ModalButtons({
             <button
               type="button"
               className={clsx(styles.formButton, styles.saveButton)}
-              onClick={onSaveClick}
+              onClick={onSaveQuestionClick}
             >
               Сохранить
             </button>
