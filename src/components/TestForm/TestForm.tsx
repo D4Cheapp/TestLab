@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { testFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
-import { setCurrentQuestion } from '@/src/reduxjs/reducers/testReducer';
+import { setCurrentQuestion, setTest } from '@/src/reduxjs/reducers/testReducer';
 import { currentTestType } from '@/src/types/reducerInitialTypes';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
@@ -29,7 +29,10 @@ function TestForm({
   const router = useRouter();
   const isLocal = !initTest;
 
-  const onGoBackButtonClick = useCallback(() => router.push('/'), [router]);
+  const onGoBackButtonClick = useCallback(() => {
+    dispatch(setTest(undefined));
+    router.push('/');
+  }, [dispatch, router]);
 
   const onAddQuestionClick = useCallback(() => {
     const questionType = getValues('questionSelect');
