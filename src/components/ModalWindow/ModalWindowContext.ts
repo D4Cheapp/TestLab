@@ -1,4 +1,4 @@
-import { createContext, RefObject } from 'react';
+import { createContext, Dispatch, RefObject, SetStateAction } from 'react';
 
 export type questionAnswerType = {
   id: number;
@@ -15,25 +15,10 @@ interface ModalWindowContext {
   title: string | undefined;
   answers: questionAnswerType[];
   currentQuestionNumberAnswer?: number;
-  onAnswerCheckClick: (id: number) => void;
-  onAnswerFocusOut: (event: FocusEvent, id?: number) => void;
-  clickEvents: {
-    onAddAnswerClick: () => void;
-    onDeleteAnswerClick: (index: number) => void;
-  };
+  setAnswers: Dispatch<SetStateAction<questionAnswerType[]>>;
   refs: {
-    answerInputRef: RefObject<HTMLInputElement>;
     numberAnswerRef: RefObject<HTMLInputElement>;
     questionTitleRef: RefObject<HTMLInputElement>;
-  };
-  dragEvents: {
-    onAnswerDragStart: (answer: questionAnswerType) => void;
-    onAnswerDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;
-    onAnswerDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-    onAnswerDrop: (
-      event: React.DragEvent<HTMLDivElement>,
-      answer: questionAnswerType,
-    ) => void;
   };
 }
 

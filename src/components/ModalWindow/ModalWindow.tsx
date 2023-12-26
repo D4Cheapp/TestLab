@@ -28,9 +28,6 @@ function ModalWindow(): React.ReactNode {
   const router = useRouter();
 
   const [answers, setAnswers] = useState<questionAnswerType[]>([]);
-  const [draggableAnswer, setDraggableAnswer] = useState<questionAnswerType | null>(null);
-
-  const answerInputRef = useRef<HTMLInputElement>(null);
   const numberAnswerRef = useRef<HTMLInputElement>(null);
   const questionTitleRef = useRef<HTMLInputElement>(null);
 
@@ -43,8 +40,9 @@ function ModalWindow(): React.ReactNode {
     currentQuestion?.question_type === 'number' ? currentQuestion.answer : undefined;
 
   const onCloseWindowClick = useCallback(() => {
-    dispatch(setModalWindowState(undefined));
+    setAnswers([]);
     dispatch(setCurrentQuestion(undefined));
+    dispatch(setModalWindowState(undefined));
   }, [dispatch]);
 
   const onEscapeKeyDown = useCallback(
@@ -114,33 +112,7 @@ function ModalWindow(): React.ReactNode {
       onCloseWindowClick();
       return router.push('/');
     }
-  }, [
-    dispatch,
-    onCloseWindowClick,
-    router,
-    isLocal,
-    currentTest?.id,
-    windowData?.isEdit,
-    windowData?.content,
-    windowData?.buttons,
-    currentTest?.questions,
-  ]);
-
-  const onAnswerCheckClick = useCallback(
-    (id: number) => {
-      const changedAnswers = answers.map((answer) =>
-        answer.id === id
-          ? {
-              ...answer,
-              is_right: !answer?.is_right,
-              isLocalInfo: true,
-            }
-          : answer,
-      );
-      setAnswers(changedAnswers);
-    },
-    [answers],
-  );
+  }, [dispatch, onCloseWindowClick, router, isLocal, currentTest, windowData]);
 
   const questionValidation = (
     title: string | undefined,
@@ -203,230 +175,92 @@ function ModalWindow(): React.ReactNode {
       windowData.content?.type === 'question' &&
       windowData.content?.questionType;
 
-    if (isQuestionSave) {
-      const title = questionTitleRef?.current?.value;
-      //@ts-ignore
-      const question_type = windowData.content?.questionType as
-        | 'number'
-        | 'multiple'
-        | 'single';
-      const checkedAnswerCount: number | undefined = answers
-        ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
-        : undefined;
-      const numberAnswer =
-        numberAnswerRef.current?.value !== undefined
-          ? +numberAnswerRef.current.value
-          : undefined;
-
-      if (questionValidation(title, question_type, checkedAnswerCount)) {
-        const isServerQuestion = !isLocal && title && question_type;
-
-        if (!isServerQuestion) {
-          const questionData = {
-            id: windowData.isEdit && currentQuestion ? currentQuestion.id : Date.now(),
-            question_type,
-            title,
-            isQuestionLocal: true,
-            answer: numberAnswer,
-            answers: answers ?? undefined,
-          };
-
-          dispatch(
-            windowData.isEdit
-              ? //@ts-ignore
-                editLocalQuestion(questionData)
-              : //@ts-ignore
-                addLocalQuestion(questionData),
-          );
-        }
-
-        if (isServerQuestion) {
-          const test_id = currentTest?.id;
-          const isEdit = windowData.isEdit && currentQuestion?.id;
-          const questionData = {
-            title,
-            question_type,
-            isQuestionLocal: currentQuestion?.isQuestionLocal,
-            answer: numberAnswer,
-            answers: answers ?? undefined,
-            test_id,
-          };
-
-          dispatch(
-            isEdit
-              ? editQuestion({
-                  ...questionData,
-                  //@ts-ignore
-                  id: currentQuestion.id,
-                })
-              : createQuestion(questionData),
-          );
-        }
-        return onCloseWindowClick();
-      }
+    if (!isQuestionSave) {
+      return;
     }
 
+    const title = questionTitleRef?.current?.value;
+    //@ts-ignore
+    const question_type = windowData.content?.questionType as
+      | 'number'
+      | 'multiple'
+      | 'single';
+    const checkedAnswerCount: number | undefined = answers
+      ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
+      : undefined;
+    const numberAnswer =
+      numberAnswerRef.current?.value !== undefined
+        ? +numberAnswerRef.current.value
+        : undefined;
+
+    if (questionValidation(title, question_type, checkedAnswerCount)) {
+      const isServerQuestion = !isLocal && title && question_type;
+
+      if (!isServerQuestion) {
+        const questionData = {
+          id: windowData.isEdit && currentQuestion ? currentQuestion.id : Date.now(),
+          question_type,
+          title,
+          isQuestionLocal: true,
+          answer: numberAnswer,
+          answers: answers ?? undefined,
+        };
+
+        dispatch(
+          windowData.isEdit
+            ? //@ts-ignore
+              editLocalQuestion(questionData)
+            : //@ts-ignore
+              addLocalQuestion(questionData),
+        );
+      }
+
+      if (isServerQuestion) {
+        const test_id = currentTest?.id;
+        const isEdit = windowData.isEdit && currentQuestion?.id;
+        const questionData = {
+          title,
+          question_type,
+          isQuestionLocal: currentQuestion?.isQuestionLocal,
+          answer: numberAnswer,
+          answers: answers ?? undefined,
+          test_id,
+        };
+
+        dispatch(
+          isEdit
+            ? editQuestion({
+                ...questionData,
+                //@ts-ignore
+                id: currentQuestion.id,
+              })
+            : createQuestion(questionData),
+        );
+      }
+      return onCloseWindowClick();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    answers,
+    isLocal,
+    windowData,
+    currentQuestion,
+    currentTest?.id,
     dispatch,
     onCloseWindowClick,
-    answers,
-    windowData,
-    currentTest,
-    currentQuestion?.id,
   ]);
 
-  const onAddAnswerClick = useCallback(() => {
-    const answerValue = answerInputRef.current?.value;
-
-    if (answerValue) {
-      setAnswers([
-        ...answers,
-        {
-          id: Date.now(),
-          text: answerValue,
-          is_right: false,
-          position: answers.length,
-          isCreated: true,
-        },
-      ]);
-      answerInputRef.current.value = '';
-    } else {
-      dispatch(
-        setErrorsState('Error: Fill in the contents of the response before adding it'),
-      );
-    }
-  }, [answers, dispatch]);
-
-  const onDeleteAnswerClick = useCallback(
-    (answerId: number) => {
-      const changedAnswers = answers.map((ans) =>
-        ans.id === answerId ? { ...ans, isDeleted: true } : ans,
-      );
-      setAnswers(changedAnswers);
-    },
-    [answers],
-  );
-
-  const onAnswerFocusOut = useCallback(
-    (event: FocusEvent, id?: number) => {
-      //@ts-ignore
-      const changedAnswerValue = event.target?.value + '';
-      const isNumberAnswer =
-        windowData?.content?.type === 'question' &&
-        windowData.content.questionType === 'number' &&
-        !id;
-
-      if (isNumberAnswer) {
-        const isDataExists = currentQuestion?.id && currentQuestion?.title;
-        if (isDataExists) {
-          dispatch(
-            setCurrentQuestion({ ...currentQuestion, answer: +changedAnswerValue }),
-          );
-        }
-      }
-
-      if (!isNumberAnswer) {
-        const currentAnswer = answers.filter((ans) => ans.id === id)[0];
-        const isCorrectAnswer =
-          changedAnswerValue !== currentAnswer.text && changedAnswerValue.trim() && id;
-
-        if (isCorrectAnswer) {
-          !!changedAnswerValue?.trim()
-            ? setAnswers(
-                answers.map((ans) =>
-                  ans.id === id
-                    ? {
-                        ...ans,
-                        isLocalInfo: true,
-                        text: changedAnswerValue.replace(/\s+/gm, ' ').trim(),
-                      }
-                    : ans,
-                ),
-              )
-            : onDeleteAnswerClick(id);
-        }
-      }
-    },
-    [dispatch, onDeleteAnswerClick, answers, currentQuestion, windowData?.content],
-  );
-
-  const onAnswerDragStart = useCallback((answer: questionAnswerType) => {
-    setDraggableAnswer(answer);
-  }, []);
-
-  const onAnswerDragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.currentTarget.classList.remove('dragStart');
-  }, []);
-
-  const onAnswerDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.currentTarget.classList.add('dragStart');
-  }, []);
-
-  const onAnswerDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>, answer: questionAnswerType) => {
-      event.preventDefault();
-
-      setAnswers(
-        answers.map((ans) => {
-          const isCurrentDragAnswer = draggableAnswer && ans.id === draggableAnswer.id;
-          const isDroppedAnswer = draggableAnswer && ans.id === answer.id;
-          return isDroppedAnswer || isCurrentDragAnswer
-            ? {
-                ...ans,
-                isLocalPosition: true,
-                position: isDroppedAnswer ? draggableAnswer.position : answer.position,
-              }
-            : ans;
-        }),
-      );
-
-      event.currentTarget.classList.remove('dragStart');
-      setDraggableAnswer(null);
-    },
-    [answers, draggableAnswer],
-  );
-
-  const dragEvents = {
-    onAnswerDragStart,
-    onAnswerDragEnd,
-    onAnswerDragOver,
-    onAnswerDrop,
-  };
-
   const refs = {
-    answerInputRef,
     numberAnswerRef,
     questionTitleRef,
   };
 
-  const clickEvents = {
-    onAddAnswerClick,
-    onDeleteAnswerClick,
-  };
-
   useEffect(() => {
-    const isCurrentQuestionEmptyOrNumber =
-      currentQuestion !== undefined &&
-      currentQuestion.question_type !== 'number' &&
-      currentQuestion?.answers;
-
-    if (isCurrentQuestionEmptyOrNumber) {
-      //@ts-ignore
-      const changedAnswers = currentQuestion.answers.map((answer, index) => {
-        return { ...answer, position: index };
-      });
-      setAnswers(changedAnswers);
-    } else {
-      setAnswers([]);
-    }
-
     if (windowData) {
       addEventListener('keydown', onEscapeKeyDown);
       return () => removeEventListener('keydown', onEscapeKeyDown);
     }
-  }, [currentQuestion, onEscapeKeyDown, windowData]);
+  }, [onEscapeKeyDown, windowData]);
 
   if (!windowData) {
     return null;
@@ -449,14 +283,11 @@ function ModalWindow(): React.ReactNode {
         {isVisibleContent && windowData.content && (
           <ModalWindowContext.Provider
             value={{
-              onAnswerCheckClick,
-              onAnswerFocusOut,
-              answers,
-              title,
-              currentQuestionNumberAnswer,
-              dragEvents,
               refs,
-              clickEvents,
+              title,
+              answers,
+              setAnswers,
+              currentQuestionNumberAnswer,
             }}
           >
             <ModalContent windowData={windowData} />

@@ -7,23 +7,33 @@ div.answer {
   padding-inline: 1em;
   padding-block: 0.5em;
   border-radius: 5px;
-  cursor: pointer;
   border: 2px $babyPowder solid;
 
   label.answerLabel {
     position: relative;
+    display: inline-flex;
   }
 
-  input.answerTitle {
+  input.answerTitleInput {
     background: transparent;
     outline: none;
     border: none;
+    border-bottom: 1px $babyPowder solid;
+    padding: 0;
+    color: $babyPowder;
+    font-size: 1.2em;
+  }
+
+  p.answerTitle {
+    margin: 0;
+    cursor: pointer;
     color: $babyPowder;
     font-size: 1.2em;
   }
 
   div.customCheckbox {
     position: absolute;
+    cursor: pointer;
     display: flex;
     align-items: flex-start;
     justify-content: center;

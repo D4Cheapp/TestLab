@@ -61,11 +61,12 @@ const testSlice = createSlice({
           title,
           question_type,
           answer,
-          answers: answers.map((answer) => {
+          answers: answers.map((answer, index) => {
             return {
               id: answer.id,
               text: answer.text,
               is_right: answer.is_right,
+              position: index,
             };
           }),
         };

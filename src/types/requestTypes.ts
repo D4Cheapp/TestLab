@@ -1,4 +1,4 @@
-import { questionAnswerType } from "../components/ModalWindow/ModalWindowContext";
+import { questionAnswerType } from '../components/ModalWindow/ModalWindowContext';
 
 export type requestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 export type profileLoginRequestType = { username: string; password: string };
