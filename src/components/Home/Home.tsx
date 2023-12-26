@@ -134,6 +134,7 @@ function Home(): React.ReactNode {
       const isPaddingState =
         scrollHeight - (scrollTop + offsetHeight) < 20 &&
         !isLoading &&
+        testMeta.total_count !== testList.length &&
         testList.length !== 0;
 
       if (isPaddingState) {
@@ -192,9 +193,11 @@ function Home(): React.ReactNode {
         )}
       </section>
 
-      <button className={styles.addButton} onClick={addTestClick}>
-        +
-      </button>
+      {isAdmin && (
+        <button className={styles.addButton} onClick={addTestClick}>
+          +
+        </button>
+      )}
     </div>
   );
 }
