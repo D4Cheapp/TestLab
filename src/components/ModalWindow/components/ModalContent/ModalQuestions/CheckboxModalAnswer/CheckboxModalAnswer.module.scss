@@ -11,11 +11,29 @@ div.answer {
 
   label.answerLabel {
     position: relative;
+    display: inline-flex;
+  }
+
+  input.answerTitleInput {
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 1px $babyPowder solid;
+    padding: 0;
+    color: $babyPowder;
+    font-size: 1.2em;
+  }
+
+  p.answerTitle {
+    margin: 0;
+    cursor: pointer;
+    color: $babyPowder;
     font-size: 1.2em;
   }
 
   div.customCheckbox {
     position: absolute;
+    cursor: pointer;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -49,7 +67,7 @@ div.answer {
   }
 
   button.answerDeleteButton {
-    @include cross(1em, 2px);
+    @include cross(1.3em, 2px);
     cursor: pointer;
     border-radius: 5px;
     box-sizing: border-box;

@@ -27,12 +27,13 @@ function HomeNavbar({
         onChange={onFilterInput}
         placeholder="Введите фильтр тестов"
         name="FilterInput"
+        id="FilterInput"
         defaultValue={defaultFilterValue}
       />
 
       <div className={styles.secondLine}>
         <button className={styles.dateSort} onClick={onFilterReverseClick}>
-          Сортировка по дате {isReverseDate ? '↓' : '↑'}
+          Сортировка по дате {isReverseDate ? '🡫' : '🡩'}
         </button>
 
         <Link href={'/login'} className={styles.logout} onClick={onLogoutClick}>

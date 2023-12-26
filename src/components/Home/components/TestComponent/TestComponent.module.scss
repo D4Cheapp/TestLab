@@ -4,13 +4,14 @@ div.test {
   justify-content: space-between;
   box-sizing: border-box;
   width: 100%;
-  padding: 1em;
+  padding-block: 0.6em;
+  padding-inline: 1em;
   border: 2px $babyPowder solid;
   border-radius: 5px;
   background: $charcoal;
 
   p.testTitle {
-    font-size: 1.5em;
+    font-size: 1.4em;
     overflow: hidden;
     width: 80%;
     margin: 0;
@@ -33,15 +34,15 @@ div.buttonsContainer {
 
   button.passTestButton {
     transition: background-image 0.2s;
-    background-image: url('~public/images/svg/selectArrow.svg');
+    background-image: url('~public/images/svg/testPass.svg');
     background-position-x: center;
     background-position-y: 40%;
-    background-size: 140%;
+    background-size: 90%;
     @include colorButton($skyBlue);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        background-image: url('~public/images/svg/selectArrowActive.svg');
+        background-image: url('~public/images/svg/testPassActive.svg');
       }
     }
   }

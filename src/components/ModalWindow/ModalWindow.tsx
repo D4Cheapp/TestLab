@@ -3,289 +3,264 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import {
-  addLocalQuestionState,
-  deleteLocalQuestionState,
-  setCurrentQuestionState,
-  setModalWindowState,
-} from '@/src/reduxjs/reducers/modalWindowReducer';
-import { createTest, deleteTest } from '@/src/reduxjs/reducers/testReducer';
+  addLocalQuestion,
+  createQuestion,
+  createTest,
+  deleteLocalQuestion,
+  deleteQuestion,
+  deleteTest,
+  editLocalQuestion,
+  editQuestion,
+  editTest,
+  setCurrentQuestion,
+} from '@/src/reduxjs/reducers/testReducer';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import { ModalWindowContext, questionAnswerType } from './ModalWindowContext';
 import { ModalButtons, ModalContent } from './components';
 import styles from './ModalWindow.module.scss';
 
 function ModalWindow(): React.ReactNode {
-  const currentQuestion = useAppSelector((state) => state.modalWindow.currentQuestion);
-  const currentTest = useAppSelector((state) => state.modalWindow.currentTest);
-  const windowData = useAppSelector((state) => state.modalWindow.modalWindow);
+  const currentQuestion = useAppSelector((state) => state.test.currentQuestion);
+  const currentTest = useAppSelector((state) => state.test.currentTest);
+  const windowData = useAppSelector((state) => state.base.modalWindow);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   const [answers, setAnswers] = useState<questionAnswerType[]>([]);
-  const [draggableAnswer, setDraggableAnswer] = useState<questionAnswerType | null>(null);
-
-  const answerInputRef = useRef<HTMLInputElement>(null);
   const numberAnswerRef = useRef<HTMLInputElement>(null);
   const questionTitleRef = useRef<HTMLInputElement>(null);
 
+  const isLocal = windowData?.content?.type === 'question' && windowData.content.isLocal;
   const isVisibleContent =
     windowData?.content?.type === 'question' ||
     windowData?.content?.type === 'test-result';
-  const title = currentQuestion?.question.title;
-  const numberAnswer =
-    currentQuestion?.question.question_type === 'number'
-      ? +currentQuestion.answers[0].text
-      : undefined;
+  const title = currentQuestion?.title;
+  const currentQuestionNumberAnswer =
+    currentQuestion?.question_type === 'number' ? currentQuestion.answer : undefined;
 
   const onCloseWindowClick = useCallback(() => {
+    setAnswers([]);
+    dispatch(setCurrentQuestion(undefined));
     dispatch(setModalWindowState(undefined));
-    dispatch(setCurrentQuestionState(undefined));
   }, [dispatch]);
 
   const onEscapeKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      const isEscapePressed = event.key === 'Escape';
+      if (isEscapePressed) {
         onCloseWindowClick();
       }
     },
     [onCloseWindowClick],
   );
 
-  const onInputCheck = useCallback(
-    (id: number) => {
-      const changedAnswers = answers.map((answer, index) => {
-        return index === id
-          ? {
-              answer: {
-                text: answer.answer.text,
-                is_right: !answer.answer.is_right,
-              },
-              dragInfo: answer.dragInfo,
-            }
-          : answer;
-      });
-      setAnswers(changedAnswers);
-    },
-    [answers],
-  );
-
   const onGoToTestListClick = useCallback(() => router.push('/'), [router]);
 
   const onConfirmClick = useCallback(() => {
-    if (windowData?.buttons.delete) {
-      const target = windowData.buttons.delete?.deleteTarget;
-      const deleteId = windowData.buttons.delete?.id;
+    const isDeleteConfirm =
+      windowData?.buttons?.delete &&
+      windowData.buttons.delete?.deleteTarget &&
+      windowData.buttons.delete.id;
+    const isTestPassConfirm =
+      windowData?.content?.type === 'test-pass' && windowData?.content?.id;
+    const isTestSaveConfirm =
+      windowData?.buttons?.save?.saveTarget === 'test' &&
+      windowData?.buttons?.save?.title;
 
-      if (target === 'question') {
-        dispatch(deleteLocalQuestionState({ id: deleteId }));
-      } else if (target === 'test') {
+    if (isDeleteConfirm) {
+      //@ts-ignore
+      const deleteTarget = windowData.buttons.delete.deleteTarget;
+      //@ts-ignore
+      const deleteId = windowData.buttons.delete.id;
+
+      if (deleteTarget === 'question') {
+        dispatch(
+          isLocal
+            ? deleteLocalQuestion({ id: deleteId })
+            : deleteQuestion({ id: deleteId, test_id: currentTest?.id }),
+        );
+      }
+
+      if (deleteTarget === 'test') {
         dispatch(deleteTest({ id: deleteId }));
+        router.push('/');
+      }
+
+      return onCloseWindowClick();
+    }
+
+    if (isTestPassConfirm) {
+      //@ts-ignore
+      router.push(`/pass-test?id=${+windowData.content.id}`);
+      return onCloseWindowClick();
+    }
+
+    if (isTestSaveConfirm) {
+      //@ts-ignore
+      const title: string = windowData.buttons.save.title;
+      const questions = currentTest?.questions;
+      const isTestEdit = windowData.isEdit && currentTest?.id;
+
+      dispatch(
+        isTestEdit
+          ? //@ts-ignore
+            editTest({ title, id: currentTest?.id })
+          : createTest({ title, questions }),
+      );
+
+      onCloseWindowClick();
+      return router.push('/');
+    }
+  }, [dispatch, onCloseWindowClick, router, isLocal, currentTest, windowData]);
+
+  const questionValidation = (
+    title: string | undefined,
+    questionType: 'number' | 'multiple' | 'single',
+    checkedAnswerCount: number | undefined,
+  ): boolean => {
+    const isTitleEmpty = !title?.trim();
+    const isMultiplyCheckNotCorrect =
+      questionType === 'multiple' && (!checkedAnswerCount || checkedAnswerCount < 2);
+    const isNumberQuestion =
+      questionType === 'number' && numberAnswerRef.current?.value === undefined;
+
+    if (isTitleEmpty) {
+      dispatch(setErrorsState('Error: Enter a question'));
+      return false;
+    }
+
+    if (isMultiplyCheckNotCorrect) {
+      dispatch(
+        setErrorsState(
+          !checkedAnswerCount
+            ? 'Error: Question should be 1 answer option in the question'
+            : 'Error: There cannot be less than 2 correct answers in the question',
+        ),
+      );
+      return false;
+    }
+
+    if (questionType === 'single') {
+      if (!checkedAnswerCount) {
+        dispatch(
+          setErrorsState('Error: Question should be 1 answer option in the question'),
+        );
+        return false;
+      }
+
+      if (checkedAnswerCount >= 2) {
+        dispatch(
+          setErrorsState(
+            'Error: There cannot be more than 2 correct answers in the question',
+          ),
+        );
+        return false;
       }
     }
-    if (windowData?.content?.type === 'test-pass') {
-      router.push(`/pass-test?id=${windowData.content.id}`);
-      return dispatch(setModalWindowState(undefined));
-    }
-  }, [dispatch, router, windowData?.buttons.delete, windowData?.content]);
 
-  const onSaveClick = useCallback(() => {
-    const target = windowData?.buttons.save?.saveTarget;
+    if (isNumberQuestion) {
+      dispatch(setErrorsState('Error: Input field should not be empty'));
+      return false;
+    }
+
+    return true;
+  };
+
+  const onSaveQuestionClick = useCallback(() => {
+    const target = windowData?.buttons?.save?.saveTarget;
     const isQuestionSave =
       windowData &&
       target === 'question' &&
       windowData.content?.type === 'question' &&
       windowData.content?.questionType;
 
-    if (isQuestionSave) {
-      const questionTitle = questionTitleRef?.current?.value;
-      const isTitleEmpty = !questionTitle?.trim();
+    if (!isQuestionSave) {
+      return;
+    }
 
-      if (isTitleEmpty) {
-        return dispatch(setErrorsState('Error: Enter a question'));
-      }
+    const title = questionTitleRef?.current?.value;
+    //@ts-ignore
+    const question_type = windowData.content?.questionType as
+      | 'number'
+      | 'multiple'
+      | 'single';
+    const checkedAnswerCount: number | undefined = answers
+      ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
+      : undefined;
+    const numberAnswer =
+      numberAnswerRef.current?.value !== undefined
+        ? +numberAnswerRef.current.value
+        : undefined;
 
-      //@ts-ignore
-      const questionType = windowData.content?.questionType as
-        | 'number'
-        | 'multiple'
-        | 'single';
-      const checkedAnswerCount: number | undefined =
-        answers.length > 1
-          ? answers.reduce((counter, answer) => (counter += +answer.answer.is_right), 0)
-          : undefined;
-      const isMultiplyCheckNotCorrect =
-        questionType === 'multiple' && (!checkedAnswerCount || checkedAnswerCount < 2);
-      const isNumberQuestion =
-        questionType === 'number' && numberAnswerRef.current?.value === undefined;
+    if (questionValidation(title, question_type, checkedAnswerCount)) {
+      const isServerQuestion = !isLocal && title && question_type;
 
-      if (isMultiplyCheckNotCorrect) {
-        return dispatch(
-          setErrorsState(
-            !checkedAnswerCount
-              ? 'Error: Question should be 1 answer option in the question'
-              : 'Error: There cannot be less than 2 correct answers in the question',
-          ),
-        );
-      }
+      if (!isServerQuestion) {
+        const questionData = {
+          id: windowData.isEdit && currentQuestion ? currentQuestion.id : Date.now(),
+          question_type,
+          title,
+          isQuestionLocal: true,
+          answer: numberAnswer,
+          answers: answers ?? undefined,
+        };
 
-      if (questionTitle === 'single') {
-        if (!checkedAnswerCount) {
-          return dispatch(
-            setErrorsState('Error: Question should be 1 answer option in the question'),
-          );
-        }
-
-        if (checkedAnswerCount < 2) {
-          return dispatch(
-            setErrorsState(
-              'Error: There cannot be less than 2 correct answers in the question',
-            ),
-          );
-        }
-      }
-
-      if (isNumberQuestion) {
-        return dispatch(setErrorsState('Error: Input field should not be empty'));
-      }
-
-      const isInputCorrect = questionTitleRef.current?.value && checkedAnswerCount;
-      if (isInputCorrect) {
         dispatch(
-          addLocalQuestionState({
-            id: currentQuestion?.id,
-            question: {
-              question_type: questionType,
-              title: questionTitleRef.current?.value,
-              answer: checkedAnswerCount,
-            },
-            answers:
-              questionType === 'number' && numberAnswerRef.current?.value
-                ? [{ text: numberAnswerRef.current.value, is_right: true }]
-                : answers.map((answer) => answer.answer),
-            isEdit: windowData.isEdit,
-          }),
+          windowData.isEdit
+            ? //@ts-ignore
+              editLocalQuestion(questionData)
+            : //@ts-ignore
+              addLocalQuestion(questionData),
         );
       }
-    } else if (target === 'test') {
-      const isTitleFilled = currentTest && currentTest.title && currentTest?.title.trim();
-      if (!isTitleFilled) {
-        return dispatch(setErrorsState('Error: Test title should not be empty'));
+
+      if (isServerQuestion) {
+        const test_id = currentTest?.id;
+        const isEdit = windowData.isEdit && currentQuestion?.id;
+        const questionData = {
+          title,
+          question_type,
+          isQuestionLocal: currentQuestion?.isQuestionLocal,
+          answer: numberAnswer,
+          answers: answers ?? undefined,
+          test_id,
+        };
+
+        dispatch(
+          isEdit
+            ? editQuestion({
+                ...questionData,
+                //@ts-ignore
+                id: currentQuestion.id,
+              })
+            : createQuestion(questionData),
+        );
       }
-
-      if (isTitleFilled) {
-        dispatch(createTest({ title: currentTest.title }));
-      }
+      return onCloseWindowClick();
     }
-  }, [windowData, answers, dispatch, currentQuestion?.id, currentTest]);
-
-  const onAddAnswerClick = useCallback(() => {
-    const answerValue = answerInputRef.current?.value;
-
-    if (answerValue) {
-      setAnswers([
-        ...answers,
-        {
-          answer: { text: answerValue, is_right: false },
-          dragInfo: { id: answers.length, order: answers.length },
-        },
-      ]);
-      answerInputRef.current.value = '';
-    } else {
-      dispatch(
-        setErrorsState('Error: Fill in the contents of the response before adding it'),
-      );
-    }
-  }, [answers, dispatch, answerInputRef]);
-
-  const onDeleteAnswerClick = useCallback(
-    (answerIndex: number) => {
-      const changedAnswers = answers.filter((value, index) => index !== answerIndex);
-      setAnswers(changedAnswers);
-    },
-    [answers],
-  );
-
-  const onAnswerDragStart = useCallback((answer: questionAnswerType) => {
-    setDraggableAnswer(answer);
-  }, []);
-
-  const onAnswerDragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.currentTarget.classList.remove('dragStart');
-  }, []);
-
-  const onAnswerDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.currentTarget.classList.add('dragStart');
-  }, []);
-
-  const onAnswerDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>, answer: questionAnswerType) => {
-      event.preventDefault();
-      setAnswers(
-        answers.map((mapAnswer) => {
-          const isCurrentDragAnswer =
-            draggableAnswer && mapAnswer.dragInfo.id === draggableAnswer.dragInfo.id;
-          const isDroppedAnswer =
-            draggableAnswer && mapAnswer.dragInfo.id === answer.dragInfo.id;
-
-          return isDroppedAnswer || isCurrentDragAnswer
-            ? {
-                answer: mapAnswer.answer,
-                dragInfo: {
-                  id: mapAnswer.dragInfo.id,
-                  order: isDroppedAnswer
-                    ? draggableAnswer.dragInfo.order
-                    : answer.dragInfo.order,
-                },
-              }
-            : mapAnswer;
-        }),
-      );
-
-      event.currentTarget.classList.remove('dragStart');
-      setDraggableAnswer(null);
-    },
-    [answers, draggableAnswer],
-  );
-
-  const dragEvents = {
-    onAnswerDragStart,
-    onAnswerDragEnd,
-    onAnswerDragOver,
-    onAnswerDrop,
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    answers,
+    isLocal,
+    windowData,
+    currentQuestion,
+    currentTest?.id,
+    dispatch,
+    onCloseWindowClick,
+  ]);
 
   const refs = {
-    answerInputRef,
     numberAnswerRef,
     questionTitleRef,
   };
 
-  const clickEvents = {
-    onAddAnswerClick,
-    onDeleteAnswerClick,
-  };
-
   useEffect(() => {
-    const isCurrentQuestionEmptyOrNumber =
-      currentQuestion !== undefined &&
-      currentQuestion.question.question_type !== 'number';
-
-    if (isCurrentQuestionEmptyOrNumber) {
-      const changedAnswers = currentQuestion.answers.map((answer, index) => {
-        return { answer: answer, dragInfo: { id: index, order: index } };
-      });
-      setAnswers(changedAnswers);
-    } else {
-      setAnswers([]);
-    }
-
     if (windowData) {
       addEventListener('keydown', onEscapeKeyDown);
       return () => removeEventListener('keydown', onEscapeKeyDown);
     }
-  }, [currentQuestion, onEscapeKeyDown, windowData]);
+  }, [onEscapeKeyDown, windowData]);
 
   if (!windowData) {
     return null;
@@ -308,13 +283,11 @@ function ModalWindow(): React.ReactNode {
         {isVisibleContent && windowData.content && (
           <ModalWindowContext.Provider
             value={{
-              onInputCheck,
-              answers,
-              title,
-              numberAnswer,
-              dragEvents,
               refs,
-              clickEvents,
+              title,
+              answers,
+              setAnswers,
+              currentQuestionNumberAnswer,
             }}
           >
             <ModalContent windowData={windowData} />
@@ -325,7 +298,7 @@ function ModalWindow(): React.ReactNode {
           windowData={windowData}
           onGoToTestListClick={onGoToTestListClick}
           onConfirmClick={onConfirmClick}
-          onSaveClick={onSaveClick}
+          onSaveQuestionClick={onSaveQuestionClick}
           onCloseWindowClick={onCloseWindowClick}
         />
       </div>

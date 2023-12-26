@@ -10,7 +10,7 @@ import { currentProfileType } from '@/src/types/reducerInitialTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
 
 interface AuthSliceInterface {
-  currentProfile: currentProfileType;
+  currentProfile?: currentProfileType;
 }
 
 const authSlice = createSlice({

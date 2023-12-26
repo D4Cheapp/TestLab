@@ -1,10 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { getCurrentProfile } from '@/src/reduxjs/reducers/authReducer';
-import styles from './Authentication.module.scss';
+import { LoadingContainer } from '../LoadingContainer';
 
 interface AuthenticationInterface {
   children: React.ReactNode;
@@ -39,11 +38,7 @@ function Authentication({ children, isAdmin }: AuthenticationInterface): React.R
     }
   }, [isAdmin, currentProfile, isLoading, router]);
 
-  return (
-    <section className={clsx({ [styles.root]: isLoading })}>
-      {isLoading ? <div className={styles.loading} /> : children}
-    </section>
-  );
+  return <>{isLoading ? <LoadingContainer /> : children}</>;
 }
 
 export default Authentication;

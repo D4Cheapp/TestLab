@@ -64,6 +64,8 @@ function* sagaHandling<T>({
   }
 
   yield put(setLoadingState(false));
+
+  return !isResponseCrashed && !isResponseIncorrect ? response[0] : { error: true };
 }
 
 export { sagaHandling };

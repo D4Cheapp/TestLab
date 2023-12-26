@@ -60,10 +60,10 @@ div.addAnswer {
     background: transparent;
     box-sizing: border-box;
     cursor: pointer;
-    padding-inline: 0.6em;
+    padding-inline: 0.32em;
     border-radius: 5px;
     border: 2px $babyPowder solid;
-    font-size: 1.4em;
+    font-size: 1.9em;
     color: $babyPowder;
 
     @include colorButton($zomp);

@@ -13,7 +13,7 @@ import { HomeNavbar, TestComponent } from '@/src/components/Home/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { profileLogout } from '@/src/reduxjs/reducers/authReducer';
 import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
-import { setModalWindowState } from '@/src/reduxjs/reducers/modalWindowReducer';
+import { setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import styles from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
@@ -35,7 +35,12 @@ function Home(): React.ReactNode {
   const [filterValue, setFilterValue] = useState<string>(
     validateFilterValue(queryParams),
   );
-  const [testPage, setTestPage] = useState<number>(1);
+  const [testPage, setTestStatePage] = useState<number>(1);
+
+  const per =
+    !!testMeta.total_pages && testPage === testMeta.total_pages - 1
+      ? testMeta.total_count - testList.length
+      : 7;
 
   const onPassTestClick = useCallback(
     (index: number) =>
@@ -85,7 +90,7 @@ function Home(): React.ReactNode {
         isPaddingState && !!testMeta.total_pages && testPage < testMeta.total_pages;
 
       if (isPaddingReady) {
-        setTestPage(testPage + 1);
+        setTestStatePage(testPage + 1);
       }
     },
     [isLoading, testMeta.total_pages, testPage],
@@ -94,7 +99,7 @@ function Home(): React.ReactNode {
   const setFilter = () => {
     if (filterValue) {
       const query = validateFilterValue(filterValue);
-      setTestPage(1);
+      setTestStatePage(1);
       router.push(`/` + (query ? `?filter=${query}` : ''));
     }
   };
@@ -104,11 +109,6 @@ function Home(): React.ReactNode {
   };
 
   useEffect(() => {
-    const per =
-      !!testMeta.total_pages && testPage === testMeta.total_pages - 1
-        ? testMeta.total_count - testList.length
-        : 7;
-
     dispatch(
       getPaginationTests({
         page: testPage,
@@ -137,7 +137,7 @@ function Home(): React.ReactNode {
         testList.length !== 0;
 
       if (isPaddingState) {
-        setTestPage(testPage + 1);
+        setTestStatePage(testPage + 1);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,10 +145,13 @@ function Home(): React.ReactNode {
 
   useEffect(() => {
     const scrollHeight = testListRef.current?.scrollHeight;
-    const isReadyToScroll = testPage > 1 && scrollHeight;
+    const isReadyToScroll = testPage > 1 && scrollHeight && !isLoading;
 
     if (isReadyToScroll) {
-      testListRef.current.scrollTop = scrollHeight - scrollHeight / (testList.length / 7);
+      testListRef.current.scrollTop =
+        scrollHeight -
+        (scrollHeight / testList.length) * per -
+        testListRef.current.offsetHeight;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testList]);

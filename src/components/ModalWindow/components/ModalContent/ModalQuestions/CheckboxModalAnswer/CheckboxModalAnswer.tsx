@@ -1,47 +1,81 @@
-import React, { useContext } from 'react';
-import {
-  ModalWindowContext,
-  questionAnswerType,
-} from '@/src/components/ModalWindow/ModalWindowContext';
+import React, { useState } from 'react';
+import { questionAnswerType } from '@/src/components/ModalWindow/ModalWindowContext';
 import styles from './CheckboxModalAnswer.module.scss';
 
 interface CheckboxModalAnswerProps {
-  index: number;
   answer: questionAnswerType;
+  dragEvents: {
+    onAnswerDragStart: (answer: questionAnswerType) => void;
+    onAnswerDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;
+    onAnswerDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+    onAnswerDrop: (
+      event: React.DragEvent<HTMLDivElement>,
+      answer: questionAnswerType,
+    ) => void;
+  };
+  answerEvents: {
+    onAddAnswerClick: () => void;
+    onDeleteAnswerClick: (index: number) => void;
+    onAnswerCheckClick: (id: number) => void;
+    onAnswerFocusOut: (event: FocusEvent, id?: number) => void;
+  };
 }
 
 function CheckboxModalAnswer({
-  index,
   answer,
+  dragEvents,
+  answerEvents,
 }: CheckboxModalAnswerProps): React.ReactNode {
-  const { onInputCheck, clickEvents, dragEvents } = useContext(ModalWindowContext);
+  const [isInputMode, setIsInputMode] = useState(false);
+  const onDoubleClick = () => {
+    setIsInputMode(true);
+  };
+
   return (
     <div
       className={styles.answer}
-      key={index}
+      key={answer.id}
       draggable={true}
       onDragStart={() => dragEvents.onAnswerDragStart(answer)}
       onDragEnd={dragEvents.onAnswerDragEnd}
       onDragLeave={dragEvents.onAnswerDragEnd}
       onDragOver={dragEvents.onAnswerDragOver}
       onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
+      onDoubleClick={onDoubleClick}
     >
-      <label className={styles.answerLabel} htmlFor={`answer-${index}`}>
+      <label className={styles.answerLabel} htmlFor={`answer-checkbox-${answer.id}`}>
         <input
           className={styles.answerCheckbox}
           type="checkbox"
-          id={`answer-${index}`}
+          id={`answer-checkbox-${answer.id}`}
           name="singleAnswer"
-          onChange={() => onInputCheck(index)}
-          defaultChecked={answer.answer.is_right}
+          onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+          defaultChecked={answer.is_right}
         />
-        {answer.answer.text}
         <div className={styles.customCheckbox} />
+
+        {isInputMode ? (
+          <input
+            className={styles.answerTitleInput}
+            type="text"
+            id={`answer-title-${answer.id}`}
+            name={`answer-${answer.id}`}
+            defaultValue={answer.text}
+            autoFocus={true}
+            onBlur={(event) => {
+              setIsInputMode(false);
+              //@ts-ignore
+              answerEvents.onAnswerFocusOut(event, answer.id);
+            }}
+          />
+        ) : (
+          <p className={styles.answerTitle}>{answer.text}</p>
+        )}
       </label>
       <button
         className={styles.answerDeleteButton}
         type="button"
-        onClick={() => clickEvents.onDeleteAnswerClick(index)}
+        onClick={() => answerEvents.onDeleteAnswerClick(answer.id)}
       >
         -
       </button>
