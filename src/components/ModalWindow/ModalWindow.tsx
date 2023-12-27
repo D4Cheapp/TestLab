@@ -141,24 +141,6 @@ function ModalWindow(): React.ReactNode {
       return false;
     }
 
-    if (questionType === 'single') {
-      if (!checkedAnswerCount) {
-        dispatch(
-          setErrorsState('Error: Question should be 1 answer option in the question'),
-        );
-        return false;
-      }
-
-      if (checkedAnswerCount >= 2) {
-        dispatch(
-          setErrorsState(
-            'Error: There cannot be more than 2 correct answers in the question',
-          ),
-        );
-        return false;
-      }
-    }
-
     if (isNumberQuestion) {
       dispatch(setErrorsState('Error: Input field should not be empty'));
       return false;

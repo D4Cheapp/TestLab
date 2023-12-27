@@ -229,6 +229,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
                 <CheckboxModalAnswer
                   key={answer.id}
                   answer={answer}
+                  questionType={questionType}
                   dragEvents={dragEvents}
                   answerEvents={answerEvents}
                 />

@@ -6,7 +6,7 @@ import { entryFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { profileLogin, profileRegister } from '@/src/reduxjs/reducers/authReducer';
-import { InputContainer } from './InputContainer';
+import { EntryInput } from './EntryInput';
 import styles from './EntryForm.module.scss';
 
 interface EntryFormInterface {
@@ -84,14 +84,14 @@ function EntryForm({
       >
         <h1 className={styles.title}>{title}</h1>
 
-        <InputContainer
+        <EntryInput
           title="Логин"
           name="username"
           register={register}
           isPassword={false}
         />
 
-        <InputContainer
+        <EntryInput
           isPassword
           title="Пароль"
           name="password"
@@ -102,7 +102,7 @@ function EntryForm({
 
         {isRegister && (
           <>
-            <InputContainer
+            <EntryInput
               isPassword
               title="Подтвердите пароль"
               name="password_confirmation"

@@ -14,10 +14,6 @@ div.testFromButtons {
     color: $babyPowder;
     font-size: 1.4em;
     padding-block: 0.3em;
-
-    @media screen and (width < 850px) {
-      width: 100%;
-    }
   }
 
   button.saveButton {
