@@ -1,0 +1,39 @@
+div.root {
+  width: calc(100% - 10vh);
+  height: 100vh;
+  padding: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.errorContainer {
+  h1.title {
+    font-size: 3em;
+    margin-bottom: 1.5em;
+    text-align: center;
+
+    @media screen and (width < 1124px) {
+      font-size: 5vh;
+      margin-bottom: 10vh;
+    }
+  }
+
+  a.goBack {
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 2em;
+    font-weight: bold;
+    color: $babyPowder;
+    background: $charcoal;
+    border: 2px $babyPowder solid;
+    padding-inline: 1em;
+    padding-block: 0.5em;
+    border-radius: 10px;
+    @include colorButton($skyBlue);
+
+    @media screen and (width < 1124px) {
+      font-size: 4vh;
+    }
+  }
+}
