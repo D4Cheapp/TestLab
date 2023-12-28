@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { UseFormRegister } from 'react-hook-form';
 import { entryFormType } from '@/src/types/formTypes';
-import styles from './InputContainer.module.scss';
+import styles from './EntryInput.module.scss';
 
-interface InputContainerInterface {
+interface EntryInputInterface {
   isPassword: boolean;
   title: string;
   name: 'is_admin' | 'username' | 'password' | 'password_confirmation';
@@ -12,14 +12,14 @@ interface InputContainerInterface {
   isShownPassword?: boolean;
 }
 
-function InputContainer({
+function EntryInput({
   isPassword,
   title,
   name,
   register,
   onShowPasswordClick = (): void => {},
   isShownPassword = false,
-}: InputContainerInterface) {
+}: EntryInputInterface) {
   return (
     <div className={styles.inputContainer}>
       <input
@@ -47,4 +47,4 @@ function InputContainer({
   );
 }
 
-export default InputContainer;
+export default EntryInput;

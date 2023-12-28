@@ -4,6 +4,7 @@ import styles from './CheckboxModalAnswer.module.scss';
 
 interface CheckboxModalAnswerProps {
   answer: questionAnswerType;
+  questionType: 'single' | 'multiple';
   dragEvents: {
     onAnswerDragStart: (answer: questionAnswerType) => void;
     onAnswerDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;
@@ -23,6 +24,7 @@ interface CheckboxModalAnswerProps {
 
 function CheckboxModalAnswer({
   answer,
+  questionType,
   dragEvents,
   answerEvents,
 }: CheckboxModalAnswerProps): React.ReactNode {
@@ -43,16 +45,34 @@ function CheckboxModalAnswer({
       onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
       onDoubleClick={onDoubleClick}
     >
-      <label className={styles.answerLabel} htmlFor={`answer-checkbox-${answer.id}`}>
-        <input
-          className={styles.answerCheckbox}
-          type="checkbox"
-          id={`answer-checkbox-${answer.id}`}
-          name="singleAnswer"
-          onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
-          defaultChecked={answer.is_right}
-        />
-        <div className={styles.customCheckbox} />
+      <label className={styles.answerLabel} htmlFor={`answer-input-${answer.id}`}>
+        {questionType === 'multiple' && (
+          <>
+            <input
+              className={styles.answerCheckbox}
+              type="checkbox"
+              id={`answer-input-${answer.id}`}
+              name="multiple-answer"
+              onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+              defaultChecked={answer.is_right}
+            />
+            <div className={styles.customCheckbox} />
+          </>
+        )}
+
+        {questionType === 'single' && (
+          <>
+            <input
+              className={styles.answerRadio}
+              type="radio"
+              id={`answer-input-${answer.id}`}
+              name="single-answer"
+              onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+              defaultChecked={answer.is_right}
+            />
+            <div className={styles.customRadio} />
+          </>
+        )}
 
         {isInputMode ? (
           <input

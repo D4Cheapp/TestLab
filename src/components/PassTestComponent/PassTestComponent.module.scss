@@ -1,0 +1,74 @@
+div.root {
+  width: 100%;
+  height: 100vh;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h1.testTitle {
+    width: 100%;
+    margin: 0;
+    padding-block: 0.7em;
+    font-size: 2.5em;
+    text-align: center;
+
+    @media screen and (width < 1080px) {
+      font-size: 5vh;
+    }
+  }
+}
+
+section.questionsContainer {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5vh;
+  padding-left: 5vw;
+  padding-right: 2.5vw;
+  box-sizing: border-box;
+  width: calc(100% - 2.5vw);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+div.buttonsContainer {
+  width: 100%;
+  margin-block: 1.5em;
+  display: inline-flex;
+  justify-content: space-around;
+
+  @media screen and (width < 850px) {
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
+button.testButton {
+  width: 40%;
+  padding-inline: 1em;
+  padding-block: 0.3em;
+  box-sizing: border-box;
+  background: $charcoal;
+  border-radius: 10px;
+  border: 2px $babyPowder solid;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.4em;
+  font-weight: bold;
+  color: $babyPowder;
+  @include colorButton($zomp);
+
+  @media screen and (width < 850px) {
+    width: 90%;
+    margin: 0;
+  }
+}
+
+button.goBackButton {
+  @include colorButton($skyBlue);
+}
+
+button.passTestButton {
+  @include colorButton($zomp);
+}

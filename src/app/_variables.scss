@@ -5,7 +5,6 @@ $ecru: #d5bb74;
 $oldRose: #d37577;
 $babyPowder: #fafffd;
 $mintCream: #e8efed;
-$payneGray: #545e75;
 $charcoal: #3d4452;
 $gunmetal: #2e3139;
 $black: #000;
@@ -92,5 +91,56 @@ $black: #000;
 
   &::placeholder {
     color: rgba($babyPowder, 0.7);
+  }
+}
+
+@mixin customCheckbox($width) {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 0;
+  width: $width;
+  height: $width;
+  border: 2px $babyPowder solid;
+  border-radius: 3px;
+
+  &:after {
+    content: '';
+    opacity: 0;
+    width: 25%;
+    height: 65%;
+    rotate: 45deg;
+    border-bottom: 2px $babyPowder solid;
+    border-right: 2px $babyPowder solid;
+    transition: opacity 0.1s;
+  }
+}
+
+@mixin customRadio($width) {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 0;
+  width: $width;
+  height: $width;
+  border: 2px $babyPowder solid;
+  border-radius: 50%;
+
+  &:after {
+    content: '';
+    opacity: 0;
+    width: 50%;
+    height: 50%;
+    background: $babyPowder;
+    border-radius: 50%;
+    transition: opacity 0.1s;
   }
 }

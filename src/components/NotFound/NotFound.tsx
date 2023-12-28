@@ -5,7 +5,6 @@ import styles from './NotFound.module.scss';
 interface NotFoundInterface {}
 
 function NotFound({}: NotFoundInterface): React.ReactNode {
-
   return (
     <div className={styles.root}>
       <div className={styles.errorContainer}>
