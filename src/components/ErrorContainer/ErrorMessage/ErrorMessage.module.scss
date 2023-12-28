@@ -44,3 +44,16 @@ div.errorMessage {
     }
   }
 }
+
+div.fadeAnimation {
+  animation: fade 0.5s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

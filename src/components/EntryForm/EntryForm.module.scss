@@ -8,20 +8,22 @@ div.formContainer {
 
 form.form {
   width: 50%;
-  height: 70%;
+  height: fit-content;
+  min-height: 65vh;
+  max-height: 90vh;
   padding: 2em;
   box-sizing: border-box;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  gap:2em;
   border-radius: 10px;
   background-color: $charcoal;
   border: 1px $babyPowder solid;
 
   h1.title {
     color: $babyPowder;
-    margin-top: 0;
     margin-bottom: 3vh;
     font-size: 3vw;
     font-weight: 500;
@@ -35,7 +37,6 @@ form.form {
 
   @media screen and (width <= 1024px) {
     width: 90%;
-    height: 80%;
     padding: 1em;
   }
 }
@@ -151,9 +152,9 @@ label.isAdmin {
     position: relative;
     display: grid;
     place-items: center;
-    width: 1vw;
-    height: 1vw;
-    border-radius: 5px;
+    width: 1em;
+    height: 1em;
+    border-radius: 3px;
     border: 1px solid $babyPowder;
 
     &::before {
@@ -164,8 +165,8 @@ label.isAdmin {
       height: 60%;
       margin-bottom: 10%;
       rotate: 45deg;
-      border-bottom: 2px solid rgba($zomp, 1);
-      border-right: 2px solid rgba($zomp, 1);
+      border-bottom: 2px solid rgba($babyPowder, 1);
+      border-right: 2px solid rgba($babyPowder, 1);
       transition: opacity 0.2s;
     }
 

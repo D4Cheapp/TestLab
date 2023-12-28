@@ -22,7 +22,6 @@ function* profileRegisterSaga(action: profileRegisterActionType) {
     isDataInAction: true,
     action: (data: profileAuthReceiveType | undefined) => put(setCurrentProfile(data)),
   });
-  yield put(setCurrentProfile(null));
 }
 
 function* profileLoginSaga(action: profileLoginActionType) {
