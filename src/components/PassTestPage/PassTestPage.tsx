@@ -182,7 +182,7 @@ function PassTestPage(): React.ReactNode {
     }
   }, [dispatch, searchParams]);
 
-  if (!currentTest) {
+  if (!currentTest?.questions) {
     return null;
   }
 

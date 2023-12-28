@@ -12,7 +12,7 @@ import { modalWindowType } from '@/src/types/reducerInitialTypes';
 interface BaseSliceInterface {
   modalWindow?: modalWindowType;
   loadingState: boolean;
-  errors: string[];
+  errors: { error: string; id: number }[];
 }
 
 const baseSlice = createSlice({
@@ -34,14 +34,14 @@ const baseSlice = createSlice({
     setErrorsState: (state, errors: setErrorStateActionType) => {
       const isPayloadEmpty = errors.payload !== undefined;
       if (isPayloadEmpty) {
-        state.errors = [...state.errors, errors.payload];
+        state.errors = [...state.errors, { error: errors.payload, id: Date.now() }];
       } else {
         state.errors = [];
       }
     },
 
     deleteErrorState: (state, errorIndex: deleteErrorStateActionType) => {
-      state.errors = state.errors.filter((error, index) => index !== errorIndex.payload);
+      state.errors = state.errors.filter((error) => error.id !== errorIndex.payload);
     },
   },
 });
