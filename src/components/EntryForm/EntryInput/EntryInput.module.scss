@@ -61,22 +61,21 @@ div.inputContainer {
 
   button.passwordEye {
     position: absolute;
-    width: 1.5vw;
+    width: 1.7em;
     aspect-ratio: 1/1;
-    right: 1em;
+    right: 1.5em;
     top: 50%;
     transform: translate(0, -50%);
     cursor: pointer;
     border: none;
     padding: 0;
-    opacity: 0.6;
     background-color: transparent;
     background-size: contain;
     background-position: center;
     transition: background-image 0.2s;
 
     @media screen and (width <= 1024px) {
-      width: 3.5vh;
+      width: 3vh;
     }
   }
 

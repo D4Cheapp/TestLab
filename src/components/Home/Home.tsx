@@ -31,16 +31,11 @@ function Home(): React.ReactNode {
   const queryParams = useSearchParams().get('filter');
   const testListRef = useRef<HTMLDivElement>(null);
 
+  const [testPage, setTestPage] = useState<number>(1);
   const [isReverseDate, setIsReverseDate] = useState<boolean>(false);
   const [filterValue, setFilterValue] = useState<string>(
     validateFilterValue(queryParams),
   );
-  const [testPage, setTestStatePage] = useState<number>(1);
-
-  const per =
-    !!testMeta.total_pages && testPage === testMeta.total_pages - 1
-      ? testMeta.total_count - testList.length
-      : 7;
 
   const onPassTestClick = useCallback(
     (index: number) =>
@@ -69,10 +64,10 @@ function Home(): React.ReactNode {
     router.push('/login');
   }, [dispatch, router]);
 
-  const onFilterReverseClick = useCallback(
-    () => setIsReverseDate(!isReverseDate),
-    [isReverseDate],
-  );
+  const onFilterReverseClick = useCallback(() => {
+    setTestPage(1);
+    setIsReverseDate(!isReverseDate);
+  }, [isReverseDate]);
 
   const onFilterInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setFilterValue(e.target.value),
@@ -90,7 +85,7 @@ function Home(): React.ReactNode {
         isPaddingState && !!testMeta.total_pages && testPage < testMeta.total_pages;
 
       if (isPaddingReady) {
-        setTestStatePage(testPage + 1);
+        setTestPage(testPage + 1);
       }
     },
     [isLoading, testMeta.total_pages, testPage],
@@ -99,8 +94,10 @@ function Home(): React.ReactNode {
   const setFilter = () => {
     if (filterValue) {
       const query = validateFilterValue(filterValue);
-      setTestStatePage(1);
-      router.push(`/` + (query ? `?filter=${query}` : ''));
+      setTestPage(1);
+      router.push('/' + (query ? `?filter=${query}` : ''));
+    } else {
+      router.push('/');
     }
   };
 
@@ -112,7 +109,7 @@ function Home(): React.ReactNode {
     dispatch(
       getPaginationTests({
         page: testPage,
-        per,
+        per: 7,
         search: queryParams ?? '',
         sort: isReverseDate ? 'created_at_asc' : 'created_at_desc',
       }),
@@ -138,7 +135,7 @@ function Home(): React.ReactNode {
         testList.length !== 0;
 
       if (isPaddingState) {
-        setTestStatePage(testPage + 1);
+        setTestPage(testPage + 1);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -151,7 +148,7 @@ function Home(): React.ReactNode {
     if (isReadyToScroll) {
       testListRef.current.scrollTop =
         scrollHeight -
-        (scrollHeight / testList.length) * per -
+        (scrollHeight / testList.length) * 7 -
         testListRef.current.offsetHeight;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -178,6 +175,10 @@ function Home(): React.ReactNode {
       >
         {isLoading ? (
           <div className={styles.loading} />
+        ) : testList.length === 0 ? (
+          <div className={styles.errorTitleContainer}>
+            <h1 className={styles.notFoundTitle}>Тесты не найдены</h1>
+          </div>
         ) : (
           testList.map((test) => (
             <TestComponent
