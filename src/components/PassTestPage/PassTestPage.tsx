@@ -5,19 +5,17 @@ import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { getTest } from '@/src/reduxjs/reducers/testReducer';
 import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
-import styles from './PassTestComponent.module.scss';
+import styles from './PassTestPage.module.scss';
 import { PassQuestion } from './PassQuestion';
 
 type passTestQuestionType =
   | {
-      questionId?: number;
-      questionType: 'single' | 'multiple' | 'number';
       answer?: number;
       answers?: (number | undefined)[];
     }[]
   | undefined;
 
-function PassTestComponent(): React.ReactNode {
+function PassTestPage(): React.ReactNode {
   const searchParams = useSearchParams().get('id');
   const currentTest = useAppSelector((state) => state.test.currentTest);
   const [passProgress, setPassProgress] = useState<passTestQuestionType>([]);
@@ -27,57 +25,64 @@ function PassTestComponent(): React.ReactNode {
   const onAddAnswerClick = useCallback(
     (
       event: MouseEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
-      questionId?: number,
+      questionIndex: number,
       answerId?: number,
     ) => {
-      setPassProgress(
-        passProgress?.map((question) => {
-          const isCurrentQuestion = question.questionId === questionId;
+      const isQuestionExists =
+        currentTest?.questions && currentTest?.questions[questionIndex] && passProgress;
+      if (isQuestionExists) {
+        //@ts-ignore
+        const questionType = currentTest?.questions[questionIndex].question_type;
+        const currentQuestion = passProgress[questionIndex];
+        const currentProgress = Array.from(passProgress);
 
-          if (isCurrentQuestion) {
-            switch (question.questionType) {
-              case 'multiple':
-                const answerCheck = (event.target as HTMLInputElement).checked;
-                if (answerCheck) {
-                  const answers =
-                    question.answers === undefined
-                      ? [answerId]
-                      : [...question.answers, answerId];
-                  return { ...question, answers };
-                } else {
-                  //@ts-ignore
-                  const answers = question?.answers.filter((ansId) => ansId !== answerId);
-                  return { ...question, answers };
-                }
-
-              case 'single':
-                return { ...question, answers: [answerId] };
-
-              case 'number':
-                const target = (event?.target as HTMLInputElement).value;
-                const answer = target === '' ? undefined : +target;
-                return { ...question, answer };
+        switch (questionType) {
+          case 'multiple':
+            const answerCheck = (event.target as HTMLInputElement).checked;
+            let answers = [];
+            if (answerCheck) {
+              answers =
+                currentQuestion.answers === undefined
+                  ? [answerId]
+                  : [...currentQuestion.answers, answerId];
+            } else {
+              //@ts-ignore
+              answers = currentQuestion?.answers.filter((ansId) => ansId !== answerId);
             }
-          } else {
-            return question;
-          }
-        }),
-      );
+            currentProgress[questionIndex].answers = answers;
+            setPassProgress(currentProgress);
+            break;
+
+          case 'single':
+            currentProgress[questionIndex].answers = [answerId];
+            setPassProgress(currentProgress);
+            break;
+
+          case 'number':
+            const target = (event?.target as HTMLInputElement).value;
+            const answer = target === '' ? undefined : +target;
+            currentProgress[questionIndex].answer = answer;
+            setPassProgress(currentProgress);
+            break;
+        }
+      }
     },
-    [passProgress],
+    [currentTest?.questions, passProgress],
   );
 
   const onPassTestClick = () => {
-    if (currentTest?.questions && passProgress) {
+    const isReadyToPass = currentTest?.questions && passProgress;
+    if (isReadyToPass) {
       const correctQuestions = currentTest?.questions;
-
+      //@ts-ignore
       const score = correctQuestions.reduce((accumulator, correctQuestion, index) => {
-        if (accumulator === -1) {
+        const isErrorInReduce = accumulator === -1;
+        if (isErrorInReduce) {
           return -1;
         }
 
         const currentQuestion = passProgress[index];
-        const questionType = currentQuestion.questionType;
+        const questionType = correctQuestion.question_type;
         const isAnswerExists =
           currentQuestion.answer === undefined && currentQuestion.answers === undefined;
 
@@ -100,13 +105,17 @@ function PassTestComponent(): React.ReactNode {
               return -1;
             }
             const correctAnswers = correctQuestion.answers?.filter((ans) => ans.is_right);
-            const isCorrectMultiAnswer = currentQuestion.answers?.every(
-              //@ts-ignore
-              (ans) => correctAnswers?.includes(ans),
-            );
+            const currentAnswers = currentQuestion.answers;
+            const isCorrectMultiAnswer =
+              correctAnswers?.length === currentAnswers?.length &&
+              currentAnswers?.every(
+                (ans, index) => correctAnswers && ans === correctAnswers[index].id,
+              );
+
             if (isCorrectMultiAnswer) {
               return accumulator + 1;
             }
+            break;
 
           case 'single':
             const correctAnswer = correctQuestion.answers?.filter(
@@ -118,6 +127,7 @@ function PassTestComponent(): React.ReactNode {
             if (isCorrectSingleAnswer) {
               return accumulator + 1;
             }
+            break;
 
           case 'number':
             const isCorrectNumberAnswer =
@@ -125,19 +135,22 @@ function PassTestComponent(): React.ReactNode {
             if (isCorrectNumberAnswer) {
               return accumulator + 1;
             }
+            break;
         }
 
         return accumulator;
       }, 0);
 
-      if (score !== -1) {
+      const isScoreCorrupted = score !== -1;
+      if (isScoreCorrupted) {
         dispatch(
           setModalWindowState({
             title: 'Результаты прохождения теста',
             content: {
               type: 'test-result',
               correct: score,
-              wrong: correctQuestions.length,
+              //@ts-ignore
+              wrong: correctQuestions.length - score,
             },
             buttons: {
               withGoToTestButton: true,
@@ -153,10 +166,13 @@ function PassTestComponent(): React.ReactNode {
   };
 
   useEffect(() => {
-    const passQuestionsState = currentTest?.questions?.map((question) => {
-      return { questionId: question.id, questionType: question.question_type };
-    });
-    setPassProgress(passQuestionsState);
+    const isCurrentTestExists = currentTest?.questions;
+    if (isCurrentTestExists) {
+      const clearProgress = Array.from(Array(currentTest.questions?.length), () => {
+        return {};
+      });
+      setPassProgress(clearProgress);
+    }
   }, [currentTest]);
 
   useEffect(() => {
@@ -174,10 +190,11 @@ function PassTestComponent(): React.ReactNode {
     <div className={styles.root}>
       <h1 className={styles.testTitle}>{currentTest?.title}</h1>
       <section className={styles.questionsContainer}>
-        {currentTest.questions?.map((question) => (
+        {currentTest.questions?.map((question, index) => (
           <PassQuestion
             key={question.id}
             question={question}
+            questionIndex={index}
             onAddAnswerClick={onAddAnswerClick}
           />
         ))}
@@ -201,4 +218,4 @@ function PassTestComponent(): React.ReactNode {
   );
 }
 
-export default PassTestComponent;
+export default PassTestPage;
