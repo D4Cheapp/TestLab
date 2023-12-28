@@ -1,5 +1,6 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { useAppDispatch } from '@/src/hooks/reduxHooks';
+import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
 import styles from './ErrorMessage.module.scss';
 
 interface ErrorMessageInterface {
@@ -13,6 +14,13 @@ function ErrorMessage({
   index,
   onCloseClick,
 }: ErrorMessageInterface): null | React.ReactNode {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const timer = setTimeout(() => dispatch(deleteErrorState(index)), 4000);
+    return () => clearTimeout(timer);
+  }, [dispatch, index]);
+
   return (
     <div className={styles.errorMessage}>
       <p className={styles.error}>{error}</p>

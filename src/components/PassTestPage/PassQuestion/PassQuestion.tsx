@@ -4,15 +4,17 @@ import styles from './PassQuestion.module.scss';
 
 interface PassQuestionInterface {
   question: createQuestionRequestType;
+  questionIndex: number;
   onAddAnswerClick: (
     event: MouseEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
-    questionId?: number,
+    questionIndex: number,
     answerId?: number,
   ) => void;
 }
 
 function PassQuestion({
   question,
+  questionIndex,
   onAddAnswerClick,
 }: PassQuestionInterface): React.ReactNode {
   const isNumberAnswer = question.answer !== null;
@@ -27,7 +29,7 @@ function PassQuestion({
           placeholder={'Введите числовой ответ'}
           name={questionId}
           id={questionId}
-          onChange={(event) => onAddAnswerClick(event, +questionId)}
+          onChange={(event) => onAddAnswerClick(event, questionIndex)}
         />
       ) : (
         question.answers?.map((ans) => (
@@ -39,7 +41,7 @@ function PassQuestion({
                   type="checkbox"
                   id={ans.id + ''}
                   name={questionId}
-                  onClick={(event) => onAddAnswerClick(event, question.id, ans.id)}
+                  onClick={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
                 />
                 <div className={styles.customCheckbox} />
               </>
@@ -52,7 +54,7 @@ function PassQuestion({
                   type="radio"
                   id={ans.id + ''}
                   name={questionId}
-                  onClick={(event) => onAddAnswerClick(event, question.id, ans.id)}
+                  onClick={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
                 />
                 <div className={styles.customRadio} />
               </>

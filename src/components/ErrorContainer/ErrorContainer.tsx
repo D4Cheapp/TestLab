@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
 import { ErrorMessage } from './ErrorMessage';
@@ -15,24 +15,17 @@ function ErrorContainer(): React.ReactNode {
     [dispatch],
   );
 
-  useEffect(() => {
-    if (!isErrorsEmpty) {
-      const timer = setTimeout(() => onCloseClick(errorsState.length - 1), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [dispatch, errorsState.length, isErrorsEmpty, onCloseClick]);
-
   if (isErrorsEmpty) {
     return null;
   }
 
   return (
     <div className={styles.container}>
-      {errorsState.map((error, index) => (
+      {errorsState.map((error) => (
         <ErrorMessage
-          key={index}
-          error={error}
-          index={index}
+          key={error.id}
+          error={error.error}
+          index={error.id}
           onCloseClick={onCloseClick}
         />
       ))}

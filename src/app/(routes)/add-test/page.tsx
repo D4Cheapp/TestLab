@@ -16,7 +16,6 @@ function AddTest(): React.ReactNode {
   const addTestAction: SubmitHandler<testFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
-
       const isTitleFilled = data.title && data.title.trim();
 
       if (!isTitleFilled) {

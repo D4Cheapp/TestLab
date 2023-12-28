@@ -1,8 +1,8 @@
 import React from 'react';
-import { NotFound } from '../components/NotFound';
+import NotFoundPage from '../components/NotFoundPage/NotFoundPage';
 
-function NotFoundPage() {
-  return <NotFound />;
+function NotFound() {
+  return <NotFoundPage />;
 }
 
-export default NotFoundPage;
+export default NotFound;

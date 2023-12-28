@@ -1,10 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import styles from './NotFound.module.scss';
+import styles from './NotFoundPage.module.scss';
 
-interface NotFoundInterface {}
-
-function NotFound({}: NotFoundInterface): React.ReactNode {
+function NotFoundPage(): React.ReactNode {
   return (
     <div className={styles.root}>
       <div className={styles.errorContainer}>
@@ -17,4 +15,4 @@ function NotFound({}: NotFoundInterface): React.ReactNode {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;
