@@ -20,7 +20,6 @@ function EditTest(): React.ReactNode {
   const saveTestAction: SubmitHandler<testFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
-
       const isTitleFilled = data.title && data.title.trim();
 
       if (!isTitleFilled) {

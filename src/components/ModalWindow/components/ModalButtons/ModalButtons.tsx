@@ -20,11 +20,11 @@ function ModalButtons({
 }: ModalButtonsInterface): React.ReactNode {
   return (
     <div className={styles.formButtons}>
-      {windowData?.buttons?.withGoBackButton ? (
+      {windowData?.buttons?.withGoToTestButton ? (
         <button
           type="button"
-          className={clsx(styles.formButton, styles.goBackButton)}
-          onClick={() => onGoToTestListClick}
+          className={clsx(styles.formButton, styles.goToTestButton)}
+          onClick={onGoToTestListClick}
         >
           Вернуться к списку тестов
         </button>

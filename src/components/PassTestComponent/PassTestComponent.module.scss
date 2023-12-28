@@ -32,14 +32,20 @@ section.questionsContainer {
 
 div.buttonsContainer {
   width: 100%;
+  margin-block: 1.5em;
   display: inline-flex;
   justify-content: space-around;
-  align-items: center;
+
+  @media screen and (width < 850px) {
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
 
 button.testButton {
   width: 40%;
-  margin-block: 1.5em;
   padding-inline: 1em;
   padding-block: 0.3em;
   box-sizing: border-box;
@@ -52,6 +58,11 @@ button.testButton {
   font-weight: bold;
   color: $babyPowder;
   @include colorButton($zomp);
+
+  @media screen and (width < 850px) {
+    width: 90%;
+    margin: 0;
+  }
 }
 
 button.goBackButton {

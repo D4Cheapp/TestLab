@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { ChangeEvent, MouseEvent } from 'react';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
 import styles from './PassQuestion.module.scss';
 
 interface PassQuestionInterface {
   question: createQuestionRequestType;
+  onAddAnswerClick: (
+    event: MouseEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
+    questionId?: number,
+    answerId?: number,
+  ) => void;
 }
 
-function PassQuestion({ question }: PassQuestionInterface): React.ReactNode {
+function PassQuestion({
+  question,
+  onAddAnswerClick,
+}: PassQuestionInterface): React.ReactNode {
   const isNumberAnswer = question.answer !== null;
   const questionId = question.id + '';
-
   return (
     <div className={styles.question} key={question.id}>
       <h2 className={styles.title}>{question.title}</h2>
@@ -19,6 +26,8 @@ function PassQuestion({ question }: PassQuestionInterface): React.ReactNode {
           type="number"
           placeholder={'Введите числовой ответ'}
           name={questionId}
+          id={questionId}
+          onChange={(event) => onAddAnswerClick(event, +questionId)}
         />
       ) : (
         question.answers?.map((ans) => (
@@ -30,6 +39,7 @@ function PassQuestion({ question }: PassQuestionInterface): React.ReactNode {
                   type="checkbox"
                   id={ans.id + ''}
                   name={questionId}
+                  onClick={(event) => onAddAnswerClick(event, question.id, ans.id)}
                 />
                 <div className={styles.customCheckbox} />
               </>
@@ -42,6 +52,7 @@ function PassQuestion({ question }: PassQuestionInterface): React.ReactNode {
                   type="radio"
                   id={ans.id + ''}
                   name={questionId}
+                  onClick={(event) => onAddAnswerClick(event, question.id, ans.id)}
                 />
                 <div className={styles.customRadio} />
               </>

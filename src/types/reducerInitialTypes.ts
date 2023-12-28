@@ -34,7 +34,7 @@ export type modalWindowType = {
       title?: string;
       id?: number;
     };
-    withGoBackButton?: boolean;
+    withGoToTestButton?: boolean;
     withConfirmButton?: boolean;
   };
 };

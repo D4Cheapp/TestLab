@@ -12,11 +12,24 @@ div.formButtons {
     font-size: 1.2em;
     border-radius: 5px;
     border: 2px $babyPowder solid;
-    @include colorButton($zomp);
 
     @media screen and (width < 500px) {
       width: 100%;
     }
+  }
+
+  button.goToTestButton {
+    width: 80%;
+    @include colorButton($skyBlue);
+  }
+
+  button.confirmButton,
+  button.saveButton {
+    @include colorButton($zomp);
+  }
+
+  button.cancelButton {
+    @include colorButton($oldRose);
   }
 
   @media screen and (width < 500px) {

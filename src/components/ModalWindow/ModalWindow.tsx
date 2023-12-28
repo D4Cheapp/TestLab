@@ -55,7 +55,10 @@ function ModalWindow(): React.ReactNode {
     [onCloseWindowClick],
   );
 
-  const onGoToTestListClick = useCallback(() => router.push('/'), [router]);
+  const onGoToTestListClick = useCallback(() => {
+    router.push('/');
+    onCloseWindowClick();
+  }, [onCloseWindowClick, router]);
 
   const onConfirmClick = useCallback(() => {
     const isDeleteConfirm =
