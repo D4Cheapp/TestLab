@@ -5,7 +5,7 @@
   "scripts": {
     "start": "next dev",
     "build": "next build",
-    "deploy": "gh-pages -d build",
+    "deploy": "next start",
     "lint": "tsc && next lint",
     "lint:fix": "tsc && next lint --fix && prettier --write src/",
     "prettier": "prettier src/ --check",
@@ -38,7 +38,6 @@
     "eslint": "^8.55.0",
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",
-    "gh-pages": "^6.1.0",
     "postcss": "^8.4.32",
     "prettier": "^3.1.1",
     "sass": "^1.69.5",
