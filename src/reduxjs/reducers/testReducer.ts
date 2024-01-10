@@ -25,7 +25,7 @@ import { currentTestType } from '@/src/types/reducerInitialTypes';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
 
 interface TestSliceInterface {
-  tests: testReceiveType[];
+  testList: testReceiveType[];
   currentTest?: currentTestType;
   currentQuestion?: createQuestionRequestType;
   testMeta: paginationTestsReceiveType['meta'];
@@ -36,7 +36,7 @@ interface TestSliceInterface {
 const testSlice = createSlice({
   name: 'testSlice',
   initialState: {
-    tests: [],
+    testList: [],
     currentTest: undefined,
     currentQuestion: undefined,
     testMeta: { total_count: -1, total_pages: -1 },
@@ -86,9 +86,9 @@ const testSlice = createSlice({
       state.testMeta = action.payload.meta;
 
       if (isPageFirst) {
-        state.tests = action.payload.tests;
+        state.testList = action.payload.tests;
       } else {
-        state.tests = [...state.tests, ...action.payload.tests];
+        state.testList = [...state.testList, ...action.payload.tests];
       }
     },
 

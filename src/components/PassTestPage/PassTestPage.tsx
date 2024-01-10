@@ -10,6 +10,7 @@ import { PassQuestion } from './PassQuestion';
 
 type passTestQuestionType =
   | {
+      correct?: boolean;
       answer?: number;
       answers?: (number | undefined)[];
     }[]
@@ -34,7 +35,7 @@ function PassTestPage(): React.ReactNode {
         //@ts-ignore
         const questionType = currentTest?.questions[questionIndex].question_type;
         const currentQuestion = passProgress[questionIndex];
-        const currentProgress = Array.from(passProgress);
+        const currentProgress = structuredClone(passProgress);
 
         switch (questionType) {
           case 'multiple':
@@ -50,21 +51,19 @@ function PassTestPage(): React.ReactNode {
               answers = currentQuestion?.answers.filter((ansId) => ansId !== answerId);
             }
             currentProgress[questionIndex].answers = answers;
-            setPassProgress(currentProgress);
             break;
 
           case 'single':
             currentProgress[questionIndex].answers = [answerId];
-            setPassProgress(currentProgress);
             break;
 
           case 'number':
             const target = (event?.target as HTMLInputElement).value;
             const answer = target === '' ? undefined : +target;
             currentProgress[questionIndex].answer = answer;
-            setPassProgress(currentProgress);
             break;
         }
+        setPassProgress(currentProgress);
       }
     },
     [currentTest?.questions, passProgress],
@@ -74,6 +73,7 @@ function PassTestPage(): React.ReactNode {
     const isReadyToPass = currentTest?.questions && passProgress;
     if (isReadyToPass) {
       const correctQuestions = currentTest?.questions;
+      const newProgress = structuredClone(passProgress);
       //@ts-ignore
       const score = correctQuestions.reduce((accumulator, correctQuestion, index) => {
         const isErrorInReduce = accumulator === -1;
@@ -105,17 +105,16 @@ function PassTestPage(): React.ReactNode {
               return -1;
             }
             const correctAnswers = correctQuestion.answers?.filter((ans) => ans.is_right);
-            const currentAnswers = currentQuestion.answers;
+            const currentAnswers = currentQuestion.answers?.sort();
+
             const isCorrectMultiAnswer =
               correctAnswers?.length === currentAnswers?.length &&
               currentAnswers?.every(
                 (ans, index) => correctAnswers && ans === correctAnswers[index].id,
               );
 
-            if (isCorrectMultiAnswer) {
-              return accumulator + 1;
-            }
-            break;
+            newProgress[index].correct = isCorrectMultiAnswer;
+            return isCorrectMultiAnswer ? accumulator + 1 : accumulator;
 
           case 'single':
             const correctAnswer = correctQuestion.answers?.filter(
@@ -124,25 +123,21 @@ function PassTestPage(): React.ReactNode {
             const isCorrectSingleAnswer =
               currentQuestion?.answers &&
               correctAnswer?.id === currentQuestion?.answers[0];
-            if (isCorrectSingleAnswer) {
-              return accumulator + 1;
-            }
-            break;
+
+            newProgress[index].correct = isCorrectSingleAnswer;
+            return isCorrectSingleAnswer ? accumulator + 1 : accumulator;
 
           case 'number':
             const isCorrectNumberAnswer =
               correctQuestion.answer === currentQuestion.answer;
-            if (isCorrectNumberAnswer) {
-              return accumulator + 1;
-            }
-            break;
+            newProgress[index].correct = isCorrectNumberAnswer;
+            return isCorrectNumberAnswer ? accumulator + 1 : accumulator;
         }
-
-        return accumulator;
       }, 0);
 
       const isScoreCorrupted = score !== -1;
       if (isScoreCorrupted) {
+        setPassProgress(newProgress);
         dispatch(
           setModalWindowState({
             title: 'Результаты прохождения теста',
@@ -196,6 +191,7 @@ function PassTestPage(): React.ReactNode {
             question={question}
             questionIndex={index}
             onAddAnswerClick={onAddAnswerClick}
+            isCorrect={passProgress && passProgress[index]?.correct}
           />
         ))}
       </section>

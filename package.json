@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "homepage": "https://d4cheapp.github.io/TestLab/",
   "scripts": {
-    "start": "next dev",
+    "dev": "next dev",
     "build": "next build",
-    "deploy": "next start",
+    "start": "next start",
     "lint": "tsc && next lint",
     "lint:fix": "tsc && next lint --fix && prettier --write src/",
     "prettier": "prettier src/ --check",

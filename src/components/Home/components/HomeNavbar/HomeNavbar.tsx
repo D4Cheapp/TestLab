@@ -1,5 +1,6 @@
 import React, { ChangeEventHandler } from 'react';
 import Link from 'next/link';
+import clsx from 'clsx';
 import styles from './HomeNavbar.module.scss';
 
 interface HomeNavbarInterface {
@@ -25,7 +26,7 @@ function HomeNavbar({
         className={styles.filter}
         type="text"
         onChange={onFilterInput}
-        placeholder="Введите фильтр тестов"
+        placeholder="Поиск по тестам"
         name="FilterInput"
         id="FilterInput"
         defaultValue={defaultFilterValue}
@@ -33,7 +34,8 @@ function HomeNavbar({
 
       <div className={styles.secondLine}>
         <button className={styles.dateSort} onClick={onFilterReverseClick}>
-          Сортировка по дате {isReverseDate ? '🡫' : '🡩'}
+          <p className={styles.sortButtonTitle}>Сортировка по дате</p>
+          <div className={clsx(styles.arrow, { [styles.reverseDate]: isReverseDate })} />
         </button>
 
         <Link href={'/login'} className={styles.logout} onClick={onLogoutClick}>

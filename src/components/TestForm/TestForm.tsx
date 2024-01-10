@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { testFormType } from '@/src/types/formTypes';
@@ -23,7 +23,7 @@ function TestForm({
   withDeleteButton = false,
   action,
 }: TestFormInterface): React.ReactNode {
-  const { register, handleSubmit, getValues } = useForm<testFormType>();
+  const { register, handleSubmit, getValues, setValue } = useForm<testFormType>();
   const questions = useAppSelector((state) => state.test.currentTest?.questions);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -89,6 +89,12 @@ function TestForm({
     },
     [dispatch, initTest],
   );
+
+  useEffect(() => {
+    if (initTest?.title) {
+      setValue('title', initTest.title);
+    }
+  }, [initTest?.title, setValue]);
 
   return (
     <form

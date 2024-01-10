@@ -1,5 +1,6 @@
 div.inputContainer {
   position: relative;
+  align-self: center;
   width: 80%;
 
   div.inputLabel {
@@ -12,21 +13,20 @@ div.inputContainer {
     background-color: $charcoal;
     opacity: 0;
 
-    @media screen and (width <= 1024px) {
+    @media screen and (width <= 1124px) {
       font-size: 2.2vh;
     }
+  }
+
+  div.errorTitle {
+    color: $oldRose !important;
   }
 
   input.input {
     width: 100%;
     height: 2.7em;
     @include formInput(1.3vw);
-
-    transition: border 0.2s;
-
-    &::placeholder {
-      color: rgba($babyPowder, 0.5);
-    }
+    transition: border 0.1s;
 
     &:focus {
       border-color: $zomp;
@@ -36,19 +36,27 @@ div.inputContainer {
       }
     }
 
+    &::placeholder {
+      color: rgba($babyPowder, 0.5);
+    }
+
     &:focus + div.inputLabel {
-      opacity: 1;
       color: $zomp;
+      opacity: 1;
     }
 
     &:not(:placeholder-shown) + div.inputLabel {
       opacity: 1;
     }
 
-    @media screen and (width <= 1024px) {
+    @media screen and (width <= 1124px) {
       height: 3em;
       font-size: 3vh;
     }
+  }
+
+  input.passwordError {
+    border-color: $oldRose !important;
   }
 
   button.showPassword {
@@ -74,12 +82,12 @@ div.inputContainer {
     background-position: center;
     transition: background-image 0.2s;
 
-    @media screen and (width <= 1024px) {
+    @media screen and (width <= 1124px) {
       width: 3vh;
     }
   }
 
-  @media screen and (width <= 1024px) {
+  @media screen and (width <= 1124px) {
     width: 90%;
     font-size: 2.2vh;
   }

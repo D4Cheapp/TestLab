@@ -31,7 +31,7 @@ div.errorMessage {
     transition:
       background-color 0.3s,
       scale 0.2s;
-    @include cross(2.6vh, 2px);
+    @include cross(2.3vh, 3px);
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {

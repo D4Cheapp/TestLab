@@ -11,6 +11,7 @@ div.test {
   background: $charcoal;
 
   p.testTitle {
+    cursor: pointer;
     font-size: 1.5em;
     overflow: hidden;
     width: 80%;
@@ -30,21 +31,6 @@ div.buttonsContainer {
     border-radius: 5px;
     background: none;
     aspect-ratio: 1/1;
-  }
-
-  button.passTestButton {
-    transition: background-image 0.2s;
-    background-image: url('~public/images/svg/testPass.svg');
-    background-position-x: center;
-    background-position-y: 40%;
-    background-size: 90%;
-    @include colorButton($skyBlue);
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-image: url('~public/images/svg/testPassActive.svg');
-      }
-    }
   }
 
   button.editTestButton {

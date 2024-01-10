@@ -48,6 +48,7 @@ div.addAnswer {
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
+  align-items: stretch;
   gap: 1em;
 
   input.answerAddInput {
@@ -55,8 +56,6 @@ div.addAnswer {
   }
 
   button.answerAddButton {
-    width: max-content;
-    white-space: nowrap;
     background: transparent;
     box-sizing: border-box;
     cursor: pointer;
@@ -65,7 +64,6 @@ div.addAnswer {
     border: 2px $babyPowder solid;
     font-size: 1.9em;
     color: $babyPowder;
-
     @include colorButton($zomp);
   }
 }

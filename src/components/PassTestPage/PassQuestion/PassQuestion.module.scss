@@ -38,6 +38,14 @@ div.question {
   }
 }
 
+div.correctQuestion {
+  border-color: $zomp;
+}
+
+div.wrongQuestion {
+  border-color: $oldRose;
+}
+
 label.answer {
   position: relative;
   display: inline-flex;
