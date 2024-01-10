@@ -23,10 +23,10 @@ $black: #000;
   }
 }
 
-@mixin loadingCircle($width) {
+@mixin loadingCircle($width, $thick) {
   width: $width;
   height: $width;
-  border: 1vh solid transparent;
+  border: $thick solid transparent;
   border-top-color: $babyPowder;
   border-left-color: $babyPowder;
   border-radius: 50%;

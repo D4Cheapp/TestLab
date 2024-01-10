@@ -121,32 +121,62 @@ function ModalWindow(): React.ReactNode {
     title: string | undefined,
     questionType: 'number' | 'multiple' | 'single',
     checkedAnswerCount: number | undefined,
+    answerCount: number | undefined,
   ): boolean => {
     const isTitleEmpty = !title?.trim();
-    const isMultiplyCheckNotCorrect =
-      questionType === 'multiple' && (!checkedAnswerCount || checkedAnswerCount < 2);
-    const isNumberQuestion =
-      questionType === 'number' && numberAnswerRef.current?.value === undefined;
+    const isSingleQuestionError = questionType === 'single' && !checkedAnswerCount;
+    const isMultiplyQuestionError =
+      questionType === 'multiple' &&
+      (!checkedAnswerCount || (checkedAnswerCount && checkedAnswerCount < 2));
+    const isNumberQuestion = questionType === 'number';
+    const isAnswerAmountError =
+      (questionType === 'multiple' || questionType === 'single') &&
+      (!answerCount || (answerCount && answerCount < 2));
 
     if (isTitleEmpty) {
-      dispatch(setErrorsState('Error: Enter a question'));
+      dispatch(setErrorsState('Error: Question title should not be empty'));
       return false;
     }
 
-    if (isMultiplyCheckNotCorrect) {
+    if (isAnswerAmountError) {
       dispatch(
         setErrorsState(
-          !checkedAnswerCount
-            ? 'Error: Question should be 1 answer option in the question'
-            : 'Error: There cannot be less than 2 correct answers in the question',
+          'Error: Question should be at least 2 answer option in the question',
+        ),
+      );
+      return false;
+    }
+
+    if (isSingleQuestionError) {
+      dispatch(
+        setErrorsState('Error: Question should be 1 correct answer in the question'),
+      );
+      return false;
+    }
+
+    if (isMultiplyQuestionError) {
+      dispatch(
+        setErrorsState(
+          'Error: There cannot be less than 2 correct answers in the question',
         ),
       );
       return false;
     }
 
     if (isNumberQuestion) {
-      dispatch(setErrorsState('Error: Input field should not be empty'));
-      return false;
+      const answer = numberAnswerRef.current?.value;
+      const isAnswerNotANumber = answer && isNaN(+answer);
+      const isAnswerEmpty = answer === undefined;
+
+      if (isAnswerNotANumber) {
+        dispatch(setErrorsState('Error: Answer should be a number'));
+        return false;
+      }
+
+      if (isAnswerEmpty) {
+        dispatch(setErrorsState('Error: Input field should not be empty'));
+        return false;
+      }
     }
 
     return true;
@@ -178,7 +208,7 @@ function ModalWindow(): React.ReactNode {
         ? +numberAnswerRef.current.value
         : undefined;
 
-    if (questionValidation(title, question_type, checkedAnswerCount)) {
+    if (questionValidation(title, question_type, checkedAnswerCount, answers.length)) {
       const isServerQuestion = !isLocal && title && question_type;
 
       if (!isServerQuestion) {

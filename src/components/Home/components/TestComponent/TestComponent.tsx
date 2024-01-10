@@ -20,14 +20,10 @@ function TestComponent({
   onPassTestClick,
 }: TestComponentInterface): React.ReactNode {
   return (
-    <div className={styles.test}>
-      <p className={styles.testTitle}>{title}</p>
+    <div className={styles.test} >
+      <p className={styles.testTitle} onClick={() => onPassTestClick(testId)}>{title}</p>
 
       <div className={styles.buttonsContainer}>
-        <button
-          className={clsx(styles.testButton, styles.passTestButton)}
-          onClick={() => onPassTestClick(testId)}
-        />
         {isAdmin && (
           <>
             <button

@@ -83,5 +83,10 @@ section.emptyContainer {
 }
 
 div.loading {
-  @include loadingCircle(5vh);
+  @include loadingCircle(5em, 0.5em);
+}
+
+div.paginationLoading {
+  width: 100%;
+  @include loadingCircle(2em, 0.3em);
 }

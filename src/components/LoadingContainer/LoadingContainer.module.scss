@@ -9,5 +9,5 @@ div.root {
 }
 
 div.loading {
-  @include loadingCircle(12vh);
+  @include loadingCircle(12vh, 0.5em);
 }

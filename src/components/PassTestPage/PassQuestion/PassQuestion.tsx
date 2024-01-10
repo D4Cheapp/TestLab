@@ -1,4 +1,5 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
+import clsx from 'clsx';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
 import styles from './PassQuestion.module.scss';
 
@@ -10,17 +11,26 @@ interface PassQuestionInterface {
     questionIndex: number,
     answerId?: number,
   ) => void;
+  isCorrect?: boolean;
 }
 
 function PassQuestion({
   question,
   questionIndex,
   onAddAnswerClick,
+  isCorrect,
 }: PassQuestionInterface): React.ReactNode {
   const isNumberAnswer = question.answer !== null;
   const questionId = question.id + '';
   return (
-    <div className={styles.question} key={question.id}>
+    <div
+      className={clsx(
+        styles.question,
+        { [styles.correctQuestion]: isCorrect },
+        { [styles.wrongQuestion]: isCorrect !== undefined && !isCorrect },
+      )}
+      key={question.id}
+    >
       <h2 className={styles.title}>{question.title}</h2>
       {isNumberAnswer ? (
         <input

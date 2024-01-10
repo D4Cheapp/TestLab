@@ -21,7 +21,7 @@ function validateFilterValue(filter: string | null) {
 }
 
 function Home(): React.ReactNode {
-  const testList = useAppSelector((state) => state.test.tests);
+  const testList = useAppSelector((state) => state.test.testList);
   const testMeta = useAppSelector((state) => state.test.testMeta);
   const isLoading = useAppSelector((state) => state.base.loadingState);
   const isAdmin = useAppSelector((state) => state.auth.currentProfile)?.is_admin;
@@ -173,24 +173,32 @@ function Home(): React.ReactNode {
           { [styles.loadingContainer]: isLoading },
         )}
       >
-        {isLoading ? (
+        {isLoading && !testList ? (
           <div className={styles.loading} />
         ) : testList.length === 0 ? (
           <div className={styles.errorTitleContainer}>
             <h1 className={styles.notFoundTitle}>Тесты не найдены</h1>
           </div>
         ) : (
-          testList.map((test) => (
-            <TestComponent
-              key={test.id}
-              title={test.title}
-              testId={test.id}
-              isAdmin={isAdmin}
-              onDeleteTestClick={onDeleteTestClick}
-              onEditTestClick={onEditTestClick}
-              onPassTestClick={onPassTestClick}
-            />
-          ))
+          <>
+            {testList.map((test) => (
+              <TestComponent
+                key={test.id}
+                title={test.title}
+                testId={test.id}
+                isAdmin={isAdmin}
+                onDeleteTestClick={onDeleteTestClick}
+                onEditTestClick={onEditTestClick}
+                onPassTestClick={onPassTestClick}
+              />
+            ))}
+
+            {isLoading && (
+              <div>
+                <div className={styles.paginationLoading} />
+              </div>
+            )}
+          </>
         )}
       </section>
 

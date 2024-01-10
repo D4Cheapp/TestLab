@@ -5,7 +5,7 @@
   font-size: 1.4em;
   white-space: nowrap;
   text-align: center;
-  background: $charcoal;
+  background-color: $charcoal;
   color: $babyPowder;
   border-radius: 5px;
   border: 2px solid $babyPowder;
@@ -59,13 +59,22 @@ div.secondLine {
   gap: 0.5em;
 
   button.dateSort {
-    cursor: pointer;
     @include navButton;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    cursor: pointer;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         color: $skyBlue;
         border-color: $skyBlue;
+      }
+
+      &:hover > div.arrow {
+        background-image: url('~public/images/svg/selectArrowActive.svg');
       }
     }
 
@@ -74,9 +83,27 @@ div.secondLine {
     }
   }
 
+  p.sortButtonTitle {
+    margin: 0;
+  }
+
+  div.arrow {
+    height: 100%;
+    width: 1.4em;
+    background-image: url('~public/images/svg/selectArrow.svg');
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: 40%;
+    background-size: 120%;
+    transition: background-image 0.2s;
+  }
+
+  div.reverseDate {
+    rotate: 180deg;
+  }
+
   a.logout {
     @include navButton;
-
     text-decoration: none;
 
     @media (hover: hover) and (pointer: fine) {

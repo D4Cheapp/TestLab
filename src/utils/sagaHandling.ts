@@ -39,17 +39,22 @@ function* sagaHandling<T>({
 
   const isActionExist = action !== undefined;
   const isResponseCrashed = response instanceof Error;
-  const isResponseIncorrect =
+  const isResponseOkCrashed = !isResponseCrashed && !response[1].ok;
+  const isResponseContainsErrorMessage =
     // @ts-ignore
-    !(response instanceof Error) && !response[1].ok && 'error' in response[0];
+    isResponseOkCrashed && 'error' in response[0];
 
   if (isResponseCrashed) {
     yield put(setErrorsState(response.message));
-  } else {
-    if (isResponseIncorrect) {
-      // @ts-ignore
+  }
+
+  if (isResponseOkCrashed) {
+    if (isResponseContainsErrorMessage) {
+      //@ts-ignore
       const errors = createErrorsString(response[0]);
       yield put(setErrorsState(errors));
+    } else {
+      yield put(setErrorsState(`Error: ${response[1].statusText}`));
     }
   }
 
@@ -64,8 +69,9 @@ function* sagaHandling<T>({
   }
 
   yield put(setLoadingState(false));
-
-  return !isResponseCrashed && !isResponseIncorrect ? response[0] : { error: true };
+  return !isResponseCrashed && !isResponseContainsErrorMessage
+    ? response[0]
+    : { error: true };
 }
 
 export { sagaHandling };

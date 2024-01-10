@@ -27,6 +27,7 @@ function EntryForm({
   const { register, handleSubmit, formState } = useForm<entryFormType>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isPasswordMatchError, setIsPasswordMatchError] = useState(false);
   const currentProfile = useAppSelector((state) => state.auth.currentProfile);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -38,6 +39,10 @@ function EntryForm({
   const onShowConfirmPasswordClick = useCallback(() => {
     setShowConfirmPassword(!showConfirmPassword);
   }, [showConfirmPassword]);
+
+  const onPasswordClick = useCallback(() => {
+    setIsPasswordMatchError(false);
+  }, []);
 
   const onSubmitFunc: SubmitHandler<entryFormType> = (data, event) => {
     event?.preventDefault();
@@ -51,11 +56,35 @@ function EntryForm({
       return false;
     }
 
-    const isRegisterDataCorrect =
-      isRegister && data.password !== data.password_confirmation;
-    if (isRegisterDataCorrect) {
-      dispatch(setErrorsState("Error: Passwords don't match"));
-      return false;
+    if (isRegister) {
+      const isPasswordShort = data.password.length < 10;
+      const isPasswordMissingUpperChar = !/[A-Z,А-Я]/.test(data.password);
+      const isPasswordMissingNumber = !/\d/.test(data.password);
+      const isPasswordMatchError = data.password !== data.password_confirmation;
+
+      if (isPasswordShort) {
+        dispatch(setErrorsState('Error: Password should contain at least 10 character'));
+        return false;
+      }
+
+      if (isPasswordMissingUpperChar) {
+        dispatch(
+          setErrorsState('Error: Password should contain at least one capital letter'),
+        );
+        return false;
+      }
+
+      if (isPasswordMissingNumber) {
+        dispatch(setErrorsState('Error: Password should contain at least one number'));
+        return false;
+      }
+
+      if (isPasswordMatchError) {
+        setIsPasswordMatchError(true);
+        return false;
+      } else {
+        setIsPasswordMatchError(false);
+      }
     }
 
     // @ts-ignore
@@ -97,19 +126,29 @@ function EntryForm({
           name="password"
           register={register}
           isShownPassword={showPassword}
+          onPasswordClick={onPasswordClick}
           onShowPasswordClick={onShowPasswordClick}
+          isPasswordMatchError={isPasswordMatchError}
         />
 
         {isRegister && (
           <>
-            <EntryInput
-              isPassword
-              title="Подтвердите пароль"
-              name="password_confirmation"
-              register={register}
-              isShownPassword={showConfirmPassword}
-              onShowPasswordClick={onShowConfirmPasswordClick}
-            />
+            <div className={styles.confirmPasswordContainer}>
+              <EntryInput
+                isPassword
+                title="Подтвердите пароль"
+                name="password_confirmation"
+                register={register}
+                isShownPassword={showConfirmPassword}
+                onPasswordClick={onPasswordClick}
+                onShowPasswordClick={onShowConfirmPasswordClick}
+                isPasswordMatchError={isPasswordMatchError}
+              />
+
+              {isPasswordMatchError && (
+                <p className={styles.matchErrorTitle}>Ошибка: пароли не совпадают</p>
+              )}
+            </div>
 
             <label className={styles.isAdmin}>
               <p className={styles.isAdminTitle}>Учетная запись администратора</p>

@@ -9,7 +9,9 @@ interface EntryInputInterface {
   name: 'is_admin' | 'username' | 'password' | 'password_confirmation';
   register: UseFormRegister<entryFormType>;
   onShowPasswordClick?: () => void;
+  onPasswordClick?: () => void;
   isShownPassword?: boolean;
+  isPasswordMatchError?: boolean;
 }
 
 function EntryInput({
@@ -17,21 +19,28 @@ function EntryInput({
   title,
   name,
   register,
-  onShowPasswordClick = (): void => {},
+  onShowPasswordClick,
+  onPasswordClick,
   isShownPassword = false,
+  isPasswordMatchError = false,
 }: EntryInputInterface) {
   return (
     <div className={styles.inputContainer}>
       <input
-        className={styles.input}
+        className={clsx(styles.input, { [styles.passwordError]: isPasswordMatchError })}
         type={isPassword ? (isShownPassword ? 'text' : 'password') : 'text'}
         required
         placeholder={title}
+        onClick={() => (onPasswordClick ? onPasswordClick() : undefined)}
         id={name}
         {...register(name, { required: true })}
       />
 
-      <div className={styles.inputLabel}>{title}</div>
+      <div
+        className={clsx(styles.inputLabel, { [styles.errorTitle]: isPasswordMatchError })}
+      >
+        {title}
+      </div>
 
       {isPassword && (
         <button
