@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { ErrorContainer, Providers } from '@/src/components';
 import './globals.scss';
-import { ModalWindow } from '../components/ModalWindow';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -28,7 +27,6 @@ export default function RootLayout({ children }: RootLayoutInterface) {
       <body className={roboto.className}>
         <Providers>
           <ErrorContainer />
-          <ModalWindow />
           {children}
         </Providers>
       </body>

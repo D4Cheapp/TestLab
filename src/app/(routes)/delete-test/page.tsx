@@ -1,41 +1,48 @@
 'use client';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { Authentication } from '@/src/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { getTest } from '@/src/reduxjs/reducers/testReducer';
+import { deleteTest, getTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
 import { TestForm } from '@/src/components/TestForm';
 import { testFormType } from '@/src/types/formTypes';
-import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { LoadingContainer } from '@/src/components/LoadingContainer';
+import { ModalWindow } from '@/src/components/ModalWindow';
 
 function DeleteTest(): React.ReactNode {
-  const searchParams = useSearchParams().get('id');
   const initTest = useAppSelector((state) => state.test.currentTest);
   const isLoading = useAppSelector((state) => state.base.loadingState);
   const dispatch = useAppDispatch();
+
+  const searchParams = useSearchParams().get('id');
+  const router = useRouter();
+
+  const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const testId = searchParams ? +searchParams : undefined;
 
   const deleteTestAction: SubmitHandler<testFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       if (testId) {
-        dispatch(
-          setModalWindowState({
-            title: 'Вы действительно хотите удалить тест?',
-            buttons: {
-              delete: { deleteTarget: 'test', id: testId },
-              withConfirmButton: true,
-            },
-          }),
-        );
+        setIsConfirmWindowActive(true);
       } else {
         dispatch(setErrorsState('Error: Cannot find test to delete'));
       }
     },
     [dispatch, testId],
   );
+
+  const deleteTestConfirm = useCallback(() => {
+    if (testId) {
+      dispatch(deleteTest({ id: testId }));
+      router.push('/');
+      dispatch(setCurrentTest(undefined));
+      setIsConfirmWindowActive(false);
+    }
+  }, [dispatch, router, testId]);
 
   useEffect(() => {
     if (testId !== undefined) {
@@ -48,12 +55,22 @@ function DeleteTest(): React.ReactNode {
       {isLoading ? (
         <LoadingContainer />
       ) : (
-        <TestForm
-          initTest={initTest}
-          action={deleteTestAction}
-          title="Удаление теста"
-          withDeleteButton
-        />
+        <>
+          {isConfirmWindowActive && (
+            <ModalWindow
+              title="Вы действительно хотите удалить тест?"
+              setIsActive={setIsConfirmWindowActive}
+              confirmAction={deleteTestConfirm}
+              buttonInfo={{ withConfirmButton: true, confirmTitle: 'Удалить' }}
+            />
+          )}
+          <TestForm
+            initTest={initTest}
+            action={deleteTestAction}
+            title="Удаление теста"
+            withDeleteButton
+          />
+        </>
       )}
     </Authentication>
   );

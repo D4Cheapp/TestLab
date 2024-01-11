@@ -30,6 +30,19 @@ section.questionsContainer {
   overflow-y: scroll;
 }
 
+div.resultContainer {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
+p.resultTitle {
+  color: $babyPowder;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 div.buttonsContainer {
   width: 100%;
   margin-block: 1.5em;

@@ -1,22 +1,32 @@
-import React from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
 import clsx from 'clsx';
-import { testFormType } from '@/src/types/formTypes';
+import { ModalWindow } from '@/src/components/ModalWindow';
 import styles from './TestFormInfoEdit.module.scss';
+import { QuestionForm } from '..';
+import { TestFormContext } from '../../TestFormContext';
 
 interface TestFormInfoEditInterface {
-  title: string | undefined;
-  withDeleteButton: boolean;
+  title?: string;
   onAddQuestionClick: () => void;
-  register: UseFormRegister<testFormType>;
+  modalWindowData: {
+    isAddQuestionWindowActive: boolean;
+    setIsAddQuestionWindowActive: Dispatch<SetStateAction<boolean>>;
+  };
 }
 
 function TestFormInfoEdit({
   title,
-  withDeleteButton,
   onAddQuestionClick,
-  register,
+  modalWindowData,
 }: TestFormInfoEditInterface): React.ReactNode {
+  const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion, form } =
+    useContext(TestFormContext);
+  const setAddWindowAction = () => {
+    modalWindowData.setIsAddQuestionWindowActive(false);
+    setCurrentQuestion(undefined);
+    form.reset();
+  };
+
   return (
     <div
       className={clsx(styles.editContainer, {
@@ -36,7 +46,7 @@ function TestFormInfoEdit({
           placeholder="Введите название теста"
           defaultValue={title ?? ''}
           id="title"
-          {...register('title')}
+          {...form.register('title')}
         />
       </div>
 
@@ -49,7 +59,7 @@ function TestFormInfoEdit({
               className={styles.questionType}
               defaultValue={''}
               id="questionSelect"
-              {...register('questionSelect')}
+              {...form.register('questionType')}
             >
               <option className={styles.questionTypeOption} value="">
                 Выберите тип вопроса
@@ -64,6 +74,17 @@ function TestFormInfoEdit({
                 Численный ответ
               </option>
             </select>
+
+            {modalWindowData.isAddQuestionWindowActive && (
+              <ModalWindow
+                title="Добавление вопроса"
+                setIsActive={setAddWindowAction}
+                confirmAction={() => onQuestionModifyClick(false)}
+                buttonInfo={{ confirmTitle: 'Сохранить', withConfirmButton: true }}
+              >
+                <QuestionForm />
+              </ModalWindow>
+            )}
 
             <button
               type="button"

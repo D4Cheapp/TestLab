@@ -1,61 +1,40 @@
 import React from 'react';
 import clsx from 'clsx';
-import { modalWindowType } from '@/src/types/reducerInitialTypes';
 import styles from './ModalButtons.module.scss';
 
 interface ModalButtonsInterface {
-  windowData: modalWindowType;
-  onSaveQuestionClick: () => void;
-  onConfirmClick: () => void;
+  confirmAction?: () => void;
   onCloseWindowClick: () => void;
-  onGoToTestListClick: () => void;
+  buttonInfo: {
+    confirmTitle?: string;
+    withGoHomeButton?: boolean;
+    withConfirmButton?: boolean;
+  };
 }
 
 function ModalButtons({
-  windowData,
-  onSaveQuestionClick,
-  onConfirmClick,
+  confirmAction,
   onCloseWindowClick,
-  onGoToTestListClick,
+  buttonInfo,
 }: ModalButtonsInterface): React.ReactNode {
   return (
     <div className={styles.formButtons}>
-      {windowData?.buttons?.withGoToTestButton ? (
+      {buttonInfo.withConfirmButton && (
         <button
           type="button"
-          className={clsx(styles.formButton, styles.goToTestButton)}
-          onClick={onGoToTestListClick}
+          className={clsx(styles.formButton, styles.confirmButton)}
+          onClick={confirmAction}
         >
-          Вернуться к списку тестов
+          {buttonInfo?.confirmTitle ?? 'Подтвердить'}
         </button>
-      ) : (
-        <>
-          {windowData?.buttons?.withConfirmButton ? (
-            <button
-              type="button"
-              className={clsx(styles.formButton, styles.confirmButton)}
-              onClick={onConfirmClick}
-            >
-              Подтвердить
-            </button>
-          ) : (
-            <button
-              type="button"
-              className={clsx(styles.formButton, styles.saveButton)}
-              onClick={onSaveQuestionClick}
-            >
-              Сохранить
-            </button>
-          )}
-          <button
-            type="button"
-            className={clsx(styles.formButton, styles.cancelButton)}
-            onClick={onCloseWindowClick}
-          >
-            Отмена
-          </button>
-        </>
       )}
+      <button
+        type="button"
+        className={clsx(styles.formButton, styles.cancelButton)}
+        onClick={onCloseWindowClick}
+      >
+        Отмена
+      </button>
     </div>
   );
 }
