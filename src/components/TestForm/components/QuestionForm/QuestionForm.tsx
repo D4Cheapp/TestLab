@@ -1,26 +1,21 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import {
-  ModalWindowContext,
-  questionAnswerType,
-} from '@/src/components/ModalWindow/ModalWindowContext';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
+import { useAppDispatch } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import { setCurrentQuestion } from '@/src/reduxjs/reducers/testReducer';
+import styles from './QuestionForm.module.scss';
 import { CheckboxModalAnswer } from './CheckboxModalAnswer';
-import styles from './ModalQuestions.module.scss';
+import { TestFormContext, questionAnswerType } from '../../TestFormContext';
 
-interface ModalQuestionsInterface {
-  questionType: 'single' | 'multiple' | 'number';
-}
-
-function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactNode {
-  const { currentQuestionNumberAnswer, setAnswers, title, answers, refs } =
-    useContext(ModalWindowContext);
-  const currentQuestion = useAppSelector((state) => state.test.currentQuestion);
+function QuestionForm(): React.ReactNode {
+  const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =
+    useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<questionAnswerType | null>(null);
-  const answerInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
+
+  const { getValues, setValue, register } = form;
+  const questionType = currentQuestion?.id
+    ? currentQuestion?.question_type
+    : getValues('questionType');
 
   const onAnswerCheckClick = useCallback(
     (id: number) => {
@@ -39,7 +34,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
   );
 
   const onAddAnswerClick = useCallback(() => {
-    const answerValue = answerInputRef.current?.value;
+    const answerValue = getValues('answerInput');
 
     if (answerValue) {
       setAnswers([
@@ -52,13 +47,13 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
           isCreated: true,
         },
       ]);
-      answerInputRef.current.value = '';
+      setValue('answerInput', '');
     } else {
       dispatch(
         setErrorsState('Error: Fill in the contents of the response before adding it'),
       );
     }
-  }, [answers, dispatch, setAnswers]);
+  }, [answers, dispatch, getValues, setAnswers, setValue]);
 
   const onDeleteAnswerClick = useCallback(
     (answerId: number) => {
@@ -79,9 +74,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
       if (isNumberAnswer) {
         const isDataExists = currentQuestion?.id && currentQuestion?.title;
         if (isDataExists) {
-          dispatch(
-            setCurrentQuestion({ ...currentQuestion, answer: +changedAnswerValue }),
-          );
+          setCurrentQuestion({ ...currentQuestion, answer: +changedAnswerValue });
         }
       }
 
@@ -107,7 +100,14 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
         }
       }
     },
-    [questionType, currentQuestion, dispatch, answers, setAnswers, onDeleteAnswerClick],
+    [
+      questionType,
+      currentQuestion,
+      setCurrentQuestion,
+      answers,
+      setAnswers,
+      onDeleteAnswerClick,
+    ],
   );
 
   const onAnswerDragStart = useCallback((answer: questionAnswerType) => {
@@ -170,7 +170,7 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
     if (isCurrentQuestionEmptyOrNumber) {
       //@ts-ignore
       const changedAnswers = currentQuestion.answers.map((answer, index) => {
-        return { ...answer, position: index };
+        return { ...answer, position: index } as questionAnswerType;
       });
       setAnswers(changedAnswers);
     } else {
@@ -183,11 +183,11 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
       <div className={styles.questionAddTitle}>
         <input
           className={clsx(styles.questionInput, styles.input)}
-          ref={refs.questionTitleRef}
           type="text"
           placeholder="Введите вопрос"
           id="questionTitle"
-          defaultValue={title}
+          defaultValue={currentQuestion?.title}
+          {...register('questionTitle')}
         />
         <label className={styles.inputTitle} htmlFor="questionTitle">
           Вопрос
@@ -200,8 +200,8 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
             className={clsx(styles.answerAddInput, styles.input)}
             type="text"
             placeholder="Введите вариант ответа"
-            ref={answerInputRef}
             id="answerVariant"
+            {...register('answerInput')}
           />
           <label className={styles.inputTitle} htmlFor="answerVariant">
             Вариант ответа
@@ -239,14 +239,13 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
             <div className={styles.numberAnswerContainer}>
               <input
                 className={styles.answerNumber}
-                ref={refs.numberAnswerRef}
                 type="number"
                 id="numberAnswer"
-                name="numberAnswer"
                 placeholder="Введите ответ на вопрос"
                 //@ts-ignore
                 onBlur={(event) => onAnswerFocusOut(event)}
-                defaultValue={currentQuestionNumberAnswer}
+                defaultValue={getValues('numberAnswer')}
+                {...register('numberAnswer')}
               />
               <label className={styles.inputTitle} htmlFor="numberAnswer">
                 Ответ
@@ -258,4 +257,4 @@ function ModalQuestions({ questionType }: ModalQuestionsInterface): React.ReactN
   );
 }
 
-export default ModalQuestions;
+export default QuestionForm;

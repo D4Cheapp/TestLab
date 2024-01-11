@@ -13,21 +13,18 @@ import {
   getPaginationTestActionType,
   getTestActionType,
   moveAnswerActionType,
-  setTestActionType,
+  setCurrentTestActionType,
   setPaginationTestActionType,
   editTestActionType,
   addLocalQuestionActionType,
-  addCurrentQuestionActionType,
   editLocalQuestionAction,
 } from '@/src/types/reducerActionTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
 import { currentTestType } from '@/src/types/reducerInitialTypes';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
 
 interface TestSliceInterface {
   testList: testReceiveType[];
   currentTest?: currentTestType;
-  currentQuestion?: createQuestionRequestType;
   testMeta: paginationTestsReceiveType['meta'];
   loadingState: boolean;
   errors: string[];
@@ -38,7 +35,6 @@ const testSlice = createSlice({
   initialState: {
     testList: [],
     currentTest: undefined,
-    currentQuestion: undefined,
     testMeta: { total_count: -1, total_pages: -1 },
     loadingState: false,
     errors: [],
@@ -52,7 +48,7 @@ const testSlice = createSlice({
 
     getTest: (state, action: getTestActionType) => {},
 
-    setTest: (state, action: setTestActionType) => {
+    setCurrentTest: (state, action: setCurrentTestActionType) => {
       const receivedTest = action.payload;
       const receivedQuestionsToCurrent = receivedTest?.questions.map((question) => {
         const { title, question_type, answer, answers, id } = question;
@@ -90,10 +86,6 @@ const testSlice = createSlice({
       } else {
         state.testList = [...state.testList, ...action.payload.tests];
       }
-    },
-
-    setCurrentQuestion: (state, question: addCurrentQuestionActionType) => {
-      state.currentQuestion = question.payload;
     },
 
     addLocalQuestion: (state, question: addLocalQuestionActionType) => {
@@ -153,11 +145,10 @@ export const {
   editTest,
   deleteTest,
   getTest,
-  setTest,
+  setCurrentTest,
   getPaginationTests,
   setPaginationTests,
   createQuestion,
-  setCurrentQuestion,
   addLocalQuestion,
   editLocalQuestion,
   deleteLocalQuestion,

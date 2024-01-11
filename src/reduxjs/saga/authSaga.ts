@@ -20,7 +20,7 @@ function* profileRegisterSaga(action: profileRegisterActionType) {
     href: '/signup',
     body: action.payload,
     isDataInAction: true,
-    action: (data: profileAuthReceiveType | undefined) => put(setCurrentProfile(data)),
+    action: (data?: profileAuthReceiveType) => put(setCurrentProfile(data)),
   });
 }
 
@@ -30,7 +30,7 @@ function* profileLoginSaga(action: profileLoginActionType) {
     href: '/signin',
     body: action.payload,
     isDataInAction: true,
-    action: (data: profileAuthReceiveType | undefined) => put(setCurrentProfile(data)),
+    action: (data?: profileAuthReceiveType) => put(setCurrentProfile(data)),
   });
 }
 
@@ -39,7 +39,7 @@ function* getCurrentProfileSaga() {
     method: 'GET',
     href: '/users/current',
     isDataInAction: true,
-    action: (data: profileAuthReceiveType | undefined) =>
+    action: (data?: profileAuthReceiveType) =>
       put(setCurrentProfile(!data || 'error' in data ? null : data)),
   });
 }
@@ -49,7 +49,7 @@ function* profileLogoutSaga() {
     method: 'DELETE',
     href: '/logout',
     isDataInAction: true,
-    action: (data: profileLogoutReceiveType | undefined) =>
+    action: (data?: profileLogoutReceiveType) =>
       data !== undefined ? put(deleteCurrentProfile(data)) : {},
   });
 }

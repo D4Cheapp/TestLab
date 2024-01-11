@@ -19,7 +19,7 @@ div.background {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba($black, 0.8);
+  background-color: rgba($black, 70%);
 }
 
 div.componentFrom {
@@ -36,6 +36,7 @@ div.componentFrom {
   box-sizing: border-box;
   background: $charcoal;
   border-radius: 10px;
+  border: 2px $babyPowder solid;
 
   @media screen and (width < 1256px) {
     width: 60%;

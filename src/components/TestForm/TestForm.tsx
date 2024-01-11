@@ -1,12 +1,21 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { testFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
-import { setCurrentQuestion, setTest } from '@/src/reduxjs/reducers/testReducer';
+import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import {
+  addLocalQuestion,
+  createQuestion,
+  deleteLocalQuestion,
+  deleteQuestion,
+  editLocalQuestion,
+  editQuestion,
+  setCurrentTest,
+} from '@/src/reduxjs/reducers/testReducer';
 import { currentTestType } from '@/src/types/reducerInitialTypes';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
+import { TestFormContext, questionAnswerType } from './TestFormContext';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
 import styles from './TestForm.module.scss';
 
@@ -23,71 +32,199 @@ function TestForm({
   withDeleteButton = false,
   action,
 }: TestFormInterface): React.ReactNode {
-  const { register, handleSubmit, getValues, setValue } = useForm<testFormType>();
-  const questions = useAppSelector((state) => state.test.currentTest?.questions);
+  const { register, handleSubmit, reset, getValues, setValue } = useForm<testFormType>();
+  const currentTest = useAppSelector((state) => state.test.currentTest);
+  const questions = currentTest?.questions;
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const [answers, setAnswers] = useState<questionAnswerType[]>([]);
+  const [isAddQuestionWindowActive, setIsAddQuestionWindowActive] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState<createQuestionRequestType>();
+
   const isLocal = !initTest;
+  const formContext = { register, getValues, setValue, reset };
+
+  const questionValidation = useCallback(
+    (
+      questionType?: 'number' | 'multiple' | 'single',
+      title?: string,
+      checkedAnswerCount?: number,
+      answerCount?: number,
+    ): boolean => {
+      const isTitleEmpty = !title?.trim();
+      const isSingleQuestionError = questionType === 'single' && !checkedAnswerCount;
+      const isMultiplyQuestionError =
+        questionType === 'multiple' &&
+        (!checkedAnswerCount || (checkedAnswerCount && checkedAnswerCount < 2));
+      const isNumberQuestion = questionType === 'number';
+      const isAnswerAmountError =
+        (questionType === 'multiple' || questionType === 'single') &&
+        (!answerCount || (answerCount && answerCount < 2));
+
+      console.log(questionType);
+
+      if (!questionType) {
+        return false;
+      }
+
+      if (isTitleEmpty) {
+        dispatch(setErrorsState('Error: Question title should not be empty'));
+        return false;
+      }
+
+      if (isAnswerAmountError) {
+        dispatch(
+          setErrorsState(
+            'Error: Question should be at least 2 answer option in the question',
+          ),
+        );
+        return false;
+      }
+
+      if (isSingleQuestionError) {
+        dispatch(
+          setErrorsState('Error: Question should be 1 correct answer in the question'),
+        );
+        return false;
+      }
+
+      if (isMultiplyQuestionError) {
+        dispatch(
+          setErrorsState(
+            'Error: There cannot be less than 2 correct answers in the question',
+          ),
+        );
+        return false;
+      }
+
+      if (isNumberQuestion) {
+        const answer = getValues('numberAnswer');
+        const isAnswerNotANumber = answer && isNaN(+answer);
+        const isAnswerEmpty = answer === undefined;
+
+        if (isAnswerNotANumber) {
+          dispatch(setErrorsState('Error: Answer should be a number'));
+          return false;
+        }
+
+        if (isAnswerEmpty) {
+          dispatch(setErrorsState('Error: Input field should not be empty'));
+          return false;
+        }
+      }
+
+      return true;
+    },
+    [dispatch, getValues],
+  );
+
+  const onQuestionModifyClick = useCallback(
+    (isEdit: boolean): boolean => {
+      const title = getValues('questionTitle');
+      const question_type = currentQuestion?.id
+        ? currentQuestion?.question_type
+        : getValues('questionType');
+      const checkedAnswerCount: number | undefined = answers
+        ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
+        : undefined;
+      const numberAnswer =
+        getValues('numberAnswer') !== undefined ? +getValues('numberAnswer') : undefined;
+
+      if (questionValidation(question_type, title, checkedAnswerCount, answers.length)) {
+        const isServerQuestion = !isLocal && title && question_type;
+
+        if (isServerQuestion) {
+          const test_id = currentTest?.id;
+          const isServerEdit = isEdit && currentQuestion?.id;
+          const questionData = {
+            title,
+            question_type,
+            isQuestionLocal: currentQuestion?.isQuestionLocal,
+            answer: numberAnswer,
+            answers: answers ?? undefined,
+            test_id,
+          };
+
+          dispatch(
+            isServerEdit
+              ? editQuestion({
+                  ...questionData,
+                  //@ts-ignore
+                  id: currentQuestion.id,
+                })
+              : createQuestion(questionData),
+          );
+        } else {
+          const questionData = {
+            id: isEdit && currentQuestion ? currentQuestion.id : Date.now(),
+            question_type,
+            title,
+            isQuestionLocal: true,
+            answer: numberAnswer,
+            answers: answers ?? undefined,
+          };
+
+          dispatch(
+            isEdit
+              ? //@ts-ignore
+                editLocalQuestion(questionData)
+              : //@ts-ignore
+                addLocalQuestion(questionData),
+          );
+        }
+
+        setAnswers([]);
+
+        if (!isEdit) {
+          setIsAddQuestionWindowActive(false);
+        }
+        return true;
+      }
+      return false;
+    },
+    [
+      answers,
+      currentQuestion,
+      currentTest?.id,
+      dispatch,
+      getValues,
+      isLocal,
+      questionValidation,
+    ],
+  );
 
   const onGoBackButtonClick = useCallback(() => {
-    dispatch(setTest(undefined));
+    dispatch(setCurrentTest(undefined));
     router.push('/');
   }, [dispatch, router]);
 
   const onAddQuestionClick = useCallback(() => {
-    const questionType = getValues('questionSelect');
+    const questionType = getValues('questionType');
     const isQuestion =
       questionType === 'single' ||
       questionType === 'multiple' ||
       questionType === 'number';
 
     if (isQuestion) {
-      dispatch(
-        setModalWindowState({
-          title: 'Добавление вопроса',
-          content: { type: 'question', questionType, isLocal },
-          buttons: {
-            save: {
-              saveTarget: 'question',
-              id: isLocal ? questions?.length : initTest.id,
-            },
-          },
-        }),
-      );
+      setIsAddQuestionWindowActive(true);
     } else {
       dispatch(setErrorsState('Error: Before adding a question, select its type'));
     }
-  }, [dispatch, getValues, initTest?.id, isLocal, questions?.length]);
+  }, [dispatch, getValues]);
 
-  const onDeleteQuestionClick = useCallback(
+  const onDeleteQuestionConfirmClick = useCallback(
     (id: number) => {
+      setAnswers([]);
+      setCurrentQuestion(undefined);
       dispatch(
-        setModalWindowState({
-          title: 'Подтвердите удаление вопроса',
-          buttons: { withConfirmButton: true, delete: { deleteTarget: 'question', id } },
-        }),
+        isLocal
+          ? deleteLocalQuestion({ id })
+          : deleteQuestion({ id, test_id: currentTest?.id }),
       );
+      reset();
     },
-    [dispatch],
-  );
-
-  const onEditQuestionClick = useCallback(
-    (question: createQuestionRequestType) => {
-      dispatch(setCurrentQuestion(question));
-      dispatch(
-        setModalWindowState({
-          title: 'Добавление вопроса',
-          content: {
-            type: 'question',
-            questionType: question.question_type,
-            isLocal: !initTest,
-          },
-          buttons: { save: { saveTarget: 'question', id: question.id } },
-          isEdit: true,
-        }),
-      );
-    },
-    [dispatch, initTest],
+    [currentTest?.id, dispatch, isLocal, reset],
   );
 
   useEffect(() => {
@@ -95,6 +232,18 @@ function TestForm({
       setValue('title', initTest.title);
     }
   }, [initTest?.title, setValue]);
+
+  useEffect(() => {
+    if (currentQuestion) {
+      const isNumberAnswer = currentQuestion.answer;
+      setValue('questionTitle', currentQuestion.title);
+
+      if (isNumberAnswer) {
+        //@ts-ignore
+        setValue('numberAnswer', currentQuestion.answer);
+      }
+    }
+  }, [currentQuestion, setValue]);
 
   return (
     <form
@@ -105,19 +254,29 @@ function TestForm({
     >
       <h1 className={styles.formTitle}>{title}</h1>
 
-      <TestFormInfoEdit
-        title={initTest?.title}
-        withDeleteButton={withDeleteButton}
-        onAddQuestionClick={onAddQuestionClick}
-        register={register}
-      />
+      <TestFormContext.Provider
+        value={{
+          answers,
+          withDeleteButton,
+          onQuestionModifyClick,
+          onDeleteQuestionConfirmClick,
+          setAnswers,
+          setCurrentQuestion,
+          currentQuestion,
+          form: formContext,
+        }}
+      >
+        <TestFormInfoEdit
+          title={initTest?.title}
+          onAddQuestionClick={onAddQuestionClick}
+          modalWindowData={{
+            isAddQuestionWindowActive,
+            setIsAddQuestionWindowActive,
+          }}
+        />
 
-      <TestFormQuestions
-        questions={questions}
-        withDeleteButton={withDeleteButton}
-        onDeleteQuestionClick={onDeleteQuestionClick}
-        onEditQuestionClick={onEditQuestionClick}
-      />
+        <TestFormQuestions questions={questions} />
+      </TestFormContext.Provider>
 
       <TestFormButtons
         onGoBackButtonClick={onGoBackButtonClick}

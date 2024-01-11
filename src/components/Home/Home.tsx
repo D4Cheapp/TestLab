@@ -13,7 +13,6 @@ import { HomeNavbar, TestComponent } from '@/src/components/Home/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { profileLogout } from '@/src/reduxjs/reducers/authReducer';
 import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
-import { setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
 import styles from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
@@ -31,22 +30,18 @@ function Home(): React.ReactNode {
   const queryParams = useSearchParams().get('filter');
   const testListRef = useRef<HTMLDivElement>(null);
 
+  const [isLogoutWindowActive, setIsLogoutWindowActive] = useState<boolean>(false);
   const [testPage, setTestPage] = useState<number>(1);
   const [isReverseDate, setIsReverseDate] = useState<boolean>(false);
   const [filterValue, setFilterValue] = useState<string>(
     validateFilterValue(queryParams),
   );
 
-  const onPassTestClick = useCallback(
-    (index: number) =>
-      dispatch(
-        setModalWindowState({
-          title: 'Начать прохождение теста?',
-          content: { type: 'test-pass', id: index },
-          buttons: { withConfirmButton: true },
-        }),
-      ),
-    [dispatch],
+  const onPassTestConfirmClick = useCallback(
+    (index: number) => {
+      router.push(`/pass-test?id=${index}`);
+    },
+    [router],
   );
 
   const onEditTestClick = useCallback(
@@ -60,6 +55,10 @@ function Home(): React.ReactNode {
   );
 
   const onLogoutClick = useCallback(() => {
+    setIsLogoutWindowActive(true);
+  }, []);
+
+  const onLogoutConfirmClick = useCallback(() => {
     dispatch(profileLogout());
     router.push('/login');
   }, [dispatch, router]);
@@ -154,12 +153,17 @@ function Home(): React.ReactNode {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testList]);
 
+  console.log(testList);
+
   return (
     <div className={styles.home}>
       <HomeNavbar
         isReverseDate={isReverseDate}
+        isLogoutWindowActive={isLogoutWindowActive}
+        setLogoutWindowActive={setIsLogoutWindowActive}
         onFilterReverseClick={onFilterReverseClick}
         onLogoutClick={onLogoutClick}
+        onLogoutConfirmClick={onLogoutConfirmClick}
         onFilterInput={onFilterInput}
         defaultFilterValue={filterValue}
       />
@@ -170,12 +174,12 @@ function Home(): React.ReactNode {
         className={clsx(
           styles.testContainer,
           { [styles.emptyContainer]: testList.length === 0 },
-          { [styles.loadingContainer]: isLoading },
+          { [styles.loadingContainer]: isLoading && testList.length === 0 },
         )}
       >
-        {isLoading && !testList ? (
-          <div className={styles.loading} />
-        ) : testList.length === 0 ? (
+        {isLoading && !testList && <div className={styles.loading} />}
+
+        {testList.length === 0 && !isLoading ? (
           <div className={styles.errorTitleContainer}>
             <h1 className={styles.notFoundTitle}>Тесты не найдены</h1>
           </div>
@@ -189,12 +193,12 @@ function Home(): React.ReactNode {
                 isAdmin={isAdmin}
                 onDeleteTestClick={onDeleteTestClick}
                 onEditTestClick={onEditTestClick}
-                onPassTestClick={onPassTestClick}
+                onPassTestConfirmClick={onPassTestConfirmClick}
               />
             ))}
 
             {isLoading && (
-              <div>
+              <div className={styles.paginationLoadingContainer}>
                 <div className={styles.paginationLoading} />
               </div>
             )}

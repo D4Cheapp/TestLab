@@ -1,19 +1,25 @@
-import React, { ChangeEventHandler } from 'react';
-import Link from 'next/link';
+import React, { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import clsx from 'clsx';
+import { ModalWindow } from '@/src/components/ModalWindow';
 import styles from './HomeNavbar.module.scss';
 
 interface HomeNavbarInterface {
   isReverseDate: boolean;
   defaultFilterValue: string;
+  isLogoutWindowActive: boolean;
+  setLogoutWindowActive: Dispatch<SetStateAction<boolean>>;
   onFilterReverseClick: () => void;
   onLogoutClick: () => void;
+  onLogoutConfirmClick: () => void;
   onFilterInput: ChangeEventHandler;
 }
 
 function HomeNavbar({
   isReverseDate,
   defaultFilterValue,
+  isLogoutWindowActive,
+  setLogoutWindowActive,
+  onLogoutConfirmClick,
   onFilterReverseClick,
   onLogoutClick,
   onFilterInput,
@@ -38,9 +44,18 @@ function HomeNavbar({
           <div className={clsx(styles.arrow, { [styles.reverseDate]: isReverseDate })} />
         </button>
 
-        <Link href={'/login'} className={styles.logout} onClick={onLogoutClick}>
+        {isLogoutWindowActive && (
+          <ModalWindow
+            title="Вы действительно хотите выйти из профиля?"
+            buttonInfo={{ withConfirmButton: true }}
+            setIsActive={setLogoutWindowActive}
+            confirmAction={onLogoutConfirmClick}
+          />
+        )}
+
+        <button className={styles.logout} onClick={onLogoutClick}>
           Выйти из профиля
-        </Link>
+        </button>
       </div>
     </nav>
   );

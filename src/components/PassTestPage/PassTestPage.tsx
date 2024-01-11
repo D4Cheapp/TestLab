@@ -4,9 +4,10 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { getTest } from '@/src/reduxjs/reducers/testReducer';
-import { setErrorsState, setModalWindowState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import styles from './PassTestPage.module.scss';
 import { PassQuestion } from './PassQuestion';
+import { ModalWindow } from '../ModalWindow';
 
 type passTestQuestionType =
   | {
@@ -20,6 +21,8 @@ function PassTestPage(): React.ReactNode {
   const searchParams = useSearchParams().get('id');
   const currentTest = useAppSelector((state) => state.test.currentTest);
   const [passProgress, setPassProgress] = useState<passTestQuestionType>([]);
+  const [isResultWindowActive, setIsResultWindowActive] = useState(false);
+  const [testResult, setTestResult] = useState<{ correct: number; wrong: number }>();
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -138,26 +141,20 @@ function PassTestPage(): React.ReactNode {
       const isScoreCorrupted = score !== -1;
       if (isScoreCorrupted) {
         setPassProgress(newProgress);
-        dispatch(
-          setModalWindowState({
-            title: 'Результаты прохождения теста',
-            content: {
-              type: 'test-result',
-              correct: score,
-              //@ts-ignore
-              wrong: correctQuestions.length - score,
-            },
-            buttons: {
-              withGoToTestButton: true,
-            },
-          }),
-        );
+        //@ts-ignore
+        setTestResult({ correct: score, wrong: correctQuestions?.length - score });
+        setIsResultWindowActive(true);
       }
     }
   };
 
   const onGoBackClick = () => {
     router.push('/');
+  };
+
+  const goBackConfirmAction = () => {
+    onGoBackClick();
+    setIsResultWindowActive(false);
   };
 
   useEffect(() => {
@@ -196,6 +193,29 @@ function PassTestPage(): React.ReactNode {
         ))}
       </section>
       <div className={styles.buttonsContainer}>
+        {isResultWindowActive && (
+          <ModalWindow
+            buttonInfo={{
+              confirmTitle: 'Вернуться к списку тестов',
+              withConfirmButton: true,
+            }}
+            confirmAction={goBackConfirmAction}
+            setIsActive={setIsResultWindowActive}
+            title={'Результаты прохождения теста'}
+          >
+            <div className={styles.resultContainer}>
+              <p className={styles.resultTitle}>
+                Всего вопросов: {currentTest.questions.length}
+              </p>
+              <p className={styles.resultTitle}>
+                Правильных ответов: {testResult?.correct}{' '}
+              </p>
+              <p className={styles.resultTitle}>
+                Неправильных ответов: {testResult?.wrong}
+              </p>
+            </div>
+          </ModalWindow>
+        )}
         <button
           className={clsx(styles.passTestButton, styles.testButton)}
           onClick={onPassTestClick}

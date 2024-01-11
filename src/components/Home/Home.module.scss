@@ -90,3 +90,9 @@ div.paginationLoading {
   width: 100%;
   @include loadingCircle(2em, 0.3em);
 }
+
+div.paginationLoadingContainer {
+  display: grid;
+  place-items: center;
+  width: 100%;
+}

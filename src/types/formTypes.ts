@@ -7,5 +7,8 @@ export type entryFormType = {
 
 export type testFormType = {
   title: string;
-  questionSelect: string;
+  questionType: 'single' | 'multiple' | 'number';
+  questionTitle: string;
+  answerInput: string;
+  numberAnswer: number;
 };

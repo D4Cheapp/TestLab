@@ -4,7 +4,7 @@ import {
   profileLogoutReceiveType,
   testReceiveType,
 } from '@/src/types/receiveTypes';
-import { currentProfileType, modalWindowType } from '@/src/types/reducerInitialTypes';
+import { currentProfileType } from '@/src/types/reducerInitialTypes';
 import {
   createTestRequestType,
   paginationTestRequestType,
@@ -23,7 +23,7 @@ export type createTestActionType = PayloadAction<createTestRequestType>;
 export type editTestActionType = PayloadAction<{ id: number } & createTestRequestType>;
 export type deleteTestActionType = PayloadAction<{ id: number }>;
 export type getTestActionType = PayloadAction<{ id: number }>;
-export type setTestActionType = PayloadAction<testReceiveType | undefined>;
+export type setCurrentTestActionType = PayloadAction<testReceiveType | undefined>;
 export type getPaginationTestActionType = PayloadAction<paginationTestRequestType>;
 export type setPaginationTestActionType = PayloadAction<
   paginationTestsReceiveType & paginationTestRequestType
@@ -51,7 +51,6 @@ export type moveAnswerActionType = PayloadAction<{
 }>;
 export type deleteAnswerActionType = PayloadAction<{ id: number }>;
 
-export type setModalWindowActionType = PayloadAction<modalWindowType | undefined>;
 export type setLoadingStateActionType = PayloadAction<boolean>;
 export type setErrorStateActionType = PayloadAction<string>;
 export type deleteErrorStateActionType = PayloadAction<number>;
