@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
 import { ErrorMessage } from './ErrorMessage';
-import styles from './ErrorContainer.module.scss';
+import s from './ErrorContainer.module.scss';
 
 function ErrorContainer(): React.ReactNode {
   const errorsState = useAppSelector((state) => state.base.errors);
@@ -20,7 +20,7 @@ function ErrorContainer(): React.ReactNode {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={s.container}>
       {errorsState.map((error) => (
         <ErrorMessage
           key={error.id}

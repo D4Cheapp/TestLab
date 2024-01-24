@@ -9,11 +9,11 @@ div.root {
     width: 100%;
     margin: 0;
     padding-block: 0.7em;
-    font-size: 2.5em;
     text-align: center;
+    @include fontType(2.5em);
 
-    @media screen and (width < 1080px) {
-      font-size: 5vh;
+    @include standard {
+      @include fontType(5vh);
     }
   }
 }
@@ -37,10 +37,8 @@ div.resultContainer {
   gap: 1em;
 }
 p.resultTitle {
-  color: $babyPowder;
   margin: 0;
-  font-size: 1.2em;
-  font-weight: bold;
+  @include fontType(1.2em, $babyPowder, bold);
 }
 
 div.buttonsContainer {
@@ -49,7 +47,7 @@ div.buttonsContainer {
   display: inline-flex;
   justify-content: space-around;
 
-  @media screen and (width < 850px) {
+  @include miniature {
     gap: 1em;
     align-items: center;
     justify-content: center;
@@ -67,12 +65,10 @@ button.testButton {
   border: 2px $babyPowder solid;
   outline: none;
   cursor: pointer;
-  font-size: 1.4em;
-  font-weight: bold;
-  color: $babyPowder;
+  @include fontType(1.4em, $babyPowder, bold);
   @include colorButton($zomp);
 
-  @media screen and (width < 850px) {
+  @include miniature {
     width: 90%;
     margin: 0;
   }

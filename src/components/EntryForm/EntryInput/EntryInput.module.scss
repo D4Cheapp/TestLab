@@ -8,13 +8,12 @@ div.inputContainer {
     top: -0.5em;
     left: 1em;
     padding-inline: 0.5em;
-    font-size: 1vw;
-    color: $babyPowder;
     background-color: $charcoal;
     opacity: 0;
+    @include fontType(1vw, $babyPowder);
 
-    @media screen and (width <= 1124px) {
-      font-size: 2.2vh;
+    @include compact {
+      @include fontType(2.2vh);
     }
   }
 
@@ -25,8 +24,8 @@ div.inputContainer {
   input.input {
     width: 100%;
     height: 2.7em;
-    @include formInput(1.3vw);
     transition: border 0.1s;
+    @include formInput(1.3vw);
 
     &:focus {
       border-color: $zomp;
@@ -37,21 +36,21 @@ div.inputContainer {
     }
 
     &::placeholder {
-      color: rgba($babyPowder, 0.5);
+      @include fontType(null, rgba($babyPowder, 0.5));
     }
 
     &:focus + div.inputLabel {
-      color: $zomp;
       opacity: 1;
+      @include fontType(null, $zomp);
     }
 
     &:not(:placeholder-shown) + div.inputLabel {
       opacity: 1;
     }
 
-    @media screen and (width <= 1124px) {
+    @include compact {
       height: 3em;
-      font-size: 3vh;
+      @include fontType(3vh);
     }
   }
 
@@ -82,13 +81,13 @@ div.inputContainer {
     background-position: center;
     transition: background-image 0.2s;
 
-    @media screen and (width <= 1124px) {
+    @include compact {
       width: 3vh;
     }
   }
 
-  @media screen and (width <= 1124px) {
+  @include compact {
     width: 90%;
-    font-size: 2.2vh;
+    @include fontType(2.2vh);
   }
 }

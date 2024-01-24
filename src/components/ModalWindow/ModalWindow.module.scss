@@ -38,17 +38,13 @@ div.componentFrom {
   border-radius: 10px;
   border: 2px $babyPowder solid;
 
-  @media screen and (width < 1256px) {
-    width: 60%;
+  @include spacious {
+    width: 70%;
+    max-height: 75%;
     padding: 5%;
   }
 
-  @media screen and (width < 1124px) {
-    width: 70%;
-    max-height: 75%;
-  }
-
-  @media screen and (width < 850px) {
+  @include miniature {
     width: 80%;
     max-height: 85%;
   }
@@ -71,11 +67,10 @@ div.formHeader {
     width: 80%;
     margin-block: 0;
     margin-left: 10%;
-    font-size: 2em;
+    @include fontType(2em);
   }
 
   button.closeButton {
-    @include cross(1.3em, 3px);
     align-self: flex-start;
     width: 34px;
     height: 34px;
@@ -87,18 +82,15 @@ div.formHeader {
     transition:
       border-color 0.2s,
       scale 0.2s;
+    @include cross(1.3em, 3px);
 
-    &:hover {
+    @include hover {
       border-color: $oldRose;
 
       &:after,
       &:before {
         background: $oldRose;
       }
-    }
-
-    &:active {
-      scale: 0.95;
     }
   }
 }

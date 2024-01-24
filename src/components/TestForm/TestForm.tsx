@@ -17,7 +17,7 @@ import { currentTestType } from '@/src/types/reducerInitialTypes';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
 import { TestFormContext, questionAnswerType } from './TestFormContext';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
-import styles from './TestForm.module.scss';
+import s from './TestForm.module.scss';
 
 interface TestFormInterface {
   initTest?: currentTestType;
@@ -61,8 +61,6 @@ function TestForm({
       const isAnswerAmountError =
         (questionType === 'multiple' || questionType === 'single') &&
         (!answerCount || (answerCount && answerCount < 2));
-
-      console.log(questionType);
 
       if (!questionType) {
         return false;
@@ -247,12 +245,12 @@ function TestForm({
 
   return (
     <form
-      className={styles.root}
+      className={s.root}
       name="testForm"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(action)}
     >
-      <h1 className={styles.formTitle}>{title}</h1>
+      <h1 className={s.formTitle}>{title}</h1>
 
       <TestFormContext.Provider
         value={{

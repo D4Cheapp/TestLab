@@ -12,8 +12,8 @@ div.question {
 
   h2.title {
     cursor: default;
-    font-size: 1.8em;
     margin-block: 0;
+    @include fontType(1.8em);
   }
 
   input.numberAnswer {
@@ -21,11 +21,10 @@ div.question {
     box-sizing: border-box;
     padding-inline: 1em;
     padding-block: 0.5em;
-    font-size: 1.2em;
-    color: $babyPowder;
     border: 2px $babyPowder solid;
     border-radius: 5px;
     background: none;
+    @include fontType(1.2em, $babyPowder);
 
     &::placeholder {
       color: rgba($babyPowder, 0.6);
@@ -72,6 +71,6 @@ label.answer {
   p.answerTitle {
     margin-block: 0;
     margin-left: 1em;
-    font-size: 1.3em;
+    @include fontType(1.3em);
   }
 }

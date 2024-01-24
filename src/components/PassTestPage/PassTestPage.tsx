@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { getTest } from '@/src/reduxjs/reducers/testReducer';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import styles from './PassTestPage.module.scss';
+import s from './PassTestPage.module.scss';
 import { PassQuestion } from './PassQuestion';
 import { ModalWindow } from '../ModalWindow';
 
@@ -179,9 +179,9 @@ function PassTestPage(): React.ReactNode {
   }
 
   return (
-    <div className={styles.root}>
-      <h1 className={styles.testTitle}>{currentTest?.title}</h1>
-      <section className={styles.questionsContainer}>
+    <div className={s.root}>
+      <h1 className={s.testTitle}>{currentTest?.title}</h1>
+      <section className={s.questionsContainer}>
         {currentTest.questions?.map((question, index) => (
           <PassQuestion
             key={question.id}
@@ -192,7 +192,7 @@ function PassTestPage(): React.ReactNode {
           />
         ))}
       </section>
-      <div className={styles.buttonsContainer}>
+      <div className={s.buttonsContainer}>
         {isResultWindowActive && (
           <ModalWindow
             buttonInfo={{
@@ -203,28 +203,28 @@ function PassTestPage(): React.ReactNode {
             setIsActive={setIsResultWindowActive}
             title={'Результаты прохождения теста'}
           >
-            <div className={styles.resultContainer}>
-              <p className={styles.resultTitle}>
+            <div className={s.resultContainer}>
+              <p className={s.resultTitle}>
                 Всего вопросов: {currentTest.questions.length}
               </p>
-              <p className={styles.resultTitle}>
+              <p className={s.resultTitle}>
                 Правильных ответов: {testResult?.correct}{' '}
               </p>
-              <p className={styles.resultTitle}>
+              <p className={s.resultTitle}>
                 Неправильных ответов: {testResult?.wrong}
               </p>
             </div>
           </ModalWindow>
         )}
         <button
-          className={clsx(styles.passTestButton, styles.testButton)}
+          className={clsx(s.passTestButton, s.testButton)}
           onClick={onPassTestClick}
         >
           Закончить прохождение теста
         </button>
 
         <button
-          className={clsx(styles.goBackButton, styles.testButton)}
+          className={clsx(s.goBackButton, s.testButton)}
           onClick={onGoBackClick}
         >
           Вернуться к списку тестов

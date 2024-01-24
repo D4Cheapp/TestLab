@@ -11,12 +11,12 @@ div.container {
   margin-inline: 20%;
   overflow: hidden;
 
-  @media screen and (width <= 800px) {
+  @include miniature {
     width: 80%;
     margin-inline: 10%;
   }
 
-  @media screen and (width <= 600px) {
+  @include narrow {
     width: 90%;
     margin-inline: 5%;
   }

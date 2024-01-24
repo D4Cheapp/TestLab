@@ -1,13 +1,16 @@
-$zomp: #67bb94;
-$jungleGreen: #549a79;
-$skyBlue: #74c0d2;
-$ecru: #d5bb74;
-$oldRose: #d37577;
-$babyPowder: #fafffd;
-$mintCream: #e8efed;
-$charcoal: #3d4452;
-$gunmetal: #2e3139;
-$black: #000;
+@mixin hover() {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin fontType($fontSize: null, $fontColor: null, $fontWeight: null) {
+  font-size: $fontSize;
+  color: $fontColor;
+  font-weight: $fontWeight;
+}
 
 @mixin colorButton($color) {
   transition:
@@ -15,11 +18,9 @@ $black: #000;
     background-image 0.2s,
     color 0.2s;
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      border-color: $color;
-      color: $color;
-    }
+  @include hover {
+    border-color: $color;
+    color: $color;
   }
 }
 
@@ -68,29 +69,26 @@ $black: #000;
     transition: 0.2s;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      &::after,
-      &::before {
-        background-color: $oldRose;
-      }
+  @include hover {
+    &::after,
+    &::before {
+      background-color: $oldRose;
     }
   }
 }
 
-@mixin formInput($fz) {
+@mixin formInput($fontSize) {
   outline: none;
   padding-inline: 1em;
   padding-block: 0.4em;
   box-sizing: border-box;
-  font-size: $fz;
-  color: $babyPowder;
   border-radius: 5px;
   border: 2px $babyPowder solid;
   background: $charcoal;
+  @include fontType($fontSize, $babyPowder);
 
   &::placeholder {
-    color: rgba($babyPowder, 0.7);
+    @include fontType(null, rgba($babyPowder, 0.7));
   }
 }
 
@@ -142,5 +140,41 @@ $black: #000;
     background: $babyPowder;
     border-radius: 50%;
     transition: opacity 0.1s;
+  }
+}
+
+@mixin wide() {
+  @media only screen and (max-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin spacious() {
+  @media only screen and (max-width: 1256px) {
+    @content;
+  }
+}
+
+@mixin compact() {
+  @media only screen and (max-width: 1124px) {
+    @content;
+  }
+}
+
+@mixin standard() {
+  @media only screen and (max-width: 1080px) {
+    @content;
+  }
+}
+
+@mixin miniature() {
+  @media only screen and (max-width: 850px) {
+    @content;
+  }
+}
+
+@mixin narrow() {
+  @media only screen and (max-width: 600px) {
+    @content;
   }
 }

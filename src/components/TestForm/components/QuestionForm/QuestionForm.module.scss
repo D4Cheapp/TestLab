@@ -3,10 +3,9 @@ label.inputTitle {
   opacity: 0;
   top: -0.6em;
   left: 1em;
-  color: $babyPowder;
-  font-size: 1em;
   background: $charcoal;
   padding-inline: 0.4em;
+  @include fontType(1em, $babyPowder);
 }
 
 input.input {
@@ -22,7 +21,7 @@ input.input {
 
   &:focus + label.inputTitle {
     opacity: 1;
-    color: $zomp;
+    @include fontType(null, $zomp);
   }
 
   &:not(:placeholder-shown) + label.inputTitle {
@@ -62,8 +61,7 @@ div.addAnswer {
     padding-inline: 0.32em;
     border-radius: 5px;
     border: 2px $babyPowder solid;
-    font-size: 1.9em;
-    color: $babyPowder;
+    @include fontType(1.9em, $babyPowder);
     @include colorButton($zomp);
   }
 }

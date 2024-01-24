@@ -15,9 +15,8 @@ div.errorMessage {
   p.error {
     margin: 0;
     white-space: pre-wrap;
-    color: $babyPowder;
     text-align: left;
-    font-size: 2.5vh;
+    @include fontType(2.5vh, $babyPowder)
   }
 
   button.close {
@@ -33,10 +32,8 @@ div.errorMessage {
       scale 0.2s;
     @include cross(2.3vh, 3px);
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-color: $babyPowder;
-      }
+    @include hover {
+      background-color: $babyPowder;
     }
 
     &:active {

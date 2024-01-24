@@ -11,9 +11,8 @@ div.testFromButtons {
     cursor: pointer;
     border: 2px $babyPowder solid;
     background: $charcoal;
-    color: $babyPowder;
-    font-size: 1.4em;
     padding-block: 0.3em;
+    @include fontType(1.4em, $babyPowder);
   }
 
   button.saveButton {

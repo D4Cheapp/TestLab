@@ -7,7 +7,6 @@ div.home {
   padding-inline: 15%;
 
   button.addButton {
-    font-size: 2.4em;
     position: relative;
     display: flex;
     align-items: center;
@@ -18,25 +17,23 @@ div.home {
     transition:
       color 0.2s,
       border-color 0.2s;
-    color: $babyPowder;
     border: 2px $babyPowder solid;
     border-radius: 5px;
     background: $charcoal;
+    @include fontType(2.4em, $babyPowder);
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        color: $zomp;
-        border-color: $zomp;
-      }
+    @include hover {
+      border-color: $zomp;
+      @include fontType(null, $zomp);
     }
   }
 
-  @media screen and (width <= 1440px) {
+  @include wide {
     width: 80%;
     padding-inline: 10%;
   }
 
-  @media screen and (width <= 850px) {
+  @include miniature {
     width: 90%;
     height: 90vh;
     padding-inline: 5%;
@@ -52,7 +49,7 @@ div.errorTitleContainer {
   align-items: center;
 
   h1.notFoundTitle {
-    font-size: 2em;
+    @include fontType(2em);
   }
 }
 
@@ -73,7 +70,7 @@ section.loadingContainer {
   justify-content: center;
   height: 50vh;
 
-  @media screen and (width < 850px) {
+  @include miniature {
     height: 65vh;
   }
 }

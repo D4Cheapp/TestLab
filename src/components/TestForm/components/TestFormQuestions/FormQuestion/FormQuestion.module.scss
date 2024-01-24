@@ -8,13 +8,13 @@ div.question {
   p.questionTitle {
     width: 100%;
     margin: 0;
-    font-size: 1.4em;
     box-sizing: border-box;
     border-radius: 5px;
     padding-inline: 1em;
     padding-block: 0.4em;
     background: $charcoal;
     border: 2px $babyPowder solid;
+    @include fontType(1.4em);
   }
 }
 
@@ -43,7 +43,7 @@ div.questionButtons {
     background-position: center;
     background-size: 65%, contain;
 
-    &:hover {
+    @include hover {
       border-color: $ecru;
       background-image: url('~public/images/svg/editPencilActive.svg');
     }
@@ -52,7 +52,7 @@ div.questionButtons {
   button.deleteButton {
     @include cross(1.4em, 3px);
 
-    &:hover {
+    @include hover {
       border-color: $oldRose;
     }
   }

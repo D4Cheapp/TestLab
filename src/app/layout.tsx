@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { ErrorContainer, Providers } from '@/src/components';
-import './globals.scss';
+import "src/styles/globals.scss";
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],

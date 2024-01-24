@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
 import { ModalWindow } from '@/src/components/ModalWindow';
-import styles from './FormQuestion.module.scss';
+import s from './FormQuestion.module.scss';
 import { QuestionForm } from '../..';
 import { TestFormContext } from '../../../TestFormContext';
 
@@ -54,10 +54,10 @@ function FormQuestion({ question }: FormQuestionInterface): React.ReactNode {
   };
 
   return (
-    <div className={styles.question}>
-      <p className={styles.questionTitle}>{question.title}</p>
+    <div className={s.question}>
+      <p className={s.questionTitle}>{question.title}</p>
 
-      <div className={styles.questionButtons}>
+      <div className={s.questionButtons}>
         {!withDeleteButton && (
           <>
             {isEditQuestionWindowActive && (
@@ -75,7 +75,7 @@ function FormQuestion({ question }: FormQuestionInterface): React.ReactNode {
             )}
             <button
               type="button"
-              className={clsx(styles.questionButton, styles.editButton)}
+              className={clsx(s.questionButton, s.editButton)}
               onClick={() => onEditQuestionClick(question)}
             />
           </>
@@ -91,7 +91,7 @@ function FormQuestion({ question }: FormQuestionInterface): React.ReactNode {
         )}
         <button
           type="button"
-          className={clsx(styles.questionButton, styles.deleteButton)}
+          className={clsx(s.questionButton, s.deleteButton)}
           onClick={() => (question.id ? onDeleteQuestionClick() : undefined)}
         />
       </div>

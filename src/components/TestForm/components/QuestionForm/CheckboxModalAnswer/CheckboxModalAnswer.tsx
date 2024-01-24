@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './CheckboxModalAnswer.module.scss';
+import s from './CheckboxModalAnswer.module.scss';
 import { questionAnswerType } from '../../../TestFormContext';
 
 interface CheckboxModalAnswerProps {
@@ -35,7 +35,7 @@ function CheckboxModalAnswer({
 
   return (
     <div
-      className={styles.answer}
+      className={s.answer}
       key={answer.id}
       draggable={true}
       onDragStart={() => dragEvents.onAnswerDragStart(answer)}
@@ -45,38 +45,38 @@ function CheckboxModalAnswer({
       onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
       onDoubleClick={onDoubleClick}
     >
-      <label className={styles.answerLabel} htmlFor={`answer-input-${answer.id}`}>
+      <label className={s.answerLabel} htmlFor={`answer-input-${answer.id}`}>
         {questionType === 'multiple' && (
           <>
             <input
-              className={styles.answerCheckbox}
+              className={s.answerCheckbox}
               type="checkbox"
               id={`answer-input-${answer.id}`}
               name="multiple-answer"
               onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
               defaultChecked={answer.is_right}
             />
-            <div className={styles.customCheckbox} />
+            <div className={s.customCheckbox} />
           </>
         )}
 
         {questionType === 'single' && (
           <>
             <input
-              className={styles.answerRadio}
+              className={s.answerRadio}
               type="radio"
               id={`answer-input-${answer.id}`}
               name="single-answer"
               onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
               defaultChecked={answer.is_right}
             />
-            <div className={styles.customRadio} />
+            <div className={s.customRadio} />
           </>
         )}
 
         {isInputMode ? (
           <input
-            className={styles.answerTitleInput}
+            className={s.answerTitleInput}
             type="text"
             id={`answer-title-${answer.id}`}
             name={`answer-${answer.id}`}
@@ -89,11 +89,11 @@ function CheckboxModalAnswer({
             }}
           />
         ) : (
-          <p className={styles.answerTitle}>{answer.text}</p>
+          <p className={s.answerTitle}>{answer.text}</p>
         )}
       </label>
       <button
-        className={styles.answerDeleteButton}
+        className={s.answerDeleteButton}
         type="button"
         onClick={() => answerEvents.onDeleteAnswerClick(answer.id)}
       >

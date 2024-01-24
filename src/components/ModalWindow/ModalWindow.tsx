@@ -2,7 +2,7 @@
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import clsx from 'clsx';
 import { ModalButtons } from './components';
-import styles from './ModalWindow.module.scss';
+import s from './ModalWindow.module.scss';
 
 interface ModalWindowInterface {
   setIsActive: Dispatch<SetStateAction<boolean>>;
@@ -42,17 +42,17 @@ function ModalWindow({
   }, [onEscapeKeyDown]);
 
   return (
-    <aside className={styles.root}>
-      <div className={styles.background} onClick={onCloseWindowClick} />
+    <aside className={s.root}>
+      <div className={s.background} onClick={onCloseWindowClick} />
 
       <div
-        className={clsx(styles.componentFrom, {
-          [styles.invisibleContent]: !children,
+        className={clsx(s.componentFrom, {
+          [s.invisibleContent]: !children,
         })}
       >
-        <div className={styles.formHeader}>
-          <h1 className={styles.title}>{title}</h1>
-          <button className={styles.closeButton} onClick={onCloseWindowClick} />
+        <div className={s.formHeader}>
+          <h1 className={s.title}>{title}</h1>
+          <button className={s.closeButton} onClick={onCloseWindowClick} />
         </div>
 
         {children}

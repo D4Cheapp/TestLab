@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './LoadingContainer.module.scss';
+import s from './LoadingContainer.module.scss';
 
 function LoadingContainer(): React.ReactNode {
   return (
-    <div className={styles.root}>
-      <div className={styles.loading} />
+    <div className={s.root}>
+      <div className={s.loading} />
     </div>
   );
 }

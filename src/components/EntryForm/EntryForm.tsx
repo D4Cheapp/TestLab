@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { profileLogin, profileRegister } from '@/src/reduxjs/reducers/authReducer';
 import { EntryInput } from './EntryInput';
-import styles from './EntryForm.module.scss';
+import s from './EntryForm.module.scss';
 
 interface EntryFormInterface {
   redirectTo: string;
@@ -104,14 +104,14 @@ function EntryForm({
   }, [currentProfile?.id, formState.isSubmitSuccessful, router]);
 
   return (
-    <div className={styles.formContainer}>
+    <div className={s.formContainer}>
       <form
-        className={styles.form}
+        className={s.form}
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmitFunc)}
         name="EntryForm"
       >
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={s.title}>{title}</h1>
 
         <EntryInput
           title="Логин"
@@ -133,7 +133,7 @@ function EntryForm({
 
         {isRegister && (
           <>
-            <div className={styles.confirmPasswordContainer}>
+            <div className={s.confirmPasswordContainer}>
               <EntryInput
                 isPassword
                 title="Подтвердите пароль"
@@ -146,32 +146,32 @@ function EntryForm({
               />
 
               {isPasswordMatchError && (
-                <p className={styles.matchErrorTitle}>Ошибка: пароли не совпадают</p>
+                <p className={s.matchErrorTitle}>Ошибка: пароли не совпадают</p>
               )}
             </div>
 
-            <label className={styles.isAdmin}>
-              <p className={styles.isAdminTitle}>Учетная запись администратора</p>
+            <label className={s.isAdmin}>
+              <p className={s.isAdminTitle}>Учетная запись администратора</p>
 
               <input
-                className={styles.checkbox}
+                className={s.checkbox}
                 type="checkbox"
                 defaultChecked={false}
                 id="is_admin"
                 {...register('is_admin')}
               />
 
-              <div className={styles.customCheckbox} />
+              <div className={s.customCheckbox} />
             </label>
           </>
         )}
 
-        <div className={styles.additionalContent}>
-          <button className={styles.submit} type="submit">
+        <div className={s.additionalContent}>
+          <button className={s.submit} type="submit">
             {submitTitle}
           </button>
 
-          <button type="button" className={styles.redirectLink} onClick={onRedirectClick}>
+          <button type="button" className={s.redirectLink} onClick={onRedirectClick}>
             {redirectTitle}
           </button>
         </div>

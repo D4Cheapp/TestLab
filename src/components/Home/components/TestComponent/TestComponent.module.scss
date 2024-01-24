@@ -12,10 +12,10 @@ div.test {
 
   p.testTitle {
     cursor: pointer;
-    font-size: 1.5em;
     overflow: hidden;
     width: 80%;
     margin: 0;
+    @include fontType(1.5em);
   }
 }
 
@@ -41,10 +41,8 @@ div.buttonsContainer {
     background-size: auto;
     @include colorButton($ecru);
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        background-image: url('~public/images/svg/editPencilActive.svg');
-      }
+    @include hover {
+      background-image: url('~public/images/svg/editPencilActive.svg');
     }
   }
 

@@ -3,16 +3,15 @@
   padding-block: 0.5em;
   cursor: pointer;
   padding-inline: 1em;
-  font-size: 1.4em;
   white-space: nowrap;
   text-align: center;
   background-color: $charcoal;
-  color: $babyPowder;
   border-radius: 5px;
   border: 2px solid $babyPowder;
   transition:
     color 0.2s,
     border-color 0.2s;
+  @include fontType(1.4em, $babyPowder);
 }
 
 nav.nav {
@@ -23,32 +22,31 @@ nav.nav {
   gap: 0.5em;
 
   h1.navTitle {
-    font-size: 2.5em;
     margin: 0 0 0.3em;
+    @include fontType(2.5em);
 
-    @media screen and (width <= 600px) {
+    @include narrow {
       display: none;
     }
   }
 
   input.filter {
-    font-size: 1.4em;
     box-sizing: border-box;
     width: 100%;
-    color: $babyPowder;
     border: 2px $babyPowder solid;
     border-radius: 5px;
     outline: none;
     background: $charcoal;
     padding-block: 0.5em;
     padding-inline: 1em;
+    @include fontType(1.4em, $babyPowder);
 
     &::placeholder {
-      color: rgba($babyPowder, 0.5);
+      @include fontType(null, rgba($babyPowder, 0.5));
     }
   }
 
-  @media screen and (width <= 850px) {
+  @include miniature {
     gap: 0.5em;
   }
 }
@@ -67,18 +65,18 @@ div.secondLine {
     justify-content: center;
     gap: 0.5em;
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        color: $skyBlue;
-        border-color: $skyBlue;
-      }
+    @include hover {
+      border-color: $skyBlue;
+      @include fontType(null, $skyBlue);
+    }
 
-      &:hover > div.arrow {
+    @include hover {
+      & > div.arrow {
         background-image: url('~public/images/svg/selectArrowActive.svg');
       }
     }
 
-    @media screen and (width <= 600px) {
+    @include narrow {
       width: 100%;
     }
   }
@@ -105,20 +103,18 @@ div.secondLine {
   button.logout {
     @include navButton;
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        color: $oldRose;
-        border-color: $oldRose;
-      }
+    @include hover {
+      border-color: $oldRose;
+      @include fontType(null, $oldRose);
     }
 
-    @media screen and (width <= 600px) {
-      width: 90%;
+    @include narrow {
+      width: 100%;
       padding-inline: 5%;
     }
   }
 
-  @media screen and (width <= 600px) {
+  @include narrow {
     align-items: center;
     flex-direction: column;
   }

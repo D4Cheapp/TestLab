@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useAppDispatch } from '@/src/hooks/reduxHooks';
 import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
-import styles from './ErrorMessage.module.scss';
+import s from './ErrorMessage.module.scss';
 
 interface ErrorMessageInterface {
   error: string;
@@ -28,9 +28,9 @@ function ErrorMessage({
   }, [dispatch, index]);
 
   return (
-    <div className={clsx(styles.errorMessage, { [styles.fadeAnimation]: isFaded })}>
-      <p className={styles.error}>{error}</p>
-      <button className={styles.close} onClick={() => onCloseClick(index)} />
+    <div className={clsx(s.errorMessage, { [s.fadeAnimation]: isFaded })}>
+      <p className={s.error}>{error}</p>
+      <button className={s.close} onClick={() => onCloseClick(index)} />
     </div>
   );
 }

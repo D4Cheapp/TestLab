@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useAppDispatch } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import styles from './QuestionForm.module.scss';
+import s from './QuestionForm.module.scss';
 import { CheckboxModalAnswer } from './CheckboxModalAnswer';
 import { TestFormContext, questionAnswerType } from '../../TestFormContext';
 
@@ -180,34 +180,34 @@ function QuestionForm(): React.ReactNode {
 
   return (
     <>
-      <div className={styles.questionAddTitle}>
+      <div className={s.questionAddTitle}>
         <input
-          className={clsx(styles.questionInput, styles.input)}
+          className={clsx(s.questionInput, s.input)}
           type="text"
           placeholder="Введите вопрос"
           id="questionTitle"
           defaultValue={currentQuestion?.title}
           {...register('questionTitle')}
         />
-        <label className={styles.inputTitle} htmlFor="questionTitle">
+        <label className={s.inputTitle} htmlFor="questionTitle">
           Вопрос
         </label>
       </div>
 
       {(questionType === 'single' || questionType === 'multiple') && (
-        <div className={styles.addAnswer}>
+        <div className={s.addAnswer}>
           <input
-            className={clsx(styles.answerAddInput, styles.input)}
+            className={clsx(s.answerAddInput, s.input)}
             type="text"
             placeholder="Введите вариант ответа"
             id="answerVariant"
             {...register('answerInput')}
           />
-          <label className={styles.inputTitle} htmlFor="answerVariant">
+          <label className={s.inputTitle} htmlFor="answerVariant">
             Вариант ответа
           </label>
           <button
-            className={styles.answerAddButton}
+            className={s.answerAddButton}
             type="button"
             onClick={onAddAnswerClick}
           >
@@ -217,8 +217,8 @@ function QuestionForm(): React.ReactNode {
       )}
 
       <div
-        className={clsx(styles.answersContainer, {
-          [styles.severalScroll]: questionType !== 'number',
+        className={clsx(s.answersContainer, {
+          [s.severalScroll]: questionType !== 'number',
         })}
       >
         {((questionType === 'single' || questionType === 'multiple') &&
@@ -236,9 +236,9 @@ function QuestionForm(): React.ReactNode {
               ) : undefined,
             )) ||
           (questionType === 'number' && (
-            <div className={styles.numberAnswerContainer}>
+            <div className={s.numberAnswerContainer}>
               <input
-                className={styles.answerNumber}
+                className={s.answerNumber}
                 type="number"
                 id="numberAnswer"
                 placeholder="Введите ответ на вопрос"
@@ -247,7 +247,7 @@ function QuestionForm(): React.ReactNode {
                 defaultValue={getValues('numberAnswer')}
                 {...register('numberAnswer')}
               />
-              <label className={styles.inputTitle} htmlFor="numberAnswer">
+              <label className={s.inputTitle} htmlFor="numberAnswer">
                 Ответ
               </label>
             </div>

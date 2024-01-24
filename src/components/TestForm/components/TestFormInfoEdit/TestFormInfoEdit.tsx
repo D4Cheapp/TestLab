@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import clsx from 'clsx';
 import { ModalWindow } from '@/src/components/ModalWindow';
-import styles from './TestFormInfoEdit.module.scss';
+import s from './TestFormInfoEdit.module.scss';
 import { QuestionForm } from '..';
 import { TestFormContext } from '../../TestFormContext';
 
@@ -29,18 +29,18 @@ function TestFormInfoEdit({
 
   return (
     <div
-      className={clsx(styles.editContainer, {
-        [styles.singleContainer]: withDeleteButton,
+      className={clsx(s.editContainer, {
+        [s.singleContainer]: withDeleteButton,
       })}
     >
       <div
-        className={clsx(styles.contentContainer, {
-          [styles.mainInput]: withDeleteButton,
+        className={clsx(s.contentContainer, {
+          [s.mainInput]: withDeleteButton,
         })}
       >
-        <h2 className={styles.testNameTitle}>Название теста</h2>
+        <h2 className={s.testNameTitle}>Название теста</h2>
         <input
-          className={styles.testNameInput}
+          className={s.testNameInput}
           type="text"
           readOnly={withDeleteButton}
           placeholder="Введите название теста"
@@ -51,26 +51,26 @@ function TestFormInfoEdit({
       </div>
 
       {!withDeleteButton && (
-        <div className={styles.contentContainer}>
-          <h2 className={styles.testNameTitle}>Добавление вопроса</h2>
+        <div className={s.contentContainer}>
+          <h2 className={s.testNameTitle}>Добавление вопроса</h2>
 
-          <div className={styles.chooseQuestionContainer}>
+          <div className={s.chooseQuestionContainer}>
             <select
-              className={styles.questionType}
+              className={s.questionType}
               defaultValue={''}
               id="questionSelect"
               {...form.register('questionType')}
             >
-              <option className={styles.questionTypeOption} value="">
+              <option className={s.questionTypeOption} value="">
                 Выберите тип вопроса
               </option>
-              <option className={styles.questionTypeOption} value="single">
+              <option className={s.questionTypeOption} value="single">
                 Один из списка
               </option>
-              <option className={styles.questionTypeOption} value="multiple">
+              <option className={s.questionTypeOption} value="multiple">
                 Несколько из списка
               </option>
-              <option className={styles.questionTypeOption} value="number">
+              <option className={s.questionTypeOption} value="number">
                 Численный ответ
               </option>
             </select>
@@ -88,7 +88,7 @@ function TestFormInfoEdit({
 
             <button
               type="button"
-              className={styles.addButton}
+              className={s.addButton}
               onClick={onAddQuestionClick}
             >
               +

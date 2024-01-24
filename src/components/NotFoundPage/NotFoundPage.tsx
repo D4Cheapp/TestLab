@@ -1,13 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import styles from './NotFoundPage.module.scss';
+import s from './NotFoundPage.module.scss';
 
 function NotFoundPage(): React.ReactNode {
   return (
-    <div className={styles.root}>
-      <div className={styles.errorContainer}>
-        <h1 className={styles.title}>Страница не найдена</h1>
-        <Link href={'/'} className={styles.goBack}>
+    <div className={s.root}>
+      <div className={s.errorContainer}>
+        <h1 className={s.title}>Страница не найдена</h1>
+        <Link href={'/'} className={s.goBack}>
           Вернуться на главную страницу
         </Link>
       </div>

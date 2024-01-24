@@ -13,7 +13,7 @@ import { HomeNavbar, TestComponent } from '@/src/components/Home/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { profileLogout } from '@/src/reduxjs/reducers/authReducer';
 import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
-import styles from './Home.module.scss';
+import s from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
   return !!filter?.trim() ? filter.replace(/\s+/gm, ' ').trim().toLowerCase() : '';
@@ -153,10 +153,8 @@ function Home(): React.ReactNode {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testList]);
 
-  console.log(testList);
-
   return (
-    <div className={styles.home}>
+    <div className={s.home}>
       <HomeNavbar
         isReverseDate={isReverseDate}
         isLogoutWindowActive={isLogoutWindowActive}
@@ -172,16 +170,16 @@ function Home(): React.ReactNode {
         ref={testListRef}
         onScroll={onTestScroll}
         className={clsx(
-          styles.testContainer,
-          { [styles.emptyContainer]: testList.length === 0 },
-          { [styles.loadingContainer]: isLoading && testList.length === 0 },
+          s.testContainer,
+          { [s.emptyContainer]: testList.length === 0 },
+          { [s.loadingContainer]: isLoading && testList.length === 0 },
         )}
       >
-        {isLoading && !testList && <div className={styles.loading} />}
+        {isLoading && !testList && <div className={s.loading} />}
 
         {testList.length === 0 && !isLoading ? (
-          <div className={styles.errorTitleContainer}>
-            <h1 className={styles.notFoundTitle}>Тесты не найдены</h1>
+          <div className={s.errorTitleContainer}>
+            <h1 className={s.notFoundTitle}>Тесты не найдены</h1>
           </div>
         ) : (
           <>
@@ -198,8 +196,8 @@ function Home(): React.ReactNode {
             ))}
 
             {isLoading && (
-              <div className={styles.paginationLoadingContainer}>
-                <div className={styles.paginationLoading} />
+              <div className={s.paginationLoadingContainer}>
+                <div className={s.paginationLoading} />
               </div>
             )}
           </>
@@ -207,7 +205,7 @@ function Home(): React.ReactNode {
       </section>
 
       {isAdmin && (
-        <button className={styles.addButton} onClick={addTestClick}>
+        <button className={s.addButton} onClick={addTestClick}>
           +
         </button>
       )}

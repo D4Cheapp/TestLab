@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import styles from './TestFormButtons.module.scss';
+import s from './TestFormButtons.module.scss';
 
 interface TestFormButtonsInterface {
   onGoBackButtonClick: () => void;
@@ -12,20 +12,20 @@ function TestFormButtons({
   withDeleteButton,
 }: TestFormButtonsInterface): React.ReactNode {
   return (
-    <div className={styles.testFromButtons}>
+    <div className={s.testFromButtons}>
       {withDeleteButton ? (
-        <button type="submit" className={clsx(styles.formButton, styles.deleteButton)}>
+        <button type="submit" className={clsx(s.formButton, s.deleteButton)}>
           Удалить
         </button>
       ) : (
-        <button type="submit" className={clsx(styles.formButton, styles.saveButton)}>
+        <button type="submit" className={clsx(s.formButton, s.saveButton)}>
           Сохранить
         </button>
       )}
 
       <button
         type="button"
-        className={clsx(styles.formButton, styles.goBackButton)}
+        className={clsx(s.formButton, s.goBackButton)}
         onClick={onGoBackButtonClick}
       >
         Назад

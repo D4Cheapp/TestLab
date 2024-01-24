@@ -1,7 +1,7 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
 import clsx from 'clsx';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
-import styles from './PassQuestion.module.scss';
+import s from './PassQuestion.module.scss';
 
 interface PassQuestionInterface {
   question: createQuestionRequestType;
@@ -25,16 +25,16 @@ function PassQuestion({
   return (
     <div
       className={clsx(
-        styles.question,
-        { [styles.correctQuestion]: isCorrect },
-        { [styles.wrongQuestion]: isCorrect !== undefined && !isCorrect },
+        s.question,
+        { [s.correctQuestion]: isCorrect },
+        { [s.wrongQuestion]: isCorrect !== undefined && !isCorrect },
       )}
       key={question.id}
     >
-      <h2 className={styles.title}>{question.title}</h2>
+      <h2 className={s.title}>{question.title}</h2>
       {isNumberAnswer ? (
         <input
-          className={styles.numberAnswer}
+          className={s.numberAnswer}
           type="number"
           placeholder={'Введите числовой ответ'}
           name={questionId}
@@ -43,33 +43,33 @@ function PassQuestion({
         />
       ) : (
         question.answers?.map((ans) => (
-          <label className={styles.answer} key={ans.id}>
+          <label className={s.answer} key={ans.id}>
             {question.question_type === 'multiple' && (
               <>
                 <input
-                  className={styles.checkbox}
+                  className={s.checkbox}
                   type="checkbox"
                   id={ans.id + ''}
                   name={questionId}
                   onClick={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
                 />
-                <div className={styles.customCheckbox} />
+                <div className={s.customCheckbox} />
               </>
             )}
 
             {question.question_type === 'single' && (
               <>
                 <input
-                  className={styles.radioButton}
+                  className={s.radioButton}
                   type="radio"
                   id={ans.id + ''}
                   name={questionId}
                   onClick={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
                 />
-                <div className={styles.customRadio} />
+                <div className={s.customRadio} />
               </>
             )}
-            <p className={styles.answerTitle}>{ans.text}</p>
+            <p className={s.answerTitle}>{ans.text}</p>
           </label>
         ))
       )}

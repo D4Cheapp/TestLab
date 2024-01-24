@@ -1,6 +1,6 @@
 import React from 'react';
 import { createQuestionRequestType } from '@/src/types/requestTypes';
-import styles from './TestFormQuestions.module.scss';
+import s from './TestFormQuestions.module.scss';
 import { FormQuestion } from './FormQuestion';
 
 interface TestFromQuestionsInterface {
@@ -9,8 +9,8 @@ interface TestFromQuestionsInterface {
 
 function TestFormQuestions({ questions }: TestFromQuestionsInterface): React.ReactNode {
   return (
-    <div className={styles.content}>
-      <div className={styles.root}>
+    <div className={s.content}>
+      <div className={s.root}>
         {questions &&
           questions.map((question, id) => <FormQuestion question={question} key={id} />)}
       </div>

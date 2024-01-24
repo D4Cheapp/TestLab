@@ -8,12 +8,11 @@ div.formButtons {
     cursor: pointer;
     padding-block: 0.3em;
     background: transparent;
-    color: $babyPowder;
-    font-size: 1.4em;
     border-radius: 5px;
     border: 2px $babyPowder solid;
+    @include fontType(1.4em, $babyPowder);
 
-    @media screen and (width < 500px) {
+    @include narrow {
       width: 100%;
     }
   }
@@ -32,7 +31,7 @@ div.formButtons {
     @include colorButton($oldRose);
   }
 
-  @media screen and (width < 500px) {
+  @include narrow {
     flex-direction: column;
     align-items: center;
     gap: 1em;

@@ -1,7 +1,7 @@
 import React, { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import clsx from 'clsx';
 import { ModalWindow } from '@/src/components/ModalWindow';
-import styles from './HomeNavbar.module.scss';
+import s from './HomeNavbar.module.scss';
 
 interface HomeNavbarInterface {
   isReverseDate: boolean;
@@ -25,11 +25,11 @@ function HomeNavbar({
   onFilterInput,
 }: HomeNavbarInterface): React.ReactNode {
   return (
-    <nav className={styles.nav}>
-      <h1 className={styles.navTitle}>TestLab</h1>
+    <nav className={s.nav}>
+      <h1 className={s.navTitle}>TestLab</h1>
 
       <input
-        className={styles.filter}
+        className={s.filter}
         type="text"
         onChange={onFilterInput}
         placeholder="Поиск по тестам"
@@ -38,10 +38,10 @@ function HomeNavbar({
         defaultValue={defaultFilterValue}
       />
 
-      <div className={styles.secondLine}>
-        <button className={styles.dateSort} onClick={onFilterReverseClick}>
-          <p className={styles.sortButtonTitle}>Сортировка по дате</p>
-          <div className={clsx(styles.arrow, { [styles.reverseDate]: isReverseDate })} />
+      <div className={s.secondLine}>
+        <button className={s.dateSort} onClick={onFilterReverseClick}>
+          <p className={s.sortButtonTitle}>Сортировка по дате</p>
+          <div className={clsx(s.arrow, { [s.reverseDate]: isReverseDate })} />
         </button>
 
         {isLogoutWindowActive && (
@@ -53,7 +53,7 @@ function HomeNavbar({
           />
         )}
 
-        <button className={styles.logout} onClick={onLogoutClick}>
+        <button className={s.logout} onClick={onLogoutClick}>
           Выйти из профиля
         </button>
       </div>

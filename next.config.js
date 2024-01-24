@@ -2,11 +2,11 @@
 const nextConfig = {
   reactStrictMode: false,
   sassOptions: {
-    prependData: `@import "src/app/_variables.scss";`
+    prependData: `@import "src/styles/_variables.scss"; @import "src/styles/mixins.scss";`,
   },
   eslint: {
-    dirs: ['src']
-  }
+    dirs: ['src'],
+  },
 };
 
 module.exports = nextConfig;

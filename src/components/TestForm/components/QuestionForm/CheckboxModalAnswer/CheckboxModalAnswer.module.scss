@@ -20,15 +20,13 @@ div.answer {
     border: none;
     border-bottom: 1px $babyPowder solid;
     padding: 0;
-    color: $babyPowder;
-    font-size: 1.2em;
+    @include fontType(1.2em, $babyPowder);
   }
 
   p.answerTitle {
     margin: 0;
     cursor: pointer;
-    color: $babyPowder;
-    font-size: 1.2em;
+    @include fontType(1.2em, $babyPowder);
   }
 
   div.customCheckbox {
