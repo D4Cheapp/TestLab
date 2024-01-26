@@ -1,13 +1,13 @@
 import React from 'react';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
+import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import s from './TestFormQuestions.module.scss';
 import { FormQuestion } from './FormQuestion';
 
-interface TestFromQuestionsInterface {
-  questions?: createQuestionRequestType[];
+interface Props {
+  questions?: CreateQuestionRequestType[];
 }
 
-function TestFormQuestions({ questions }: TestFromQuestionsInterface): React.ReactNode {
+function TestFormQuestions({ questions }: Props): React.ReactNode {
   return (
     <div className={s.content}>
       <div className={s.root}>

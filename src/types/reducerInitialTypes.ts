@@ -1,12 +1,12 @@
-import { createQuestionRequestType } from './requestTypes';
+import { CreateQuestionRequestType } from './requestTypes';
 
-export type currentProfileType = {
+export type CurrentProfileType = {
   id: number;
   username: string;
   is_admin: boolean;
 } | null;
-export type currentTestType = {
+export type CurrentTestType = {
   id?: number;
   title?: string;
-  questions?: createQuestionRequestType[];
+  questions?: CreateQuestionRequestType[];
 };

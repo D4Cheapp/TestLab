@@ -1,15 +1,15 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
-import { deleteReceiveType, testReceiveType } from '@/src/types/receiveTypes';
-import { requestTypesType } from '@/src/types/requestTypes';
+import { DeleteReceiveType, TestReceiveType } from '@/src/types/receiveTypes';
+import { RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
-    const data = await createFetch<deleteReceiveType>({
-      method: req.method as requestTypesType,
+    const data = await createFetch<DeleteReceiveType>({
+      method: req.method as RequestTypesType,
       href: `/tests/${params.id}`,
       isLocal: false,
       cookie,
@@ -23,8 +23,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: numbe
 export async function GET(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
-    const data = await createFetch<testReceiveType>({
-      method: req.method as requestTypesType,
+    const data = await createFetch<TestReceiveType>({
+      method: req.method as RequestTypesType,
       href: `/tests/${params.id}`,
       isLocal: false,
       cookie,
@@ -39,8 +39,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: number
   try {
     const cookie = cookies().get('_session_id');
     const reqBody = await Promise.resolve<{ title: string }>(req.json());
-    const data = await createFetch<testReceiveType>({
-      method: req.method as requestTypesType,
+    const data = await createFetch<TestReceiveType>({
+      method: req.method as RequestTypesType,
       href: `/tests/${params.id}`,
       isLocal: false,
       body: reqBody,

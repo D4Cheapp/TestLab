@@ -5,7 +5,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { Authentication } from '@/src/components';
 import { TestForm } from '@/src/components/TestForm';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { testFormType } from '@/src/types/formTypes';
+import { TestFormType } from '@/src/types/formTypes';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { editTest, getTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
 import { LoadingContainer } from '@/src/components/LoadingContainer';
@@ -24,7 +24,7 @@ function EditTest(): React.ReactNode {
 
   const testId = searchParams ? +searchParams : undefined;
 
-  const saveTestAction: SubmitHandler<testFormType> = useCallback(
+  const saveTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       const isTitleFilled = data.title && data.title.trim();

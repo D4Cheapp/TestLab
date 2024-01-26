@@ -9,7 +9,7 @@ import s from './PassTestPage.module.scss';
 import { PassQuestion } from './PassQuestion';
 import { ModalWindow } from '../ModalWindow';
 
-type passTestQuestionType =
+type PassTestQuestionType =
   | {
       correct?: boolean;
       answer?: number;
@@ -20,7 +20,7 @@ type passTestQuestionType =
 function PassTestPage(): React.ReactNode {
   const searchParams = useSearchParams().get('id');
   const currentTest = useAppSelector((state) => state.test.currentTest);
-  const [passProgress, setPassProgress] = useState<passTestQuestionType>([]);
+  const [passProgress, setPassProgress] = useState<PassTestQuestionType>([]);
   const [isResultWindowActive, setIsResultWindowActive] = useState(false);
   const [testResult, setTestResult] = useState<{ correct: number; wrong: number }>();
   const dispatch = useAppDispatch();
@@ -207,12 +207,8 @@ function PassTestPage(): React.ReactNode {
               <p className={s.resultTitle}>
                 Всего вопросов: {currentTest.questions.length}
               </p>
-              <p className={s.resultTitle}>
-                Правильных ответов: {testResult?.correct}{' '}
-              </p>
-              <p className={s.resultTitle}>
-                Неправильных ответов: {testResult?.wrong}
-              </p>
+              <p className={s.resultTitle}>Правильных ответов: {testResult?.correct} </p>
+              <p className={s.resultTitle}>Неправильных ответов: {testResult?.wrong}</p>
             </div>
           </ModalWindow>
         )}
@@ -223,10 +219,7 @@ function PassTestPage(): React.ReactNode {
           Закончить прохождение теста
         </button>
 
-        <button
-          className={clsx(s.goBackButton, s.testButton)}
-          onClick={onGoBackClick}
-        >
+        <button className={clsx(s.goBackButton, s.testButton)} onClick={onGoBackClick}>
           Вернуться к списку тестов
         </button>
       </div>

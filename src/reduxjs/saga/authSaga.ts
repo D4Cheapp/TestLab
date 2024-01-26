@@ -1,55 +1,55 @@
 import { all, put, takeEvery } from 'redux-saga/effects';
 import { reducersActions } from '@/src/reduxjs/store/store';
 import {
-  profileLoginActionType,
-  profileRegisterActionType,
+  ProfileLoginActionType,
+  ProfileRegisterActionType,
 } from '@/src/types/reducerActionTypes';
 import { sagaHandling } from '@/src/utils/sagaHandling';
 import {
-  profileAuthReceiveType,
-  profileLogoutReceiveType,
+  ProfileAuthReceiveType,
+  ProfileLogoutReceiveType,
 } from '@/src/types/receiveTypes';
 import {
   deleteCurrentProfile,
   setCurrentProfile,
 } from '@/src/reduxjs/reducers/authReducer';
 
-function* profileRegisterSaga(action: profileRegisterActionType) {
-  yield sagaHandling<profileAuthReceiveType>({
+function* profileRegisterSaga(action: ProfileRegisterActionType) {
+  yield sagaHandling<ProfileAuthReceiveType>({
     method: 'POST',
     href: '/signup',
     body: action.payload,
     isDataInAction: true,
-    action: (data?: profileAuthReceiveType) => put(setCurrentProfile(data)),
+    action: (data?: ProfileAuthReceiveType) => put(setCurrentProfile(data)),
   });
 }
 
-function* profileLoginSaga(action: profileLoginActionType) {
-  yield sagaHandling<profileAuthReceiveType>({
+function* profileLoginSaga(action: ProfileLoginActionType) {
+  yield sagaHandling<ProfileAuthReceiveType>({
     method: 'POST',
     href: '/signin',
     body: action.payload,
     isDataInAction: true,
-    action: (data?: profileAuthReceiveType) => put(setCurrentProfile(data)),
+    action: (data?: ProfileAuthReceiveType) => put(setCurrentProfile(data)),
   });
 }
 
 function* getCurrentProfileSaga() {
-  yield sagaHandling<profileAuthReceiveType>({
+  yield sagaHandling<ProfileAuthReceiveType>({
     method: 'GET',
     href: '/users/current',
     isDataInAction: true,
-    action: (data?: profileAuthReceiveType) =>
+    action: (data?: ProfileAuthReceiveType) =>
       put(setCurrentProfile(!data || 'error' in data ? null : data)),
   });
 }
 
 function* profileLogoutSaga() {
-  yield sagaHandling<profileLogoutReceiveType>({
+  yield sagaHandling<ProfileLogoutReceiveType>({
     method: 'DELETE',
     href: '/logout',
     isDataInAction: true,
-    action: (data?: profileLogoutReceiveType) =>
+    action: (data?: ProfileLogoutReceiveType) =>
       data !== undefined ? put(deleteCurrentProfile(data)) : {},
   });
 }

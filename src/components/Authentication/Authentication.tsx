@@ -5,12 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { getCurrentProfile } from '@/src/reduxjs/reducers/authReducer';
 import { LoadingContainer } from '../LoadingContainer';
 
-interface AuthenticationInterface {
+interface Props {
   children: React.ReactNode;
   isAdmin: boolean;
 }
 
-function Authentication({ children, isAdmin }: AuthenticationInterface): React.ReactNode {
+function Authentication({ children, isAdmin }: Props): React.ReactNode {
   const currentProfile = useAppSelector((state) => state.auth.currentProfile);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useAppDispatch();

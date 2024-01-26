@@ -1,6 +1,6 @@
 import { CaseReducerActions } from '@reduxjs/toolkit';
 
-type createActionType = ({
+type CreateActionType = ({
   actions,
   actionKeys,
 }: {
@@ -11,7 +11,7 @@ type createActionType = ({
   [key in (typeof actionKeys)[number]]: string;
 };
 
-const createActionTypes: createActionType = ({ actions }) =>
+const createActionTypes: CreateActionType = ({ actions }) =>
   Object.keys(actions).reduce(
     (acc, key) =>
       // @ts-ignore

@@ -1,14 +1,14 @@
 import { NextRequest } from 'next/server';
-import { profileAuthReceiveType } from '@/src/types/receiveTypes';
-import { profileRegisterRequestType, requestTypesType } from '@/src/types/requestTypes';
+import { ProfileAuthReceiveType } from '@/src/types/receiveTypes';
+import { ProfileRegisterRequestType, RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 
 export async function POST(req: NextRequest) {
   try {
-    const reqBody = await Promise.resolve<profileRegisterRequestType>(req.json());
-    const data = await createFetch<profileAuthReceiveType>({
-      method: req.method as requestTypesType,
+    const reqBody = await Promise.resolve<ProfileRegisterRequestType>(req.json());
+    const data = await createFetch<ProfileAuthReceiveType>({
+      method: req.method as RequestTypesType,
       href: '/signup',
       isLocal: false,
       body: reqBody,

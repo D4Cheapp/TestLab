@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import { setErrorsState, setLoadingState } from '@/src/reduxjs/reducers/baseReducer';
 import { createFetch } from '@/src/utils/createFetch';
 
-type sagaHandlingPropsType<T> = {
+type SagaHandlingPropsType<T> = {
   href: string;
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   body?: object;
@@ -26,7 +26,7 @@ function* sagaHandling<T>({
   body,
   action,
   isDataInAction,
-}: sagaHandlingPropsType<T>) {
+}: SagaHandlingPropsType<T>) {
   yield put(setLoadingState(true));
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const response: [T | { error: string }, Response] | Error = yield call(() =>

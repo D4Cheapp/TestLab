@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { Authentication } from '@/src/components';
 import { TestForm } from '@/src/components/TestForm';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { testFormType } from '@/src/types/formTypes';
+import { TestFormType } from '@/src/types/formTypes';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { createTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
 import { LoadingContainer } from '@/src/components/LoadingContainer';
 import { ModalWindow } from '@/src/components/ModalWindow';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
+import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 
 function AddTest(): React.ReactNode {
   const isLoading = useAppSelector((state) => state.base.loadingState);
@@ -20,11 +20,11 @@ function AddTest(): React.ReactNode {
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const [testInfo, setTestInfo] = useState<{
     title: string;
-    questions: createQuestionRequestType[];
+    questions: CreateQuestionRequestType[];
   }>();
   const router = useRouter();
 
-  const addTestAction: SubmitHandler<testFormType> = useCallback(
+  const addTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       const isTitleFilled = data.title && data.title.trim();

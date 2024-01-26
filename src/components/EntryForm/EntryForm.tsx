@@ -2,14 +2,14 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { entryFormType } from '@/src/types/formTypes';
+import { EntryFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { profileLogin, profileRegister } from '@/src/reduxjs/reducers/authReducer';
 import { EntryInput } from './EntryInput';
 import s from './EntryForm.module.scss';
 
-interface EntryFormInterface {
+interface Props {
   redirectTo: string;
   title: string;
   submitTitle: string;
@@ -23,8 +23,8 @@ function EntryForm({
   submitTitle,
   redirectTitle,
   isRegister = false,
-}: EntryFormInterface) {
-  const { register, handleSubmit, formState } = useForm<entryFormType>();
+}: Props) {
+  const { register, handleSubmit, formState } = useForm<EntryFormType>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordMatchError, setIsPasswordMatchError] = useState(false);
@@ -44,7 +44,7 @@ function EntryForm({
     setIsPasswordMatchError(false);
   }, []);
 
-  const onSubmitFunc: SubmitHandler<entryFormType> = (data, event) => {
+  const onSubmitFunc: SubmitHandler<EntryFormType> = (data, event) => {
     event?.preventDefault();
     const valuesArray = Object.values(data).map((value) =>
       typeof value === 'string' ? (!!value.trim() ? value : undefined) : value,

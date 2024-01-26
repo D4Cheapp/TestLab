@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { ModalWindow } from '@/src/components/ModalWindow';
 import s from './TestComponent.module.scss';
 
-interface TestComponentInterface {
+interface Props {
   title: string;
   testId: number;
   isAdmin?: boolean;
@@ -19,7 +19,7 @@ function TestComponent({
   onDeleteTestClick,
   onEditTestClick,
   onPassTestConfirmClick,
-}: TestComponentInterface): React.ReactNode {
+}: Props): React.ReactNode {
   const [isPassTestWindowActive, setIsPassTestWindowActive] = useState<boolean>(false);
   const onPassTestClick = () => setIsPassTestWindowActive(true);
   const passTestConfirmAction = () => {

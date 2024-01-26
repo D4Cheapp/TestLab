@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import s from './TestFormButtons.module.scss';
 
-interface TestFormButtonsInterface {
+interface Props {
   onGoBackButtonClick: () => void;
   withDeleteButton: boolean;
 }
@@ -10,7 +10,7 @@ interface TestFormButtonsInterface {
 function TestFormButtons({
   onGoBackButtonClick,
   withDeleteButton,
-}: TestFormButtonsInterface): React.ReactNode {
+}: Props): React.ReactNode {
   return (
     <div className={s.testFromButtons}>
       {withDeleteButton ? (

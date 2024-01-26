@@ -4,12 +4,12 @@ import { useAppDispatch } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import s from './QuestionForm.module.scss';
 import { CheckboxModalAnswer } from './CheckboxModalAnswer';
-import { TestFormContext, questionAnswerType } from '../../TestFormContext';
+import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
 
 function QuestionForm(): React.ReactNode {
   const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =
     useContext(TestFormContext);
-  const [draggableAnswer, setDraggableAnswer] = useState<questionAnswerType | null>(null);
+  const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
   const dispatch = useAppDispatch();
 
   const { getValues, setValue, register } = form;
@@ -110,7 +110,7 @@ function QuestionForm(): React.ReactNode {
     ],
   );
 
-  const onAnswerDragStart = useCallback((answer: questionAnswerType) => {
+  const onAnswerDragStart = useCallback((answer: QuestionAnswerType) => {
     setDraggableAnswer(answer);
   }, []);
 
@@ -124,7 +124,7 @@ function QuestionForm(): React.ReactNode {
   }, []);
 
   const onAnswerDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>, answer: questionAnswerType) => {
+    (event: React.DragEvent<HTMLDivElement>, answer: QuestionAnswerType) => {
       event.preventDefault();
 
       setAnswers(
@@ -170,7 +170,7 @@ function QuestionForm(): React.ReactNode {
     if (isCurrentQuestionEmptyOrNumber) {
       //@ts-ignore
       const changedAnswers = currentQuestion.answers.map((answer, index) => {
-        return { ...answer, position: index } as questionAnswerType;
+        return { ...answer, position: index } as QuestionAnswerType;
       });
       setAnswers(changedAnswers);
     } else {
@@ -206,11 +206,7 @@ function QuestionForm(): React.ReactNode {
           <label className={s.inputTitle} htmlFor="answerVariant">
             Вариант ответа
           </label>
-          <button
-            className={s.answerAddButton}
-            type="button"
-            onClick={onAddAnswerClick}
-          >
+          <button className={s.answerAddButton} type="button" onClick={onAddAnswerClick}>
             +
           </button>
         </div>

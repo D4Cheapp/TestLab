@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import { UseFormRegister } from 'react-hook-form';
-import { entryFormType } from '@/src/types/formTypes';
+import { EntryFormType } from '@/src/types/formTypes';
 import s from './EntryInput.module.scss';
 
-interface EntryInputInterface {
+interface Props {
   isPassword: boolean;
   title: string;
   name: 'is_admin' | 'username' | 'password' | 'password_confirmation';
-  register: UseFormRegister<entryFormType>;
+  register: UseFormRegister<EntryFormType>;
   onShowPasswordClick?: () => void;
   onPasswordClick?: () => void;
   isShownPassword?: boolean;
@@ -23,7 +23,7 @@ function EntryInput({
   onPasswordClick,
   isShownPassword = false,
   isPasswordMatchError = false,
-}: EntryInputInterface) {
+}: Props) {
   return (
     <div className={s.inputContainer}>
       <input
@@ -36,9 +36,7 @@ function EntryInput({
         {...register(name, { required: true })}
       />
 
-      <div
-        className={clsx(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}
-      >
+      <div className={clsx(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}>
         {title}
       </div>
 

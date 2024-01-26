@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import s from './ModalButtons.module.scss';
 
-interface ModalButtonsInterface {
+interface Props {
   confirmAction?: () => void;
   onCloseWindowClick: () => void;
   buttonInfo: {
@@ -16,7 +16,7 @@ function ModalButtons({
   confirmAction,
   onCloseWindowClick,
   buttonInfo,
-}: ModalButtonsInterface): React.ReactNode {
+}: Props): React.ReactNode {
   return (
     <div className={s.formButtons}>
       {buttonInfo.withConfirmButton && (

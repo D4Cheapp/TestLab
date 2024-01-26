@@ -4,17 +4,13 @@ import { useAppDispatch } from '@/src/hooks/reduxHooks';
 import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
 import s from './ErrorMessage.module.scss';
 
-interface ErrorMessageInterface {
+interface Props {
   error: string;
   index: number;
   onCloseClick: (index: number) => void;
 }
 
-function ErrorMessage({
-  error,
-  index,
-  onCloseClick,
-}: ErrorMessageInterface): null | React.ReactNode {
+function ErrorMessage({ error, index, onCloseClick }: Props): null | React.ReactNode {
   const [isFaded, setIsFaded] = useState(false);
   const dispatch = useAppDispatch();
 

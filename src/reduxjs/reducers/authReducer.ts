@@ -1,16 +1,16 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  profileLoginActionType,
-  profileLogoutActionType,
-  profileRegisterActionType,
-  setCurrentProfileActionType,
+  ProfileLoginActionType,
+  ProfileLogoutActionType,
+  ProfileRegisterActionType,
+  SetCurrentProfileActionType,
 } from '@/src/types/reducerActionTypes';
-import { currentProfileType } from '@/src/types/reducerInitialTypes';
+import { CurrentProfileType } from '@/src/types/reducerInitialTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
 
 interface AuthSliceInterface {
-  currentProfile?: currentProfileType;
+  currentProfile?: CurrentProfileType;
 }
 
 const authSlice = createSlice({
@@ -19,19 +19,19 @@ const authSlice = createSlice({
     currentProfile: undefined,
   } as AuthSliceInterface,
   reducers: {
-    profileRegister: (state, profileInfo: profileRegisterActionType) => {},
+    profileRegister: (state, profileInfo: ProfileRegisterActionType) => {},
 
-    profileLogin: (state, profileInfo: profileLoginActionType) => {},
+    profileLogin: (state, profileInfo: ProfileLoginActionType) => {},
 
     profileLogout: (state) => {},
 
     getCurrentProfile: (state) => {},
 
-    setCurrentProfile: (state, profileInfo: setCurrentProfileActionType) => {
+    setCurrentProfile: (state, profileInfo: SetCurrentProfileActionType) => {
       state.currentProfile = profileInfo.payload;
     },
 
-    deleteCurrentProfile: (state, isSuccess: profileLogoutActionType) => {
+    deleteCurrentProfile: (state, isSuccess: ProfileLogoutActionType) => {
       const isDeleteSuccess = isSuccess.payload.success;
       if (isDeleteSuccess) {
         state.currentProfile = null;

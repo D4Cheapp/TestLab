@@ -1,28 +1,28 @@
-import { questionAnswerType } from '../components/TestForm/TestFormContext';
+import { QuestionAnswerType } from '../components/TestForm/TestFormContext';
 
-export type requestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
-export type profileLoginRequestType = { username: string; password: string };
-export type profileRegisterRequestType = profileLoginRequestType & {
+export type RequestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+export type ProfileLoginRequestType = { username: string; password: string };
+export type ProfileRegisterRequestType = ProfileLoginRequestType & {
   password_confirmation: string;
   is_admin: boolean;
 };
-export type createTestRequestType = {
+export type CreateTestRequestType = {
   title: string;
-  questions?: createQuestionRequestType[];
+  questions?: CreateQuestionRequestType[];
 };
-export type paginationTestRequestType = {
+export type PaginationTestRequestType = {
   page: number;
   per: number;
   search: string;
   sort: string;
 };
-export type createQuestionRequestType = {
+export type CreateQuestionRequestType = {
   test_id?: number;
   id?: number;
   title: string;
   question_type: 'single' | 'multiple' | 'number';
   isQuestionLocal?: boolean;
   answer?: number;
-  answers?: questionAnswerType[];
+  answers?: QuestionAnswerType[];
 };
-export type createAnswerRequestType = { text: string; is_right: boolean };
+export type CreateAnswerRequestType = { text: string; is_right: boolean };

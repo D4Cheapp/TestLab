@@ -1,31 +1,31 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import { createSlice } from '@reduxjs/toolkit';
-import { paginationTestsReceiveType, testReceiveType } from '@/src/types/receiveTypes';
+import { PaginationTestsReceiveType, TestReceiveType } from '@/src/types/receiveTypes';
 import {
-  createAnswerActionType,
-  createQuestionActionType,
-  createTestActionType,
-  deleteAnswerActionType,
-  deleteQuestionActionType,
-  deleteTestActionType,
-  editAnswerActionType,
-  editQuestionActionType,
-  getPaginationTestActionType,
-  getTestActionType,
-  moveAnswerActionType,
-  setCurrentTestActionType,
-  setPaginationTestActionType,
-  editTestActionType,
-  addLocalQuestionActionType,
-  editLocalQuestionAction,
+  CreateAnswerActionType,
+  CreateQuestionActionType,
+  CreateTestActionType,
+  DeleteAnswerActionType,
+  DeleteQuestionActionType,
+  DeleteTestActionType,
+  EditAnswerActionType,
+  EditQuestionActionType,
+  GetPaginationTestActionType,
+  GetTestActionType,
+  MoveAnswerActionType,
+  SetCurrentTestActionType,
+  SetPaginationTestActionType,
+  EditTestActionType,
+  AddLocalQuestionActionType,
+  EditLocalQuestionAction,
 } from '@/src/types/reducerActionTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
-import { currentTestType } from '@/src/types/reducerInitialTypes';
+import { CurrentTestType } from '@/src/types/reducerInitialTypes';
 
 interface TestSliceInterface {
-  testList: testReceiveType[];
-  currentTest?: currentTestType;
-  testMeta: paginationTestsReceiveType['meta'];
+  testList: TestReceiveType[];
+  currentTest?: CurrentTestType;
+  testMeta: PaginationTestsReceiveType['meta'];
   loadingState: boolean;
   errors: string[];
 }
@@ -40,15 +40,15 @@ const testSlice = createSlice({
     errors: [],
   } as TestSliceInterface,
   reducers: {
-    createTest: (state, action: createTestActionType) => {},
+    createTest: (state, action: CreateTestActionType) => {},
 
-    editTest: (state, action: editTestActionType) => {},
+    editTest: (state, action: EditTestActionType) => {},
 
-    deleteTest: (state, action: deleteTestActionType) => {},
+    deleteTest: (state, action: DeleteTestActionType) => {},
 
-    getTest: (state, action: getTestActionType) => {},
+    getTest: (state, action: GetTestActionType) => {},
 
-    setCurrentTest: (state, action: setCurrentTestActionType) => {
+    setCurrentTest: (state, action: SetCurrentTestActionType) => {
       const receivedTest = action.payload;
       const receivedQuestionsToCurrent = receivedTest?.questions.map((question) => {
         const { title, question_type, answer, answers, id } = question;
@@ -75,9 +75,9 @@ const testSlice = createSlice({
       };
     },
 
-    getPaginationTests: (state, action: getPaginationTestActionType) => {},
+    getPaginationTests: (state, action: GetPaginationTestActionType) => {},
 
-    setPaginationTests: (state, action: setPaginationTestActionType) => {
+    setPaginationTests: (state, action: SetPaginationTestActionType) => {
       const isPageFirst = action.payload.page === 1;
       state.testMeta = action.payload.meta;
 
@@ -88,7 +88,7 @@ const testSlice = createSlice({
       }
     },
 
-    addLocalQuestion: (state, question: addLocalQuestionActionType) => {
+    addLocalQuestion: (state, question: AddLocalQuestionActionType) => {
       const questions = state.currentTest?.questions;
       if (!state.currentTest) {
         state.currentTest = {};
@@ -99,7 +99,7 @@ const testSlice = createSlice({
         questions?.length > 0 ? [...questions, question.payload] : [question.payload];
     },
 
-    editLocalQuestion: (state, question: editLocalQuestionAction) => {
+    editLocalQuestion: (state, question: EditLocalQuestionAction) => {
       const questions = state.currentTest?.questions;
 
       //@ts-ignore
@@ -109,7 +109,7 @@ const testSlice = createSlice({
       });
     },
 
-    deleteLocalQuestion: (state, question: deleteQuestionActionType) => {
+    deleteLocalQuestion: (state, question: DeleteQuestionActionType) => {
       const currentQuestions = state.currentTest?.questions;
       if (currentQuestions) {
         //@ts-ignore
@@ -119,19 +119,19 @@ const testSlice = createSlice({
       }
     },
 
-    createQuestion: (state, action: createQuestionActionType) => {},
+    createQuestion: (state, action: CreateQuestionActionType) => {},
 
-    editQuestion: (state, action: editQuestionActionType) => {},
+    editQuestion: (state, action: EditQuestionActionType) => {},
 
-    deleteQuestion: (state, action: deleteQuestionActionType) => {},
+    deleteQuestion: (state, action: DeleteQuestionActionType) => {},
 
-    createAnswer: (state, action: createAnswerActionType) => {},
+    createAnswer: (state, action: CreateAnswerActionType) => {},
 
-    editAnswer: (state, action: editAnswerActionType) => {},
+    editAnswer: (state, action: EditAnswerActionType) => {},
 
-    moveAnswer: (state, action: moveAnswerActionType) => {},
+    moveAnswer: (state, action: MoveAnswerActionType) => {},
 
-    deleteAnswer: (state, action: deleteAnswerActionType) => {},
+    deleteAnswer: (state, action: DeleteAnswerActionType) => {},
   },
 });
 

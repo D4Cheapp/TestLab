@@ -1,56 +1,56 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
-  paginationTestsReceiveType,
-  profileLogoutReceiveType,
-  testReceiveType,
+  PaginationTestsReceiveType,
+  ProfileLogoutReceiveType,
+  TestReceiveType,
 } from '@/src/types/receiveTypes';
-import { currentProfileType } from '@/src/types/reducerInitialTypes';
+import { CurrentProfileType } from '@/src/types/reducerInitialTypes';
 import {
-  createTestRequestType,
-  paginationTestRequestType,
-  profileLoginRequestType,
-  profileRegisterRequestType,
-  createQuestionRequestType,
-  createAnswerRequestType,
+  CreateTestRequestType,
+  PaginationTestRequestType,
+  ProfileLoginRequestType,
+  ProfileRegisterRequestType,
+  CreateQuestionRequestType,
+  CreateAnswerRequestType,
 } from '@/src/types/requestTypes';
 
-export type profileRegisterActionType = PayloadAction<profileRegisterRequestType>;
-export type profileLoginActionType = PayloadAction<profileLoginRequestType>;
-export type setCurrentProfileActionType = PayloadAction<currentProfileType | undefined>;
-export type profileLogoutActionType = PayloadAction<profileLogoutReceiveType>;
+export type ProfileRegisterActionType = PayloadAction<ProfileRegisterRequestType>;
+export type ProfileLoginActionType = PayloadAction<ProfileLoginRequestType>;
+export type SetCurrentProfileActionType = PayloadAction<CurrentProfileType | undefined>;
+export type ProfileLogoutActionType = PayloadAction<ProfileLogoutReceiveType>;
 
-export type createTestActionType = PayloadAction<createTestRequestType>;
-export type editTestActionType = PayloadAction<{ id: number } & createTestRequestType>;
-export type deleteTestActionType = PayloadAction<{ id: number }>;
-export type getTestActionType = PayloadAction<{ id: number }>;
-export type setCurrentTestActionType = PayloadAction<testReceiveType | undefined>;
-export type getPaginationTestActionType = PayloadAction<paginationTestRequestType>;
-export type setPaginationTestActionType = PayloadAction<
-  paginationTestsReceiveType & paginationTestRequestType
+export type CreateTestActionType = PayloadAction<CreateTestRequestType>;
+export type EditTestActionType = PayloadAction<{ id: number } & CreateTestRequestType>;
+export type DeleteTestActionType = PayloadAction<{ id: number }>;
+export type GetTestActionType = PayloadAction<{ id: number }>;
+export type SetCurrentTestActionType = PayloadAction<TestReceiveType | undefined>;
+export type GetPaginationTestActionType = PayloadAction<PaginationTestRequestType>;
+export type SetPaginationTestActionType = PayloadAction<
+  PaginationTestsReceiveType & PaginationTestRequestType
 >;
 
-export type addLocalQuestionActionType = PayloadAction<createQuestionRequestType>;
-export type editLocalQuestionAction = PayloadAction<createQuestionRequestType>;
-export type addCurrentQuestionActionType = PayloadAction<
-  createQuestionRequestType | undefined
+export type AddLocalQuestionActionType = PayloadAction<CreateQuestionRequestType>;
+export type EditLocalQuestionAction = PayloadAction<CreateQuestionRequestType>;
+export type AddCurrentQuestionActionType = PayloadAction<
+  CreateQuestionRequestType | undefined
 >;
-export type deleteQuestionActionType = PayloadAction<{ id: number; test_id?: number }>;
-export type createQuestionActionType = PayloadAction<createQuestionRequestType>;
-export type editQuestionActionType = PayloadAction<
-  createQuestionRequestType & { id: number; test_id?: number }
+export type DeleteQuestionActionType = PayloadAction<{ id: number; test_id?: number }>;
+export type CreateQuestionActionType = PayloadAction<CreateQuestionRequestType>;
+export type EditQuestionActionType = PayloadAction<
+  CreateQuestionRequestType & { id: number; test_id?: number }
 >;
-export type createAnswerActionType = PayloadAction<
-  createAnswerRequestType & { question_id: number }
+export type CreateAnswerActionType = PayloadAction<
+  CreateAnswerRequestType & { question_id: number }
 >;
-export type editAnswerActionType = PayloadAction<
-  createAnswerRequestType & { id: number }
+export type EditAnswerActionType = PayloadAction<
+  CreateAnswerRequestType & { id: number }
 >;
-export type moveAnswerActionType = PayloadAction<{
+export type MoveAnswerActionType = PayloadAction<{
   id: number;
   position: number;
 }>;
-export type deleteAnswerActionType = PayloadAction<{ id: number }>;
+export type DeleteAnswerActionType = PayloadAction<{ id: number }>;
 
-export type setLoadingStateActionType = PayloadAction<boolean>;
-export type setErrorStateActionType = PayloadAction<string>;
-export type deleteErrorStateActionType = PayloadAction<number>;
+export type SetLoadingStateActionType = PayloadAction<boolean>;
+export type SetErrorStateActionType = PayloadAction<string>;
+export type DeleteErrorStateActionType = PayloadAction<number>;

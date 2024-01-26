@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import s from './CheckboxModalAnswer.module.scss';
-import { questionAnswerType } from '../../../TestFormContext';
+import { QuestionAnswerType } from '../../../TestFormContext';
 
-interface CheckboxModalAnswerProps {
-  answer: questionAnswerType;
+interface Props {
+  answer: QuestionAnswerType;
   questionType: 'single' | 'multiple';
   dragEvents: {
-    onAnswerDragStart: (answer: questionAnswerType) => void;
+    onAnswerDragStart: (answer: QuestionAnswerType) => void;
     onAnswerDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;
     onAnswerDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     onAnswerDrop: (
       event: React.DragEvent<HTMLDivElement>,
-      answer: questionAnswerType,
+      answer: QuestionAnswerType,
     ) => void;
   };
   answerEvents: {
@@ -27,7 +27,7 @@ function CheckboxModalAnswer({
   questionType,
   dragEvents,
   answerEvents,
-}: CheckboxModalAnswerProps): React.ReactNode {
+}: Props): React.ReactNode {
   const [isInputMode, setIsInputMode] = useState(false);
   const onDoubleClick = () => {
     setIsInputMode(true);

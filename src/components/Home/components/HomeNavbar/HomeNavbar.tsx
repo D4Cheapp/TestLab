@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { ModalWindow } from '@/src/components/ModalWindow';
 import s from './HomeNavbar.module.scss';
 
-interface HomeNavbarInterface {
+interface Props {
   isReverseDate: boolean;
   defaultFilterValue: string;
   isLogoutWindowActive: boolean;
@@ -23,7 +23,7 @@ function HomeNavbar({
   onFilterReverseClick,
   onLogoutClick,
   onFilterInput,
-}: HomeNavbarInterface): React.ReactNode {
+}: Props): React.ReactNode {
   return (
     <nav className={s.nav}>
       <h1 className={s.navTitle}>TestLab</h1>

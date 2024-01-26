@@ -1,10 +1,10 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
 import clsx from 'clsx';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
+import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import s from './PassQuestion.module.scss';
 
-interface PassQuestionInterface {
-  question: createQuestionRequestType;
+interface Props {
+  question: CreateQuestionRequestType;
   questionIndex: number;
   onAddAnswerClick: (
     event: MouseEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
@@ -19,7 +19,7 @@ function PassQuestion({
   questionIndex,
   onAddAnswerClick,
   isCorrect,
-}: PassQuestionInterface): React.ReactNode {
+}: Props): React.ReactNode {
   const isNumberAnswer = question.answer !== null;
   const questionId = question.id + '';
   return (

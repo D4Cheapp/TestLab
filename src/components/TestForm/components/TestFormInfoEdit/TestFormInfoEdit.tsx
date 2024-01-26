@@ -5,7 +5,7 @@ import s from './TestFormInfoEdit.module.scss';
 import { QuestionForm } from '..';
 import { TestFormContext } from '../../TestFormContext';
 
-interface TestFormInfoEditInterface {
+interface Props {
   title?: string;
   onAddQuestionClick: () => void;
   modalWindowData: {
@@ -18,7 +18,7 @@ function TestFormInfoEdit({
   title,
   onAddQuestionClick,
   modalWindowData,
-}: TestFormInfoEditInterface): React.ReactNode {
+}: Props): React.ReactNode {
   const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion, form } =
     useContext(TestFormContext);
   const setAddWindowAction = () => {
@@ -86,11 +86,7 @@ function TestFormInfoEdit({
               </ModalWindow>
             )}
 
-            <button
-              type="button"
-              className={s.addButton}
-              onClick={onAddQuestionClick}
-            >
+            <button type="button" className={s.addButton} onClick={onAddQuestionClick}>
               +
             </button>
           </div>

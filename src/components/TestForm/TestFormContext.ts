@@ -5,10 +5,10 @@ import {
   UseFormReset,
   UseFormSetValue,
 } from 'react-hook-form';
-import { testFormType } from '@/src/types/formTypes';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
+import { TestFormType } from '@/src/types/formTypes';
+import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 
-export type questionAnswerType = {
+export type QuestionAnswerType = {
   id: number;
   isLocalInfo?: boolean;
   isLocalPosition?: boolean;
@@ -20,18 +20,18 @@ export type questionAnswerType = {
 };
 
 type TestFormContext = {
-  answers: questionAnswerType[];
+  answers: QuestionAnswerType[];
   withDeleteButton: boolean;
-  currentQuestion?: createQuestionRequestType;
-  setAnswers: Dispatch<SetStateAction<questionAnswerType[]>>;
+  currentQuestion?: CreateQuestionRequestType;
+  setAnswers: Dispatch<SetStateAction<QuestionAnswerType[]>>;
   onQuestionModifyClick: (isEdit: boolean) => boolean;
-  setCurrentQuestion: Dispatch<SetStateAction<createQuestionRequestType | undefined>>;
+  setCurrentQuestion: Dispatch<SetStateAction<CreateQuestionRequestType | undefined>>;
   onDeleteQuestionConfirmClick: (id: number) => void;
   form: {
-    getValues: UseFormGetValues<testFormType>;
-    setValue: UseFormSetValue<testFormType>;
-    register: UseFormRegister<testFormType>;
-    reset: UseFormReset<testFormType>;
+    getValues: UseFormGetValues<TestFormType>;
+    setValue: UseFormSetValue<TestFormType>;
+    register: UseFormRegister<TestFormType>;
+    reset: UseFormReset<TestFormType>;
   };
 };
 

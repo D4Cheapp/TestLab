@@ -16,7 +16,7 @@ div.errorMessage {
     margin: 0;
     white-space: pre-wrap;
     text-align: left;
-    @include fontType(2.5vh, $babyPowder)
+    @include fontType(2.5vh, $babyPowder);
   }
 
   button.close {

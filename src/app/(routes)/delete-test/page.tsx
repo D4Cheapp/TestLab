@@ -7,7 +7,7 @@ import { Authentication } from '@/src/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { deleteTest, getTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
 import { TestForm } from '@/src/components/TestForm';
-import { testFormType } from '@/src/types/formTypes';
+import { TestFormType } from '@/src/types/formTypes';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { LoadingContainer } from '@/src/components/LoadingContainer';
 import { ModalWindow } from '@/src/components/ModalWindow';
@@ -23,7 +23,7 @@ function DeleteTest(): React.ReactNode {
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const testId = searchParams ? +searchParams : undefined;
 
-  const deleteTestAction: SubmitHandler<testFormType> = useCallback(
+  const deleteTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       if (testId) {

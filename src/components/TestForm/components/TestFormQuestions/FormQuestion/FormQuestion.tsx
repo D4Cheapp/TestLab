@@ -1,16 +1,16 @@
 import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
+import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import { ModalWindow } from '@/src/components/ModalWindow';
 import s from './FormQuestion.module.scss';
 import { QuestionForm } from '../..';
 import { TestFormContext } from '../../../TestFormContext';
 
-interface FormQuestionInterface {
-  question: createQuestionRequestType;
+interface Props {
+  question: CreateQuestionRequestType;
 }
 
-function FormQuestion({ question }: FormQuestionInterface): React.ReactNode {
+function FormQuestion({ question }: Props): React.ReactNode {
   const {
     setCurrentQuestion,
     withDeleteButton,
@@ -25,7 +25,7 @@ function FormQuestion({ question }: FormQuestionInterface): React.ReactNode {
     setIsDeleteQuestionWindowActive(true);
   };
 
-  const onEditQuestionClick = (question: createQuestionRequestType) => {
+  const onEditQuestionClick = (question: CreateQuestionRequestType) => {
     setCurrentQuestion(question);
     setIsEditQuestionWindowActive(true);
   };

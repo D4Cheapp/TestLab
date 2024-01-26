@@ -1,9 +1,9 @@
 /* eslint @typescript-eslint/no-unused-vars: 0 */
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  deleteErrorStateActionType,
-  setErrorStateActionType,
-  setLoadingStateActionType,
+  DeleteErrorStateActionType,
+  SetErrorStateActionType,
+  SetLoadingStateActionType,
 } from '@/src/types/reducerActionTypes';
 import createActionTypes from '@/src/utils/createActionTypes';
 
@@ -19,11 +19,11 @@ const baseSlice = createSlice({
     errors: [],
   } as BaseSliceInterface,
   reducers: {
-    setLoadingState: (state, isLoading: setLoadingStateActionType) => {
+    setLoadingState: (state, isLoading: SetLoadingStateActionType) => {
       state.loadingState = isLoading.payload;
     },
 
-    setErrorsState: (state, errors: setErrorStateActionType) => {
+    setErrorsState: (state, errors: SetErrorStateActionType) => {
       const isPayloadEmpty = errors.payload !== undefined;
       if (isPayloadEmpty) {
         state.errors = [...state.errors, { error: errors.payload, id: Date.now() }];
@@ -32,7 +32,7 @@ const baseSlice = createSlice({
       }
     },
 
-    deleteErrorState: (state, errorIndex: deleteErrorStateActionType) => {
+    deleteErrorState: (state, errorIndex: DeleteErrorStateActionType) => {
       state.errors = state.errors.filter((error) => error.id !== errorIndex.payload);
     },
   },

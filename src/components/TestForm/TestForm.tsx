@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { testFormType } from '@/src/types/formTypes';
+import { TestFormType } from '@/src/types/formTypes';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import {
@@ -13,17 +13,17 @@ import {
   editQuestion,
   setCurrentTest,
 } from '@/src/reduxjs/reducers/testReducer';
-import { currentTestType } from '@/src/types/reducerInitialTypes';
-import { createQuestionRequestType } from '@/src/types/requestTypes';
-import { TestFormContext, questionAnswerType } from './TestFormContext';
+import { CurrentTestType } from '@/src/types/reducerInitialTypes';
+import { CreateQuestionRequestType } from '@/src/types/requestTypes';
+import { TestFormContext, QuestionAnswerType } from './TestFormContext';
 import { TestFormButtons, TestFormInfoEdit, TestFormQuestions } from './components';
 import s from './TestForm.module.scss';
 
-interface TestFormInterface {
-  initTest?: currentTestType;
+interface Props {
+  initTest?: CurrentTestType;
   title: string;
   withDeleteButton?: boolean;
-  action: SubmitHandler<testFormType>;
+  action: SubmitHandler<TestFormType>;
 }
 
 function TestForm({
@@ -31,16 +31,16 @@ function TestForm({
   title,
   withDeleteButton = false,
   action,
-}: TestFormInterface): React.ReactNode {
-  const { register, handleSubmit, reset, getValues, setValue } = useForm<testFormType>();
+}: Props): React.ReactNode {
+  const { register, handleSubmit, reset, getValues, setValue } = useForm<TestFormType>();
   const currentTest = useAppSelector((state) => state.test.currentTest);
   const questions = currentTest?.questions;
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const [answers, setAnswers] = useState<questionAnswerType[]>([]);
+  const [answers, setAnswers] = useState<QuestionAnswerType[]>([]);
   const [isAddQuestionWindowActive, setIsAddQuestionWindowActive] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<createQuestionRequestType>();
+  const [currentQuestion, setCurrentQuestion] = useState<CreateQuestionRequestType>();
 
   const isLocal = !initTest;
   const formContext = { register, getValues, setValue, reset };

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ModalButtons } from './components';
 import s from './ModalWindow.module.scss';
 
-interface ModalWindowInterface {
+interface Props {
   setIsActive: Dispatch<SetStateAction<boolean>>;
   confirmAction?: () => void;
   children?: React.ReactNode;
@@ -21,7 +21,7 @@ function ModalWindow({
   children,
   title,
   buttonInfo,
-}: ModalWindowInterface): React.ReactNode {
+}: Props): React.ReactNode {
   const onCloseWindowClick = useCallback(() => {
     setIsActive(false);
   }, [setIsActive]);
