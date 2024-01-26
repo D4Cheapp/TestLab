@@ -3,14 +3,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { Authentication } from '@/src/components';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { deleteTest, getTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
-import { TestForm } from '@/src/components/TestForm';
 import { TestFormType } from '@/src/types/formTypes';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import { LoadingContainer } from '@/src/components/LoadingContainer';
-import { ModalWindow } from '@/src/components/ModalWindow';
+import Authentication from '@/src/components/common/Authentication';
+import TestForm from '@/src/components/pages/TestForm';
+import ModalWindow from '@/src/components/common/ModalWindow';
+import LoadingContainer from '@/src/components/common/LoadingContainer';
 
 function DeleteTest(): React.ReactNode {
   const initTest = useAppSelector((state) => state.test.currentTest);

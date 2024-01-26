@@ -1,4 +1,4 @@
-import { QuestionAnswerType } from '../components/TestForm/TestFormContext';
+import { QuestionAnswerType } from '../components/pages/TestForm/TestFormContext';
 
 export type RequestTypesType = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 export type ProfileLoginRequestType = { username: string; password: string };

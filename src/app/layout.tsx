@@ -1,7 +1,8 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import { ErrorContainer, Providers } from '@/src/components';
+import Providers from '../components/common/Providers';
+import ErrorContainer from '../components/common/ErrorContainer';
 import 'src/styles/globals.scss';
 
 const roboto = Roboto({

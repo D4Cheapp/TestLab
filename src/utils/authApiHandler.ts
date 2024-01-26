@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 
 export const authApiHandler = (data: [object, Response] | Error) => {
   const isResponseCorrect = !(data instanceof Error) && data[1].ok;
+
   if (isResponseCorrect) {
     const cookie = data[1].headers.get('Set-Cookie');
 

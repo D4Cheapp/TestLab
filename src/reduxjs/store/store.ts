@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
-import { rootSaga } from '@/src/reduxjs/saga';
 import {
   authActionTypes,
   authReducer,
@@ -10,6 +9,7 @@ import {
   testActionTypes,
   testReducer,
 } from '@/src/reduxjs/reducers';
+import rootSaga from '../saga';
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({

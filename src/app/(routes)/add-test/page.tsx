@@ -2,15 +2,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { Authentication } from '@/src/components';
-import { TestForm } from '@/src/components/TestForm';
 import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
 import { TestFormType } from '@/src/types/formTypes';
 import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import { createTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
-import { LoadingContainer } from '@/src/components/LoadingContainer';
-import { ModalWindow } from '@/src/components/ModalWindow';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
+import Authentication from '@/src/components/common/Authentication';
+import TestForm from '@/src/components/pages/TestForm';
+import ModalWindow from '@/src/components/common/ModalWindow';
+import LoadingContainer from '@/src/components/common/LoadingContainer';
 
 function AddTest(): React.ReactNode {
   const isLoading = useAppSelector((state) => state.base.loadingState);

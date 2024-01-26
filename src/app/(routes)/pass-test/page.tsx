@@ -1,6 +1,6 @@
 import React from 'react';
-import { Authentication } from '@/src/components';
-import { PassTestPage } from '@/src/components/PassTestPage';
+import Authentication from '@/src/components/common/Authentication';
+import PassTestPage from '@/src/components/pages/PassTestPage';
 
 function PassTest(): React.ReactNode {
   return (

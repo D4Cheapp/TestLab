@@ -23,6 +23,6 @@ input {
   @include fontType(null, $gunMetal);
 }
 
-div.dragStart {
+.dragStart {
   background: rgba($gunMetal, 0.6);
 }

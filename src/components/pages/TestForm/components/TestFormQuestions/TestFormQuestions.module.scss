@@ -1,0 +1,17 @@
+.content {
+  overflow: hidden;
+  margin-block: 2em;
+}
+
+.root {
+  width: calc(100% - 0.5em);
+  max-height: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1em;
+  padding-right: 0.5em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

@@ -1,0 +1,62 @@
+.answer {
+  position: relative;
+  width: 98%;
+  display: inline-flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-inline: 1em;
+  padding-block: 0.5em;
+  border-radius: 5px;
+  border: 2px $babyPowder solid;
+
+  label.answerLabel {
+    position: relative;
+    display: inline-flex;
+  }
+
+  input.answerTitleInput {
+    background: transparent;
+    outline: none;
+    border: none;
+    border-bottom: 1px $babyPowder solid;
+    padding: 0;
+    @include fontType(1.2em, $babyPowder);
+  }
+
+  p.answerTitle {
+    margin: 0;
+    cursor: pointer;
+    @include fontType(1.2em, $babyPowder);
+  }
+
+  .customCheckbox {
+    @include customCheckbox(0.9em);
+  }
+
+  .customRadio {
+    @include customRadio(1em);
+  }
+
+  input.answerCheckbox,
+  input.answerRadio {
+    opacity: 0;
+    margin-right: 1em;
+
+    &:checked + .customCheckbox:after,
+    &:checked + .customRadio:after {
+      opacity: 1;
+    }
+  }
+
+  button.answerDeleteButton {
+    @include cross(1.3em, 2px);
+    cursor: pointer;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding-inline: 0.6em;
+    padding-block: 0.1em;
+    border: none;
+    background: transparent;
+    transition: background-color 0.2s;
+  }
+}

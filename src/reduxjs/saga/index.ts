@@ -1,1 +1,1 @@
-export { default as rootSaga } from './rootSaga';
+export { default } from './rootSaga';
