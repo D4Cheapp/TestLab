@@ -18,16 +18,13 @@ import {
   EditTestActionType,
   AddLocalQuestionActionType,
   EditLocalQuestionAction,
-} from '@/src/types/reducerActionTypes';
-import createActionTypes from '@/src/utils/createActionTypes';
-import { CurrentTestType } from '@/src/types/reducerInitialTypes';
+  CurrentTestType,
+} from './types';
 
 interface TestSliceInterface {
   testList: TestReceiveType[];
   currentTest?: CurrentTestType;
   testMeta: PaginationTestsReceiveType['meta'];
-  loadingState: boolean;
-  errors: string[];
 }
 
 const testSlice = createSlice({
@@ -36,17 +33,15 @@ const testSlice = createSlice({
     testList: [],
     currentTest: undefined,
     testMeta: { total_count: -1, total_pages: -1 },
-    loadingState: false,
-    errors: [],
   } as TestSliceInterface,
   reducers: {
-    createTest: (state, action: CreateTestActionType) => {},
+    createTest: (state, action: CreateTestActionType) => state,
 
-    editTest: (state, action: EditTestActionType) => {},
+    editTest: (state, action: EditTestActionType) => state,
 
-    deleteTest: (state, action: DeleteTestActionType) => {},
+    deleteTest: (state, action: DeleteTestActionType) => state,
 
-    getTest: (state, action: GetTestActionType) => {},
+    getTest: (state, action: GetTestActionType) => state,
 
     setCurrentTest: (state, action: SetCurrentTestActionType) => {
       const receivedTest = action.payload;
@@ -75,7 +70,7 @@ const testSlice = createSlice({
       };
     },
 
-    getPaginationTests: (state, action: GetPaginationTestActionType) => {},
+    getPaginationTests: (state, action: GetPaginationTestActionType) => state,
 
     setPaginationTests: (state, action: SetPaginationTestActionType) => {
       const isPageFirst = action.payload.page === 1;
@@ -119,27 +114,23 @@ const testSlice = createSlice({
       }
     },
 
-    createQuestion: (state, action: CreateQuestionActionType) => {},
+    createQuestion: (state, action: CreateQuestionActionType) => state,
 
-    editQuestion: (state, action: EditQuestionActionType) => {},
+    editQuestion: (state, action: EditQuestionActionType) => state,
 
-    deleteQuestion: (state, action: DeleteQuestionActionType) => {},
+    deleteQuestion: (state, action: DeleteQuestionActionType) => state,
 
-    createAnswer: (state, action: CreateAnswerActionType) => {},
+    createAnswer: (state, action: CreateAnswerActionType) => state,
 
-    editAnswer: (state, action: EditAnswerActionType) => {},
+    editAnswer: (state, action: EditAnswerActionType) => state,
 
-    moveAnswer: (state, action: MoveAnswerActionType) => {},
+    moveAnswer: (state, action: MoveAnswerActionType) => state,
 
-    deleteAnswer: (state, action: DeleteAnswerActionType) => {},
+    deleteAnswer: (state, action: DeleteAnswerActionType) => state,
   },
 });
 
-export const testActionTypes = createActionTypes({
-  actions: testSlice.actions,
-  actionKeys: Object.keys(testSlice),
-});
-
+export const testActions = testSlice.actions;
 export const {
   createTest,
   editTest,

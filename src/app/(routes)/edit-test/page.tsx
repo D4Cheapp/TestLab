@@ -2,19 +2,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { TestFormType } from '@/src/types/formTypes';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import { editTest, getTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import LoadingContainer from '@/src/components/common/LoadingContainer';
+import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
+import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 
 function EditTest(): React.ReactNode {
-  const isLoading = useAppSelector((state) => state.base.loadingState);
-  const initTest = useAppSelector((state) => state.test.currentTest);
-  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(loadingStateSelector);
+  const initTest = useAppSelector(currentTestSelector);
+  const { setErrorsState, getTest, setCurrentTest, editTest } = useActions();
 
   const searchParams = useSearchParams().get('id');
   const router = useRouter();
@@ -32,41 +32,42 @@ function EditTest(): React.ReactNode {
         !initTest?.questions || initTest?.questions?.length === 0;
 
       if (!isTitleFilled) {
-        return dispatch(setErrorsState('Error: Test title should not be empty'));
+        return setErrorsState('Error: Test title should not be empty');
       }
 
       if (isNotEnoughQuestions) {
-        return dispatch(
-          setErrorsState('Error: Test should contain at least one question'),
-        );
+        return setErrorsState('Error: Test should contain at least one question');
       }
 
       if (!testId) {
-        return dispatch(setErrorsState('Error: Cannot find test to edit'));
+        return setErrorsState('Error: Cannot find test to edit');
       }
 
       setTestTitle(data.title.replace(/\s+/gm, ' ').trim());
       setIsConfirmWindowActive(true);
     },
-    [dispatch, initTest?.questions, testId],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [initTest?.questions, testId],
   );
 
   const saveTestConfirm = useCallback(() => {
     const isTestCorrect = testId && testTitle;
 
     if (isTestCorrect) {
-      dispatch(editTest({ title: testTitle, id: testId }));
-      dispatch(setCurrentTest(undefined));
+      editTest({ title: testTitle, id: testId });
+      setCurrentTest(undefined);
       setIsConfirmWindowActive(false);
       router.push('/');
     }
-  }, [dispatch, router, testId, testTitle]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, testId, testTitle]);
 
   useEffect(() => {
     if (testId !== undefined) {
-      dispatch(getTest({ id: testId }));
+      getTest({ id: testId });
     }
-  }, [dispatch, testId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testId]);
 
   return (
     <Authentication isAdmin>

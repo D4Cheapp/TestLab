@@ -3,9 +3,8 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { EntryFormType } from '@/src/types/formTypes';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import { profileLogin, profileRegister } from '@/src/reduxjs/reducers/authReducer';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
+import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
 import s from './EntryForm.module.scss';
 import EntryInput from './EntryInput';
 
@@ -28,9 +27,9 @@ function EntryForm({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordMatchError, setIsPasswordMatchError] = useState(false);
-  const currentProfile = useAppSelector((state) => state.auth.currentProfile);
-  const dispatch = useAppDispatch();
+  const currentProfile = useAppSelector(currentProfileSelector);
   const router = useRouter();
+  const { setErrorsState, profileLogin, profileRegister } = useActions();
 
   const onShowPasswordClick = useCallback(() => {
     setShowPassword(!showPassword);
@@ -52,7 +51,7 @@ function EntryForm({
     const isProfileInfoEmpty = valuesArray.includes(undefined);
 
     if (isProfileInfoEmpty) {
-      dispatch(setErrorsState('Error: Fill in all the necessary data'));
+      setErrorsState('Error: Fill in all the necessary data');
       return false;
     }
 
@@ -63,19 +62,17 @@ function EntryForm({
       const isPasswordMatchError = data.password !== data.password_confirmation;
 
       if (isPasswordShort) {
-        dispatch(setErrorsState('Error: Password should contain at least 10 character'));
+        setErrorsState('Error: Password should contain at least 10 character');
         return false;
       }
 
       if (isPasswordMissingUpperChar) {
-        dispatch(
-          setErrorsState('Error: Password should contain at least one capital letter'),
-        );
+        setErrorsState('Error: Password should contain at least one capital letter');
         return false;
       }
 
       if (isPasswordMissingNumber) {
-        dispatch(setErrorsState('Error: Password should contain at least one number'));
+        setErrorsState('Error: Password should contain at least one number');
         return false;
       }
 
@@ -88,7 +85,7 @@ function EntryForm({
     }
 
     // @ts-ignore
-    dispatch(isRegister ? profileRegister(data) : profileLogin(data));
+    isRegister ? profileRegister(data) : profileLogin(data);
     return true;
   };
 

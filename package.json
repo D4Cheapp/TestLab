@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "tsc && next lint",
-    "lint:fix": "tsc && next lint --fix && prettier --write src/",
+    "lint:fix": "tsc && next lint --fix",
     "prettier": "prettier src/ --check",
     "prettier:fix": "prettier src/ --write"
   },

@@ -1,19 +1,17 @@
 'use client';
 import React, { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { deleteErrorState } from '@/src/reduxjs/reducers/baseReducer';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
+import { errorSelector } from '@/src/reduxjs/base/selectors';
 import s from './ErrorContainer.module.scss';
 import ErrorMessage from './ErrorMessage';
 
 function ErrorContainer(): React.ReactNode {
-  const errorsState = useAppSelector((state) => state.base.errors);
+  const errorsState = useAppSelector(errorSelector);
   const isErrorsEmpty = errorsState.length === 0;
-  const dispatch = useAppDispatch();
+  const { deleteErrorState } = useActions();
 
-  const onCloseClick = useCallback(
-    (index: number) => dispatch(deleteErrorState(index)),
-    [dispatch],
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onCloseClick = useCallback((index: number) => deleteErrorState(index), []);
 
   if (isErrorsEmpty) {
     return null;

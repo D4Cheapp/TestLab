@@ -1,9 +1,6 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import {
-  getTest,
-  setPaginationTests,
-  setCurrentTest,
-} from '@/src/reduxjs/reducers/testReducer';
+import { sagaHandling } from '@/src/utils/sagaHandling';
+import { getTest, setPaginationTests, setCurrentTest } from '@/src/reduxjs/test';
 import {
   CreateAnswerReceiveType,
   CreateQuestionReceiveType,
@@ -25,9 +22,8 @@ import {
   MoveAnswerActionType,
   DeleteAnswerActionType,
   DeleteQuestionActionType,
-} from '@/src/types/reducerActionTypes';
-import { sagaHandling } from '@/src/utils/sagaHandling';
-import { reducersActions } from '@/src/reduxjs/store/store';
+} from './types';
+import { reducersActions } from '..';
 
 function* createTestSaga(action: CreateTestActionType) {
   const { title, questions } = action.payload;

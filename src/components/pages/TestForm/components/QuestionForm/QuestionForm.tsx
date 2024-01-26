@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { useAppDispatch } from '@/src/hooks/reduxHooks';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import { useActions } from '@/src/hooks/reduxHooks';
 import s from './QuestionForm.module.scss';
 import CheckboxModalAnswer from './CheckboxModalAnswer';
 import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
@@ -10,7 +9,7 @@ function QuestionForm(): React.ReactNode {
   const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =
     useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
-  const dispatch = useAppDispatch();
+  const { setErrorsState } = useActions();
 
   const { getValues, setValue, register } = form;
   const questionType = currentQuestion?.id
@@ -49,11 +48,10 @@ function QuestionForm(): React.ReactNode {
       ]);
       setValue('answerInput', '');
     } else {
-      dispatch(
-        setErrorsState('Error: Fill in the contents of the response before adding it'),
-      );
+      setErrorsState('Error: Fill in the contents of the response before adding it');
     }
-  }, [answers, dispatch, getValues, setAnswers, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answers, getValues, setAnswers, setValue]);
 
   const onDeleteAnswerClick = useCallback(
     (answerId: number) => {

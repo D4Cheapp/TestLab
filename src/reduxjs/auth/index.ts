@@ -5,9 +5,8 @@ import {
   ProfileLogoutActionType,
   ProfileRegisterActionType,
   SetCurrentProfileActionType,
-} from '@/src/types/reducerActionTypes';
-import { CurrentProfileType } from '@/src/types/reducerInitialTypes';
-import createActionTypes from '@/src/utils/createActionTypes';
+  CurrentProfileType,
+} from './types';
 
 interface AuthSliceInterface {
   currentProfile?: CurrentProfileType;
@@ -19,13 +18,13 @@ const authSlice = createSlice({
     currentProfile: undefined,
   } as AuthSliceInterface,
   reducers: {
-    profileRegister: (state, profileInfo: ProfileRegisterActionType) => {},
+    profileRegister: (state, profileInfo: ProfileRegisterActionType) => state,
 
-    profileLogin: (state, profileInfo: ProfileLoginActionType) => {},
+    profileLogin: (state, profileInfo: ProfileLoginActionType) => state,
 
-    profileLogout: (state) => {},
+    profileLogout: (state) => state,
 
-    getCurrentProfile: (state) => {},
+    getCurrentProfile: (state) => state,
 
     setCurrentProfile: (state, profileInfo: SetCurrentProfileActionType) => {
       state.currentProfile = profileInfo.payload;
@@ -40,11 +39,7 @@ const authSlice = createSlice({
   },
 });
 
-export const authActionTypes = createActionTypes({
-  actions: authSlice.actions,
-  actionKeys: Object.keys(authSlice),
-});
-
+export const authActions = authSlice.actions; 
 export const {
   profileRegister,
   profileLogin,

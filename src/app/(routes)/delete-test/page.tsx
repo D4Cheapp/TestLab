@@ -3,19 +3,19 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { deleteTest, getTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { TestFormType } from '@/src/types/formTypes';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import LoadingContainer from '@/src/components/common/LoadingContainer';
+import { currentTestSelector } from '@/src/reduxjs/test/selectors';
+import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 
 function DeleteTest(): React.ReactNode {
-  const initTest = useAppSelector((state) => state.test.currentTest);
-  const isLoading = useAppSelector((state) => state.base.loadingState);
-  const dispatch = useAppDispatch();
+  const initTest = useAppSelector(currentTestSelector);
+  const isLoading = useAppSelector(loadingStateSelector);
+  const { setErrorsState, deleteTest, getTest, setCurrentTest } = useActions();
 
   const searchParams = useSearchParams().get('id');
   const router = useRouter();
@@ -29,26 +29,28 @@ function DeleteTest(): React.ReactNode {
       if (testId) {
         setIsConfirmWindowActive(true);
       } else {
-        dispatch(setErrorsState('Error: Cannot find test to delete'));
+        setErrorsState('Error: Cannot find test to delete');
       }
     },
-    [dispatch, testId],
+    [setErrorsState, testId],
   );
 
   const deleteTestConfirm = useCallback(() => {
     if (testId) {
-      dispatch(deleteTest({ id: testId }));
+      deleteTest({ id: testId });
       router.push('/');
-      dispatch(setCurrentTest(undefined));
+      setCurrentTest(undefined);
       setIsConfirmWindowActive(false);
     }
-  }, [dispatch, router, testId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, testId]);
 
   useEffect(() => {
     if (testId !== undefined) {
-      dispatch(getTest({ id: testId }));
+      getTest({ id: testId });
     }
-  }, [dispatch, testId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [testId]);
 
   return (
     <Authentication isAdmin>

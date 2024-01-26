@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects';
-import { setErrorsState, setLoadingState } from '@/src/reduxjs/reducers/baseReducer';
+import { setErrorsState, setLoadingState } from '@/src/reduxjs/base';
 import { createFetch } from '@/src/utils/createFetch';
 
 type SagaHandlingPropsType<T> = {

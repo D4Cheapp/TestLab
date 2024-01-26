@@ -1,8 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { getCurrentProfile } from '@/src/reduxjs/reducers/authReducer';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
+import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
 import LoadingContainer from '../LoadingContainer';
 
 interface Props {
@@ -11,14 +11,15 @@ interface Props {
 }
 
 function Authentication({ children, isAdmin }: Props): React.ReactNode {
-  const currentProfile = useAppSelector((state) => state.auth.currentProfile);
+  const currentProfile = useAppSelector(currentProfileSelector);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const { getCurrentProfile } = useActions();
 
   useEffect(() => {
-    dispatch(getCurrentProfile());
-  }, [dispatch]);
+    getCurrentProfile();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const isProfileUnset = currentProfile !== undefined;

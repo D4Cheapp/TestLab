@@ -2,9 +2,8 @@
 import React, { MouseEvent, ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { getTest } from '@/src/reduxjs/reducers/testReducer';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
+import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import s from './PassTestPage.module.scss';
 import PassQuestion from './PassQuestion';
 import ModalWindow from '../../common/ModalWindow';
@@ -19,12 +18,12 @@ type PassTestQuestionType =
 
 function PassTestPage(): React.ReactNode {
   const searchParams = useSearchParams().get('id');
-  const currentTest = useAppSelector((state) => state.test.currentTest);
+  const currentTest = useAppSelector(currentTestSelector);
   const [passProgress, setPassProgress] = useState<PassTestQuestionType>([]);
   const [isResultWindowActive, setIsResultWindowActive] = useState(false);
   const [testResult, setTestResult] = useState<{ correct: number; wrong: number }>();
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const { setErrorsState, getTest } = useActions();
 
   const onAddAnswerClick = useCallback(
     (
@@ -90,7 +89,7 @@ function PassTestPage(): React.ReactNode {
           currentQuestion.answer === undefined && currentQuestion.answers === undefined;
 
         if (isAnswerExists) {
-          dispatch(setErrorsState('Error: Fill out all the answers to the questions'));
+          setErrorsState('Error: Fill out all the answers to the questions');
           return -1;
         }
 
@@ -100,10 +99,8 @@ function PassTestPage(): React.ReactNode {
               currentQuestion.answers && currentQuestion?.answers?.length < 2;
 
             if (isNotEnoughQuestions) {
-              dispatch(
-                setErrorsState(
-                  'Error: There cannot be less than 2 correct answers in the multiple question',
-                ),
+              setErrorsState(
+                'Error: There cannot be less than 2 correct answers in the multiple question',
               );
               return -1;
             }
@@ -170,9 +167,10 @@ function PassTestPage(): React.ReactNode {
   useEffect(() => {
     const isIdExists = searchParams && searchParams !== null;
     if (isIdExists) {
-      dispatch(getTest({ id: +searchParams }));
+      getTest({ id: +searchParams });
     }
-  }, [dispatch, searchParams]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   if (!currentTest?.questions) {
     return null;

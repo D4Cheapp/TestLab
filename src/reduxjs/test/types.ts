@@ -1,23 +1,17 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { PaginationTestsReceiveType, TestReceiveType } from '@/src/types/receiveTypes';
 import {
-  PaginationTestsReceiveType,
-  ProfileLogoutReceiveType,
-  TestReceiveType,
-} from '@/src/types/receiveTypes';
-import { CurrentProfileType } from '@/src/types/reducerInitialTypes';
-import {
+  CreateAnswerRequestType,
+  CreateQuestionRequestType,
   CreateTestRequestType,
   PaginationTestRequestType,
-  ProfileLoginRequestType,
-  ProfileRegisterRequestType,
-  CreateQuestionRequestType,
-  CreateAnswerRequestType,
 } from '@/src/types/requestTypes';
 
-export type ProfileRegisterActionType = PayloadAction<ProfileRegisterRequestType>;
-export type ProfileLoginActionType = PayloadAction<ProfileLoginRequestType>;
-export type SetCurrentProfileActionType = PayloadAction<CurrentProfileType | undefined>;
-export type ProfileLogoutActionType = PayloadAction<ProfileLogoutReceiveType>;
+export type CurrentTestType = {
+  id?: number;
+  title?: string;
+  questions?: CreateQuestionRequestType[];
+};
 
 export type CreateTestActionType = PayloadAction<CreateTestRequestType>;
 export type EditTestActionType = PayloadAction<{ id: number } & CreateTestRequestType>;
@@ -50,7 +44,3 @@ export type MoveAnswerActionType = PayloadAction<{
   position: number;
 }>;
 export type DeleteAnswerActionType = PayloadAction<{ id: number }>;
-
-export type SetLoadingStateActionType = PayloadAction<boolean>;
-export type SetErrorStateActionType = PayloadAction<string>;
-export type DeleteErrorStateActionType = PayloadAction<number>;

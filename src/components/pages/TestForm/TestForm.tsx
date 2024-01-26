@@ -2,19 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { TestFormType } from '@/src/types/formTypes';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import {
-  addLocalQuestion,
-  createQuestion,
-  deleteLocalQuestion,
-  deleteQuestion,
-  editLocalQuestion,
-  editQuestion,
-  setCurrentTest,
-} from '@/src/reduxjs/reducers/testReducer';
-import { CurrentTestType } from '@/src/types/reducerInitialTypes';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
+import { CurrentTestType } from '@/src/reduxjs/test/types';
+import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import { TestFormContext, QuestionAnswerType } from './TestFormContext';
 import s from './TestForm.module.scss';
 import TestFormButtons from './components/TestFormButtons';
@@ -35,10 +26,19 @@ function TestForm({
   action,
 }: Props): React.ReactNode {
   const { register, handleSubmit, reset, getValues, setValue } = useForm<TestFormType>();
-  const currentTest = useAppSelector((state) => state.test.currentTest);
+  const currentTest = useAppSelector(currentTestSelector);
   const questions = currentTest?.questions;
-  const dispatch = useAppDispatch();
   const router = useRouter();
+  const {
+    setErrorsState,
+    setCurrentTest,
+    createQuestion,
+    addLocalQuestion,
+    editQuestion,
+    editLocalQuestion,
+    deleteQuestion,
+    deleteLocalQuestion,
+  } = useActions();
 
   const [answers, setAnswers] = useState<QuestionAnswerType[]>([]);
   const [isAddQuestionWindowActive, setIsAddQuestionWindowActive] = useState(false);
@@ -69,31 +69,25 @@ function TestForm({
       }
 
       if (isTitleEmpty) {
-        dispatch(setErrorsState('Error: Question title should not be empty'));
+        setErrorsState('Error: Question title should not be empty');
         return false;
       }
 
       if (isAnswerAmountError) {
-        dispatch(
-          setErrorsState(
-            'Error: Question should be at least 2 answer option in the question',
-          ),
+        setErrorsState(
+          'Error: Question should be at least 2 answer option in the question',
         );
         return false;
       }
 
       if (isSingleQuestionError) {
-        dispatch(
-          setErrorsState('Error: Question should be 1 correct answer in the question'),
-        );
+        setErrorsState('Error: Question should be 1 correct answer in the question');
         return false;
       }
 
       if (isMultiplyQuestionError) {
-        dispatch(
-          setErrorsState(
-            'Error: There cannot be less than 2 correct answers in the question',
-          ),
+        setErrorsState(
+          'Error: There cannot be less than 2 correct answers in the question',
         );
         return false;
       }
@@ -104,19 +98,20 @@ function TestForm({
         const isAnswerEmpty = answer === undefined;
 
         if (isAnswerNotANumber) {
-          dispatch(setErrorsState('Error: Answer should be a number'));
+          setErrorsState('Error: Answer should be a number');
           return false;
         }
 
         if (isAnswerEmpty) {
-          dispatch(setErrorsState('Error: Input field should not be empty'));
+          setErrorsState('Error: Input field should not be empty');
           return false;
         }
       }
 
       return true;
     },
-    [dispatch, getValues],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getValues],
   );
 
   const onQuestionModifyClick = useCallback(
@@ -146,15 +141,13 @@ function TestForm({
             test_id,
           };
 
-          dispatch(
-            isServerEdit
-              ? editQuestion({
-                  ...questionData,
-                  //@ts-ignore
-                  id: currentQuestion.id,
-                })
-              : createQuestion(questionData),
-          );
+          isServerEdit
+            ? editQuestion({
+                ...questionData,
+                //@ts-ignore
+                id: currentQuestion.id,
+              })
+            : createQuestion(questionData);
         } else {
           const questionData = {
             id: isEdit && currentQuestion ? currentQuestion.id : Date.now(),
@@ -165,13 +158,11 @@ function TestForm({
             answers: answers ?? undefined,
           };
 
-          dispatch(
-            isEdit
-              ? //@ts-ignore
-                editLocalQuestion(questionData)
-              : //@ts-ignore
-                addLocalQuestion(questionData),
-          );
+          isEdit
+            ? //@ts-ignore
+              editLocalQuestion(questionData)
+            : //@ts-ignore
+              addLocalQuestion(questionData);
         }
 
         setAnswers([]);
@@ -183,21 +174,15 @@ function TestForm({
       }
       return false;
     },
-    [
-      answers,
-      currentQuestion,
-      currentTest?.id,
-      dispatch,
-      getValues,
-      isLocal,
-      questionValidation,
-    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [answers, currentTest?.id, isLocal, getValues, questionValidation],
   );
 
   const onGoBackButtonClick = useCallback(() => {
-    dispatch(setCurrentTest(undefined));
+    setCurrentTest(undefined);
     router.push('/');
-  }, [dispatch, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   const onAddQuestionClick = useCallback(() => {
     const questionType = getValues('questionType');
@@ -209,22 +194,21 @@ function TestForm({
     if (isQuestion) {
       setIsAddQuestionWindowActive(true);
     } else {
-      dispatch(setErrorsState('Error: Before adding a question, select its type'));
+      setErrorsState('Error: Before adding a question, select its type');
     }
-  }, [dispatch, getValues]);
+  }, [getValues, setErrorsState]);
 
   const onDeleteQuestionConfirmClick = useCallback(
     (id: number) => {
       setAnswers([]);
       setCurrentQuestion(undefined);
-      dispatch(
-        isLocal
-          ? deleteLocalQuestion({ id })
-          : deleteQuestion({ id, test_id: currentTest?.id }),
-      );
+      isLocal
+        ? deleteLocalQuestion({ id })
+        : deleteQuestion({ id, test_id: currentTest?.id });
       reset();
     },
-    [currentTest?.id, dispatch, isLocal, reset],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentTest?.id, isLocal, reset],
   );
 
   useEffect(() => {

@@ -1,15 +1,10 @@
 import { combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
-import {
-  authActionTypes,
-  authReducer,
-  baseActionTypes,
-  baseReducer,
-  testActionTypes,
-  testReducer,
-} from '@/src/reduxjs/reducers';
-import rootSaga from '../saga';
+import { rootSaga } from './sagas';
+import testReducer, { testActions } from './test';
+import baseReducer, { baseActions } from './base';
+import authReducer, { authActions } from './auth';
 
 const sagaMiddleware = createSagaMiddleware();
 const rootReducer = combineReducers({
@@ -17,17 +12,15 @@ const rootReducer = combineReducers({
   base: baseReducer,
   auth: authReducer,
 });
-export const reducersActions = Object.assign(
-  testActionTypes,
-  baseActionTypes,
-  authActionTypes,
-);
+export const reducersActions = { ...testActions, ...baseActions, ...authActions };
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   //@ts-ignore
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);
-export default store;
+
+export type RootStateType = ReturnType<typeof store.getState>;
+export type AppDispatchType = typeof store.dispatch;

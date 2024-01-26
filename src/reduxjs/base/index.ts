@@ -4,8 +4,7 @@ import {
   DeleteErrorStateActionType,
   SetErrorStateActionType,
   SetLoadingStateActionType,
-} from '@/src/types/reducerActionTypes';
-import createActionTypes from '@/src/utils/createActionTypes';
+} from './types';
 
 interface BaseSliceInterface {
   loadingState: boolean;
@@ -38,9 +37,6 @@ const baseSlice = createSlice({
   },
 });
 
-export const baseActionTypes = createActionTypes({
-  actions: baseSlice.actions,
-  actionKeys: Object.keys(baseSlice),
-});
+export const baseActions = baseSlice.actions;
 export const { setLoadingState, setErrorsState, deleteErrorState } = baseSlice.actions;
 export default baseSlice.reducer;

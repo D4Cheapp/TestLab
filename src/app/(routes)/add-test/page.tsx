@@ -2,20 +2,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { TestFormType } from '@/src/types/formTypes';
-import { setErrorsState } from '@/src/reduxjs/reducers/baseReducer';
-import { createTest, setCurrentTest } from '@/src/reduxjs/reducers/testReducer';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import LoadingContainer from '@/src/components/common/LoadingContainer';
+import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
+import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 
 function AddTest(): React.ReactNode {
-  const isLoading = useAppSelector((state) => state.base.loadingState);
-  const currentTest = useAppSelector((state) => state.test.currentTest);
-  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(loadingStateSelector);
+  const currentTest = useAppSelector(currentTestSelector);
+  const { setErrorsState, createTest, setCurrentTest } = useActions();
 
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const [testInfo, setTestInfo] = useState<{
@@ -32,13 +32,11 @@ function AddTest(): React.ReactNode {
         !currentTest?.questions || currentTest?.questions?.length === 0;
 
       if (!isTitleFilled) {
-        return dispatch(setErrorsState('Error: Test title should not be empty'));
+        return setErrorsState('Error: Test title should not be empty');
       }
 
       if (isNotEnoughQuestions) {
-        return dispatch(
-          setErrorsState('Error: Test should contain at least one question'),
-        );
+        return setErrorsState('Error: Test should contain at least one question');
       }
 
       if (currentTest?.questions) {
@@ -49,21 +47,24 @@ function AddTest(): React.ReactNode {
         setIsConfirmWindowActive(true);
       }
     },
-    [currentTest?.questions, dispatch],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentTest?.questions],
   );
 
   const saveTestConfirm = useCallback(() => {
     if (testInfo) {
-      dispatch(createTest(testInfo));
-      dispatch(setCurrentTest(undefined));
+      createTest(testInfo);
+      setCurrentTest(undefined);
       setIsConfirmWindowActive(false);
       router.push('/');
     }
-  }, [dispatch, router, testInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, testInfo]);
 
   useEffect(() => {
-    dispatch(setCurrentTest(undefined));
-  }, [dispatch]);
+    setCurrentTest(undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Authentication isAdmin>

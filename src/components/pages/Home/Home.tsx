@@ -9,9 +9,10 @@ import React, {
 } from 'react';
 import clsx from 'clsx';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/src/hooks/reduxHooks';
-import { profileLogout } from '@/src/reduxjs/reducers/authReducer';
-import { getPaginationTests } from '@/src/reduxjs/reducers/testReducer';
+import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
+import { testListSelector, testMetaSelector } from '@/src/reduxjs/test/selectors';
+import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
+import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
 import s from './Home.module.scss';
 import TestComponent from './components/TestComponent';
 import HomeNavbar from './components/HomeNavbar';
@@ -21,15 +22,15 @@ function validateFilterValue(filter: string | null) {
 }
 
 function Home(): React.ReactNode {
-  const testList = useAppSelector((state) => state.test.testList);
-  const testMeta = useAppSelector((state) => state.test.testMeta);
-  const isLoading = useAppSelector((state) => state.base.loadingState);
-  const isAdmin = useAppSelector((state) => state.auth.currentProfile)?.is_admin;
+  const testList = useAppSelector(testListSelector);
+  const testMeta = useAppSelector(testMetaSelector);
+  const isLoading = useAppSelector(loadingStateSelector);
+  const isAdmin = useAppSelector(currentProfileSelector)?.is_admin;
 
-  const dispatch = useAppDispatch();
   const router = useRouter();
   const queryParams = useSearchParams().get('filter');
   const testListRef = useRef<HTMLDivElement>(null);
+  const { profileLogout, getPaginationTests } = useActions();
 
   const [isLogoutWindowActive, setIsLogoutWindowActive] = useState<boolean>(false);
   const [testPage, setTestPage] = useState<number>(1);
@@ -60,9 +61,10 @@ function Home(): React.ReactNode {
   }, []);
 
   const onLogoutConfirmClick = useCallback(() => {
-    dispatch(profileLogout());
+    profileLogout();
     router.push('/login');
-  }, [dispatch, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]);
 
   const onFilterReverseClick = useCallback(() => {
     setTestPage(1);
@@ -106,16 +108,14 @@ function Home(): React.ReactNode {
   };
 
   useEffect(() => {
-    dispatch(
-      getPaginationTests({
-        page: testPage,
-        per: 7,
-        search: queryParams ?? '',
-        sort: isReverseDate ? 'created_at_asc' : 'created_at_desc',
-      }),
-    );
+    getPaginationTests({
+      page: testPage,
+      per: 7,
+      search: queryParams ?? '',
+      sort: isReverseDate ? 'created_at_asc' : 'created_at_desc',
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryParams, dispatch, isReverseDate, testPage]);
+  }, [queryParams, isReverseDate, testPage]);
 
   useEffect(() => {
     const filterTimeout = setTimeout(() => setFilter(), 1500);
