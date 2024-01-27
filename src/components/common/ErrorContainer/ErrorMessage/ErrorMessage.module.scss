@@ -1,35 +1,37 @@
 .errorMessage {
   position: relative;
+  display: inline-flex;
   width: 100%;
   height: fit-content;
-  display: inline-flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: space-between;
-  box-sizing: border-box;
+  border: 2px $babyPowder solid;
+  border-radius: 5px;
+  background-color: rgba($oldRose, 0.9);
   padding-block: 1.3vh;
   padding-inline: 3%;
-  border-radius: 5px;
-  border: 2px $babyPowder solid;
-  background-color: rgba($oldRose, 0.9);
 
   p.error {
     margin: 0;
-    white-space: pre-wrap;
     text-align: left;
+    white-space: pre-wrap;
+
     @include fontType(2.5vh, $babyPowder);
   }
 
   button.close {
     height: 2em;
-    aspect-ratio: 1/1;
-    border-radius: 5px;
     padding: 0;
     border: none;
-    cursor: pointer;
+    border-radius: 5px;
+    aspect-ratio: 1/1;
     background-color: transparent;
+    cursor: pointer;
     transition:
       background-color 0.3s,
       scale 0.2s;
+
     @include cross(2.3vh, 3px);
 
     @include hover {
@@ -50,6 +52,7 @@
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }

@@ -7,8 +7,8 @@
 }
 
 @mixin fontType($fontSize: null, $fontColor: null, $fontWeight: null) {
-  font-size: $fontSize;
   color: $fontColor;
+  font-size: $fontSize;
   font-weight: $fontWeight;
 }
 
@@ -28,9 +28,9 @@
   width: $width;
   height: $width;
   border: $thick solid transparent;
+  border-radius: 50%;
   border-top-color: $babyPowder;
   border-left-color: $babyPowder;
-  border-radius: 50%;
   animation: loading 1s linear infinite;
 
   @keyframes loading {
@@ -50,22 +50,22 @@
   place-items: center;
 
   &::after {
-    content: '';
     position: absolute;
     width: $width;
     height: $thick;
-    rotate: -45deg;
     background-color: $babyPowder;
+    content: '';
+    rotate: -45deg;
     transition: 0.2s;
   }
 
   &::before {
-    content: '';
     position: absolute;
     width: $width;
     height: $thick;
-    rotate: 45deg;
     background-color: $babyPowder;
+    content: '';
+    rotate: 45deg;
     transition: 0.2s;
   }
 
@@ -78,13 +78,14 @@
 }
 
 @mixin formInput($fontSize) {
-  outline: none;
-  padding-inline: 1em;
-  padding-block: 0.4em;
   box-sizing: border-box;
-  border-radius: 5px;
   border: 2px $babyPowder solid;
+  border-radius: 5px;
   background: $charcoal;
+  outline: none;
+  padding-block: 0.4em;
+  padding-inline: 1em;
+
   @include fontType($fontSize, $babyPowder);
 
   &::placeholder {
@@ -94,87 +95,87 @@
 
 @mixin customCheckbox($width) {
   position: absolute;
-  cursor: pointer;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
   top: 50%;
-  transform: translate(0, -50%);
   left: 0;
+  display: flex;
   width: $width;
   height: $width;
+  align-items: flex-start;
+  justify-content: center;
   border: 2px $babyPowder solid;
   border-radius: 3px;
+  cursor: pointer;
+  transform: translate(0, -50%);
 
-  &:after {
-    content: '';
-    opacity: 0;
+  &::after {
     width: 25%;
     height: 65%;
-    rotate: 45deg;
-    border-bottom: 2px $babyPowder solid;
     border-right: 2px $babyPowder solid;
+    border-bottom: 2px $babyPowder solid;
+    content: '';
+    opacity: 0;
+    rotate: 45deg;
     transition: opacity 0.1s;
   }
 }
 
 @mixin customRadio($width) {
   position: absolute;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   top: 50%;
-  transform: translate(0, -50%);
   left: 0;
+  display: flex;
   width: $width;
   height: $width;
+  align-items: center;
+  justify-content: center;
   border: 2px $babyPowder solid;
   border-radius: 50%;
+  cursor: pointer;
+  transform: translate(0, -50%);
 
-  &:after {
-    content: '';
-    opacity: 0;
+  &::after {
     width: 50%;
     height: 50%;
-    background: $babyPowder;
     border-radius: 50%;
+    background: $babyPowder;
+    content: '';
+    opacity: 0;
     transition: opacity 0.1s;
   }
 }
 
 @mixin wide() {
-  @media only screen and (max-width: 1440px) {
+  @media only screen and (width <= 1440px) {
     @content;
   }
 }
 
 @mixin spacious() {
-  @media only screen and (max-width: 1256px) {
+  @media only screen and (width <= 1256px) {
     @content;
   }
 }
 
 @mixin compact() {
-  @media only screen and (max-width: 1124px) {
+  @media only screen and (width <= 1124px) {
     @content;
   }
 }
 
 @mixin standard() {
-  @media only screen and (max-width: 1080px) {
+  @media only screen and (width <= 1080px) {
     @content;
   }
 }
 
 @mixin miniature() {
-  @media only screen and (max-width: 850px) {
+  @media only screen and (width <= 850px) {
     @content;
   }
 }
 
 @mixin narrow() {
-  @media only screen and (max-width: 600px) {
+  @media only screen and (width <= 600px) {
     @content;
   }
 }

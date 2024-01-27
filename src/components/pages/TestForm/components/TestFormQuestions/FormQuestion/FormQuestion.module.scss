@@ -1,19 +1,20 @@
 .question {
-  width: 100%;
   display: inline-flex;
+  width: 100%;
   justify-content: space-between;
-  gap: 0.5em;
   padding-right: 1em;
+  gap: 0.5em;
 
   p.questionTitle {
     width: 100%;
-    margin: 0;
     box-sizing: border-box;
-    border-radius: 5px;
-    padding-inline: 1em;
-    padding-block: 0.4em;
-    background: $charcoal;
     border: 2px $babyPowder solid;
+    border-radius: 5px;
+    margin: 0;
+    background: $charcoal;
+    padding-block: 0.4em;
+    padding-inline: 1em;
+
     @include fontType(1.4em);
   }
 }
@@ -24,14 +25,13 @@
 
   button.questionButton {
     width: 3.6em;
-    background: transparent;
-    cursor: pointer;
     box-sizing: border-box;
-    border-radius: 5px;
-    padding-inline: 1em;
-    padding-block: 0.4em;
-    background: $charcoal;
     border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: $charcoal;
+    cursor: pointer;
+    padding-block: 0.4em;
+    padding-inline: 1em;
     transition:
       border-color 0.2s,
       background-image 0.2s;
@@ -39,8 +39,8 @@
 
   button.editButton {
     background-image: url('~public/images/svg/editPencil.svg');
-    background-repeat: no-repeat;
     background-position: center;
+    background-repeat: no-repeat;
     background-size: 65%, contain;
 
     @include hover {

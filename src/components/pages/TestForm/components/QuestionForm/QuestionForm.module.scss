@@ -1,10 +1,11 @@
 label.inputTitle {
   position: absolute;
-  opacity: 0;
   top: -0.6em;
   left: 1em;
   background: $charcoal;
+  opacity: 0;
   padding-inline: 0.4em;
+
   @include fontType(1em, $babyPowder);
 }
 
@@ -21,6 +22,7 @@ input.input {
 
   &:focus + label.inputTitle {
     opacity: 1;
+
     @include fontType(null, $zomp);
   }
 
@@ -31,11 +33,11 @@ input.input {
 
 .questionAddTitle {
   position: relative;
-  width: 100%;
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   input.questionInput {
     width: 100%;
@@ -44,10 +46,10 @@ input.input {
 
 .addAnswer {
   position: relative;
-  width: 100%;
   display: inline-flex;
-  justify-content: space-between;
+  width: 100%;
   align-items: stretch;
+  justify-content: space-between;
   gap: 1em;
 
   input.answerAddInput {
@@ -55,12 +57,13 @@ input.input {
   }
 
   button.answerAddButton {
-    background: transparent;
     box-sizing: border-box;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: transparent;
     cursor: pointer;
     padding-inline: 0.32em;
-    border-radius: 5px;
-    border: 2px $babyPowder solid;
+
     @include fontType(1.9em, $babyPowder);
     @include colorButton($zomp);
   }
@@ -68,9 +71,9 @@ input.input {
 
 .answersContainer {
   display: inline-flex;
+  overflow: visible;
   flex-direction: column;
   gap: 0.5em;
-  overflow: visible;
 }
 
 .severalScroll {
@@ -83,6 +86,7 @@ input.input {
 
   input.answerNumber {
     width: 100%;
+
     @include formInput(1.2em);
 
     &::-webkit-outer-spin-button,

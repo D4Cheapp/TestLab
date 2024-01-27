@@ -1,17 +1,18 @@
 .testFromButtons {
-  width: 100%;
   display: inline-flex;
+  width: 100%;
   align-items: center;
   justify-content: space-around;
 
   button.formButton {
     width: 45%;
-    border-radius: 5px;
-    outline: none;
-    cursor: pointer;
     border: 2px $babyPowder solid;
+    border-radius: 5px;
     background: $charcoal;
+    cursor: pointer;
+    outline: none;
     padding-block: 0.3em;
+
     @include fontType(1.4em, $babyPowder);
   }
 

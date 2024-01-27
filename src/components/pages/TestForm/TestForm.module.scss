@@ -1,15 +1,16 @@
 form.root {
-  height: 90vh;
-  width: 80vw;
   display: grid;
+  width: 80vw;
+  height: 90vh;
   grid-template-rows: 1fr 1fr 4fr 1fr;
-  padding-inline: 10vw;
   padding-block: 5vh;
+  padding-inline: 10vw;
 
   h1.formTitle {
-    text-align: center;
     margin-top: 0;
     margin-bottom: 0.5em;
+    text-align: center;
+
     @include fontType(2.3em);
 
     @include narrow {

@@ -1,29 +1,31 @@
 .home {
   display: inline-flex;
-  flex-direction: column;
   width: 70%;
   height: 80vh;
+  flex-direction: column;
   margin-block: 10vh;
   padding-inline: 15%;
 
   button.addButton {
     position: relative;
     display: flex;
+    width: 100%;
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
-    width: 100%;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: $charcoal;
     cursor: pointer;
     transition:
       color 0.2s,
       border-color 0.2s;
-    border: 2px $babyPowder solid;
-    border-radius: 5px;
-    background: $charcoal;
+
     @include fontType(2.4em, $babyPowder);
 
     @include hover {
       border-color: $zomp;
+
       @include fontType(null, $zomp);
     }
   }
@@ -36,17 +38,17 @@
   @include miniature {
     width: 90%;
     height: 90vh;
-    padding-inline: 5%;
     margin-block: 5vh;
+    padding-inline: 5%;
   }
 }
 
 .errorTitleContainer {
+  display: grid;
   width: 100%;
   height: 100vh;
-  display: grid;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   h1.notFoundTitle {
     @include fontType(2em);
@@ -56,19 +58,19 @@
 section.testContainer {
   display: inline-flex;
   overflow: hidden;
-  overflow-y: scroll;
-  flex-direction: column;
-  box-sizing: border-box;
   width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
   padding-right: 1em;
-  margin-block: 2em;
   gap: 1em;
+  margin-block: 2em;
+  overflow-y: scroll;
 }
 
 section.loadingContainer {
+  height: 50vh;
   align-items: center;
   justify-content: center;
-  height: 50vh;
 
   @include miniature {
     height: 65vh;
@@ -85,11 +87,12 @@ section.emptyContainer {
 
 .paginationLoading {
   width: 100%;
+
   @include loadingCircle(2em, 0.3em);
 }
 
 .paginationLoadingContainer {
   display: grid;
-  place-items: center;
   width: 100%;
+  place-items: center;
 }
