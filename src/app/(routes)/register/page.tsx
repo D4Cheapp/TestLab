@@ -1,5 +1,5 @@
 import React from 'react';
-import { EntryForm } from '@/src/components';
+import EntryForm from '@/src/components/pages/EntryForm';
 
 function Register(): React.ReactNode {
   return (

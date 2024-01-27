@@ -1,0 +1,103 @@
+.editContainer {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+
+  @include miniature {
+    height: auto;
+    flex-direction: column;
+    gap: 1em;
+  }
+}
+
+.singleContainer {
+  justify-content: center;
+}
+
+.mainInput {
+  width: 80% !important;
+}
+
+.contentContainer {
+  display: inline-flex;
+  width: 47%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+
+  h2.testNameTitle {
+    margin: 0;
+    text-align: center;
+
+    @include fontType(1.8em);
+  }
+
+  input.testNameInput,
+  select.questionType {
+    @include formInput(1.4em);
+  }
+
+  input.testNameInput {
+    width: 100%;
+
+    &::placeholder {
+      @include fontType(null, rgba($babyPowder, 0.7));
+    }
+  }
+
+  @include miniature {
+    width: 100%;
+    gap: 1em;
+  }
+}
+
+.chooseQuestionContainer {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+
+  select.questionType {
+    position: relative;
+    width: 100%;
+    padding-right: 2em;
+    appearance: none;
+    background-image: url('~public/images/svg/selectArrow.svg');
+    background-position-x: calc(100% - 0.2em);
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: 40px;
+    cursor: pointer;
+    padding-block: 0.4em;
+
+    option.questionTypeOption:not([value='']) {
+      @include fontType(null, $babyPowder);
+    }
+
+    &:has(option.questionTypeOption[value='']:checked),
+    option.questionTypeOption[value=''] {
+      @include fontType(null, rgba($babyPowder, 0.7));
+    }
+
+    @include miniature {
+      width: 100%;
+    }
+  }
+
+  button.addButton {
+    box-sizing: border-box;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: $charcoal;
+    cursor: pointer;
+    padding-block: 0.15em;
+    padding-inline: 0.5em;
+
+    @include fontType(1.8em, $babyPowder);
+    @include colorButton($zomp);
+  }
+}

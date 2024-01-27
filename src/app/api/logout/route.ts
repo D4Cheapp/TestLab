@@ -1,15 +1,15 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
-import { profileLogoutReceiveType } from '@/src/types/receiveTypes';
-import { requestTypesType } from '@/src/types/requestTypes';
+import { ProfileLogoutReceiveType } from '@/src/types/receiveTypes';
+import { RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 
 export async function DELETE(req: NextRequest) {
   try {
     const cookie = cookies().get('_session_id');
-    const data = await createFetch<profileLogoutReceiveType>({
-      method: req.method as requestTypesType,
+    const data = await createFetch<ProfileLogoutReceiveType>({
+      method: req.method as RequestTypesType,
       href: '/logout',
       isLocal: false,
       cookie,

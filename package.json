@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "tsc && next lint",
-    "lint:fix": "tsc && next lint --fix && prettier --write src/",
+    "lint:fix": "tsc && next lint --fix",
     "prettier": "prettier src/ --check",
-    "prettier:fix": "prettier src/ --write"
+    "prettier:fix": "prettier src/ --write",
+    "stylelint": "stylelint src/**/*.scss",
+    "stylelint:fix": "stylelint src/**/*.scss --fix"
   },
   "browserslist": [
     "> 1%",
@@ -21,6 +23,7 @@
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "classnames": "^2.5.1",
     "next": "^14.0.4",
     "query-string": "^8.1.0",
     "react": "^18.2.0",
@@ -28,13 +31,13 @@
     "react-hook-form": "^7.49.2",
     "react-redux": "^9.0.2",
     "redux": "^5.0.0",
-    "redux-saga": "^1.2.3"
+    "redux-saga": "^1.2.3",
+    "stylelint-order": "^6.0.4"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
     "autoprefixer": "^10.4.16",
-    "clsx": "^2.0.0",
     "eslint": "^8.55.0",
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",
@@ -42,9 +45,9 @@
     "prettier": "^3.1.1",
     "sass": "^1.69.5",
     "stylelint": "15.11.0",
-    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-standard-scss": "^11.1.0",
+    "stylelint-webpack-plugin": "^4.1.1",
     "typescript": "^5.3.3"
-  },
-  "packageManager": "yarn@4.0.2"
+  }
 }

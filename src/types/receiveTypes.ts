@@ -1,30 +1,30 @@
-export type profileAuthReceiveType = {
+export type ProfileAuthReceiveType = {
   id: number;
   is_admin: boolean;
   username: string;
 };
-export type profileLogoutReceiveType = { success: boolean };
-export type createAnswerReceiveType = {
+export type ProfileLogoutReceiveType = { success: boolean };
+export type CreateAnswerReceiveType = {
   id: number;
   is_right: boolean;
   text: string;
 };
-export type createQuestionReceiveType = {
+export type CreateQuestionReceiveType = {
   id: number;
   answer: number;
-  answers: createAnswerReceiveType[];
+  answers: CreateAnswerReceiveType[];
   question_type: 'single' | 'multiple' | 'number';
   title: string;
 };
-export type testReceiveType = {
+export type TestReceiveType = {
   id: number;
   created_at: string;
   title: string;
-  questions: createQuestionReceiveType[];
+  questions: CreateQuestionReceiveType[];
 };
-export type paginationTestsReceiveType = {
+export type PaginationTestsReceiveType = {
   meta: { total_pages: number; total_count: number };
-  tests: testReceiveType[];
+  tests: TestReceiveType[];
 };
-export type deleteReceiveType = { status: 'ok' | 'not-found' };
-export type moveAnswerReceiveType = deleteReceiveType;
+export type DeleteReceiveType = { status: 'ok' | 'not-found' };
+export type MoveAnswerReceiveType = DeleteReceiveType;

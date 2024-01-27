@@ -1,0 +1,55 @@
+.test {
+  display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px $babyPowder solid;
+  border-radius: 5px;
+  background: $charcoal;
+  padding-block: 0.6em;
+  padding-inline: 1em;
+
+  p.testTitle {
+    overflow: hidden;
+    width: 80%;
+    margin: 0;
+    cursor: pointer;
+
+    @include fontType(1.5em);
+  }
+}
+
+.buttonsContainer {
+  display: inline-flex;
+  gap: 0.9em;
+
+  button.testButton {
+    width: 2.5em;
+    box-sizing: border-box;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    aspect-ratio: 1/1;
+    background: none;
+    cursor: pointer;
+  }
+
+  button.editTestButton {
+    background-image: url('~public/images/svg/editPencil.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto;
+    transition: background-image 0.2s;
+
+    @include colorButton($ecru);
+
+    @include hover {
+      background-image: url('~public/images/svg/editPencilActive.svg');
+    }
+  }
+
+  button.deleteTestButton {
+    @include cross(1.4em, 3px);
+    @include colorButton($oldRose);
+  }
+}

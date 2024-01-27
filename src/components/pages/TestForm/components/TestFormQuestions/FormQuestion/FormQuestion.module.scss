@@ -1,0 +1,59 @@
+.question {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-right: 1em;
+  gap: 0.5em;
+
+  p.questionTitle {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    margin: 0;
+    background: $charcoal;
+    padding-block: 0.4em;
+    padding-inline: 1em;
+
+    @include fontType(1.4em);
+  }
+}
+
+.questionButtons {
+  display: flex;
+  gap: 0.5em;
+
+  button.questionButton {
+    width: 3.6em;
+    box-sizing: border-box;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: $charcoal;
+    cursor: pointer;
+    padding-block: 0.4em;
+    padding-inline: 1em;
+    transition:
+      border-color 0.2s,
+      background-image 0.2s;
+  }
+
+  button.editButton {
+    background-image: url('~public/images/svg/editPencil.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 65%, contain;
+
+    @include hover {
+      border-color: $ecru;
+      background-image: url('~public/images/svg/editPencilActive.svg');
+    }
+  }
+
+  button.deleteButton {
+    @include cross(1.4em, 3px);
+
+    @include hover {
+      border-color: $oldRose;
+    }
+  }
+}

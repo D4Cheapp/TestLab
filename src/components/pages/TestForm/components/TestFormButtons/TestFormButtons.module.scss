@@ -1,0 +1,30 @@
+.testFromButtons {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+
+  button.formButton {
+    width: 45%;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: $charcoal;
+    cursor: pointer;
+    outline: none;
+    padding-block: 0.3em;
+
+    @include fontType(1.4em, $babyPowder);
+  }
+
+  button.saveButton {
+    @include colorButton($zomp);
+  }
+
+  button.deleteButton {
+    @include colorButton($oldRose);
+  }
+
+  button.goBackButton {
+    @include colorButton($skyBlue);
+  }
+}

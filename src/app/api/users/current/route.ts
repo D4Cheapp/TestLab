@@ -1,15 +1,15 @@
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import { profileAuthReceiveType } from '@/src/types/receiveTypes';
+import { ProfileAuthReceiveType } from '@/src/types/receiveTypes';
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHandler } from '@/src/utils/authApiHandler';
-import { requestTypesType } from '@/src/types/requestTypes';
+import { RequestTypesType } from '@/src/types/requestTypes';
 
 export async function GET(req: NextRequest) {
   try {
     const cookie = cookies().get('_session_id');
-    const data = await createFetch<profileAuthReceiveType>({
-      method: req.method as requestTypesType,
+    const data = await createFetch<ProfileAuthReceiveType>({
+      method: req.method as RequestTypesType,
       href: '/users/current',
       isLocal: false,
       cookie,

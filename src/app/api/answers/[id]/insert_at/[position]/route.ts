@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import { requestTypesType } from '@/src/types/requestTypes';
+import { RequestTypesType } from '@/src/types/requestTypes';
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 
@@ -11,7 +11,7 @@ export async function PATCH(
   try {
     const cookie = cookies().get('_session_id');
     const data = await createFetch<object>({
-      method: req.method as requestTypesType,
+      method: req.method as RequestTypesType,
       href: `/answers/${params.id}/insert_at/${params.position}`,
       isLocal: false,
       cookie,

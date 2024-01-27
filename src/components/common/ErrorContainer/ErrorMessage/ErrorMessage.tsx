@@ -1,0 +1,31 @@
+import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
+import s from './ErrorMessage.module.scss';
+
+interface Props {
+  error: string;
+  index: number;
+  onCloseClick: (index: number) => void;
+}
+
+function ErrorMessage({ error, index, onCloseClick }: Props): null | React.ReactNode {
+  const [isFaded, setIsFaded] = useState(false);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => setIsFaded(true), 3500);
+    const timer = setTimeout(() => onCloseClick(index), 4000);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(timer);
+    };
+  }, [index, onCloseClick]);
+
+  return (
+    <div className={classNames(s.errorMessage, { [s.fadeAnimation]: isFaded })}>
+      <p className={s.error}>{error}</p>
+      <button className={s.close} onClick={() => onCloseClick(index)} />
+    </div>
+  );
+}
+
+export default ErrorMessage;

@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
-import { ErrorContainer, Providers } from '@/src/components';
-import './globals.scss';
+import Providers from '../components/common/Providers';
+import ErrorContainer from '../components/common/ErrorContainer';
+import 'src/styles/globals.scss';
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -17,11 +18,11 @@ export const metadata: Metadata = {
     идеальным выбором для студентов, преподавателей и всех, кто стремится проверить свои знания.',
 };
 
-interface RootLayoutInterface {
+interface Props {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutInterface) {
+export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body className={roboto.className}>

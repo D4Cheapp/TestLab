@@ -1,15 +1,15 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
-import { createQuestionRequestType, requestTypesType } from '@/src/types/requestTypes';
+import { CreateQuestionRequestType, RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
 
 export async function POST(req: NextRequest, { params }: { params: { id: number } }) {
   try {
     const cookie = cookies().get('_session_id');
-    const reqBody = await Promise.resolve<createQuestionRequestType>(req.json());
+    const reqBody = await Promise.resolve<CreateQuestionRequestType>(req.json());
     const data = await createFetch<object>({
-      method: req.method as requestTypesType,
+      method: req.method as RequestTypesType,
       href: `/tests/${params.id}/questions`,
       isLocal: false,
       body: reqBody,

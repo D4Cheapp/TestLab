@@ -1,0 +1,181 @@
+@mixin hover() {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin fontType($fontSize: null, $fontColor: null, $fontWeight: null) {
+  color: $fontColor;
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+}
+
+@mixin colorButton($color) {
+  transition:
+    border-color 0.2s,
+    background-image 0.2s,
+    color 0.2s;
+
+  @include hover {
+    border-color: $color;
+    color: $color;
+  }
+}
+
+@mixin loadingCircle($width, $thick) {
+  width: $width;
+  height: $width;
+  border: $thick solid transparent;
+  border-radius: 50%;
+  border-top-color: $babyPowder;
+  border-left-color: $babyPowder;
+  animation: loading 1s linear infinite;
+
+  @keyframes loading {
+    0% {
+      transform: rotate(0);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@mixin cross($width, $thick) {
+  position: relative;
+  display: grid;
+  place-items: center;
+
+  &::after {
+    position: absolute;
+    width: $width;
+    height: $thick;
+    background-color: $babyPowder;
+    content: '';
+    rotate: -45deg;
+    transition: 0.2s;
+  }
+
+  &::before {
+    position: absolute;
+    width: $width;
+    height: $thick;
+    background-color: $babyPowder;
+    content: '';
+    rotate: 45deg;
+    transition: 0.2s;
+  }
+
+  @include hover {
+    &::after,
+    &::before {
+      background-color: $oldRose;
+    }
+  }
+}
+
+@mixin formInput($fontSize) {
+  box-sizing: border-box;
+  border: 2px $babyPowder solid;
+  border-radius: 5px;
+  background: $charcoal;
+  outline: none;
+  padding-block: 0.4em;
+  padding-inline: 1em;
+
+  @include fontType($fontSize, $babyPowder);
+
+  &::placeholder {
+    @include fontType(null, rgba($babyPowder, 0.7));
+  }
+}
+
+@mixin customCheckbox($width) {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  width: $width;
+  height: $width;
+  align-items: flex-start;
+  justify-content: center;
+  border: 2px $babyPowder solid;
+  border-radius: 3px;
+  cursor: pointer;
+  transform: translate(0, -50%);
+
+  &::after {
+    width: 25%;
+    height: 65%;
+    border-right: 2px $babyPowder solid;
+    border-bottom: 2px $babyPowder solid;
+    content: '';
+    opacity: 0;
+    rotate: 45deg;
+    transition: opacity 0.1s;
+  }
+}
+
+@mixin customRadio($width) {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  width: $width;
+  height: $width;
+  align-items: center;
+  justify-content: center;
+  border: 2px $babyPowder solid;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(0, -50%);
+
+  &::after {
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background: $babyPowder;
+    content: '';
+    opacity: 0;
+    transition: opacity 0.1s;
+  }
+}
+
+@mixin wide() {
+  @media only screen and (width <= 1440px) {
+    @content;
+  }
+}
+
+@mixin spacious() {
+  @media only screen and (width <= 1256px) {
+    @content;
+  }
+}
+
+@mixin compact() {
+  @media only screen and (width <= 1124px) {
+    @content;
+  }
+}
+
+@mixin standard() {
+  @media only screen and (width <= 1080px) {
+    @content;
+  }
+}
+
+@mixin miniature() {
+  @media only screen and (width <= 850px) {
+    @content;
+  }
+}
+
+@mixin narrow() {
+  @media only screen and (width <= 600px) {
+    @content;
+  }
+}
