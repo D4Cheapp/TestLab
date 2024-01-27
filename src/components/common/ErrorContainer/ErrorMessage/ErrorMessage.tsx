@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import s from './ErrorMessage.module.scss';
 
 interface Props {
@@ -18,10 +18,10 @@ function ErrorMessage({ error, index, onCloseClick }: Props): null | React.React
       clearTimeout(fadeTimer);
       clearTimeout(timer);
     };
-  }, [index]);
+  }, [index, onCloseClick]);
 
   return (
-    <div className={clsx(s.errorMessage, { [s.fadeAnimation]: isFaded })}>
+    <div className={classNames(s.errorMessage, { [s.fadeAnimation]: isFaded })}>
       <p className={s.error}>{error}</p>
       <button className={s.close} onClick={() => onCloseClick(index)} />
     </div>

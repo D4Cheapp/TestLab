@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import s from './TestComponent.module.scss';
 
@@ -45,11 +45,11 @@ function TestComponent({
         {isAdmin && (
           <>
             <button
-              className={clsx(s.testButton, s.editTestButton)}
+              className={classNames(s.testButton, s.editTestButton)}
               onClick={() => onEditTestClick(testId)}
             />
             <button
-              className={clsx(s.testButton, s.deleteTestButton)}
+              className={classNames(s.testButton, s.deleteTestButton)}
               onClick={() => onDeleteTestClick(testId)}
             />
           </>

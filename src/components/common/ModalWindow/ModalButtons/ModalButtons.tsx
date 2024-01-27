@@ -1,5 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import s from './ModalButtons.module.scss';
 
 interface Props {
@@ -22,7 +22,7 @@ function ModalButtons({
       {buttonInfo.withConfirmButton && (
         <button
           type="button"
-          className={clsx(s.formButton, s.confirmButton)}
+          className={classNames(s.formButton, s.confirmButton)}
           onClick={confirmAction}
         >
           {buttonInfo?.confirmTitle ?? 'Подтвердить'}
@@ -30,7 +30,7 @@ function ModalButtons({
       )}
       <button
         type="button"
-        className={clsx(s.formButton, s.cancelButton)}
+        className={classNames(s.formButton, s.cancelButton)}
         onClick={onCloseWindowClick}
       >
         Отмена

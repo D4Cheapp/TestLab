@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { testListSelector, testMetaSelector } from '@/src/reduxjs/test/selectors';
@@ -170,7 +170,7 @@ function Home(): React.ReactNode {
       <section
         ref={testListRef}
         onScroll={onTestScroll}
-        className={clsx(
+        className={classNames(
           s.testContainer,
           { [s.emptyContainer]: testList.length === 0 },
           { [s.loadingContainer]: isLoading && testList.length === 0 },

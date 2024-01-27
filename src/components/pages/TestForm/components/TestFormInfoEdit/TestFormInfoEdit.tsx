@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import s from './TestFormInfoEdit.module.scss';
 import { TestFormContext } from '../../TestFormContext';
@@ -29,12 +29,12 @@ function TestFormInfoEdit({
 
   return (
     <div
-      className={clsx(s.editContainer, {
+      className={classNames(s.editContainer, {
         [s.singleContainer]: withDeleteButton,
       })}
     >
       <div
-        className={clsx(s.contentContainer, {
+        className={classNames(s.contentContainer, {
           [s.mainInput]: withDeleteButton,
         })}
       >

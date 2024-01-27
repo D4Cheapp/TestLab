@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import { useActions } from '@/src/hooks/reduxHooks';
 import s from './QuestionForm.module.scss';
 import CheckboxModalAnswer from './CheckboxModalAnswer';
@@ -180,7 +180,7 @@ function QuestionForm(): React.ReactNode {
     <>
       <div className={s.questionAddTitle}>
         <input
-          className={clsx(s.questionInput, s.input)}
+          className={classNames(s.questionInput, s.input)}
           type="text"
           placeholder="Введите вопрос"
           id="questionTitle"
@@ -195,7 +195,7 @@ function QuestionForm(): React.ReactNode {
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
           <input
-            className={clsx(s.answerAddInput, s.input)}
+            className={classNames(s.answerAddInput, s.input)}
             type="text"
             placeholder="Введите вариант ответа"
             id="answerVariant"
@@ -211,7 +211,7 @@ function QuestionForm(): React.ReactNode {
       )}
 
       <div
-        className={clsx(s.answersContainer, {
+        className={classNames(s.answersContainer, {
           [s.severalScroll]: questionType !== 'number',
         })}
       >

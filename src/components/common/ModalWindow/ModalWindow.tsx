@@ -1,6 +1,6 @@
 'use client';
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import s from './ModalWindow.module.scss';
 import ModalButtons from './ModalButtons';
 
@@ -46,7 +46,7 @@ function ModalWindow({
       <div className={s.background} onClick={onCloseWindowClick} />
 
       <div
-        className={clsx(s.componentFrom, {
+        className={classNames(s.componentFrom, {
           [s.invisibleContent]: !children,
         })}
       >

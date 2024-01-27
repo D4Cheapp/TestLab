@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import s from './HomeNavbar.module.scss';
 
@@ -41,7 +41,7 @@ function HomeNavbar({
       <div className={s.secondLine}>
         <button className={s.dateSort} onClick={onFilterReverseClick}>
           <p className={s.sortButtonTitle}>Сортировка по дате</p>
-          <div className={clsx(s.arrow, { [s.reverseDate]: isReverseDate })} />
+          <div className={classNames(s.arrow, { [s.reverseDate]: isReverseDate })} />
         </button>
 
         {isLogoutWindowActive && (

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import s from './PassQuestion.module.scss';
 
@@ -24,7 +24,7 @@ function PassQuestion({
   const questionId = question.id + '';
   return (
     <div
-      className={clsx(
+      className={classNames(
         s.question,
         { [s.correctQuestion]: isCorrect },
         { [s.wrongQuestion]: isCorrect !== undefined && !isCorrect },

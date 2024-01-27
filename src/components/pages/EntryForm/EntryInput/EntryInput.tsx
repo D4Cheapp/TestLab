@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { UseFormRegister } from 'react-hook-form';
+import classNames from 'classnames';
 import { EntryFormType } from '@/src/types/formTypes';
 import s from './EntryInput.module.scss';
 
@@ -27,7 +27,7 @@ function EntryInput({
   return (
     <div className={s.inputContainer}>
       <input
-        className={clsx(s.input, { [s.passwordError]: isPasswordMatchError })}
+        className={classNames(s.input, { [s.passwordError]: isPasswordMatchError })}
         type={isPassword ? (isShownPassword ? 'text' : 'password') : 'text'}
         required
         placeholder={title}
@@ -36,7 +36,7 @@ function EntryInput({
         {...register(name, { required: true })}
       />
 
-      <div className={clsx(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}>
+      <div className={classNames(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}>
         {title}
       </div>
 
@@ -44,7 +44,7 @@ function EntryInput({
         <button
           type="button"
           onClick={onShowPasswordClick}
-          className={clsx(s.passwordEye, {
+          className={classNames(s.passwordEye, {
             [s.showPassword]: isShownPassword,
             [s.hidePassword]: !isShownPassword,
           })}

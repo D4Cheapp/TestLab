@@ -1,7 +1,7 @@
 'use client';
 import React, { MouseEvent, ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import clsx from 'clsx';
+import classNames from 'classnames';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import s from './PassTestPage.module.scss';
@@ -211,13 +211,13 @@ function PassTestPage(): React.ReactNode {
           </ModalWindow>
         )}
         <button
-          className={clsx(s.passTestButton, s.testButton)}
+          className={classNames(s.passTestButton, s.testButton)}
           onClick={onPassTestClick}
         >
           Закончить прохождение теста
         </button>
 
-        <button className={clsx(s.goBackButton, s.testButton)} onClick={onGoBackClick}>
+        <button className={classNames(s.goBackButton, s.testButton)} onClick={onGoBackClick}>
           Вернуться к списку тестов
         </button>
       </div>
