@@ -13,17 +13,17 @@ form.root {
 
     @include fontType(2.3em);
 
-    @include narrow {
+    @include tablet {
       display: none;
     }
   }
 
-  @include standard {
+  @include desktop {
     width: 90vw;
     padding-inline: 5vw;
   }
 
-  @include narrow {
+  @include tablet {
     grid-template-rows: 1fr 5fr 1fr;
   }
 }

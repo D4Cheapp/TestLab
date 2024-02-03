@@ -27,7 +27,7 @@ nav.nav {
 
     @include fontType(2.5em);
 
-    @include narrow {
+    @include tablet {
       display: none;
     }
   }
@@ -49,7 +49,7 @@ nav.nav {
     }
   }
 
-  @include miniature {
+  @include bigTablet {
     gap: 0.5em;
   }
 }
@@ -81,7 +81,7 @@ nav.nav {
       }
     }
 
-    @include narrow {
+    @include tablet {
       width: 100%;
     }
   }
@@ -114,13 +114,13 @@ nav.nav {
       @include fontType(null, $oldRose);
     }
 
-    @include narrow {
+    @include tablet {
       width: 100%;
       padding-inline: 5%;
     }
   }
 
-  @include narrow {
+  @include tablet {
     flex-direction: column;
     align-items: center;
   }

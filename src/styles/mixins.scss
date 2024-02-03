@@ -144,37 +144,31 @@
   }
 }
 
-@mixin wide() {
+@mixin bigDesktop() {
   @media only screen and (width <= 1440px) {
     @content;
   }
 }
 
-@mixin spacious() {
+@mixin mediumDesktop() {
   @media only screen and (width <= 1256px) {
     @content;
   }
 }
 
-@mixin compact() {
-  @media only screen and (width <= 1124px) {
-    @content;
-  }
-}
-
-@mixin standard() {
+@mixin desktop() {
   @media only screen and (width <= 1080px) {
     @content;
   }
 }
 
-@mixin miniature() {
-  @media only screen and (width <= 850px) {
+@mixin bigTablet() {
+  @media only screen and (width <= 834px) {
     @content;
   }
 }
 
-@mixin narrow() {
+@mixin tablet() {
   @media only screen and (width <= 600px) {
     @content;
   }

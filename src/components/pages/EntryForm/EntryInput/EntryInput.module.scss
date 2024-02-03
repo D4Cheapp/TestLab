@@ -13,7 +13,7 @@
 
     @include fontType(1vw, $babyPowder);
 
-    @include compact {
+    @include mediumDesktop {
       @include fontType(2.2vh);
     }
   }
@@ -51,7 +51,7 @@
       opacity: 1;
     }
 
-    @include compact {
+    @include mediumDesktop {
       height: 3em;
 
       @include fontType(3vh);
@@ -85,12 +85,12 @@
     transform: translate(0, -50%);
     transition: background-image 0.2s;
 
-    @include compact {
+    @include mediumDesktop {
       width: 3vh;
     }
   }
 
-  @include compact {
+  @include mediumDesktop {
     width: 90%;
 
     @include fontType(2.2vh);

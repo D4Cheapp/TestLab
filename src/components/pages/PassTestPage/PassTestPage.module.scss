@@ -13,7 +13,7 @@
 
     @include fontType(2.5em);
 
-    @include standard {
+    @include desktop {
       @include fontType(5vh);
     }
   }
@@ -50,7 +50,7 @@ p.resultTitle {
   justify-content: space-around;
   margin-block: 1.5em;
 
-  @include miniature {
+  @include bigTablet {
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -72,7 +72,7 @@ button.testButton {
   @include fontType(1.4em, $babyPowder, bold);
   @include colorButton($zomp);
 
-  @include miniature {
+  @include bigTablet {
     width: 90%;
     margin: 0;
   }

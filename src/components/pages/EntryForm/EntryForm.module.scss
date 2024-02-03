@@ -28,12 +28,12 @@ form.form {
 
     @include fontType(3w, $babyPowder, 500);
 
-    @include compact {
+    @include mediumDesktop {
       @include fontType(4.7vh, null, 700);
     }
   }
 
-  @include compact {
+  @include mediumDesktop {
     width: 90%;
     padding: 1em;
   }
@@ -52,7 +52,7 @@ form.form {
 
     @include fontType(1vw, $oldRose);
 
-    @include compact {
+    @include mediumDesktop {
       margin-left: 5%;
 
       @include fontType(2.2vh);
@@ -94,7 +94,7 @@ button.submit {
     scale: 0.97;
   }
 
-  @include compact {
+  @include mediumDesktop {
     width: 90%;
     height: 2.5em;
 
@@ -141,7 +141,7 @@ button.submit {
       @include fontType(null, $jungleGreen);
     }
 
-    @include compact {
+    @include mediumDesktop {
       @include fontType(2.2vh);
     }
   }
@@ -160,7 +160,7 @@ label.isAdmin {
 
     @include fontType(1vw, $babyPowder);
 
-    @include compact {
+    @include mediumDesktop {
       @include fontType(2.2vh);
     }
   }
@@ -188,7 +188,7 @@ label.isAdmin {
       transition: opacity 0.2s;
     }
 
-    @include compact {
+    @include mediumDesktop {
       width: 2.2vh;
       height: 2.2vh;
     }
@@ -202,7 +202,7 @@ label.isAdmin {
     }
   }
 
-  @include compact {
+  @include mediumDesktop {
     width: 90%;
   }
 }

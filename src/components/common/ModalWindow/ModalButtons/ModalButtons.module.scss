@@ -13,7 +13,7 @@
 
     @include fontType(1.4em, $babyPowder);
 
-    @include narrow {
+    @include tablet {
       width: 100%;
     }
   }
@@ -33,7 +33,7 @@
     @include colorButton($oldRose);
   }
 
-  @include narrow {
+  @include tablet {
     flex-direction: column;
     align-items: center;
     gap: 1em;
