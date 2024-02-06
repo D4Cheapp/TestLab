@@ -9,6 +9,7 @@ import {
   PaginationTestsReceiveType,
   TestReceiveType,
 } from '@/src/types/receiveTypes';
+import { reducersActions } from '..';
 import {
   CreateAnswerActionType,
   CreateQuestionActionType,
@@ -23,7 +24,6 @@ import {
   DeleteAnswerActionType,
   DeleteQuestionActionType,
 } from './types';
-import { reducersActions } from '..';
 
 function* createTestSaga(action: CreateTestActionType) {
   const { title, questions } = action.payload;

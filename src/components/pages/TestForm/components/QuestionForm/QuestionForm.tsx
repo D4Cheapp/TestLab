@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useActions } from '@/src/hooks/reduxHooks';
-import s from './QuestionForm.module.scss';
-import CheckboxModalAnswer from './CheckboxModalAnswer';
 import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
+import CheckboxModalAnswer from './CheckboxModalAnswer';
+import s from './QuestionForm.module.scss';
 
 function QuestionForm(): React.ReactNode {
   const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =

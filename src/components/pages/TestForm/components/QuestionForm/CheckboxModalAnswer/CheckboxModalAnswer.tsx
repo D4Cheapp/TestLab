@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import s from './CheckboxModalAnswer.module.scss';
 import { QuestionAnswerType } from '../../../TestFormContext';
+import s from './CheckboxModalAnswer.module.scss';
 
 interface Props {
   answer: QuestionAnswerType;

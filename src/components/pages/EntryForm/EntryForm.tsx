@@ -2,11 +2,11 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { EntryFormType } from '@/src/types/formTypes';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
+import { EntryFormType } from '@/src/types/formTypes';
 import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
-import s from './EntryForm.module.scss';
 import EntryInput from './EntryInput';
+import s from './EntryForm.module.scss';
 
 interface Props {
   redirectTo: string;

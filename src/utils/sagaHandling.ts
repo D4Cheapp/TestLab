@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
-import { setErrorsState, setLoadingState } from '@/src/reduxjs/base';
 import { createFetch } from '@/src/utils/createFetch';
+import { setErrorsState, setLoadingState } from '@/src/reduxjs/base';
 
 type SagaHandlingPropsType<T> = {
   href: string;

@@ -1,8 +1,8 @@
 'use client';
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
-import s from './ModalWindow.module.scss';
 import ModalButtons from './ModalButtons';
+import s from './ModalWindow.module.scss';
 
 interface Props {
   setIsActive: Dispatch<SetStateAction<boolean>>;

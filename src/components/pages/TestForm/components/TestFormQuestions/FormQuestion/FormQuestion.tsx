@@ -2,9 +2,9 @@ import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import s from './FormQuestion.module.scss';
 import { TestFormContext } from '../../../TestFormContext';
 import QuestionForm from '../../QuestionForm';
+import s from './FormQuestion.module.scss';
 
 interface Props {
   question: CreateQuestionRequestType;

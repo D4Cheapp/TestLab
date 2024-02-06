@@ -2,8 +2,8 @@
 import React, { useCallback } from 'react';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { errorSelector } from '@/src/reduxjs/base/selectors';
-import s from './ErrorContainer.module.scss';
 import ErrorMessage from './ErrorMessage';
+import s from './ErrorContainer.module.scss';
 
 function ErrorContainer(): React.ReactNode {
   const errorsState = useAppSelector(errorSelector);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
-import s from './TestFormQuestions.module.scss';
 import FormQuestion from './FormQuestion';
+import s from './TestFormQuestions.module.scss';
 
 interface Props {
   questions?: CreateQuestionRequestType[];

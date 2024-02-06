@@ -4,9 +4,9 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import classNames from 'classnames';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
-import s from './PassTestPage.module.scss';
-import PassQuestion from './PassQuestion';
 import ModalWindow from '../../common/ModalWindow';
+import PassQuestion from './PassQuestion';
+import s from './PassTestPage.module.scss';
 
 type PassTestQuestionType =
   | {

@@ -13,9 +13,9 @@ import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { testListSelector, testMetaSelector } from '@/src/reduxjs/test/selectors';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
-import s from './Home.module.scss';
 import TestComponent from './components/TestComponent';
 import HomeNavbar from './components/HomeNavbar';
+import s from './Home.module.scss';
 
 function validateFilterValue(filter: string | null) {
   return !!filter?.trim() ? filter.replace(/\s+/gm, ' ').trim().toLowerCase() : '';

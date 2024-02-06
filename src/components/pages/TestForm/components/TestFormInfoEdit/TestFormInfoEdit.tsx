@@ -1,9 +1,9 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
 import classNames from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import s from './TestFormInfoEdit.module.scss';
 import { TestFormContext } from '../../TestFormContext';
 import QuestionForm from '../QuestionForm';
+import s from './TestFormInfoEdit.module.scss';
 
 interface Props {
   title?: string;
