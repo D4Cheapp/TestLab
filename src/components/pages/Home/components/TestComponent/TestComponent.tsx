@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import s from './TestComponent.module.scss';
 
@@ -12,14 +12,14 @@ interface Props {
   onPassTestConfirmClick: (index: number) => void;
 }
 
-function TestComponent({
+const TestComponent = ({
   title,
   testId,
   isAdmin,
   onDeleteTestClick,
   onEditTestClick,
   onPassTestConfirmClick,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const [isPassTestWindowActive, setIsPassTestWindowActive] = useState<boolean>(false);
 
   const handlePassTestClick = () => setIsPassTestWindowActive(true);
@@ -46,11 +46,11 @@ function TestComponent({
         {isAdmin && (
           <>
             <button
-              className={classNames(s.testButton, s.editTestButton)}
+              className={cn(s.testButton, s.editTestButton)}
               onClick={() => onEditTestClick(testId)}
             />
             <button
-              className={classNames(s.testButton, s.deleteTestButton)}
+              className={cn(s.testButton, s.deleteTestButton)}
               onClick={() => onDeleteTestClick(testId)}
             />
           </>
@@ -58,6 +58,6 @@ function TestComponent({
       </div>
     </div>
   );
-}
+};
 
 export default TestComponent;

@@ -7,7 +7,7 @@ interface Props {
   questions?: CreateQuestionRequestType[];
 }
 
-function TestFormQuestions({ questions }: Props): React.ReactNode {
+const TestFormQuestions = ({ questions }: Props): React.ReactNode => {
   return (
     <div className={s.content}>
       <div className={s.root}>
@@ -16,6 +16,6 @@ function TestFormQuestions({ questions }: Props): React.ReactNode {
       </div>
     </div>
   );
-}
+};
 
 export default TestFormQuestions;

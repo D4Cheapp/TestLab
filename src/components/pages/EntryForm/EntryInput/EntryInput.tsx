@@ -1,5 +1,5 @@
 import { UseFormRegister } from 'react-hook-form';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { EntryFormType } from '@/src/types/formTypes';
 import s from './EntryInput.module.scss';
 
@@ -14,7 +14,7 @@ interface Props {
   isPasswordMatchError?: boolean;
 }
 
-function EntryInput({
+const EntryInput = ({
   isPassword,
   title,
   name,
@@ -23,11 +23,11 @@ function EntryInput({
   onPasswordClick,
   isShownPassword = false,
   isPasswordMatchError = false,
-}: Props) {
+}: Props) => {
   return (
     <div className={s.inputContainer}>
       <input
-        className={classNames(s.input, { [s.passwordError]: isPasswordMatchError })}
+        className={cn(s.input, { [s.passwordError]: isPasswordMatchError })}
         type={isPassword ? (isShownPassword ? 'text' : 'password') : 'text'}
         required
         placeholder={title}
@@ -35,14 +35,14 @@ function EntryInput({
         id={name}
         {...register(name, { required: true })}
       />
-      <div className={classNames(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}>
+      <div className={cn(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}>
         {title}
       </div>
       {isPassword && (
         <button
           type="button"
           onClick={onShowPasswordClick}
-          className={classNames(s.passwordEye, {
+          className={cn(s.passwordEye, {
             [s.showPassword]: isShownPassword,
             [s.hidePassword]: !isShownPassword,
           })}
@@ -50,6 +50,6 @@ function EntryInput({
       )}
     </div>
   );
-}
+};
 
 export default EntryInput;

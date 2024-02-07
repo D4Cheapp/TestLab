@@ -1,7 +1,7 @@
 import React from 'react';
 import EntryForm from '@/src/components/pages/EntryForm';
 
-function Register(): React.ReactNode {
+const Register = (): React.ReactNode => {
   return (
     <EntryForm
       redirectTo="/login"
@@ -11,6 +11,6 @@ function Register(): React.ReactNode {
       isRegister
     />
   );
-}
+};
 
 export default Register;

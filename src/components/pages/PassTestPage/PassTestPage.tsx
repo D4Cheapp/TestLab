@@ -1,7 +1,7 @@
 'use client';
 import React, { MouseEvent, ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import ModalWindow from '../../common/ModalWindow';
@@ -16,7 +16,7 @@ type PassTestQuestionType =
     }[]
   | undefined;
 
-function PassTestPage(): React.ReactNode {
+const PassTestPage = (): React.ReactNode => {
   const searchParams = useSearchParams().get('id');
   const currentTest = useAppSelector(currentTestSelector);
   const [passProgress, setPassProgress] = useState<PassTestQuestionType>([]);
@@ -198,13 +198,13 @@ function PassTestPage(): React.ReactNode {
           </ModalWindow>
         )}
         <button
-          className={classNames(s.passTestButton, s.testButton)}
+          className={cn(s.passTestButton, s.testButton)}
           onClick={handlePassTestClick}
         >
           Закончить прохождение теста
         </button>
         <button
-          className={classNames(s.goBackButton, s.testButton)}
+          className={cn(s.goBackButton, s.testButton)}
           onClick={handleGoBackClick}
         >
           Вернуться к списку тестов
@@ -212,6 +212,6 @@ function PassTestPage(): React.ReactNode {
       </div>
     </div>
   );
-}
+};
 
 export default PassTestPage;

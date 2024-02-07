@@ -22,7 +22,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: Props) {
+const RootLayout = ({ children }: Props): React.ReactNode => {
   return (
     <html lang="en">
       <body className={roboto.className}>
@@ -33,4 +33,6 @@ export default function RootLayout({ children }: Props) {
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;

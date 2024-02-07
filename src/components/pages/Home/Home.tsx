@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { testListSelector, testMetaSelector } from '@/src/reduxjs/test/selectors';
@@ -21,7 +21,7 @@ function validateFilterValue(filter: string | null) {
   return !!filter?.trim() ? filter.replace(/\s+/gm, ' ').trim().toLowerCase() : '';
 }
 
-function Home(): React.ReactNode {
+const Home = (): React.ReactNode => {
   const testList = useAppSelector(testListSelector);
   const testMeta = useAppSelector(testMetaSelector);
   const isLoading = useAppSelector(loadingStateSelector);
@@ -163,7 +163,7 @@ function Home(): React.ReactNode {
       <section
         ref={testListRef}
         onScroll={handleTestScroll}
-        className={classNames(
+        className={cn(
           s.testContainer,
           { [s.emptyContainer]: testList.length === 0 },
           { [s.loadingContainer]: isLoading && testList.length === 0 },
@@ -202,6 +202,6 @@ function Home(): React.ReactNode {
       )}
     </div>
   );
-}
+};
 
 export default Home;

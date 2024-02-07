@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { useActions } from '@/src/hooks/reduxHooks';
 import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
 import CheckboxModalAnswer from './CheckboxModalAnswer';
 import s from './QuestionForm.module.scss';
 
-function QuestionForm(): React.ReactNode {
+const QuestionForm = (): React.ReactNode => {
   const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =
     useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
@@ -172,7 +172,7 @@ function QuestionForm(): React.ReactNode {
     <>
       <div className={s.questionAddTitle}>
         <input
-          className={classNames(s.questionInput, s.input)}
+          className={cn(s.questionInput, s.input)}
           type="text"
           placeholder="Введите вопрос"
           id="questionTitle"
@@ -186,7 +186,7 @@ function QuestionForm(): React.ReactNode {
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
           <input
-            className={classNames(s.answerAddInput, s.input)}
+            className={cn(s.answerAddInput, s.input)}
             type="text"
             placeholder="Введите вариант ответа"
             id="answerVariant"
@@ -195,13 +195,17 @@ function QuestionForm(): React.ReactNode {
           <label className={s.inputTitle} htmlFor="answerVariant">
             Вариант ответа
           </label>
-          <button className={s.answerAddButton} type="button" onClick={handleAddAnswerClick}>
+          <button
+            className={s.answerAddButton}
+            type="button"
+            onClick={handleAddAnswerClick}
+          >
             +
           </button>
         </div>
       )}
       <div
-        className={classNames(s.answersContainer, {
+        className={cn(s.answersContainer, {
           [s.severalScroll]: questionType !== 'number',
         })}
       >
@@ -239,6 +243,6 @@ function QuestionForm(): React.ReactNode {
       </div>
     </>
   );
-}
+};
 
 export default QuestionForm;

@@ -1,6 +1,6 @@
 'use client';
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import ModalButtons from './ModalButtons';
 import s from './ModalWindow.module.scss';
 
@@ -15,13 +15,13 @@ interface Props {
   };
 }
 
-function ModalWindow({
+const ModalWindow = ({
   setIsActive,
   onConfirmClick,
   children,
   title,
   buttonInfo,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const handleCloseWindowClick = useCallback(() => {
     setIsActive(false);
   }, [setIsActive]);
@@ -45,7 +45,7 @@ function ModalWindow({
     <aside className={s.root}>
       <div className={s.background} onClick={handleCloseWindowClick} />
       <div
-        className={classNames(s.componentFrom, {
+        className={cn(s.componentFrom, {
           [s.invisibleContent]: !children,
         })}
       >
@@ -62,6 +62,6 @@ function ModalWindow({
       </div>
     </aside>
   );
-}
+};
 
 export default ModalWindow;

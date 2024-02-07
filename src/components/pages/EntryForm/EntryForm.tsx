@@ -16,13 +16,13 @@ interface Props {
   isRegister?: boolean;
 }
 
-function EntryForm({
+const EntryForm = ({
   redirectTo,
   title,
   submitTitle,
   redirectTitle,
   isRegister = false,
-}: Props) {
+}: Props) => {
   const { register, handleSubmit, formState } = useForm<EntryFormType>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -159,6 +159,6 @@ function EntryForm({
       </form>
     </div>
   );
-}
+};
 
 export default EntryForm;

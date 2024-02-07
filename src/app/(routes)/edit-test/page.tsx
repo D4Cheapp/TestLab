@@ -11,7 +11,7 @@ import LoadingContainer from '@/src/components/common/LoadingContainer';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 
-function EditTest(): React.ReactNode {
+const EditTest = (): React.ReactNode => {
   const isLoading = useAppSelector(loadingStateSelector);
   const initTest = useAppSelector(currentTestSelector);
   const { setErrorsState, getTest, setCurrentTest, editTest } = useActions();
@@ -86,6 +86,6 @@ function EditTest(): React.ReactNode {
       )}
     </Authentication>
   );
-}
+};
 
 export default EditTest;

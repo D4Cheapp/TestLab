@@ -12,7 +12,7 @@ import LoadingContainer from '@/src/components/common/LoadingContainer';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 
-function AddTest(): React.ReactNode {
+const AddTest = (): React.ReactNode => {
   const isLoading = useAppSelector(loadingStateSelector);
   const currentTest = useAppSelector(currentTestSelector);
   const { setErrorsState, createTest, setCurrentTest } = useActions();
@@ -82,6 +82,6 @@ function AddTest(): React.ReactNode {
       )}
     </Authentication>
   );
-}
+};
 
 export default AddTest;

@@ -10,7 +10,7 @@ interface Props {
   isAdmin: boolean;
 }
 
-function Authentication({ children, isAdmin }: Props): React.ReactNode {
+const Authentication = ({ children, isAdmin }: Props): React.ReactNode => {
   const currentProfile = useAppSelector(currentProfileSelector);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -37,6 +37,6 @@ function Authentication({ children, isAdmin }: Props): React.ReactNode {
   }, [isAdmin, currentProfile, isLoading, router]);
 
   return <>{isLoading ? <LoadingContainer /> : children}</>;
-}
+};
 
 export default Authentication;

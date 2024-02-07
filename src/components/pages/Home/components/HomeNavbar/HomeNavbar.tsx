@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import s from './HomeNavbar.module.scss';
 
@@ -14,7 +14,7 @@ interface Props {
   onFilterInput: ChangeEventHandler;
 }
 
-function HomeNavbar({
+const HomeNavbar = ({
   isReverseDate,
   defaultFilterValue,
   isLogoutWindowActive,
@@ -23,7 +23,7 @@ function HomeNavbar({
   onFilterReverseClick,
   onLogoutClick,
   onFilterInput,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   return (
     <nav className={s.nav}>
       <h1 className={s.navTitle}>TestLab</h1>
@@ -39,7 +39,7 @@ function HomeNavbar({
       <div className={s.secondLine}>
         <button className={s.dateSort} onClick={onFilterReverseClick}>
           <p className={s.sortButtonTitle}>Сортировка по дате</p>
-          <div className={classNames(s.arrow, { [s.reverseDate]: isReverseDate })} />
+          <div className={cn(s.arrow, { [s.reverseDate]: isReverseDate })} />
         </button>
         {isLogoutWindowActive && (
           <ModalWindow
@@ -55,6 +55,6 @@ function HomeNavbar({
       </div>
     </nav>
   );
-}
+};
 
 export default HomeNavbar;

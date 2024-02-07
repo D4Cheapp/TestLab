@@ -1,5 +1,5 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import s from './PassQuestion.module.scss';
 
@@ -14,17 +14,17 @@ interface Props {
   isCorrect?: boolean;
 }
 
-function PassQuestion({
+const PassQuestion = ({
   question,
   questionIndex,
   onAddAnswerClick,
   isCorrect,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const isNumberAnswer = question.answer !== null;
   const questionId = question.id + '';
   return (
     <div
-      className={classNames(
+      className={cn(
         s.question,
         { [s.correctQuestion]: isCorrect },
         { [s.wrongQuestion]: isCorrect !== undefined && !isCorrect },
@@ -74,6 +74,6 @@ function PassQuestion({
       )}
     </div>
   );
-}
+};
 
 export default PassQuestion;

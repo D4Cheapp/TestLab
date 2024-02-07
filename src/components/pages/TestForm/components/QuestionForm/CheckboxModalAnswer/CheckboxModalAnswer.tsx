@@ -22,12 +22,12 @@ interface Props {
   };
 }
 
-function CheckboxModalAnswer({
+const CheckboxModalAnswer = ({
   answer,
   questionType,
   dragEvents,
   answerEvents,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const [isInputMode, setIsInputMode] = useState(false);
 
   const handleDoubleClick = () => {
@@ -100,6 +100,6 @@ function CheckboxModalAnswer({
       </button>
     </div>
   );
-}
+};
 
 export default CheckboxModalAnswer;

@@ -5,7 +5,7 @@ import { errorSelector } from '@/src/reduxjs/base/selectors';
 import ErrorMessage from './ErrorMessage';
 import s from './ErrorContainer.module.scss';
 
-function ErrorContainer(): React.ReactNode {
+const ErrorContainer = (): React.ReactNode => {
   const errorsState = useAppSelector(errorSelector);
   const isErrorsEmpty = errorsState.length === 0;
   const { deleteErrorState } = useActions();
@@ -29,6 +29,6 @@ function ErrorContainer(): React.ReactNode {
       ))}
     </div>
   );
-}
+};
 
 export default ErrorContainer;

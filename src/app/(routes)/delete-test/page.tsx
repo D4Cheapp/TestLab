@@ -12,7 +12,7 @@ import LoadingContainer from '@/src/components/common/LoadingContainer';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 
-function DeleteTest(): React.ReactNode {
+const DeleteTest = (): React.ReactNode => {
   const initTest = useAppSelector(currentTestSelector);
   const isLoading = useAppSelector(loadingStateSelector);
   const { setErrorsState, deleteTest, getTest, setCurrentTest } = useActions();
@@ -74,6 +74,6 @@ function DeleteTest(): React.ReactNode {
       )}
     </Authentication>
   );
-}
+};
 
 export default DeleteTest;

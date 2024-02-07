@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import { TestFormContext } from '../../../TestFormContext';
@@ -10,7 +10,7 @@ interface Props {
   question: CreateQuestionRequestType;
 }
 
-function FormQuestion({ question }: Props): React.ReactNode {
+const FormQuestion = ({ question }: Props): React.ReactNode => {
   const {
     setCurrentQuestion,
     withDeleteButton,
@@ -74,7 +74,7 @@ function FormQuestion({ question }: Props): React.ReactNode {
             )}
             <button
               type="button"
-              className={classNames(s.questionButton, s.editButton)}
+              className={cn(s.questionButton, s.editButton)}
               onClick={() => handleEditQuestionClick(question)}
             />
           </>
@@ -89,12 +89,12 @@ function FormQuestion({ question }: Props): React.ReactNode {
         )}
         <button
           type="button"
-          className={classNames(s.questionButton, s.deleteButton)}
+          className={cn(s.questionButton, s.deleteButton)}
           onClick={() => (question.id ? handleDeleteQuestionClick() : undefined)}
         />
       </div>
     </div>
   );
-}
+};
 
 export default FormQuestion;

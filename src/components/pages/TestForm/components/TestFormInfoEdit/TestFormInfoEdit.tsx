@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import { TestFormContext } from '../../TestFormContext';
 import QuestionForm from '../QuestionForm';
@@ -14,11 +14,11 @@ interface Props {
   };
 }
 
-function TestFormInfoEdit({
+const TestFormInfoEdit = ({
   title,
   onAddQuestionClick,
   modalWindowData,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion, form } =
     useContext(TestFormContext);
 
@@ -30,12 +30,12 @@ function TestFormInfoEdit({
 
   return (
     <div
-      className={classNames(s.editContainer, {
+      className={cn(s.editContainer, {
         [s.singleContainer]: withDeleteButton,
       })}
     >
       <div
-        className={classNames(s.contentContainer, {
+        className={cn(s.contentContainer, {
           [s.mainInput]: withDeleteButton,
         })}
       >
@@ -91,6 +91,6 @@ function TestFormInfoEdit({
       )}
     </div>
   );
-}
+};
 
 export default TestFormInfoEdit;
