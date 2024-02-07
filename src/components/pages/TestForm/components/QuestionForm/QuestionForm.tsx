@@ -10,7 +10,6 @@ function QuestionForm(): React.ReactNode {
     useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
   const { setErrorsState } = useActions();
-
   const { getValues, setValue, register } = form;
   const questionType = currentQuestion?.id
     ? currentQuestion?.question_type
@@ -34,7 +33,6 @@ function QuestionForm(): React.ReactNode {
 
   const onAddAnswerClick = useCallback(() => {
     const answerValue = getValues('answerInput');
-
     if (answerValue) {
       setAnswers([
         ...answers,
@@ -68,19 +66,16 @@ function QuestionForm(): React.ReactNode {
       //@ts-ignore
       const changedAnswerValue = event.target?.value + '';
       const isNumberAnswer = questionType === 'number' && !id;
-
       if (isNumberAnswer) {
         const isDataExists = currentQuestion?.id && currentQuestion?.title;
         if (isDataExists) {
           setCurrentQuestion({ ...currentQuestion, answer: +changedAnswerValue });
         }
       }
-
       if (!isNumberAnswer) {
         const currentAnswer = answers.filter((ans) => ans.id === id)[0];
         const isCorrectAnswer =
           changedAnswerValue !== currentAnswer.text && changedAnswerValue.trim() && id;
-
         if (isCorrectAnswer) {
           !!changedAnswerValue?.trim()
             ? setAnswers(
@@ -124,7 +119,6 @@ function QuestionForm(): React.ReactNode {
   const onAnswerDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>, answer: QuestionAnswerType) => {
       event.preventDefault();
-
       setAnswers(
         answers.map((ans) => {
           const isCurrentDragAnswer = draggableAnswer && ans.id === draggableAnswer.id;
@@ -138,7 +132,6 @@ function QuestionForm(): React.ReactNode {
             : ans;
         }),
       );
-
       event.currentTarget.classList.remove('dragStart');
       setDraggableAnswer(null);
     },
@@ -164,7 +157,6 @@ function QuestionForm(): React.ReactNode {
       currentQuestion !== undefined &&
       currentQuestion.question_type !== 'number' &&
       currentQuestion?.answers;
-
     if (isCurrentQuestionEmptyOrNumber) {
       //@ts-ignore
       const changedAnswers = currentQuestion.answers.map((answer, index) => {
@@ -191,7 +183,6 @@ function QuestionForm(): React.ReactNode {
           Вопрос
         </label>
       </div>
-
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
           <input
@@ -209,7 +200,6 @@ function QuestionForm(): React.ReactNode {
           </button>
         </div>
       )}
-
       <div
         className={classNames(s.answersContainer, {
           [s.severalScroll]: questionType !== 'number',

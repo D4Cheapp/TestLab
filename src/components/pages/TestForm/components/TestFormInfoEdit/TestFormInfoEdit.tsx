@@ -49,11 +49,9 @@ function TestFormInfoEdit({
           {...form.register('title')}
         />
       </div>
-
       {!withDeleteButton && (
         <div className={s.contentContainer}>
           <h2 className={s.testNameTitle}>Добавление вопроса</h2>
-
           <div className={s.chooseQuestionContainer}>
             <select
               className={s.questionType}
@@ -74,7 +72,6 @@ function TestFormInfoEdit({
                 Численный ответ
               </option>
             </select>
-
             {modalWindowData.isAddQuestionWindowActive && (
               <ModalWindow
                 title="Добавление вопроса"
@@ -85,7 +82,6 @@ function TestFormInfoEdit({
                 <QuestionForm />
               </ModalWindow>
             )}
-
             <button type="button" className={s.addButton} onClick={onAddQuestionClick}>
               +
             </button>

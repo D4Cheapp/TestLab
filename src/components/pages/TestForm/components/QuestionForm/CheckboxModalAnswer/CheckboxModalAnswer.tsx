@@ -59,7 +59,6 @@ function CheckboxModalAnswer({
             <div className={s.customCheckbox} />
           </>
         )}
-
         {questionType === 'single' && (
           <>
             <input
@@ -73,7 +72,6 @@ function CheckboxModalAnswer({
             <div className={s.customRadio} />
           </>
         )}
-
         {isInputMode ? (
           <input
             className={s.answerTitleInput}

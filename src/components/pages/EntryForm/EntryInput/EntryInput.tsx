@@ -35,11 +35,9 @@ function EntryInput({
         id={name}
         {...register(name, { required: true })}
       />
-
       <div className={classNames(s.inputLabel, { [s.errorTitle]: isPasswordMatchError })}>
         {title}
       </div>
-
       {isPassword && (
         <button
           type="button"

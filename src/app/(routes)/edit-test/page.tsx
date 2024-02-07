@@ -15,13 +15,10 @@ function EditTest(): React.ReactNode {
   const isLoading = useAppSelector(loadingStateSelector);
   const initTest = useAppSelector(currentTestSelector);
   const { setErrorsState, getTest, setCurrentTest, editTest } = useActions();
-
   const searchParams = useSearchParams().get('id');
   const router = useRouter();
-
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const [testTitle, setTestTitle] = useState<string>();
-
   const testId = searchParams ? +searchParams : undefined;
 
   const saveTestAction: SubmitHandler<TestFormType> = useCallback(
@@ -34,11 +31,9 @@ function EditTest(): React.ReactNode {
       if (!isTitleFilled) {
         return setErrorsState('Error: Test title should not be empty');
       }
-
       if (isNotEnoughQuestions) {
         return setErrorsState('Error: Test should contain at least one question');
       }
-
       if (!testId) {
         return setErrorsState('Error: Cannot find test to edit');
       }
@@ -52,7 +47,6 @@ function EditTest(): React.ReactNode {
 
   const saveTestConfirm = useCallback(() => {
     const isTestCorrect = testId && testTitle;
-
     if (isTestCorrect) {
       editTest({ title: testTitle, id: testId });
       setCurrentTest(undefined);

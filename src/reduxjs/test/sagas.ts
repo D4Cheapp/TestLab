@@ -33,23 +33,19 @@ function* createTestSaga(action: CreateTestActionType) {
     href: `/tests`,
     body: { title },
   });
-
   const isCorrectData = questions && !('error' in data) && data?.id;
   if (isCorrectData) {
     for (const question of questions) {
       const { title, question_type } = question;
       const questionData = { title, question_type, test_id: data.id };
-
       if (question.answer) {
         //@ts-ignore
         questionData.answer = question.answer;
       }
-
       if (question.answers) {
         //@ts-ignore
         questionData.answers = question.answers;
       }
-
       yield call(() =>
         createQuestionSaga({
           payload: questionData,
@@ -106,7 +102,6 @@ function* createQuestionSaga(action: CreateQuestionActionType) {
       href: `/tests/${action.payload.test_id}/questions`,
       body: { title, question_type, answer },
     });
-
   const isCorrectData = answers && !('error' in data) && data?.id;
   if (isCorrectData) {
     for (const ans of answers) {
@@ -122,7 +117,6 @@ function* createQuestionSaga(action: CreateQuestionActionType) {
       );
     }
   }
-
   yield test_id ? put(getTest({ id: test_id })) : undefined;
 }
 
@@ -135,7 +129,6 @@ function* editQuestionSaga(action: EditQuestionActionType) {
       href: `/questions/${action.payload.id}`,
       body: { title, question_type, answer },
     });
-
   const isCorrectData = answers && !('error' in data) && data?.id;
   if (isCorrectData) {
     for (const ans of answers) {
@@ -143,7 +136,6 @@ function* editQuestionSaga(action: EditQuestionActionType) {
       const isLocallyChanged = ans.isLocalInfo;
       const isCreated = ans.isCreated;
       const isDeleted = ans.isDeleted;
-
       if (isDeleted) {
         yield call(() =>
           deleteAnswerSaga({
@@ -152,7 +144,6 @@ function* editQuestionSaga(action: EditQuestionActionType) {
           }),
         );
       }
-
       if (isCreated) {
         yield call(() =>
           createAnswerSaga({
@@ -165,7 +156,6 @@ function* editQuestionSaga(action: EditQuestionActionType) {
           }),
         );
       }
-
       if (isReadyToMove) {
         yield call(() =>
           moveAnswerSaga({
@@ -178,7 +168,6 @@ function* editQuestionSaga(action: EditQuestionActionType) {
           }),
         );
       }
-
       if (isLocallyChanged) {
         yield call(() =>
           editAnswerSaga({
@@ -193,7 +182,6 @@ function* editQuestionSaga(action: EditQuestionActionType) {
       }
     }
   }
-
   yield test_id ? put(getTest({ id: test_id })) : undefined;
 }
 

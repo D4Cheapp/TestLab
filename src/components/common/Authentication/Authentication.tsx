@@ -18,23 +18,20 @@ function Authentication({ children, isAdmin }: Props): React.ReactNode {
 
   useEffect(() => {
     getCurrentProfile();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const isProfileUnset = currentProfile !== undefined;
-
     if (isProfileUnset) {
       const isProfileEmpty = currentProfile === null;
+      const isProfileHaveAccess = !currentProfile?.is_admin && isAdmin;
       if (isProfileEmpty) {
         return router.push('/login');
       }
-
-      const isProfileHaveAccess = !currentProfile?.is_admin && isAdmin;
       if (isProfileHaveAccess) {
         return router.push('/');
       }
-
       return setIsLoading(false);
     }
   }, [isAdmin, currentProfile, isLoading, router]);

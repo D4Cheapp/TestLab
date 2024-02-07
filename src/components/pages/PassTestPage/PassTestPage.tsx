@@ -38,7 +38,6 @@ function PassTestPage(): React.ReactNode {
         const questionType = currentTest?.questions[questionIndex].question_type;
         const currentQuestion = passProgress[questionIndex];
         const currentProgress = structuredClone(passProgress);
-
         switch (questionType) {
           case 'multiple':
             const answerCheck = (event.target as HTMLInputElement).checked;
@@ -54,11 +53,9 @@ function PassTestPage(): React.ReactNode {
             }
             currentProgress[questionIndex].answers = answers;
             break;
-
           case 'single':
             currentProgress[questionIndex].answers = [answerId];
             break;
-
           case 'number':
             const target = (event?.target as HTMLInputElement).value;
             const answer = target === '' ? undefined : +target;
@@ -82,22 +79,18 @@ function PassTestPage(): React.ReactNode {
         if (isErrorInReduce) {
           return -1;
         }
-
         const currentQuestion = passProgress[index];
         const questionType = correctQuestion.question_type;
         const isAnswerExists =
           currentQuestion.answer === undefined && currentQuestion.answers === undefined;
-
         if (isAnswerExists) {
           setErrorsState('Error: Fill out all the answers to the questions');
           return -1;
         }
-
         switch (questionType) {
           case 'multiple':
             const isNotEnoughQuestions =
               currentQuestion.answers && currentQuestion?.answers?.length < 2;
-
             if (isNotEnoughQuestions) {
               setErrorsState(
                 'Error: There cannot be less than 2 correct answers in the multiple question',
@@ -106,16 +99,13 @@ function PassTestPage(): React.ReactNode {
             }
             const correctAnswers = correctQuestion.answers?.filter((ans) => ans.is_right);
             const currentAnswers = currentQuestion.answers?.sort();
-
             const isCorrectMultiAnswer =
               correctAnswers?.length === currentAnswers?.length &&
               currentAnswers?.every(
                 (ans, index) => correctAnswers && ans === correctAnswers[index].id,
               );
-
             newProgress[index].correct = isCorrectMultiAnswer;
             return isCorrectMultiAnswer ? accumulator + 1 : accumulator;
-
           case 'single':
             const correctAnswer = correctQuestion.answers?.filter(
               (ans) => ans.is_right,
@@ -123,10 +113,8 @@ function PassTestPage(): React.ReactNode {
             const isCorrectSingleAnswer =
               currentQuestion?.answers &&
               correctAnswer?.id === currentQuestion?.answers[0];
-
             newProgress[index].correct = isCorrectSingleAnswer;
             return isCorrectSingleAnswer ? accumulator + 1 : accumulator;
-
           case 'number':
             const isCorrectNumberAnswer =
               correctQuestion.answer === currentQuestion.answer;
@@ -134,7 +122,6 @@ function PassTestPage(): React.ReactNode {
             return isCorrectNumberAnswer ? accumulator + 1 : accumulator;
         }
       }, 0);
-
       const isScoreCorrupted = score !== -1;
       if (isScoreCorrupted) {
         setPassProgress(newProgress);
@@ -169,7 +156,7 @@ function PassTestPage(): React.ReactNode {
     if (isIdExists) {
       getTest({ id: +searchParams });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   if (!currentTest?.questions) {
@@ -216,8 +203,10 @@ function PassTestPage(): React.ReactNode {
         >
           Закончить прохождение теста
         </button>
-
-        <button className={classNames(s.goBackButton, s.testButton)} onClick={onGoBackClick}>
+        <button
+          className={classNames(s.goBackButton, s.testButton)}
+          onClick={onGoBackClick}
+        >
           Вернуться к списку тестов
         </button>
       </div>

@@ -56,7 +56,6 @@ function PassQuestion({
                 <div className={s.customCheckbox} />
               </>
             )}
-
             {question.question_type === 'single' && (
               <>
                 <input

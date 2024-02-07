@@ -20,8 +20,8 @@
           "type"
         ],
         "pathGroups": [
-          { "pattern": "@src/utils/*", "group": "internal", "position": "before"},
-          { "pattern": "@/src/hooks/*", "group": "internal", "position": "before"},
+          { "pattern": "@/src/utils/*", "group": "internal", "position": "before" },
+          { "pattern": "@/src/hooks/*", "group": "internal", "position": "before" },
           { "pattern": "@/src/selectors/*", "group": "internal" },
           { "pattern": "@/src/components/*", "group": "internal" },
           { "pattern": "../components/*", "group": "parent" },

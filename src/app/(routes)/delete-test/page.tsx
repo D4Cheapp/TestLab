@@ -16,10 +16,8 @@ function DeleteTest(): React.ReactNode {
   const initTest = useAppSelector(currentTestSelector);
   const isLoading = useAppSelector(loadingStateSelector);
   const { setErrorsState, deleteTest, getTest, setCurrentTest } = useActions();
-
   const searchParams = useSearchParams().get('id');
   const router = useRouter();
-
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const testId = searchParams ? +searchParams : undefined;
 

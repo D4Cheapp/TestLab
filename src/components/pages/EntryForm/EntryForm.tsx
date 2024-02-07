@@ -49,33 +49,27 @@ function EntryForm({
       typeof value === 'string' ? (!!value.trim() ? value : undefined) : value,
     );
     const isProfileInfoEmpty = valuesArray.includes(undefined);
-
     if (isProfileInfoEmpty) {
       setErrorsState('Error: Fill in all the necessary data');
       return false;
     }
-
     if (isRegister) {
       const isPasswordShort = data.password.length < 10;
       const isPasswordMissingUpperChar = !/[A-Z,А-Я]/.test(data.password);
       const isPasswordMissingNumber = !/\d/.test(data.password);
       const isPasswordMatchError = data.password !== data.password_confirmation;
-
       if (isPasswordShort) {
         setErrorsState('Error: Password should contain at least 10 character');
         return false;
       }
-
       if (isPasswordMissingUpperChar) {
         setErrorsState('Error: Password should contain at least one capital letter');
         return false;
       }
-
       if (isPasswordMissingNumber) {
         setErrorsState('Error: Password should contain at least one number');
         return false;
       }
-
       if (isPasswordMatchError) {
         setIsPasswordMatchError(true);
         return false;
@@ -83,7 +77,6 @@ function EntryForm({
         setIsPasswordMatchError(false);
       }
     }
-
     // @ts-ignore
     isRegister ? profileRegister(data) : profileLogin(data);
     return true;
@@ -109,14 +102,12 @@ function EntryForm({
         name="EntryForm"
       >
         <h1 className={s.title}>{title}</h1>
-
         <EntryInput
           title="Логин"
           name="username"
           register={register}
           isPassword={false}
         />
-
         <EntryInput
           isPassword
           title="Пароль"
@@ -127,7 +118,6 @@ function EntryForm({
           onShowPasswordClick={onShowPasswordClick}
           isPasswordMatchError={isPasswordMatchError}
         />
-
         {isRegister && (
           <>
             <div className={s.confirmPasswordContainer}>
@@ -141,15 +131,12 @@ function EntryForm({
                 onShowPasswordClick={onShowConfirmPasswordClick}
                 isPasswordMatchError={isPasswordMatchError}
               />
-
               {isPasswordMatchError && (
                 <p className={s.matchErrorTitle}>Ошибка: пароли не совпадают</p>
               )}
             </div>
-
             <label className={s.isAdmin}>
               <p className={s.isAdminTitle}>Учетная запись администратора</p>
-
               <input
                 className={s.checkbox}
                 type="checkbox"
@@ -157,17 +144,14 @@ function EntryForm({
                 id="is_admin"
                 {...register('is_admin')}
               />
-
               <div className={s.customCheckbox} />
             </label>
           </>
         )}
-
         <div className={s.additionalContent}>
           <button className={s.submit} type="submit">
             {submitTitle}
           </button>
-
           <button type="button" className={s.redirectLink} onClick={onRedirectClick}>
             {redirectTitle}
           </button>

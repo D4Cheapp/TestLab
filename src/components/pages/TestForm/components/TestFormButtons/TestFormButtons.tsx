@@ -22,7 +22,6 @@ function TestFormButtons({
           Сохранить
         </button>
       )}
-
       <button
         type="button"
         className={classNames(s.formButton, s.goBackButton)}

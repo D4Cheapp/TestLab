@@ -4,7 +4,6 @@ export type EntryFormType = {
   password: string;
   password_confirmation?: string;
 };
-
 export type TestFormType = {
   title: string;
   questionType: 'single' | 'multiple' | 'number';

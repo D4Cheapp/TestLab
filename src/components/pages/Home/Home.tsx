@@ -26,12 +26,10 @@ function Home(): React.ReactNode {
   const testMeta = useAppSelector(testMetaSelector);
   const isLoading = useAppSelector(loadingStateSelector);
   const isAdmin = useAppSelector(currentProfileSelector)?.is_admin;
-
   const router = useRouter();
   const queryParams = useSearchParams().get('filter');
   const testListRef = useRef<HTMLDivElement>(null);
   const { profileLogout, getPaginationTests } = useActions();
-
   const [isLogoutWindowActive, setIsLogoutWindowActive] = useState<boolean>(false);
   const [testPage, setTestPage] = useState<number>(1);
   const [isReverseDate, setIsReverseDate] = useState<boolean>(false);
@@ -81,11 +79,9 @@ function Home(): React.ReactNode {
       const scrollHeight = e.currentTarget.scrollHeight;
       const scrollTop = e.currentTarget.scrollTop;
       const offsetHeight = e.currentTarget.offsetHeight;
-
       const isPaddingState = scrollHeight - (scrollTop + offsetHeight) < 20 && !isLoading;
       const isPaddingReady =
         isPaddingState && !!testMeta.total_pages && testPage < testMeta.total_pages;
-
       if (isPaddingReady) {
         setTestPage(testPage + 1);
       }
@@ -133,7 +129,6 @@ function Home(): React.ReactNode {
         !isLoading &&
         testMeta.total_count !== testList.length &&
         testList.length !== 0;
-
       if (isPaddingState) {
         setTestPage(testPage + 1);
       }
@@ -144,7 +139,6 @@ function Home(): React.ReactNode {
   useEffect(() => {
     const scrollHeight = testListRef.current?.scrollHeight;
     const isReadyToScroll = testPage > 1 && scrollHeight && !isLoading;
-
     if (isReadyToScroll) {
       testListRef.current.scrollTop =
         scrollHeight -
@@ -166,7 +160,6 @@ function Home(): React.ReactNode {
         onFilterInput={onFilterInput}
         defaultFilterValue={filterValue}
       />
-
       <section
         ref={testListRef}
         onScroll={onTestScroll}
@@ -177,7 +170,6 @@ function Home(): React.ReactNode {
         )}
       >
         {isLoading && !testList && <div className={s.loading} />}
-
         {testList.length === 0 && !isLoading ? (
           <div className={s.errorTitleContainer}>
             <h1 className={s.notFoundTitle}>Тесты не найдены</h1>
@@ -195,7 +187,6 @@ function Home(): React.ReactNode {
                 onPassTestConfirmClick={onPassTestConfirmClick}
               />
             ))}
-
             {isLoading && (
               <div className={s.paginationLoadingContainer}>
                 <div className={s.paginationLoading} />
@@ -204,7 +195,6 @@ function Home(): React.ReactNode {
           </>
         )}
       </section>
-
       {isAdmin && (
         <button className={s.addButton} onClick={addTestClick}>
           +

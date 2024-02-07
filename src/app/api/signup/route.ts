@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
-import { ProfileAuthReceiveType } from '@/src/types/receiveTypes';
-import { ProfileRegisterRequestType, RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
+import { ProfileAuthReceiveType } from '@/src/types/receiveTypes';
+import { ProfileRegisterRequestType, RequestTypesType } from '@/src/types/requestTypes';
 
 export async function POST(req: NextRequest) {
   try {

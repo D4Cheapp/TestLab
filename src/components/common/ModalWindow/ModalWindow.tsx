@@ -44,7 +44,6 @@ function ModalWindow({
   return (
     <aside className={s.root}>
       <div className={s.background} onClick={onCloseWindowClick} />
-
       <div
         className={classNames(s.componentFrom, {
           [s.invisibleContent]: !children,
@@ -54,9 +53,7 @@ function ModalWindow({
           <h1 className={s.title}>{title}</h1>
           <button className={s.closeButton} onClick={onCloseWindowClick} />
         </div>
-
         {children}
-
         <ModalButtons
           confirmAction={confirmAction}
           onCloseWindowClick={onCloseWindowClick}

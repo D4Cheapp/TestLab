@@ -10,7 +10,6 @@ export type CurrentProfileType = {
   username: string;
   is_admin: boolean;
 } | null;
-
 export type ProfileRegisterActionType = PayloadAction<ProfileRegisterRequestType>;
 export type ProfileLoginActionType = PayloadAction<ProfileLoginRequestType>;
 export type SetCurrentProfileActionType = PayloadAction<CurrentProfileType | undefined>;

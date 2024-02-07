@@ -12,7 +12,6 @@ export type CurrentTestType = {
   title?: string;
   questions?: CreateQuestionRequestType[];
 };
-
 export type CreateTestActionType = PayloadAction<CreateTestRequestType>;
 export type EditTestActionType = PayloadAction<{ id: number } & CreateTestRequestType>;
 export type DeleteTestActionType = PayloadAction<{ id: number }>;
@@ -22,7 +21,6 @@ export type GetPaginationTestActionType = PayloadAction<PaginationTestRequestTyp
 export type SetPaginationTestActionType = PayloadAction<
   PaginationTestsReceiveType & PaginationTestRequestType
 >;
-
 export type AddLocalQuestionActionType = PayloadAction<CreateQuestionRequestType>;
 export type EditLocalQuestionAction = PayloadAction<CreateQuestionRequestType>;
 export type AddCurrentQuestionActionType = PayloadAction<

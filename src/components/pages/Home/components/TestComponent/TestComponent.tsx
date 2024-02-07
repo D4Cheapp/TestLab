@@ -40,7 +40,6 @@ function TestComponent({
       <p className={s.testTitle} onClick={onPassTestClick}>
         {title}
       </p>
-
       <div className={s.buttonsContainer}>
         {isAdmin && (
           <>

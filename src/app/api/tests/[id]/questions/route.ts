@@ -1,8 +1,8 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
-import { CreateQuestionRequestType, RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
+import { CreateQuestionRequestType, RequestTypesType } from '@/src/types/requestTypes';
 
 export async function POST(req: NextRequest, { params }: { params: { id: number } }) {
   try {

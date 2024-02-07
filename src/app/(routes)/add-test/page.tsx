@@ -16,13 +16,12 @@ function AddTest(): React.ReactNode {
   const isLoading = useAppSelector(loadingStateSelector);
   const currentTest = useAppSelector(currentTestSelector);
   const { setErrorsState, createTest, setCurrentTest } = useActions();
-
+  const router = useRouter();
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const [testInfo, setTestInfo] = useState<{
     title: string;
     questions: CreateQuestionRequestType[];
   }>();
-  const router = useRouter();
 
   const addTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
@@ -34,11 +33,9 @@ function AddTest(): React.ReactNode {
       if (!isTitleFilled) {
         return setErrorsState('Error: Test title should not be empty');
       }
-
       if (isNotEnoughQuestions) {
         return setErrorsState('Error: Test should contain at least one question');
       }
-
       if (currentTest?.questions) {
         setTestInfo({
           title: data.title.replace(/\s+/gm, ' ').trim(),

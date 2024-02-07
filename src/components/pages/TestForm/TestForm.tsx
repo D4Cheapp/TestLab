@@ -39,11 +39,9 @@ function TestForm({
     deleteQuestion,
     deleteLocalQuestion,
   } = useActions();
-
   const [answers, setAnswers] = useState<QuestionAnswerType[]>([]);
   const [isAddQuestionWindowActive, setIsAddQuestionWindowActive] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<CreateQuestionRequestType>();
-
   const isLocal = !initTest;
   const formContext = { register, getValues, setValue, reset };
 
@@ -63,51 +61,42 @@ function TestForm({
       const isAnswerAmountError =
         (questionType === 'multiple' || questionType === 'single') &&
         (!answerCount || (answerCount && answerCount < 2));
-
       if (!questionType) {
         return false;
       }
-
       if (isTitleEmpty) {
         setErrorsState('Error: Question title should not be empty');
         return false;
       }
-
       if (isAnswerAmountError) {
         setErrorsState(
           'Error: Question should be at least 2 answer option in the question',
         );
         return false;
       }
-
       if (isSingleQuestionError) {
         setErrorsState('Error: Question should be 1 correct answer in the question');
         return false;
       }
-
       if (isMultiplyQuestionError) {
         setErrorsState(
           'Error: There cannot be less than 2 correct answers in the question',
         );
         return false;
       }
-
       if (isNumberQuestion) {
         const answer = getValues('numberAnswer');
         const isAnswerNotANumber = answer && isNaN(+answer);
         const isAnswerEmpty = answer === undefined;
-
         if (isAnswerNotANumber) {
           setErrorsState('Error: Answer should be a number');
           return false;
         }
-
         if (isAnswerEmpty) {
           setErrorsState('Error: Input field should not be empty');
           return false;
         }
       }
-
       return true;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,10 +114,8 @@ function TestForm({
         : undefined;
       const numberAnswer =
         getValues('numberAnswer') !== undefined ? +getValues('numberAnswer') : undefined;
-
       if (questionValidation(question_type, title, checkedAnswerCount, answers.length)) {
         const isServerQuestion = !isLocal && title && question_type;
-
         if (isServerQuestion) {
           const test_id = currentTest?.id;
           const isServerEdit = isEdit && currentQuestion?.id;
@@ -140,7 +127,6 @@ function TestForm({
             answers: answers ?? undefined,
             test_id,
           };
-
           isServerEdit
             ? editQuestion({
                 ...questionData,
@@ -157,16 +143,13 @@ function TestForm({
             answer: numberAnswer,
             answers: answers ?? undefined,
           };
-
           isEdit
             ? //@ts-ignore
               editLocalQuestion(questionData)
             : //@ts-ignore
               addLocalQuestion(questionData);
         }
-
         setAnswers([]);
-
         if (!isEdit) {
           setIsAddQuestionWindowActive(false);
         }
@@ -221,7 +204,6 @@ function TestForm({
     if (currentQuestion) {
       const isNumberAnswer = currentQuestion.answer;
       setValue('questionTitle', currentQuestion.title);
-
       if (isNumberAnswer) {
         //@ts-ignore
         setValue('numberAnswer', currentQuestion.answer);
@@ -237,7 +219,6 @@ function TestForm({
       onSubmit={handleSubmit(action)}
     >
       <h1 className={s.formTitle}>{title}</h1>
-
       <TestFormContext.Provider
         value={{
           answers,
@@ -258,10 +239,8 @@ function TestForm({
             setIsAddQuestionWindowActive,
           }}
         />
-
         <TestFormQuestions questions={questions} />
       </TestFormContext.Provider>
-
       <TestFormButtons
         onGoBackButtonClick={onGoBackButtonClick}
         withDeleteButton={withDeleteButton}

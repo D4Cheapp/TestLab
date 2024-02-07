@@ -27,7 +27,6 @@ function HomeNavbar({
   return (
     <nav className={s.nav}>
       <h1 className={s.navTitle}>TestLab</h1>
-
       <input
         className={s.filter}
         type="text"
@@ -37,13 +36,11 @@ function HomeNavbar({
         id="FilterInput"
         defaultValue={defaultFilterValue}
       />
-
       <div className={s.secondLine}>
         <button className={s.dateSort} onClick={onFilterReverseClick}>
           <p className={s.sortButtonTitle}>Сортировка по дате</p>
           <div className={classNames(s.arrow, { [s.reverseDate]: isReverseDate })} />
         </button>
-
         {isLogoutWindowActive && (
           <ModalWindow
             title="Вы действительно хотите выйти из профиля?"
@@ -52,7 +49,6 @@ function HomeNavbar({
             confirmAction={onLogoutConfirmClick}
           />
         )}
-
         <button className={s.logout} onClick={onLogoutClick}>
           Выйти из профиля
         </button>

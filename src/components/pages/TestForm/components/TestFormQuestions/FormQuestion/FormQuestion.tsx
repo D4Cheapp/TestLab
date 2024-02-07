@@ -56,7 +56,6 @@ function FormQuestion({ question }: Props): React.ReactNode {
   return (
     <div className={s.question}>
       <p className={s.questionTitle}>{question.title}</p>
-
       <div className={s.questionButtons}>
         {!withDeleteButton && (
           <>
@@ -80,7 +79,6 @@ function FormQuestion({ question }: Props): React.ReactNode {
             />
           </>
         )}
-
         {isDeleteQuestionWindowActive && (
           <ModalWindow
             title="Подтвердите удаление вопроса"
