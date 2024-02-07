@@ -6,7 +6,7 @@ import s from './ModalWindow.module.scss';
 
 interface Props {
   setIsActive: Dispatch<SetStateAction<boolean>>;
-  confirmAction?: () => void;
+  onConfirmClick?: () => void;
   children?: React.ReactNode;
   title: string;
   buttonInfo: {
@@ -17,33 +17,33 @@ interface Props {
 
 function ModalWindow({
   setIsActive,
-  confirmAction,
+  onConfirmClick,
   children,
   title,
   buttonInfo,
 }: Props): React.ReactNode {
-  const onCloseWindowClick = useCallback(() => {
+  const handleCloseWindowClick = useCallback(() => {
     setIsActive(false);
   }, [setIsActive]);
 
-  const onEscapeKeyDown = useCallback(
+  const escapeKeyClick = useCallback(
     (event: KeyboardEvent) => {
       const isEscapePressed = event.key === 'Escape';
       if (isEscapePressed) {
-        onCloseWindowClick();
+        handleCloseWindowClick();
       }
     },
-    [onCloseWindowClick],
+    [handleCloseWindowClick],
   );
 
   useEffect(() => {
-    addEventListener('keydown', onEscapeKeyDown);
-    return () => removeEventListener('keydown', onEscapeKeyDown);
-  }, [onEscapeKeyDown]);
+    addEventListener('keydown', escapeKeyClick);
+    return () => removeEventListener('keydown', escapeKeyClick);
+  }, [escapeKeyClick]);
 
   return (
     <aside className={s.root}>
-      <div className={s.background} onClick={onCloseWindowClick} />
+      <div className={s.background} onClick={handleCloseWindowClick} />
       <div
         className={classNames(s.componentFrom, {
           [s.invisibleContent]: !children,
@@ -51,12 +51,12 @@ function ModalWindow({
       >
         <div className={s.formHeader}>
           <h1 className={s.title}>{title}</h1>
-          <button className={s.closeButton} onClick={onCloseWindowClick} />
+          <button className={s.closeButton} onClick={handleCloseWindowClick} />
         </div>
         {children}
         <ModalButtons
-          confirmAction={confirmAction}
-          onCloseWindowClick={onCloseWindowClick}
+          onConfirmClick={onConfirmClick}
+          onCloseWindowClick={handleCloseWindowClick}
           buttonInfo={buttonInfo}
         />
       </div>

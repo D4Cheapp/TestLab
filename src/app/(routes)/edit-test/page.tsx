@@ -21,7 +21,7 @@ function EditTest(): React.ReactNode {
   const [testTitle, setTestTitle] = useState<string>();
   const testId = searchParams ? +searchParams : undefined;
 
-  const saveTestAction: SubmitHandler<TestFormType> = useCallback(
+  const handleSaveTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       const isTitleFilled = data.title && data.title.trim();
@@ -45,7 +45,7 @@ function EditTest(): React.ReactNode {
     [initTest?.questions, testId],
   );
 
-  const saveTestConfirm = useCallback(() => {
+  const handleSaveTestConfirmClick = useCallback(() => {
     const isTestCorrect = testId && testTitle;
     if (isTestCorrect) {
       editTest({ title: testTitle, id: testId });
@@ -73,13 +73,13 @@ function EditTest(): React.ReactNode {
             <ModalWindow
               title="Сохранить измененный тест?"
               setIsActive={setIsConfirmWindowActive}
-              confirmAction={saveTestConfirm}
+              onConfirmClick={handleSaveTestConfirmClick}
               buttonInfo={{ withConfirmButton: true, confirmTitle: 'Сохранить' }}
             />
           )}
           <TestForm
             initTest={initTest}
-            action={saveTestAction}
+            onAction={handleSaveTestAction}
             title="Редактирование теста"
           />
         </>

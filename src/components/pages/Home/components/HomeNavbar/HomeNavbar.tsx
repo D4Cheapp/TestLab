@@ -46,7 +46,7 @@ function HomeNavbar({
             title="Вы действительно хотите выйти из профиля?"
             buttonInfo={{ withConfirmButton: true }}
             setIsActive={setLogoutWindowActive}
-            confirmAction={onLogoutConfirmClick}
+            onConfirmClick={onLogoutConfirmClick}
           />
         )}
         <button className={s.logout} onClick={onLogoutClick}>

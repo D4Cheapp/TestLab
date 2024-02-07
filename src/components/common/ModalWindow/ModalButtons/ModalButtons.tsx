@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import s from './ModalButtons.module.scss';
 
 interface Props {
-  confirmAction?: () => void;
+  onConfirmClick?: () => void;
   onCloseWindowClick: () => void;
   buttonInfo: {
     confirmTitle?: string;
@@ -13,7 +13,7 @@ interface Props {
 }
 
 function ModalButtons({
-  confirmAction,
+  onConfirmClick,
   onCloseWindowClick,
   buttonInfo,
 }: Props): React.ReactNode {
@@ -23,7 +23,7 @@ function ModalButtons({
         <button
           type="button"
           className={classNames(s.formButton, s.confirmButton)}
-          onClick={confirmAction}
+          onClick={onConfirmClick}
         >
           {buttonInfo?.confirmTitle ?? 'Подтвердить'}
         </button>

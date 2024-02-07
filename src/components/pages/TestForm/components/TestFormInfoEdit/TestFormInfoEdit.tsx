@@ -21,7 +21,8 @@ function TestFormInfoEdit({
 }: Props): React.ReactNode {
   const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion, form } =
     useContext(TestFormContext);
-  const setAddWindowAction = () => {
+
+  const handleCloseAddWindowAction = () => {
     modalWindowData.setIsAddQuestionWindowActive(false);
     setCurrentQuestion(undefined);
     form.reset();
@@ -75,8 +76,8 @@ function TestFormInfoEdit({
             {modalWindowData.isAddQuestionWindowActive && (
               <ModalWindow
                 title="Добавление вопроса"
-                setIsActive={setAddWindowAction}
-                confirmAction={() => onQuestionModifyClick(false)}
+                setIsActive={handleCloseAddWindowAction}
+                onConfirmClick={() => onQuestionModifyClick(false)}
                 buttonInfo={{ confirmTitle: 'Сохранить', withConfirmButton: true }}
               >
                 <QuestionForm />

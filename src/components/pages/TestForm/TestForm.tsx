@@ -16,14 +16,14 @@ interface Props {
   initTest?: CurrentTestType;
   title: string;
   withDeleteButton?: boolean;
-  action: SubmitHandler<TestFormType>;
+  onAction: SubmitHandler<TestFormType>;
 }
 
 function TestForm({
   initTest,
   title,
   withDeleteButton = false,
-  action,
+  onAction,
 }: Props): React.ReactNode {
   const { register, handleSubmit, reset, getValues, setValue } = useForm<TestFormType>();
   const currentTest = useAppSelector(currentTestSelector);
@@ -103,7 +103,7 @@ function TestForm({
     [getValues],
   );
 
-  const onQuestionModifyClick = useCallback(
+  const handleQuestionModifyClick = useCallback(
     (isEdit: boolean): boolean => {
       const title = getValues('questionTitle');
       const question_type = currentQuestion?.id
@@ -161,13 +161,13 @@ function TestForm({
     [answers, currentTest?.id, isLocal, getValues, questionValidation],
   );
 
-  const onGoBackButtonClick = useCallback(() => {
+  const handleGoBackButtonClick = useCallback(() => {
     setCurrentTest(undefined);
     router.push('/');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  const onAddQuestionClick = useCallback(() => {
+  const handleAddQuestionClick = useCallback(() => {
     const questionType = getValues('questionType');
     const isQuestion =
       questionType === 'single' ||
@@ -181,7 +181,7 @@ function TestForm({
     }
   }, [getValues, setErrorsState]);
 
-  const onDeleteQuestionConfirmClick = useCallback(
+  const handleDeleteQuestionConfirmClick = useCallback(
     (id: number) => {
       setAnswers([]);
       setCurrentQuestion(undefined);
@@ -216,15 +216,15 @@ function TestForm({
       className={s.root}
       name="testForm"
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onSubmit={handleSubmit(action)}
+      onSubmit={handleSubmit(onAction)}
     >
       <h1 className={s.formTitle}>{title}</h1>
       <TestFormContext.Provider
         value={{
           answers,
           withDeleteButton,
-          onQuestionModifyClick,
-          onDeleteQuestionConfirmClick,
+          onQuestionModifyClick: handleQuestionModifyClick,
+          onDeleteQuestionConfirmClick: handleDeleteQuestionConfirmClick,
           setAnswers,
           setCurrentQuestion,
           currentQuestion,
@@ -233,7 +233,7 @@ function TestForm({
       >
         <TestFormInfoEdit
           title={initTest?.title}
-          onAddQuestionClick={onAddQuestionClick}
+          onAddQuestionClick={handleAddQuestionClick}
           modalWindowData={{
             isAddQuestionWindowActive,
             setIsAddQuestionWindowActive,
@@ -242,7 +242,7 @@ function TestForm({
         <TestFormQuestions questions={questions} />
       </TestFormContext.Provider>
       <TestFormButtons
-        onGoBackButtonClick={onGoBackButtonClick}
+        onGoBackButtonClick={handleGoBackButtonClick}
         withDeleteButton={withDeleteButton}
       />
     </form>

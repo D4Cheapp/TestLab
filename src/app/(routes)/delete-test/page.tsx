@@ -21,7 +21,7 @@ function DeleteTest(): React.ReactNode {
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const testId = searchParams ? +searchParams : undefined;
 
-  const deleteTestAction: SubmitHandler<TestFormType> = useCallback(
+  const handleDeleteTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       if (testId) {
@@ -33,7 +33,7 @@ function DeleteTest(): React.ReactNode {
     [setErrorsState, testId],
   );
 
-  const deleteTestConfirm = useCallback(() => {
+  const handleDeleteTestConfirmClick = useCallback(() => {
     if (testId) {
       deleteTest({ id: testId });
       router.push('/');
@@ -60,13 +60,13 @@ function DeleteTest(): React.ReactNode {
             <ModalWindow
               title="Вы действительно хотите удалить тест?"
               setIsActive={setIsConfirmWindowActive}
-              confirmAction={deleteTestConfirm}
+              onConfirmClick={handleDeleteTestConfirmClick}
               buttonInfo={{ withConfirmButton: true, confirmTitle: 'Удалить' }}
             />
           )}
           <TestForm
             initTest={initTest}
-            action={deleteTestAction}
+            onAction={handleDeleteTestAction}
             title="Удаление теста"
             withDeleteButton
           />

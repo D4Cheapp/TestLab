@@ -37,44 +37,54 @@ function Home(): React.ReactNode {
     validateFilterValue(queryParams),
   );
 
-  const onPassTestConfirmClick = useCallback(
+  const setFilterUrl = () => {
+    if (filterValue) {
+      const query = validateFilterValue(filterValue);
+      setTestPage(1);
+      router.push('/' + (query ? `?filter=${query}` : ''));
+    } else {
+      router.push('/');
+    }
+  };
+
+  const handlePassTestConfirmClick = useCallback(
     (index: number) => {
       router.push(`/pass-test?id=${index}`);
     },
     [router],
   );
 
-  const onEditTestClick = useCallback(
+  const handleEditTestClick = useCallback(
     (index: number) => router.push(`/edit-test?id=${index}`),
     [router],
   );
 
-  const onDeleteTestClick = useCallback(
+  const handleDeleteTestClick = useCallback(
     (index: number) => router.push(`/delete-test?id=${index}`),
     [router],
   );
 
-  const onLogoutClick = useCallback(() => {
+  const handleLogoutClick = useCallback(() => {
     setIsLogoutWindowActive(true);
   }, []);
 
-  const onLogoutConfirmClick = useCallback(() => {
+  const handleLogoutConfirmClick = useCallback(() => {
     profileLogout();
     router.push('/login');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
-  const onFilterReverseClick = useCallback(() => {
+  const handleFilterReverseClick = useCallback(() => {
     setTestPage(1);
     setIsReverseDate(!isReverseDate);
   }, [isReverseDate]);
 
-  const onFilterInput = useCallback(
+  const handleFilterInput = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setFilterValue(e.target.value),
     [setFilterValue],
   );
 
-  const onTestScroll = useCallback(
+  const handleTestScroll = useCallback(
     (e: UIEvent<HTMLDivElement>) => {
       const scrollHeight = e.currentTarget.scrollHeight;
       const scrollTop = e.currentTarget.scrollTop;
@@ -89,17 +99,7 @@ function Home(): React.ReactNode {
     [isLoading, testMeta.total_pages, testPage],
   );
 
-  const setFilter = () => {
-    if (filterValue) {
-      const query = validateFilterValue(filterValue);
-      setTestPage(1);
-      router.push('/' + (query ? `?filter=${query}` : ''));
-    } else {
-      router.push('/');
-    }
-  };
-
-  const addTestClick = () => {
+  const handleAddTestClick = () => {
     router.push(`/add-test`);
   };
 
@@ -114,7 +114,7 @@ function Home(): React.ReactNode {
   }, [queryParams, isReverseDate, testPage]);
 
   useEffect(() => {
-    const filterTimeout = setTimeout(() => setFilter(), 1500);
+    const filterTimeout = setTimeout(() => setFilterUrl(), 1500);
     return () => clearTimeout(filterTimeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterValue]);
@@ -154,15 +154,15 @@ function Home(): React.ReactNode {
         isReverseDate={isReverseDate}
         isLogoutWindowActive={isLogoutWindowActive}
         setLogoutWindowActive={setIsLogoutWindowActive}
-        onFilterReverseClick={onFilterReverseClick}
-        onLogoutClick={onLogoutClick}
-        onLogoutConfirmClick={onLogoutConfirmClick}
-        onFilterInput={onFilterInput}
+        onFilterReverseClick={handleFilterReverseClick}
+        onLogoutClick={handleLogoutClick}
+        onLogoutConfirmClick={handleLogoutConfirmClick}
+        onFilterInput={handleFilterInput}
         defaultFilterValue={filterValue}
       />
       <section
         ref={testListRef}
-        onScroll={onTestScroll}
+        onScroll={handleTestScroll}
         className={classNames(
           s.testContainer,
           { [s.emptyContainer]: testList.length === 0 },
@@ -182,9 +182,9 @@ function Home(): React.ReactNode {
                 title={test.title}
                 testId={test.id}
                 isAdmin={isAdmin}
-                onDeleteTestClick={onDeleteTestClick}
-                onEditTestClick={onEditTestClick}
-                onPassTestConfirmClick={onPassTestConfirmClick}
+                onDeleteTestClick={handleDeleteTestClick}
+                onEditTestClick={handleEditTestClick}
+                onPassTestConfirmClick={handlePassTestConfirmClick}
               />
             ))}
             {isLoading && (
@@ -196,7 +196,7 @@ function Home(): React.ReactNode {
         )}
       </section>
       {isAdmin && (
-        <button className={s.addButton} onClick={addTestClick}>
+        <button className={s.addButton} onClick={handleAddTestClick}>
           +
         </button>
       )}

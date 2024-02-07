@@ -31,19 +31,19 @@ function EntryForm({
   const router = useRouter();
   const { setErrorsState, profileLogin, profileRegister } = useActions();
 
-  const onShowPasswordClick = useCallback(() => {
+  const handleShowPasswordClick = useCallback(() => {
     setShowPassword(!showPassword);
   }, [showPassword]);
 
-  const onShowConfirmPasswordClick = useCallback(() => {
+  const handleShowConfirmPasswordClick = useCallback(() => {
     setShowConfirmPassword(!showConfirmPassword);
   }, [showConfirmPassword]);
 
-  const onPasswordClick = useCallback(() => {
+  const handlePasswordClick = useCallback(() => {
     setIsPasswordMatchError(false);
   }, []);
 
-  const onSubmitFunc: SubmitHandler<EntryFormType> = (data, event) => {
+  const handleFormSubmit: SubmitHandler<EntryFormType> = (data, event) => {
     event?.preventDefault();
     const valuesArray = Object.values(data).map((value) =>
       typeof value === 'string' ? (!!value.trim() ? value : undefined) : value,
@@ -82,7 +82,7 @@ function EntryForm({
     return true;
   };
 
-  const onRedirectClick = () => {
+  const handleRedirectClick = () => {
     router.push(redirectTo);
   };
 
@@ -98,7 +98,7 @@ function EntryForm({
       <form
         className={s.form}
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(onSubmitFunc)}
+        onSubmit={handleSubmit(handleFormSubmit)}
         name="EntryForm"
       >
         <h1 className={s.title}>{title}</h1>
@@ -114,8 +114,8 @@ function EntryForm({
           name="password"
           register={register}
           isShownPassword={showPassword}
-          onPasswordClick={onPasswordClick}
-          onShowPasswordClick={onShowPasswordClick}
+          onPasswordClick={handlePasswordClick}
+          onShowPasswordClick={handleShowPasswordClick}
           isPasswordMatchError={isPasswordMatchError}
         />
         {isRegister && (
@@ -127,8 +127,8 @@ function EntryForm({
                 name="password_confirmation"
                 register={register}
                 isShownPassword={showConfirmPassword}
-                onPasswordClick={onPasswordClick}
-                onShowPasswordClick={onShowConfirmPasswordClick}
+                onPasswordClick={handlePasswordClick}
+                onShowPasswordClick={handleShowConfirmPasswordClick}
                 isPasswordMatchError={isPasswordMatchError}
               />
               {isPasswordMatchError && (
@@ -152,7 +152,7 @@ function EntryForm({
           <button className={s.submit} type="submit">
             {submitTitle}
           </button>
-          <button type="button" className={s.redirectLink} onClick={onRedirectClick}>
+          <button type="button" className={s.redirectLink} onClick={handleRedirectClick}>
             {redirectTitle}
           </button>
         </div>

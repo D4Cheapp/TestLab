@@ -25,7 +25,7 @@ function PassTestPage(): React.ReactNode {
   const router = useRouter();
   const { setErrorsState, getTest } = useActions();
 
-  const onAddAnswerClick = useCallback(
+  const handleAddAnswerClick = useCallback(
     (
       event: MouseEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
       questionIndex: number,
@@ -68,7 +68,7 @@ function PassTestPage(): React.ReactNode {
     [currentTest?.questions, passProgress],
   );
 
-  const onPassTestClick = () => {
+  const handlePassTestClick = () => {
     const isReadyToPass = currentTest?.questions && passProgress;
     if (isReadyToPass) {
       const correctQuestions = currentTest?.questions;
@@ -132,12 +132,12 @@ function PassTestPage(): React.ReactNode {
     }
   };
 
-  const onGoBackClick = () => {
+  const handleGoBackClick = () => {
     router.push('/');
   };
 
-  const goBackConfirmAction = () => {
-    onGoBackClick();
+  const handleGoBackConfirmClick = () => {
+    handleGoBackClick();
     setIsResultWindowActive(false);
   };
 
@@ -172,7 +172,7 @@ function PassTestPage(): React.ReactNode {
             key={question.id}
             question={question}
             questionIndex={index}
-            onAddAnswerClick={onAddAnswerClick}
+            onAddAnswerClick={handleAddAnswerClick}
             isCorrect={passProgress && passProgress[index]?.correct}
           />
         ))}
@@ -184,7 +184,7 @@ function PassTestPage(): React.ReactNode {
               confirmTitle: 'Вернуться к списку тестов',
               withConfirmButton: true,
             }}
-            confirmAction={goBackConfirmAction}
+            onConfirmClick={handleGoBackConfirmClick}
             setIsActive={setIsResultWindowActive}
             title={'Результаты прохождения теста'}
           >
@@ -199,13 +199,13 @@ function PassTestPage(): React.ReactNode {
         )}
         <button
           className={classNames(s.passTestButton, s.testButton)}
-          onClick={onPassTestClick}
+          onClick={handlePassTestClick}
         >
           Закончить прохождение теста
         </button>
         <button
           className={classNames(s.goBackButton, s.testButton)}
-          onClick={onGoBackClick}
+          onClick={handleGoBackClick}
         >
           Вернуться к списку тестов
         </button>

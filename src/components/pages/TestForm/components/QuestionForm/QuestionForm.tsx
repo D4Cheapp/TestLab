@@ -15,7 +15,7 @@ function QuestionForm(): React.ReactNode {
     ? currentQuestion?.question_type
     : getValues('questionType');
 
-  const onAnswerCheckClick = useCallback(
+  const handleAnswerCheckClick = useCallback(
     (id: number) => {
       const changedAnswers = answers.map((answer) =>
         answer.id === id
@@ -31,7 +31,7 @@ function QuestionForm(): React.ReactNode {
     [answers, setAnswers],
   );
 
-  const onAddAnswerClick = useCallback(() => {
+  const handleAddAnswerClick = useCallback(() => {
     const answerValue = getValues('answerInput');
     if (answerValue) {
       setAnswers([
@@ -51,7 +51,7 @@ function QuestionForm(): React.ReactNode {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answers, getValues, setAnswers, setValue]);
 
-  const onDeleteAnswerClick = useCallback(
+  const handleDeleteAnswerClick = useCallback(
     (answerId: number) => {
       const changedAnswers = answers.map((ans) =>
         ans.id === answerId ? { ...ans, isDeleted: true } : ans,
@@ -61,7 +61,7 @@ function QuestionForm(): React.ReactNode {
     [answers, setAnswers],
   );
 
-  const onAnswerFocusOut = useCallback(
+  const handleAnswerFocusOut = useCallback(
     (event: FocusEvent, id?: number) => {
       //@ts-ignore
       const changedAnswerValue = event.target?.value + '';
@@ -89,7 +89,7 @@ function QuestionForm(): React.ReactNode {
                     : ans,
                 ),
               )
-            : onDeleteAnswerClick(id);
+            : handleDeleteAnswerClick(id);
         }
       }
     },
@@ -99,24 +99,24 @@ function QuestionForm(): React.ReactNode {
       setCurrentQuestion,
       answers,
       setAnswers,
-      onDeleteAnswerClick,
+      handleDeleteAnswerClick,
     ],
   );
 
-  const onAnswerDragStart = useCallback((answer: QuestionAnswerType) => {
+  const handleAnswerDragStart = useCallback((answer: QuestionAnswerType) => {
     setDraggableAnswer(answer);
   }, []);
 
-  const onAnswerDragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const handleAnswerDragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.currentTarget.classList.remove('dragStart');
   }, []);
 
-  const onAnswerDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const handleAnswerDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.currentTarget.classList.add('dragStart');
   }, []);
 
-  const onAnswerDrop = useCallback(
+  const handleAnswerDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>, answer: QuestionAnswerType) => {
       event.preventDefault();
       setAnswers(
@@ -139,17 +139,17 @@ function QuestionForm(): React.ReactNode {
   );
 
   const dragEvents = {
-    onAnswerDragStart,
-    onAnswerDragEnd,
-    onAnswerDragOver,
-    onAnswerDrop,
+    onAnswerDragStart: handleAnswerDragStart,
+    onAnswerDragEnd: handleAnswerDragEnd,
+    onAnswerDragOver: handleAnswerDragOver,
+    onAnswerDrop: handleAnswerDrop,
   };
 
   const answerEvents = {
-    onAddAnswerClick,
-    onDeleteAnswerClick,
-    onAnswerCheckClick,
-    onAnswerFocusOut,
+    onAddAnswerClick: handleAddAnswerClick,
+    onDeleteAnswerClick: handleDeleteAnswerClick,
+    onAnswerCheckClick: handleAnswerCheckClick,
+    onAnswerFocusOut: handleAnswerFocusOut,
   };
 
   useEffect(() => {
@@ -195,7 +195,7 @@ function QuestionForm(): React.ReactNode {
           <label className={s.inputTitle} htmlFor="answerVariant">
             Вариант ответа
           </label>
-          <button className={s.answerAddButton} type="button" onClick={onAddAnswerClick}>
+          <button className={s.answerAddButton} type="button" onClick={handleAddAnswerClick}>
             +
           </button>
         </div>
@@ -227,7 +227,7 @@ function QuestionForm(): React.ReactNode {
                 id="numberAnswer"
                 placeholder="Введите ответ на вопрос"
                 //@ts-ignore
-                onBlur={(event) => onAnswerFocusOut(event)}
+                onBlur={(event) => handleAnswerFocusOut(event)}
                 defaultValue={getValues('numberAnswer')}
                 {...register('numberAnswer')}
               />

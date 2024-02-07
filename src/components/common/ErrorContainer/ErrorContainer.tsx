@@ -11,7 +11,7 @@ function ErrorContainer(): React.ReactNode {
   const { deleteErrorState } = useActions();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onCloseClick = useCallback((index: number) => deleteErrorState(index), []);
+  const handleCloseClick = useCallback((index: number) => deleteErrorState(index), []);
 
   if (isErrorsEmpty) {
     return null;
@@ -24,7 +24,7 @@ function ErrorContainer(): React.ReactNode {
           key={error.id}
           error={error.error}
           index={error.id}
-          onCloseClick={onCloseClick}
+          onCloseClick={handleCloseClick}
         />
       ))}
     </div>

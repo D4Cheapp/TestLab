@@ -21,16 +21,16 @@ function FormQuestion({ question }: Props): React.ReactNode {
   const [isDeleteQuestionWindowActive, setIsDeleteQuestionWindowActive] = useState(false);
   const [isEditQuestionWindowActive, setIsEditQuestionWindowActive] = useState(false);
 
-  const onDeleteQuestionClick = () => {
+  const handleDeleteQuestionClick = () => {
     setIsDeleteQuestionWindowActive(true);
   };
 
-  const onEditQuestionClick = (question: CreateQuestionRequestType) => {
+  const handleEditQuestionClick = (question: CreateQuestionRequestType) => {
     setCurrentQuestion(question);
     setIsEditQuestionWindowActive(true);
   };
 
-  const saveConfirmAction = () => {
+  const handleSaveConfirmClick = () => {
     if (onQuestionModifyClick(true)) {
       setIsEditQuestionWindowActive(false);
     }
@@ -42,7 +42,7 @@ function FormQuestion({ question }: Props): React.ReactNode {
     form.reset();
   };
 
-  const deleteConfirmAction = () => {
+  const handleDeleteConfirmClick = () => {
     question.id ? onDeleteQuestionConfirmClick(question.id) : undefined;
     setIsDeleteQuestionWindowActive(false);
   };
@@ -66,7 +66,7 @@ function FormQuestion({ question }: Props): React.ReactNode {
                   confirmTitle: 'Сохранить',
                   withConfirmButton: true,
                 }}
-                confirmAction={saveConfirmAction}
+                onConfirmClick={handleSaveConfirmClick}
                 setIsActive={setActiveWindowAction}
               >
                 <QuestionForm />
@@ -75,7 +75,7 @@ function FormQuestion({ question }: Props): React.ReactNode {
             <button
               type="button"
               className={classNames(s.questionButton, s.editButton)}
-              onClick={() => onEditQuestionClick(question)}
+              onClick={() => handleEditQuestionClick(question)}
             />
           </>
         )}
@@ -83,14 +83,14 @@ function FormQuestion({ question }: Props): React.ReactNode {
           <ModalWindow
             title="Подтвердите удаление вопроса"
             buttonInfo={{ withConfirmButton: true }}
-            confirmAction={deleteConfirmAction}
+            onConfirmClick={handleDeleteConfirmClick}
             setIsActive={setDeleteWindowAction}
-          ></ModalWindow>
+          />
         )}
         <button
           type="button"
           className={classNames(s.questionButton, s.deleteButton)}
-          onClick={() => (question.id ? onDeleteQuestionClick() : undefined)}
+          onClick={() => (question.id ? handleDeleteQuestionClick() : undefined)}
         />
       </div>
     </div>

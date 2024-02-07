@@ -23,7 +23,7 @@ function AddTest(): React.ReactNode {
     questions: CreateQuestionRequestType[];
   }>();
 
-  const addTestAction: SubmitHandler<TestFormType> = useCallback(
+  const handleAddTestAction: SubmitHandler<TestFormType> = useCallback(
     (data, event) => {
       event?.preventDefault();
       const isTitleFilled = data.title && data.title.trim();
@@ -48,7 +48,7 @@ function AddTest(): React.ReactNode {
     [currentTest?.questions],
   );
 
-  const saveTestConfirm = useCallback(() => {
+  const handleSaveTestConfirmClick = useCallback(() => {
     if (testInfo) {
       createTest(testInfo);
       setCurrentTest(undefined);
@@ -73,11 +73,11 @@ function AddTest(): React.ReactNode {
             <ModalWindow
               title="Сохранить созданный тест?"
               setIsActive={setIsConfirmWindowActive}
-              confirmAction={saveTestConfirm}
+              onConfirmClick={handleSaveTestConfirmClick}
               buttonInfo={{ withConfirmButton: true }}
             />
           )}
-          <TestForm action={addTestAction} title="Добавление теста" />
+          <TestForm onAction={handleAddTestAction} title="Добавление теста" />
         </>
       )}
     </Authentication>

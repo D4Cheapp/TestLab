@@ -29,7 +29,8 @@ function CheckboxModalAnswer({
   answerEvents,
 }: Props): React.ReactNode {
   const [isInputMode, setIsInputMode] = useState(false);
-  const onDoubleClick = () => {
+
+  const handleDoubleClick = () => {
     setIsInputMode(true);
   };
 
@@ -43,7 +44,7 @@ function CheckboxModalAnswer({
       onDragLeave={dragEvents.onAnswerDragEnd}
       onDragOver={dragEvents.onAnswerDragOver}
       onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
-      onDoubleClick={onDoubleClick}
+      onDoubleClick={handleDoubleClick}
     >
       <label className={s.answerLabel} htmlFor={`answer-input-${answer.id}`}>
         {questionType === 'multiple' && (

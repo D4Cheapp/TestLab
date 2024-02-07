@@ -21,8 +21,10 @@ function TestComponent({
   onPassTestConfirmClick,
 }: Props): React.ReactNode {
   const [isPassTestWindowActive, setIsPassTestWindowActive] = useState<boolean>(false);
-  const onPassTestClick = () => setIsPassTestWindowActive(true);
-  const passTestConfirmAction = () => {
+
+  const handlePassTestClick = () => setIsPassTestWindowActive(true);
+
+  const handlePassTestConfirmClick = () => {
     onPassTestConfirmClick(testId);
     setIsPassTestWindowActive(false);
   };
@@ -32,12 +34,12 @@ function TestComponent({
       {isPassTestWindowActive && (
         <ModalWindow
           title="Начать прохождение теста?"
-          confirmAction={passTestConfirmAction}
+          onConfirmClick={handlePassTestConfirmClick}
           buttonInfo={{ withConfirmButton: true }}
           setIsActive={setIsPassTestWindowActive}
-        ></ModalWindow>
+        />
       )}
-      <p className={s.testTitle} onClick={onPassTestClick}>
+      <p className={s.testTitle} onClick={handlePassTestClick}>
         {title}
       </p>
       <div className={s.buttonsContainer}>
