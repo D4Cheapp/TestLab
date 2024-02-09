@@ -7,9 +7,23 @@
     "stylelint-order"
   ],
   "rules": {
-    "at-rule-no-unknown": [true, {
-      "ignoreAtRules": ["include", "mixin"]
-    }],
+    "at-rule-empty-line-before": [
+      "always",
+      {
+        "ignore": ["after-comment"],
+        "except": ["first-nested"],
+        "ignoreAtRules": ["include"]
+      }
+    ],
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "include",
+          "mixin"
+        ]
+      }
+    ],
     "selector-class-pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
     "scss/at-mixin-pattern": "^[a-zA-Z][a-zA-Z0-9]*$",
     "scss/dollar-variable-pattern": "^[a-zA-Z][a-zA-Z0-9]*$"

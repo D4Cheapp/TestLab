@@ -1,22 +1,10 @@
-form.root {
+.root {
   display: grid;
   width: 80vw;
   height: 90vh;
   grid-template-rows: 1fr 1fr 4fr 1fr;
   padding-block: 5vh;
   padding-inline: 10vw;
-
-  h1.formTitle {
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    text-align: center;
-
-    @include fontType(2.3em);
-
-    @include tablet {
-      display: none;
-    }
-  }
 
   @include desktop {
     width: 90vw;
@@ -26,4 +14,16 @@ form.root {
   @include tablet {
     grid-template-rows: 1fr 5fr 1fr;
   }
+
+  .formTitle {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    text-align: center;
+    @include fontType(2.3em);
+
+    @include tablet {
+      display: none;
+    }
+  }
+
 }

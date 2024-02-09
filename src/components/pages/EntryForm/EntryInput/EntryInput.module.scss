@@ -3,6 +3,11 @@
   width: 80%;
   align-self: center;
 
+  @include mediumDesktop {
+    width: 90%;
+    @include fontType(2.2vh);
+  }
+
   .inputLabel {
     position: absolute;
     top: -0.5em;
@@ -10,7 +15,6 @@
     background-color: $charcoal;
     opacity: 0;
     padding-inline: 0.5em;
-
     @include fontType(1vw, $babyPowder);
 
     @include mediumDesktop {
@@ -22,12 +26,16 @@
     color: $oldRose !important;
   }
 
-  input.input {
+  .input {
     width: 100%;
     height: 2.7em;
     transition: border 0.1s;
-
     @include formInput(1.3vw);
+
+    @include mediumDesktop {
+      height: 3em;
+      @include fontType(3vh);
+    }
 
     &::placeholder {
       @include fontType(null, rgba($babyPowder, 0.5));
@@ -43,34 +51,27 @@
 
     &:focus + .inputLabel {
       opacity: 1;
-
       @include fontType(null, $zomp);
     }
 
     &:not(:placeholder-shown) + .inputLabel {
       opacity: 1;
     }
-
-    @include mediumDesktop {
-      height: 3em;
-
-      @include fontType(3vh);
-    }
   }
 
-  input.passwordError {
+  .passwordError {
     border-color: $oldRose !important;
   }
 
-  button.showPassword {
+  .showPassword {
     background-image: url('~public/images/svg/visiblePassword.svg');
   }
 
-  button.hidePassword {
+  .hidePassword {
     background-image: url('~public/images/svg/hiddenPassword.svg');
   }
 
-  button.passwordEye {
+  .passwordEye {
     position: absolute;
     top: 50%;
     right: 1.5em;
@@ -88,11 +89,5 @@
     @include mediumDesktop {
       width: 3vh;
     }
-  }
-
-  @include mediumDesktop {
-    width: 90%;
-
-    @include fontType(2.2vh);
   }
 }

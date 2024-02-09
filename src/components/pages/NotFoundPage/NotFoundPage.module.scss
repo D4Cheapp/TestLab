@@ -8,20 +8,18 @@
 }
 
 .errorContainer {
-  h1.title {
+  .title {
     margin-bottom: 1.5em;
     text-align: center;
-
     @include fontType(3em);
 
     @include mediumDesktop {
       margin-bottom: 10vh;
-
       @include fontType(5vh);
     }
   }
 
-  a.goBack {
+  .goBack {
     border: 2px $babyPowder solid;
     border-radius: 10px;
     background: $charcoal;
@@ -29,7 +27,6 @@
     padding-block: 0.5em;
     padding-inline: 1em;
     text-decoration: none;
-
     @include fontType(2em, $babyPowder, bold);
     @include colorButton($skyBlue);
 

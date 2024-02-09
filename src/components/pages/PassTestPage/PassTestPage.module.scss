@@ -5,12 +5,11 @@
   flex-direction: column;
   justify-content: space-between;
 
-  h1.testTitle {
+  .testTitle {
     width: 100%;
     margin: 0;
     padding-block: 0.7em;
     text-align: center;
-
     @include fontType(2.5em);
 
     @include desktop {
@@ -19,7 +18,7 @@
   }
 }
 
-section.questionsContainer {
+.questionsContainer {
   display: inline-flex;
   overflow: hidden;
   width: calc(100% - 2.5vw);
@@ -38,9 +37,8 @@ section.questionsContainer {
   gap: 1em;
 }
 
-p.resultTitle {
+.resultTitle {
   margin: 0;
-
   @include fontType(1.2em, $babyPowder, bold);
 }
 
@@ -58,7 +56,7 @@ p.resultTitle {
   }
 }
 
-button.testButton {
+.testButton {
   width: 40%;
   box-sizing: border-box;
   border: 2px $babyPowder solid;
@@ -68,7 +66,6 @@ button.testButton {
   outline: none;
   padding-block: 0.3em;
   padding-inline: 1em;
-
   @include fontType(1.4em, $babyPowder, bold);
   @include colorButton($zomp);
 
@@ -78,10 +75,10 @@ button.testButton {
   }
 }
 
-button.goBackButton {
+.goBackButton {
   @include colorButton($skyBlue);
 }
 
-button.passTestButton {
+.passTestButton {
   @include colorButton($zomp);
 }

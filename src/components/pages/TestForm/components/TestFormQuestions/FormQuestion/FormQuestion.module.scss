@@ -5,7 +5,7 @@
   padding-right: 1em;
   gap: 0.5em;
 
-  p.questionTitle {
+  .questionTitle {
     width: 100%;
     box-sizing: border-box;
     border: 2px $babyPowder solid;
@@ -14,7 +14,6 @@
     background: $charcoal;
     padding-block: 0.4em;
     padding-inline: 1em;
-
     @include fontType(1.4em);
   }
 }
@@ -23,7 +22,7 @@
   display: flex;
   gap: 0.5em;
 
-  button.questionButton {
+  .questionButton {
     width: 3.6em;
     box-sizing: border-box;
     border: 2px $babyPowder solid;
@@ -37,7 +36,7 @@
       background-image 0.2s;
   }
 
-  button.editButton {
+  .editButton {
     background-image: url('~public/images/svg/editPencil.svg');
     background-position: center;
     background-repeat: no-repeat;
@@ -49,7 +48,7 @@
     }
   }
 
-  button.deleteButton {
+  .deleteButton {
     @include cross(1.4em, 3px);
 
     @include hover {

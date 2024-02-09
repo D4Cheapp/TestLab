@@ -11,20 +11,22 @@
     color 0.2s,
     border-color 0.2s;
   white-space: nowrap;
-
   @include fontType(1.4em, $babyPowder);
 }
 
-nav.nav {
+.nav {
   display: inline-flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 0.5em;
 
-  h1.navTitle {
-    margin: 0 0 0.3em;
+  @include bigTablet {
+    gap: 0.5em;
+  }
 
+  .navTitle {
+    margin: 0 0 0.3em;
     @include fontType(2.5em);
 
     @include tablet {
@@ -32,7 +34,7 @@ nav.nav {
     }
   }
 
-  input.filter {
+  .filter {
     width: 100%;
     box-sizing: border-box;
     border: 2px $babyPowder solid;
@@ -41,16 +43,11 @@ nav.nav {
     outline: none;
     padding-block: 0.5em;
     padding-inline: 1em;
-
     @include fontType(1.4em, $babyPowder);
 
     &::placeholder {
       @include fontType(null, rgba($babyPowder, 0.5));
     }
-  }
-
-  @include bigTablet {
-    gap: 0.5em;
   }
 }
 
@@ -60,18 +57,21 @@ nav.nav {
   justify-content: space-between;
   gap: 0.5em;
 
-  button.dateSort {
-    @include navButton;
+  @include tablet {
+    flex-direction: column;
+    align-items: center;
+  }
 
+  .dateSort {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5em;
+    @include navButton;
 
     @include hover {
       border-color: $skyBlue;
-
       @include fontType(null, $skyBlue);
     }
 
@@ -86,7 +86,7 @@ nav.nav {
     }
   }
 
-  p.sortButtonTitle {
+  .sortButtonTitle {
     margin: 0;
   }
 
@@ -105,12 +105,11 @@ nav.nav {
     rotate: 180deg;
   }
 
-  button.logout {
+  .logout {
     @include navButton;
 
     @include hover {
       border-color: $oldRose;
-
       @include fontType(null, $oldRose);
     }
 
@@ -118,10 +117,5 @@ nav.nav {
       width: 100%;
       padding-inline: 5%;
     }
-  }
-
-  @include tablet {
-    flex-direction: column;
-    align-items: center;
   }
 }

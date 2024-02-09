@@ -6,7 +6,7 @@
   place-items: center;
 }
 
-form.form {
+.form {
   display: inline-flex;
   width: 50%;
   height: fit-content;
@@ -22,20 +22,19 @@ form.form {
   background-color: $charcoal;
   gap: 2em;
 
-  h1.title {
+  @include mediumDesktop {
+    width: 90%;
+    padding: 1em;
+  }
+
+  .title {
     margin-bottom: 3vh;
     text-align: center;
-
     @include fontType(3w, $babyPowder, 500);
 
     @include mediumDesktop {
       @include fontType(4.7vh, null, 700);
     }
-  }
-
-  @include mediumDesktop {
-    width: 90%;
-    padding: 1em;
   }
 }
 
@@ -44,17 +43,15 @@ form.form {
   width: 100%;
   flex-direction: column;
 
-  p.matchErrorTitle {
+  .matchErrorTitle {
     margin-top: 0.4em;
     margin-bottom: 0;
     margin-left: 10%;
     transition: 0.2s;
-
     @include fontType(1vw, $oldRose);
 
     @include mediumDesktop {
       margin-left: 5%;
-
       @include fontType(2.2vh);
     }
   }
@@ -68,7 +65,7 @@ form.form {
   gap: 1em;
 }
 
-button.submit {
+.submit {
   width: 50%;
   height: 2em;
   padding: 0;
@@ -81,24 +78,21 @@ button.submit {
     border-color 0.2s,
     color 0.2s,
     scale 0.2s;
-
   @include fontType(1.5vw, $babyPowder, 600);
 
   @include hover {
     border-color: $zomp;
-
     @include fontType(null, $mintCream);
-  }
-
-  &:active {
-    scale: 0.97;
   }
 
   @include mediumDesktop {
     width: 90%;
     height: 2.5em;
-
     @include fontType(3vh);
+  }
+
+  &:active {
+    scale: 0.97;
   }
 }
 
@@ -118,7 +112,7 @@ button.submit {
   justify-content: space-around;
   gap: 1em;
 
-  a.redirectLink {
+  .redirectLink {
     width: fit-content;
     padding: 0 0 1px;
     border: none;
@@ -129,36 +123,37 @@ button.submit {
     transition:
       border-bottom-color 0.2s,
       color 0.2s;
-
     @include fontType(1vw, $babyPowder);
 
     @include hover {
       border-bottom-color: $babyPowder;
     }
 
-    &:active {
-      border-bottom-color: $jungleGreen;
-
-      @include fontType(null, $jungleGreen);
-    }
-
     @include mediumDesktop {
       @include fontType(2.2vh);
+    }
+
+    &:active {
+      border-bottom-color: $jungleGreen;
+      @include fontType(null, $jungleGreen);
     }
   }
 }
 
-label.isAdmin {
+.isAdmin {
   display: inline-flex;
   width: 80%;
   align-items: center;
   cursor: pointer;
   gap: 1em;
 
-  p.isAdminTitle {
+  @include mediumDesktop {
+    width: 90%;
+  }
+
+  .isAdminTitle {
     margin: 0;
     text-align: left;
-
     @include fontType(1vw, $babyPowder);
 
     @include mediumDesktop {
@@ -176,6 +171,11 @@ label.isAdmin {
     border: 2px solid $babyPowder;
     border-radius: 3px;
 
+    @include mediumDesktop {
+      width: 2.2vh;
+      height: 2.2vh;
+    }
+
     &::before {
       position: absolute;
       width: 25%;
@@ -188,22 +188,13 @@ label.isAdmin {
       rotate: 45deg;
       transition: opacity 0.2s;
     }
-
-    @include mediumDesktop {
-      width: 2.2vh;
-      height: 2.2vh;
-    }
   }
 
-  input.checkbox {
+  .checkbox {
     display: none;
 
     &:checked + .customCheckbox::before {
       opacity: 1;
     }
-  }
-
-  @include mediumDesktop {
-    width: 90%;
   }
 }

@@ -10,14 +10,13 @@
   padding-block: 2em;
   padding-inline: 3em;
 
-  h2.title {
+  .title {
     cursor: default;
     margin-block: 0;
-
     @include fontType(1.8em);
   }
 
-  input.numberAnswer {
+  .numberAnswer {
     box-sizing: border-box;
     border: 2px $babyPowder solid;
     border-radius: 5px;
@@ -25,7 +24,6 @@
     outline: none;
     padding-block: 0.5em;
     padding-inline: 1em;
-
     @include fontType(1.2em, $babyPowder);
 
     &::placeholder {
@@ -47,13 +45,13 @@
   border-color: $oldRose;
 }
 
-label.answer {
+.answer {
   position: relative;
   display: inline-flex;
   cursor: pointer;
 
-  input.checkbox,
-  input.radioButton {
+  .checkbox,
+  .radioButton {
     opacity: 0;
 
     &:checked + .customCheckbox::after,
@@ -70,10 +68,9 @@ label.answer {
     @include customRadio(1em);
   }
 
-  p.answerTitle {
+  .answerTitle {
     margin-left: 1em;
     margin-block: 0;
-
     @include fontType(1.3em);
   }
 }

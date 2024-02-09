@@ -1,15 +1,14 @@
-label.inputTitle {
+.inputTitle {
   position: absolute;
   top: -0.6em;
   left: 1em;
   background: $charcoal;
   opacity: 0;
   padding-inline: 0.4em;
-
   @include fontType(1em, $babyPowder);
 }
 
-input.input {
+.input {
   @include formInput(1.2em);
 
   &:focus {
@@ -22,7 +21,6 @@ input.input {
 
   &:focus + label.inputTitle {
     opacity: 1;
-
     @include fontType(null, $zomp);
   }
 
@@ -39,7 +37,7 @@ input.input {
   align-items: center;
   justify-content: center;
 
-  input.questionInput {
+  .questionInput {
     width: 100%;
   }
 }
@@ -52,18 +50,17 @@ input.input {
   justify-content: space-between;
   gap: 1em;
 
-  input.answerAddInput {
+  .answerAddInput {
     width: 100%;
   }
 
-  button.answerAddButton {
+  .answerAddButton {
     box-sizing: border-box;
     border: 2px $babyPowder solid;
     border-radius: 5px;
     background: transparent;
     cursor: pointer;
     padding-inline: 0.32em;
-
     @include fontType(1.9em, $babyPowder);
     @include colorButton($zomp);
   }
@@ -84,9 +81,8 @@ input.input {
 .numberAnswerContainer {
   position: relative;
 
-  input.answerNumber {
+  .answerNumber {
     width: 100%;
-
     @include formInput(1.2em);
 
     &::-webkit-outer-spin-button,
@@ -100,7 +96,7 @@ input.input {
       }
     }
 
-    &:focus + label.inputTitle {
+    &:focus + .inputTitle {
       opacity: 1;
     }
   }

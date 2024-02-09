@@ -49,6 +49,13 @@
   display: grid;
   place-items: center;
 
+  @include hover {
+    &::after,
+    &::before {
+      background-color: $oldRose;
+    }
+  }
+
   &::after {
     position: absolute;
     width: $width;
@@ -68,13 +75,6 @@
     rotate: 45deg;
     transition: 0.2s;
   }
-
-  @include hover {
-    &::after,
-    &::before {
-      background-color: $oldRose;
-    }
-  }
 }
 
 @mixin formInput($fontSize) {
@@ -85,7 +85,6 @@
   outline: none;
   padding-block: 0.4em;
   padding-inline: 1em;
-
   @include fontType($fontSize, $babyPowder);
 
   &::placeholder {

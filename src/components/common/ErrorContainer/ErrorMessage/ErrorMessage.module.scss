@@ -12,15 +12,14 @@
   padding-block: 1.3vh;
   padding-inline: 3%;
 
-  p.error {
+  .error {
     margin: 0;
     text-align: left;
     white-space: pre-wrap;
-
     @include fontType(2.5vh, $babyPowder);
   }
 
-  button.close {
+  .close {
     height: 2em;
     padding: 0;
     border: none;
@@ -31,7 +30,6 @@
     transition:
       background-color 0.3s,
       scale 0.2s;
-
     @include cross(2.3vh, 3px);
 
     @include hover {

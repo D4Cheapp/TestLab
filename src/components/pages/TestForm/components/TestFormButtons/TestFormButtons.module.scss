@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-around;
 
-  button.formButton {
+  .formButton {
     width: 45%;
     border: 2px $babyPowder solid;
     border-radius: 5px;
@@ -12,19 +12,18 @@
     cursor: pointer;
     outline: none;
     padding-block: 0.3em;
-
     @include fontType(1.4em, $babyPowder);
   }
 
-  button.saveButton {
+  .saveButton {
     @include colorButton($zomp);
   }
 
-  button.deleteButton {
+  .deleteButton {
     @include colorButton($oldRose);
   }
 
-  button.goBackButton {
+  .goBackButton {
     @include colorButton($skyBlue);
   }
 }

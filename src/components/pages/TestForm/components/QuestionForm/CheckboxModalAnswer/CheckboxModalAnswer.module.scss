@@ -9,25 +9,23 @@
   padding-block: 0.5em;
   padding-inline: 1em;
 
-  label.answerLabel {
+  .answerLabel {
     position: relative;
     display: inline-flex;
   }
 
-  input.answerTitleInput {
+  .answerTitleInput {
     padding: 0;
     border: none;
     border-bottom: 1px $babyPowder solid;
     background: transparent;
     outline: none;
-
     @include fontType(1.2em, $babyPowder);
   }
 
-  p.answerTitle {
+  .answerTitle {
     margin: 0;
     cursor: pointer;
-
     @include fontType(1.2em, $babyPowder);
   }
 
@@ -39,8 +37,8 @@
     @include customRadio(1em);
   }
 
-  input.answerCheckbox,
-  input.answerRadio {
+  .answerCheckbox,
+  .answerRadio {
     margin-right: 1em;
     opacity: 0;
 
@@ -50,9 +48,7 @@
     }
   }
 
-  button.answerDeleteButton {
-    @include cross(1.3em, 2px);
-
+  .answerDeleteButton {
     box-sizing: border-box;
     border: none;
     border-radius: 5px;
@@ -61,5 +57,6 @@
     padding-block: 0.1em;
     padding-inline: 0.6em;
     transition: background-color 0.2s;
+    @include cross(1.3em, 2px);
   }
 }

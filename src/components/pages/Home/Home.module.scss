@@ -6,7 +6,19 @@
   margin-block: 10vh;
   padding-inline: 15%;
 
-  a.addButton {
+  @include bigDesktop {
+    width: 80%;
+    padding-inline: 10%;
+  }
+
+  @include bigTablet {
+    width: 90%;
+    height: 90vh;
+    margin-block: 5vh;
+    padding-inline: 5%;
+  }
+
+  .addButton {
     position: relative;
     display: flex;
     width: 100%;
@@ -21,26 +33,12 @@
     transition:
       color 0.2s,
       border-color 0.2s;
-
     @include fontType(2.4em, $babyPowder);
 
     @include hover {
       border-color: $zomp;
-
       @include fontType(null, $zomp);
     }
-  }
-
-  @include bigDesktop {
-    width: 80%;
-    padding-inline: 10%;
-  }
-
-  @include bigTablet {
-    width: 90%;
-    height: 90vh;
-    margin-block: 5vh;
-    padding-inline: 5%;
   }
 }
 
@@ -51,12 +49,12 @@
   align-items: center;
   justify-content: center;
 
-  h1.notFoundTitle {
+  .notFoundTitle {
     @include fontType(2em);
   }
 }
 
-section.testContainer {
+.testContainer {
   display: inline-flex;
   overflow: hidden;
   width: 100%;
@@ -68,7 +66,7 @@ section.testContainer {
   overflow-y: scroll;
 }
 
-section.loadingContainer {
+.loadingContainer {
   height: 50vh;
   align-items: center;
   justify-content: center;
@@ -78,7 +76,7 @@ section.loadingContainer {
   }
 }
 
-section.emptyContainer {
+.emptyContainer {
   overflow-y: hidden;
 }
 
@@ -88,7 +86,6 @@ section.emptyContainer {
 
 .paginationLoading {
   width: 100%;
-
   @include loadingCircle(2em, 0.3em);
 }
 

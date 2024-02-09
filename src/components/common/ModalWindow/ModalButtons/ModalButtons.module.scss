@@ -3,14 +3,19 @@
   width: 100%;
   justify-content: space-around;
 
-  button.formButton {
+  @include tablet {
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .formButton {
     width: 40%;
     border: 2px $babyPowder solid;
     border-radius: 5px;
     background: transparent;
     cursor: pointer;
     padding-block: 0.3em;
-
     @include fontType(1.4em, $babyPowder);
 
     @include tablet {
@@ -18,24 +23,17 @@
     }
   }
 
-  button.goToTestButton {
+  .goToTestButton {
     width: 80%;
-
     @include colorButton($skyBlue);
   }
 
-  button.confirmButton,
-  button.saveButton {
+  .confirmButton,
+  .saveButton {
     @include colorButton($zomp);
   }
 
-  button.cancelButton {
+  .cancelButton {
     @include colorButton($oldRose);
-  }
-
-  @include tablet {
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
   }
 }

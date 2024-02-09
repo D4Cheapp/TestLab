@@ -28,29 +28,28 @@
   justify-content: space-between;
   gap: 1em;
 
-  h2.testNameTitle {
+  @include bigTablet {
+    width: 100%;
+    gap: 1em;
+  }
+
+  .testNameTitle {
     margin: 0;
     text-align: center;
-
     @include fontType(1.8em);
   }
 
-  input.testNameInput,
-  select.questionType {
+  .testNameInput,
+  .questionType {
     @include formInput(1.4em);
   }
 
-  input.testNameInput {
+  .testNameInput {
     width: 100%;
 
     &::placeholder {
       @include fontType(null, rgba($babyPowder, 0.7));
     }
-  }
-
-  @include bigTablet {
-    width: 100%;
-    gap: 1em;
   }
 }
 
@@ -61,7 +60,7 @@
   justify-content: space-between;
   gap: 1em;
 
-  select.questionType {
+  .questionType {
     position: relative;
     width: 100%;
     padding-right: 2em;
@@ -74,21 +73,21 @@
     cursor: pointer;
     padding-block: 0.4em;
 
-    option.questionTypeOption:not([value='']) {
-      @include fontType(null, $babyPowder);
-    }
-
-    &:has(option.questionTypeOption[value='']:checked),
-    option.questionTypeOption[value=''] {
-      @include fontType(null, rgba($babyPowder, 0.7));
-    }
-
     @include bigTablet {
       width: 100%;
     }
+
+    .questionTypeOption:not([value='']) {
+      @include fontType(null, $babyPowder);
+    }
+
+    &:has(.questionTypeOption[value='']:checked),
+    .questionTypeOption[value=''] {
+      @include fontType(null, rgba($babyPowder, 0.7));
+    }
   }
 
-  button.addButton {
+  .addButton {
     box-sizing: border-box;
     border: 2px $babyPowder solid;
     border-radius: 5px;
@@ -96,7 +95,6 @@
     cursor: pointer;
     padding-block: 0.15em;
     padding-inline: 0.5em;
-
     @include fontType(1.8em, $babyPowder);
     @include colorButton($zomp);
   }

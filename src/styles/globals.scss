@@ -3,7 +3,6 @@ body {
   margin: 0;
   background-color: $gunMetal;
   font-family: Roboto, sans-serif;
-
   @include fontType(null, $babyPowder, 400);
 
   ::-webkit-scrollbar {
@@ -21,7 +20,6 @@ body {
 button,
 input {
   font-family: Roboto, sans-serif;
-
   @include fontType(null, $gunMetal);
 }
 
