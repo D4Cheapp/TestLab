@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import cn from 'classnames';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import ModalWindow from '@/src/components/common/ModalWindow';
@@ -30,28 +30,28 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
     setIsEditQuestionWindowActive(true);
   };
 
-  const handleSaveConfirmClick = () => {
+  const handleSaveConfirmClick = useCallback(() => {
     if (onQuestionModifyClick(true)) {
       setIsEditQuestionWindowActive(false);
     }
-  };
+  }, [onQuestionModifyClick]);
 
-  const setActiveWindowAction = () => {
+  const setActiveWindowAction = useCallback(() => {
     setIsEditQuestionWindowActive(false);
     setCurrentQuestion(undefined);
     form.reset();
-  };
+  }, [form, setCurrentQuestion]);
 
-  const handleDeleteConfirmClick = () => {
+  const handleDeleteConfirmClick = useCallback(() => {
     question.id ? onDeleteQuestionConfirmClick(question.id) : undefined;
     setIsDeleteQuestionWindowActive(false);
-  };
+  }, [onDeleteQuestionConfirmClick, question.id]);
 
-  const setDeleteWindowAction = () => {
+  const setDeleteWindowAction = useCallback(() => {
     setIsDeleteQuestionWindowActive(false);
     setCurrentQuestion(undefined);
     form.reset();
-  };
+  }, [form, setCurrentQuestion]);
 
   return (
     <div className={s.question}>

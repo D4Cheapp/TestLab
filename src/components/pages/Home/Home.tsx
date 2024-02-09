@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { testListSelector, testMetaSelector } from '@/src/reduxjs/test/selectors';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
@@ -98,10 +99,6 @@ const Home = (): React.ReactNode => {
     },
     [isLoading, testMeta.total_pages, testPage],
   );
-
-  const handleAddTestClick = () => {
-    router.push(`/add-test`);
-  };
 
   useEffect(() => {
     getPaginationTests({
@@ -196,9 +193,9 @@ const Home = (): React.ReactNode => {
         )}
       </section>
       {isAdmin && (
-        <button className={s.addButton} onClick={handleAddTestClick}>
+        <Link href="/add-test" className={s.addButton}>
           +
-        </button>
+        </Link>
       )}
     </div>
   );

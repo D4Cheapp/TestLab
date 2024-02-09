@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { EntryFormType } from '@/src/types/formTypes';
@@ -82,10 +83,6 @@ const EntryForm = ({
     return true;
   };
 
-  const handleRedirectClick = () => {
-    router.push(redirectTo);
-  };
-
   useEffect(() => {
     const isDataCorrectAndSent = formState.isSubmitSuccessful && currentProfile?.id;
     if (isDataCorrectAndSent) {
@@ -152,9 +149,9 @@ const EntryForm = ({
           <button className={s.submit} type="submit">
             {submitTitle}
           </button>
-          <button type="button" className={s.redirectLink} onClick={handleRedirectClick}>
+          <Link href={redirectTo} className={s.redirectLink}>
             {redirectTitle}
-          </button>
+          </Link>
         </div>
       </form>
     </div>

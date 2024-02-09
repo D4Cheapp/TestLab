@@ -118,13 +118,14 @@ button.submit {
   justify-content: space-around;
   gap: 1em;
 
-  button.redirectLink {
+  a.redirectLink {
     width: fit-content;
     padding: 0 0 1px;
     border: none;
     border-bottom: 1px solid transparent;
     background-color: transparent;
     cursor: pointer;
+    text-decoration: none;
     transition:
       border-bottom-color 0.2s,
       color 0.2s;
