@@ -25,5 +25,21 @@
       display: none;
     }
   }
+}
 
+.content {
+  overflow: hidden;
+  margin-block: 2em;
+
+  .formQuestions {
+    display: inline-flex;
+    overflow: hidden scroll;
+    width: calc(100% - 0.5em);
+    max-height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-right: 0.5em;
+    gap: 1em;
+  }
 }

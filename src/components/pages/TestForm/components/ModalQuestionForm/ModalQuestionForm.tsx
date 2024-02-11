@@ -1,19 +1,18 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import cn from 'classnames';
+import { Field, useFormikContext } from 'formik';
 import { useActions } from '@/src/hooks/reduxHooks';
+import { TestFormType } from '@/src/types/formTypes';
 import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
 import CheckboxModalAnswer from './CheckboxModalAnswer';
-import s from './QuestionForm.module.scss';
+import s from './ModalQuestionForm.module.scss';
 
-const QuestionForm = (): React.ReactNode => {
-  const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =
-    useContext(TestFormContext);
+const ModalQuestionForm = (): React.ReactNode => {
+  const { currentQuestion, setCurrentQuestion, answers, setAnswers } = useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
   const { setErrorsState } = useActions();
-  const { getValues, setValue, register } = form;
-  const questionType = currentQuestion?.id
-    ? currentQuestion?.question_type
-    : getValues('questionType');
+  const { values, setFieldValue } = useFormikContext<TestFormType>();
+  const questionType = currentQuestion?.id ? currentQuestion?.question_type : values.questionType;
 
   const handleAnswerCheckClick = useCallback(
     (id: number) => {
@@ -31,8 +30,8 @@ const QuestionForm = (): React.ReactNode => {
     [answers, setAnswers],
   );
 
-  const handleAddAnswerClick = useCallback(() => {
-    const answerValue = getValues('answerInput');
+  const handleAddAnswerClick = useCallback(async () => {
+    const answerValue = values.answerVariant;
     if (answerValue) {
       setAnswers([
         ...answers,
@@ -44,12 +43,12 @@ const QuestionForm = (): React.ReactNode => {
           isCreated: true,
         },
       ]);
-      setValue('answerInput', '');
+      await setFieldValue('answerVariant', '');
     } else {
       setErrorsState('Error: Fill in the contents of the response before adding it');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answers, getValues, setAnswers, setValue]);
+  }, [answers, setAnswers, values.answerVariant, setFieldValue]);
 
   const handleDeleteAnswerClick = useCallback(
     (answerId: number) => {
@@ -171,13 +170,12 @@ const QuestionForm = (): React.ReactNode => {
   return (
     <>
       <div className={s.questionAddTitle}>
-        <input
+        <Field
           className={cn(s.questionInput, s.input)}
           type="text"
           placeholder="Введите вопрос"
+          name="questionTitle"
           id="questionTitle"
-          defaultValue={currentQuestion?.title}
-          {...register('questionTitle')}
         />
         <label className={s.inputTitle} htmlFor="questionTitle">
           Вопрос
@@ -185,12 +183,12 @@ const QuestionForm = (): React.ReactNode => {
       </div>
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
-          <input
+          <Field
             className={cn(s.answerAddInput, s.input)}
             type="text"
             placeholder="Введите вариант ответа"
+            name="answerVariant"
             id="answerVariant"
-            {...register('answerInput')}
           />
           <label className={s.inputTitle} htmlFor="answerVariant">
             Вариант ответа
@@ -198,7 +196,7 @@ const QuestionForm = (): React.ReactNode => {
           <button
             className={s.answerAddButton}
             type="button"
-            onClick={handleAddAnswerClick}
+            onClick={() => void handleAddAnswerClick()}
           >
             +
           </button>
@@ -225,15 +223,12 @@ const QuestionForm = (): React.ReactNode => {
             )) ||
           (questionType === 'number' && (
             <div className={s.numberAnswerContainer}>
-              <input
+              <Field
                 className={s.answerNumber}
                 type="number"
-                id="numberAnswer"
+                name="numberAnswer"
                 placeholder="Введите ответ на вопрос"
-                //@ts-ignore
-                onBlur={(event) => handleAnswerFocusOut(event)}
-                defaultValue={getValues('numberAnswer')}
-                {...register('numberAnswer')}
+                onBlur={(event: FocusEvent) => handleAnswerFocusOut(event)}
               />
               <label className={s.inputTitle} htmlFor="numberAnswer">
                 Ответ
@@ -245,4 +240,4 @@ const QuestionForm = (): React.ReactNode => {
   );
 };
 
-export default QuestionForm;
+export default ModalQuestionForm;

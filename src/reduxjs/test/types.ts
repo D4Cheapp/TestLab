@@ -23,9 +23,7 @@ export type SetPaginationTestActionType = PayloadAction<
 >;
 export type AddLocalQuestionActionType = PayloadAction<CreateQuestionRequestType>;
 export type EditLocalQuestionAction = PayloadAction<CreateQuestionRequestType>;
-export type AddCurrentQuestionActionType = PayloadAction<
-  CreateQuestionRequestType | undefined
->;
+export type AddCurrentQuestionActionType = PayloadAction<CreateQuestionRequestType | undefined>;
 export type DeleteQuestionActionType = PayloadAction<{ id: number; test_id?: number }>;
 export type CreateQuestionActionType = PayloadAction<CreateQuestionRequestType>;
 export type EditQuestionActionType = PayloadAction<
@@ -34,9 +32,7 @@ export type EditQuestionActionType = PayloadAction<
 export type CreateAnswerActionType = PayloadAction<
   CreateAnswerRequestType & { question_id: number }
 >;
-export type EditAnswerActionType = PayloadAction<
-  CreateAnswerRequestType & { id: number }
->;
+export type EditAnswerActionType = PayloadAction<CreateAnswerRequestType & { id: number }>;
 export type MoveAnswerActionType = PayloadAction<{
   id: number;
   position: number;

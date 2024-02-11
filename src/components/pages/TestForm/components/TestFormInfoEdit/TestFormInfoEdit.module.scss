@@ -17,6 +17,10 @@
 
 .mainInput {
   width: 80% !important;
+
+  @include tablet {
+    width: 100% !important;
+  }
 }
 
 .contentContainer {

@@ -2,7 +2,12 @@
   display: inline-flex;
   width: 100%;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+
+  @include tablet {
+    flex-direction: column;
+    gap: 0.5em;
+  }
 
   .formButton {
     width: 45%;
@@ -13,6 +18,10 @@
     outline: none;
     padding-block: 0.3em;
     @include fontType(1.4em, $babyPowder);
+
+    @include tablet {
+      width: 100%;
+    }
   }
 
   .saveButton {

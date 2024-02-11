@@ -7,10 +7,7 @@ interface Props {
   withDeleteButton: boolean;
 }
 
-const TestFormButtons = ({
-  onGoBackButtonClick,
-  withDeleteButton,
-}: Props): React.ReactNode => {
+const TestFormButtons = ({ onGoBackButtonClick, withDeleteButton }: Props): React.ReactNode => {
   return (
     <div className={s.testFromButtons}>
       {withDeleteButton ? (

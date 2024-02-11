@@ -1,8 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import {
-  ProfileLoginRequestType,
-  ProfileRegisterRequestType,
-} from '@/src/types/requestTypes';
+import { ProfileLoginRequestType, ProfileRegisterRequestType } from '@/src/types/requestTypes';
 import { ProfileLogoutReceiveType } from '@/src/types/receiveTypes';
 
 export type CurrentProfileType = {

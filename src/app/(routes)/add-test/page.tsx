@@ -1,7 +1,7 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { Formik } from 'formik';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { TestFormType } from '@/src/types/formTypes';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
@@ -11,6 +11,7 @@ import ModalWindow from '@/src/components/common/ModalWindow';
 import LoadingContainer from '@/src/components/common/LoadingContainer';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
+import { testFormInitialValues, testFormValidation } from '@/src/components/pages/TestForm/TestFormFormik';
 
 const AddTest = (): React.ReactNode => {
   const isLoading = useAppSelector(loadingStateSelector);
@@ -23,30 +24,20 @@ const AddTest = (): React.ReactNode => {
     questions: CreateQuestionRequestType[];
   }>();
 
-  const handleAddTestAction: SubmitHandler<TestFormType> = useCallback(
-    (data, event) => {
-      event?.preventDefault();
-      const isTitleFilled = data.title && data.title.trim();
-      const isNotEnoughQuestions =
-        !currentTest?.questions || currentTest?.questions?.length === 0;
-
-      if (!isTitleFilled) {
-        return setErrorsState('Error: Test title should not be empty');
-      }
-      if (isNotEnoughQuestions) {
-        return setErrorsState('Error: Test should contain at least one question');
-      }
-      if (currentTest?.questions) {
-        setTestInfo({
-          title: data.title.replace(/\s+/gm, ' ').trim(),
-          questions: currentTest?.questions,
-        });
-        setIsConfirmWindowActive(true);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentTest?.questions],
-  );
+  const handleAddTestAction = (values: TestFormType): void => {
+    const isNotEnoughQuestions = !currentTest?.questions || currentTest?.questions?.length === 0;
+    if (isNotEnoughQuestions) {
+      setErrorsState('Error: Test should contain at least one question');
+      return;
+    }
+    if (currentTest?.questions) {
+      setTestInfo({
+        title: values.testTitle.replace(/\s+/gm, ' ').trim(),
+        questions: currentTest?.questions,
+      });
+      setIsConfirmWindowActive(true);
+    }
+  };
 
   const handleSaveTestConfirmClick = useCallback(() => {
     if (testInfo) {
@@ -77,7 +68,13 @@ const AddTest = (): React.ReactNode => {
               buttonInfo={{ withConfirmButton: true }}
             />
           )}
-          <TestForm onAction={handleAddTestAction} title="Добавление теста" />
+          <Formik
+            initialValues={testFormInitialValues}
+            onSubmit={handleAddTestAction}
+            validationSchema={testFormValidation}
+          >
+            <TestForm title="Добавление теста" />
+          </Formik>
         </>
       )}
     </Authentication>

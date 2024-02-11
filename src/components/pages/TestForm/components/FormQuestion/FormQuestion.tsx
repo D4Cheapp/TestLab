@@ -1,9 +1,10 @@
 import React, { useCallback, useContext, useState } from 'react';
 import cn from 'classnames';
+import { useFormikContext } from 'formik';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import { TestFormContext } from '../../../TestFormContext';
-import QuestionForm from '../../QuestionForm';
+import ModalQuestionForm from '../ModalQuestionForm';
+import { TestFormContext } from '../../TestFormContext';
 import s from './FormQuestion.module.scss';
 
 interface Props {
@@ -16,8 +17,8 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
     withDeleteButton,
     onQuestionModifyClick,
     onDeleteQuestionConfirmClick,
-    form,
   } = useContext(TestFormContext);
+  const { resetForm } = useFormikContext();
   const [isDeleteQuestionWindowActive, setIsDeleteQuestionWindowActive] = useState(false);
   const [isEditQuestionWindowActive, setIsEditQuestionWindowActive] = useState(false);
 
@@ -39,8 +40,8 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
   const setActiveWindowAction = useCallback(() => {
     setIsEditQuestionWindowActive(false);
     setCurrentQuestion(undefined);
-    form.reset();
-  }, [form, setCurrentQuestion]);
+    resetForm();
+  }, [resetForm, setCurrentQuestion]);
 
   const handleDeleteConfirmClick = useCallback(() => {
     question.id ? onDeleteQuestionConfirmClick(question.id) : undefined;
@@ -50,8 +51,8 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
   const setDeleteWindowAction = useCallback(() => {
     setIsDeleteQuestionWindowActive(false);
     setCurrentQuestion(undefined);
-    form.reset();
-  }, [form, setCurrentQuestion]);
+    resetForm();
+  }, [resetForm, setCurrentQuestion]);
 
   return (
     <div className={s.question}>
@@ -69,7 +70,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
                 onConfirmClick={handleSaveConfirmClick}
                 setIsActive={setActiveWindowAction}
               >
-                <QuestionForm />
+                <ModalQuestionForm />
               </ModalWindow>
             )}
             <button

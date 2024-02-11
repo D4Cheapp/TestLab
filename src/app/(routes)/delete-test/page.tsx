@@ -1,16 +1,16 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { SubmitHandler } from 'react-hook-form';
+import { Formik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
-import { TestFormType } from '@/src/types/formTypes';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import LoadingContainer from '@/src/components/common/LoadingContainer';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
+import { testFormInitialValues, testFormValidation } from '@/src/components/pages/TestForm/TestFormFormik';
 
 const DeleteTest = (): React.ReactNode => {
   const initTest = useAppSelector(currentTestSelector);
@@ -21,17 +21,13 @@ const DeleteTest = (): React.ReactNode => {
   const [isConfirmWindowActive, setIsConfirmWindowActive] = useState(false);
   const testId = searchParams ? +searchParams : undefined;
 
-  const handleDeleteTestAction: SubmitHandler<TestFormType> = useCallback(
-    (data, event) => {
-      event?.preventDefault();
-      if (testId) {
-        setIsConfirmWindowActive(true);
-      } else {
-        setErrorsState('Error: Cannot find test to delete');
-      }
-    },
-    [setErrorsState, testId],
-  );
+  const handleDeleteTestAction = () => {
+    if (testId) {
+      setIsConfirmWindowActive(true);
+    } else {
+      setErrorsState('Error: Cannot find test to delete');
+    }
+  };
 
   const handleDeleteTestConfirmClick = useCallback(() => {
     if (testId) {
@@ -64,12 +60,16 @@ const DeleteTest = (): React.ReactNode => {
               buttonInfo={{ withConfirmButton: true, confirmTitle: 'Удалить' }}
             />
           )}
-          <TestForm
-            initTest={initTest}
-            onAction={handleDeleteTestAction}
-            title="Удаление теста"
-            withDeleteButton
-          />
+          <Formik
+            initialValues={{
+              ...testFormInitialValues,
+              testTitle: initTest?.title === undefined ? '' : initTest.title,
+            }}
+            validationSchema={testFormValidation}
+            onSubmit={handleDeleteTestAction}
+          >
+            <TestForm initTest={initTest} title="Удаление теста" withDeleteButton />
+          </Formik>
         </>
       )}
     </Authentication>

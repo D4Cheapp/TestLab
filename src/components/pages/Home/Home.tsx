@@ -1,12 +1,5 @@
 'use client';
-import React, {
-  ChangeEvent,
-  UIEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ChangeEvent, UIEvent, useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -34,9 +27,7 @@ const Home = (): React.ReactNode => {
   const [isLogoutWindowActive, setIsLogoutWindowActive] = useState<boolean>(false);
   const [testPage, setTestPage] = useState<number>(1);
   const [isReverseDate, setIsReverseDate] = useState<boolean>(false);
-  const [filterValue, setFilterValue] = useState<string>(
-    validateFilterValue(queryParams),
-  );
+  const [filterValue, setFilterValue] = useState<string>(validateFilterValue(queryParams));
 
   const setFilterUrl = () => {
     if (filterValue) {
@@ -138,9 +129,7 @@ const Home = (): React.ReactNode => {
     const isReadyToScroll = testPage > 1 && scrollHeight && !isLoading;
     if (isReadyToScroll) {
       testListRef.current.scrollTop =
-        scrollHeight -
-        (scrollHeight / testList.length) * 7 -
-        testListRef.current.offsetHeight;
+        scrollHeight - (scrollHeight / testList.length) * 7 - testListRef.current.offsetHeight;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testList]);

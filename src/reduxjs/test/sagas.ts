@@ -77,8 +77,7 @@ function* getTestSaga(action: GetTestActionType) {
     method: 'GET',
     href: `/tests/${action.payload.id}/`,
     isDataInAction: true,
-    action: (data?: TestReceiveType) =>
-      data !== undefined ? put(setCurrentTest(data)) : {},
+    action: (data?: TestReceiveType) => (data !== undefined ? put(setCurrentTest(data)) : {}),
   });
 }
 

@@ -107,17 +107,13 @@ const PassTestPage = (): React.ReactNode => {
             newProgress[index].correct = isCorrectMultiAnswer;
             return isCorrectMultiAnswer ? accumulator + 1 : accumulator;
           case 'single':
-            const correctAnswer = correctQuestion.answers?.filter(
-              (ans) => ans.is_right,
-            )[0];
+            const correctAnswer = correctQuestion.answers?.filter((ans) => ans.is_right)[0];
             const isCorrectSingleAnswer =
-              currentQuestion?.answers &&
-              correctAnswer?.id === currentQuestion?.answers[0];
+              currentQuestion?.answers && correctAnswer?.id === currentQuestion?.answers[0];
             newProgress[index].correct = isCorrectSingleAnswer;
             return isCorrectSingleAnswer ? accumulator + 1 : accumulator;
           case 'number':
-            const isCorrectNumberAnswer =
-              correctQuestion.answer === currentQuestion.answer;
+            const isCorrectNumberAnswer = correctQuestion.answer === currentQuestion.answer;
             newProgress[index].correct = isCorrectNumberAnswer;
             return isCorrectNumberAnswer ? accumulator + 1 : accumulator;
         }
@@ -189,24 +185,16 @@ const PassTestPage = (): React.ReactNode => {
             title={'Результаты прохождения теста'}
           >
             <div className={s.resultContainer}>
-              <p className={s.resultTitle}>
-                Всего вопросов: {currentTest.questions.length}
-              </p>
+              <p className={s.resultTitle}>Всего вопросов: {currentTest.questions.length}</p>
               <p className={s.resultTitle}>Правильных ответов: {testResult?.correct} </p>
               <p className={s.resultTitle}>Неправильных ответов: {testResult?.wrong}</p>
             </div>
           </ModalWindow>
         )}
-        <button
-          className={cn(s.passTestButton, s.testButton)}
-          onClick={handlePassTestClick}
-        >
+        <button className={cn(s.passTestButton, s.testButton)} onClick={handlePassTestClick}>
           Закончить прохождение теста
         </button>
-        <button
-          className={cn(s.goBackButton, s.testButton)}
-          onClick={handleGoBackClick}
-        >
+        <button className={cn(s.goBackButton, s.testButton)} onClick={handleGoBackClick}>
           Вернуться к списку тестов
         </button>
       </div>

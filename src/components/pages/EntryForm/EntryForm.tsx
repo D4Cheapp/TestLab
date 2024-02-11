@@ -2,10 +2,11 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
-import { EntryFormType } from '@/src/types/formTypes';
 import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
+import { EntryFormType } from '@/src/types/formTypes';
 import EntryInput from './EntryInput';
 import s from './EntryForm.module.scss';
 
@@ -24,13 +25,12 @@ const EntryForm = ({
   redirectTitle,
   isRegister = false,
 }: Props) => {
-  const { register, handleSubmit, formState } = useForm<EntryFormType>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isPasswordMatchError, setIsPasswordMatchError] = useState(false);
+  const [isFormSubmit, setIsFormSubmit] = useState(false);
   const currentProfile = useAppSelector(currentProfileSelector);
   const router = useRouter();
-  const { setErrorsState, profileLogin, profileRegister } = useActions();
+  const { profileLogin, profileRegister } = useActions();
 
   const handleShowPasswordClick = useCallback(() => {
     setShowPassword(!showPassword);
@@ -40,120 +40,95 @@ const EntryForm = ({
     setShowConfirmPassword(!showConfirmPassword);
   }, [showConfirmPassword]);
 
-  const handlePasswordClick = useCallback(() => {
-    setIsPasswordMatchError(false);
-  }, []);
+  const handleFormSubmit = (values: EntryFormType): void => {
+    //@ts-ignore
+    isRegister ? profileRegister(values) : profileLogin(values);
+    setIsFormSubmit(true);
+  };
 
-  const handleFormSubmit: SubmitHandler<EntryFormType> = (data, event) => {
-    event?.preventDefault();
-    const valuesArray = Object.values(data).map((value) =>
-      typeof value === 'string' ? (!!value.trim() ? value : undefined) : value,
-    );
-    const isProfileInfoEmpty = valuesArray.includes(undefined);
-    if (isProfileInfoEmpty) {
-      setErrorsState('Error: Fill in all the necessary data');
-      return false;
-    }
-    if (isRegister) {
-      const isPasswordShort = data.password.length < 10;
-      const isPasswordMissingUpperChar = !/[A-Z,А-Я]/.test(data.password);
-      const isPasswordMissingNumber = !/\d/.test(data.password);
-      const isPasswordMatchError = data.password !== data.password_confirmation;
-      if (isPasswordShort) {
-        setErrorsState('Error: Password should contain at least 10 character');
-        return false;
+  const handleRegisterFormValidation = isRegister
+    ? {
+        is_admin: Yup.boolean(),
+        password: Yup.string()
+          .required('Ошибка: Заполните все необходимые данные')
+          .min(10, 'Ошибка: Пароль должен содержать не менее 10 символов')
+          .matches(/[A-Z,А-Я]/, 'Ошибка: Пароль должен содержать хотя бы одну заглавную букву')
+          .matches(/[+-]?\d+(?:\.\d+)?/, 'Ошибка: Пароль должен содержать хотя бы одно число'),
+        password_confirmation: Yup.string()
+          .required('Ошибка: Заполните все необходимые данные')
+          .oneOf([Yup.ref('password')], 'Ошибка: Пароли не совпадают'),
       }
-      if (isPasswordMissingUpperChar) {
-        setErrorsState('Error: Password should contain at least one capital letter');
-        return false;
-      }
-      if (isPasswordMissingNumber) {
-        setErrorsState('Error: Password should contain at least one number');
-        return false;
-      }
-      if (isPasswordMatchError) {
-        setIsPasswordMatchError(true);
-        return false;
-      } else {
-        setIsPasswordMatchError(false);
-      }
-    }
-    // @ts-ignore
-    isRegister ? profileRegister(data) : profileLogin(data);
-    return true;
+    : null;
+
+  const handleLoginFormValidation = {
+    password: Yup.string().required('Ошибка: Заполните все необходимые данные'),
+    username: Yup.string().required('Ошибка: Заполните все необходимые данные'),
   };
 
   useEffect(() => {
-    const isDataCorrectAndSent = formState.isSubmitSuccessful && currentProfile?.id;
+    const isDataCorrectAndSent = isFormSubmit && currentProfile?.id;
     if (isDataCorrectAndSent) {
       router.push('/');
     }
-  }, [currentProfile?.id, formState.isSubmitSuccessful, router]);
+  }, [currentProfile?.id, isFormSubmit, router]);
 
   return (
     <div className={s.formContainer}>
-      <form
-        className={s.form}
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(handleFormSubmit)}
-        name="EntryForm"
+      <Formik
+        initialValues={
+          {
+            is_admin: false,
+            password: '',
+            username: '',
+            password_confirmation: '',
+          } as EntryFormType
+        }
+        validationSchema={Yup.object({
+          ...handleLoginFormValidation,
+          ...handleRegisterFormValidation,
+        })}
+        onSubmit={handleFormSubmit}
       >
-        <h1 className={s.title}>{title}</h1>
-        <EntryInput
-          title="Логин"
-          name="username"
-          register={register}
-          isPassword={false}
-        />
-        <EntryInput
-          isPassword
-          title="Пароль"
-          name="password"
-          register={register}
-          isShownPassword={showPassword}
-          onPasswordClick={handlePasswordClick}
-          onShowPasswordClick={handleShowPasswordClick}
-          isPasswordMatchError={isPasswordMatchError}
-        />
-        {isRegister && (
-          <>
-            <div className={s.confirmPasswordContainer}>
-              <EntryInput
-                isPassword
-                title="Подтвердите пароль"
-                name="password_confirmation"
-                register={register}
-                isShownPassword={showConfirmPassword}
-                onPasswordClick={handlePasswordClick}
-                onShowPasswordClick={handleShowConfirmPasswordClick}
-                isPasswordMatchError={isPasswordMatchError}
-              />
-              {isPasswordMatchError && (
-                <p className={s.matchErrorTitle}>Ошибка: пароли не совпадают</p>
-              )}
+        {({ errors }) => (
+          <Form className={s.form}>
+            <h1 className={s.title}>{title}</h1>
+            <EntryInput title="Логин" name="username" isPassword={false} error={errors.username} />
+            <EntryInput
+              isPassword
+              title="Пароль"
+              name="password"
+              isShownPassword={showPassword}
+              onShowPasswordClick={handleShowPasswordClick}
+              error={errors.password}
+            />
+            {isRegister && (
+              <>
+                <EntryInput
+                  isPassword
+                  title="Подтвердите пароль"
+                  name="password_confirmation"
+                  isShownPassword={showConfirmPassword}
+                  onShowPasswordClick={handleShowConfirmPasswordClick}
+                  error={errors.password_confirmation}
+                />
+                <label className={s.isAdmin}>
+                  <p className={s.isAdminTitle}>Учетная запись администратора</p>
+                  <Field className={s.checkbox} type="checkbox" name="is_admin" id="is_admin" />
+                  <div className={s.customCheckbox} />
+                </label>
+              </>
+            )}
+            <div className={s.additionalContent}>
+              <button className={s.submit} type="submit">
+                {submitTitle}
+              </button>
+              <Link href={redirectTo} className={s.redirectLink}>
+                {redirectTitle}
+              </Link>
             </div>
-            <label className={s.isAdmin}>
-              <p className={s.isAdminTitle}>Учетная запись администратора</p>
-              <input
-                className={s.checkbox}
-                type="checkbox"
-                defaultChecked={false}
-                id="is_admin"
-                {...register('is_admin')}
-              />
-              <div className={s.customCheckbox} />
-            </label>
-          </>
+          </Form>
         )}
-        <div className={s.additionalContent}>
-          <button className={s.submit} type="submit">
-            {submitTitle}
-          </button>
-          <Link href={redirectTo} className={s.redirectLink}>
-            {redirectTitle}
-          </Link>
-        </div>
-      </form>
+      </Formik>
     </div>
   );
 };

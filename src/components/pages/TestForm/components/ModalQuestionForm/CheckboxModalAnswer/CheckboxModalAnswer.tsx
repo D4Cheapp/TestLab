@@ -9,10 +9,7 @@ interface Props {
     onAnswerDragStart: (answer: QuestionAnswerType) => void;
     onAnswerDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;
     onAnswerDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-    onAnswerDrop: (
-      event: React.DragEvent<HTMLDivElement>,
-      answer: QuestionAnswerType,
-    ) => void;
+    onAnswerDrop: (event: React.DragEvent<HTMLDivElement>, answer: QuestionAnswerType) => void;
   };
   answerEvents: {
     onAddAnswerClick: () => void;

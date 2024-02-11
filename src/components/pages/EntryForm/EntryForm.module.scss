@@ -16,7 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  padding: 2em;
+  padding: 3vh;
   border: 1px $babyPowder solid;
   border-radius: 10px;
   background-color: $charcoal;
@@ -24,16 +24,19 @@
 
   @include mediumDesktop {
     width: 90%;
-    padding: 1em;
+    min-height: 75%;
+    gap: 1.5em;
   }
 
   .title {
+    margin-top: 0;
     margin-bottom: 3vh;
     text-align: center;
-    @include fontType(3w, $babyPowder, 500);
+    @include fontType(2.2em, $babyPowder, 500);
 
     @include mediumDesktop {
-      @include fontType(4.7vh, null, 700);
+      margin-bottom: 0.5em;
+      @include fontType(null, null, 700);
     }
   }
 }
@@ -42,19 +45,6 @@
   display: inline-flex;
   width: 100%;
   flex-direction: column;
-
-  .matchErrorTitle {
-    margin-top: 0.4em;
-    margin-bottom: 0;
-    margin-left: 10%;
-    transition: 0.2s;
-    @include fontType(1vw, $oldRose);
-
-    @include mediumDesktop {
-      margin-left: 5%;
-      @include fontType(2.2vh);
-    }
-  }
 }
 
 .bottomContent {
@@ -78,21 +68,21 @@
     border-color 0.2s,
     color 0.2s,
     scale 0.2s;
-  @include fontType(1.5vw, $babyPowder, 600);
+  @include fontType(1.4em, $babyPowder, 600);
 
   @include hover {
     border-color: $zomp;
     @include fontType(null, $mintCream);
   }
 
+  &:active {
+    scale: 0.97;
+  }
+
   @include mediumDesktop {
     width: 90%;
     height: 2.5em;
     @include fontType(3vh);
-  }
-
-  &:active {
-    scale: 0.97;
   }
 }
 
@@ -123,19 +113,20 @@
     transition:
       border-bottom-color 0.2s,
       color 0.2s;
-    @include fontType(1vw, $babyPowder);
+    @include fontType(1.2em, $babyPowder);
 
     @include hover {
       border-bottom-color: $babyPowder;
     }
 
-    @include mediumDesktop {
-      @include fontType(2.2vh);
-    }
-
     &:active {
       border-bottom-color: $jungleGreen;
       @include fontType(null, $jungleGreen);
+    }
+
+    @include mediumDesktop {
+      margin-left: 5%;
+      @include fontType(1.1em);
     }
   }
 }
@@ -154,10 +145,10 @@
   .isAdminTitle {
     margin: 0;
     text-align: left;
-    @include fontType(1vw, $babyPowder);
+    @include fontType(1.2em, $babyPowder);
 
     @include mediumDesktop {
-      @include fontType(2.2vh);
+      @include fontType(1.1em);
     }
   }
 
