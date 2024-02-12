@@ -50,7 +50,7 @@ const CheckboxModalAnswer = ({
             id={`answer-input-${answer.id}`}
             name="multiple-answer"
             type="checkbox"
-            width="0.9em"
+            className={s.answerCheckbox}
             onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
             defaultChecked={answer.is_right}
           />
@@ -60,7 +60,7 @@ const CheckboxModalAnswer = ({
             id={`answer-input-${answer.id}`}
             name="single-answer"
             type="radio"
-            width='1em'
+            className={s.answerRadio}
             onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
             defaultChecked={answer.is_right}
           />

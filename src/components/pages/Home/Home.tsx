@@ -29,7 +29,7 @@ const Home = (): React.ReactNode => {
   const [isReverseDate, setIsReverseDate] = useState<boolean>(false);
   const [filterValue, setFilterValue] = useState<string>(validateFilterValue(queryParams));
 
-  const setFilterUrl = () => {
+  const handleSetFilterUrl = () => {
     if (filterValue) {
       const query = validateFilterValue(filterValue);
       setTestPage(1);
@@ -102,7 +102,7 @@ const Home = (): React.ReactNode => {
   }, [queryParams, isReverseDate, testPage]);
 
   useEffect(() => {
-    const filterTimeout = setTimeout(() => setFilterUrl(), 1500);
+    const filterTimeout = setTimeout(() => handleSetFilterUrl(), 1500);
     return () => clearTimeout(filterTimeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterValue]);

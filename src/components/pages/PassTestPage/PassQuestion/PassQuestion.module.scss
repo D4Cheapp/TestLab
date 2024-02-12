@@ -30,6 +30,11 @@
   display: inline-flex;
   cursor: pointer;
 
+  .customCheckbox {
+    width: 1em;
+    height: 1em;
+  }
+
   .answerTitle {
     margin-left: 1em;
     margin-block: 0;

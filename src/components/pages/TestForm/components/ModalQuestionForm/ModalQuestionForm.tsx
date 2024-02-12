@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 import { useFormikContext } from 'formik';
 import { useActions } from '@/src/hooks/reduxHooks';
@@ -12,7 +12,7 @@ const ModalQuestionForm = (): React.ReactNode => {
   const { currentQuestion, setCurrentQuestion, answers, setAnswers } = useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
   const { setErrorsState } = useActions();
-  const { values, setFieldValue, handleChange } = useFormikContext<TestFormType>();
+  const { values, setFieldValue } = useFormikContext<TestFormType>();
   const questionType = currentQuestion?.id ? currentQuestion?.question_type : values.questionType;
 
   const handleAnswerCheckClick = useCallback(
@@ -152,6 +152,25 @@ const ModalQuestionForm = (): React.ReactNode => {
     onAnswerFocusOut: handleAnswerFocusOut,
   };
 
+  const sortedList = useMemo(
+    () =>
+      answers
+        .sort((a, b) => (a.position > b.position ? 1 : -1))
+        .map((answer) =>
+          !answer.isDeleted ? (
+            <CheckboxModalAnswer
+              key={answer.id}
+              answer={answer}
+              questionType={questionType as 'single' | 'multiple'}
+              dragEvents={dragEvents}
+              answerEvents={answerEvents}
+            />
+          ) : undefined,
+        ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [answers],
+  );
+
   useEffect(() => {
     const isCurrentQuestionEmptyOrNumber =
       currentQuestion !== undefined &&
@@ -170,19 +189,14 @@ const ModalQuestionForm = (): React.ReactNode => {
 
   return (
     <>
-      <CustomInput
-        placeholder="Введите вопрос"
-        label="Вопрос"
-        name="questionTitle"
-        onChange={handleChange}
-      />
+      <CustomInput placeholder="Введите вопрос" isFormInput label="Вопрос" name="questionTitle" />
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
           <CustomInput
             placeholder="Введите вариант ответа"
+            isFormInput
             name="answerVariant"
             label="Вариант ответа"
-            onChange={handleChange}
           />
           <button
             className={s.answerAddButton}
@@ -198,29 +212,16 @@ const ModalQuestionForm = (): React.ReactNode => {
           [s.severalScroll]: questionType !== 'number',
         })}
       >
-        {((questionType === 'single' || questionType === 'multiple') &&
-          answers
-            .sort((a, b) => (a.position > b.position ? 1 : -1))
-            .map((answer) =>
-              !answer.isDeleted ? (
-                <CheckboxModalAnswer
-                  key={answer.id}
-                  answer={answer}
-                  questionType={questionType}
-                  dragEvents={dragEvents}
-                  answerEvents={answerEvents}
-                />
-              ) : undefined,
-            )) ||
+        {((questionType === 'single' || questionType === 'multiple') && sortedList) ||
           (questionType === 'number' && (
             <CustomInput
+              placeholder="Введите ответ на вопрос"
+              isFormInput
               type="number"
               name="numberAnswer"
-              placeholder="Введите ответ на вопрос"
               label="Ответ"
               //@ts-ignore
               onBlur={handleAnswerFocusOut}
-              onChange={handleChange}
             />
           ))}
       </div>

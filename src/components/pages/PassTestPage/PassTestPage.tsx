@@ -68,7 +68,7 @@ const PassTestPage = (): React.ReactNode => {
     [currentTest?.questions, passProgress],
   );
 
-  const handlePassTestClick = () => {
+  const handlePassTestClick = useCallback(() => {
     const isReadyToPass = currentTest?.questions && passProgress;
     if (isReadyToPass) {
       const correctQuestions = currentTest?.questions;
@@ -126,7 +126,8 @@ const PassTestPage = (): React.ReactNode => {
         setIsResultWindowActive(true);
       }
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTest?.questions, passProgress]);
 
   const handleGoBackClick = () => {
     router.push('/');

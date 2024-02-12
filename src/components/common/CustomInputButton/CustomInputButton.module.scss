@@ -5,6 +5,7 @@
   justify-content: center;
   border: 2px $babyPowder solid;
   border-radius: 3px;
+  aspect-ratio: 1 / 1;
   cursor: pointer;
 
   &::before {

@@ -14,6 +14,16 @@
     display: inline-flex;
   }
 
+  .answerCheckbox {
+    width: 0.9em;
+    height: 0.9em;
+  }
+
+  .answerRadio {
+    width: 1em;
+    height: 1em;
+  }
+
   .answerTitleInput {
     padding: 0;
     border: none;

@@ -1,12 +1,14 @@
 import React, { ChangeEvent, FocusEventHandler } from 'react';
 import cn from 'classnames';
+import { Field } from 'formik';
 import s from './CustomInput.module.scss';
 
 interface Props {
   name: string;
   placeholder: string;
+  isFormInput?: boolean;
   label?: string;
-  readonly?: boolean;
+  readOnly?: boolean;
   type?: 'text' | 'password' | 'number';
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: FocusEventHandler;
@@ -21,8 +23,9 @@ interface Props {
 function CustomInput({
   name,
   placeholder,
+  isFormInput,
   label,
-  readonly = false,
+  readOnly,
   type = 'text',
   onChange,
   onBlur,
@@ -32,17 +35,30 @@ function CustomInput({
 }: Props): React.ReactNode {
   return (
     <div className={s.root}>
-      <input
-        className={cn(s.input, classNames ? classNames.input : '')}
-        type={type}
-        name={name}
-        id={id ? id : name}
-        placeholder={placeholder}
-        onChange={onChange}
-        onBlur={onBlur}
-        readOnly={readonly}
-        defaultValue={defaultValue}
-      />
+      {/* {isFormInput ? <Field {...inputProps} /> : <input {...inputProps}/>} */}
+      {isFormInput ? (
+        <Field
+          className={cn(s.input, classNames ? classNames.input : '')}
+          type={type}
+          id={id ? id : name}
+          name={name}
+          placeholder={placeholder}
+          onBlur={onBlur}
+          readOnly={readOnly}
+        />
+      ) : (
+        <input
+          className={cn(s.input, classNames ? classNames.input : '')}
+          type={type}
+          id={id ? id : name}
+          name={name}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={onBlur}
+          readOnly={readOnly}
+          defaultValue={defaultValue}
+        />
+      )}
       {label && (
         <label className={cn(s.label, classNames ? classNames.title : '')} htmlFor={id ? id : name}>
           {label}

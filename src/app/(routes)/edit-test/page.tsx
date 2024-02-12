@@ -7,7 +7,7 @@ import { TestFormType } from '@/src/types/formTypes';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import LoadingContainer from '@/src/components/common/LoadingContainer';
+import LoadingContainer from '@/src/components/common/LoadingScreen';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import {

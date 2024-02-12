@@ -8,10 +8,13 @@ import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import LoadingContainer from '@/src/components/common/LoadingContainer';
+import LoadingContainer from '@/src/components/common/LoadingScreen';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
-import { testFormInitialValues, testFormValidation } from '@/src/components/pages/TestForm/TestFormFormik';
+import {
+  testFormInitialValues,
+  testFormValidation,
+} from '@/src/components/pages/TestForm/TestFormFormik';
 
 const AddTest = (): React.ReactNode => {
   const isLoading = useAppSelector(loadingStateSelector);

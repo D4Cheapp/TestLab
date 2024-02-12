@@ -37,7 +37,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
     }
   }, [onQuestionModifyClick]);
 
-  const setActiveWindowAction = useCallback(() => {
+  const handleSetActiveWindowAction = useCallback(() => {
     setIsEditQuestionWindowActive(false);
     setCurrentQuestion(undefined);
     resetForm();
@@ -48,7 +48,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
     setIsDeleteQuestionWindowActive(false);
   }, [onDeleteQuestionConfirmClick, question.id]);
 
-  const setDeleteWindowAction = useCallback(() => {
+  const handleSetDeleteWindowAction = useCallback(() => {
     setIsDeleteQuestionWindowActive(false);
     setCurrentQuestion(undefined);
     resetForm();
@@ -68,7 +68,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
                   withConfirmButton: true,
                 }}
                 onConfirmClick={handleSaveConfirmClick}
-                setIsActive={setActiveWindowAction}
+                setIsActive={handleSetActiveWindowAction}
               >
                 <ModalQuestionForm />
               </ModalWindow>
@@ -85,7 +85,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
             title="Подтвердите удаление вопроса"
             buttonInfo={{ withConfirmButton: true }}
             onConfirmClick={handleDeleteConfirmClick}
-            setIsActive={setDeleteWindowAction}
+            setIsActive={handleSetDeleteWindowAction}
           />
         )}
         <button

@@ -40,9 +40,10 @@ const TestFormInfoEdit = ({ onAddQuestionClick, modalWindowData }: Props): React
         <h2 className={s.testNameTitle}>Название теста</h2>
         <CustomInput
           classNames={{ input: s.testNameInput }}
-          readonly={withDeleteButton}
           placeholder="Введите название теста"
           name="testTitle"
+          isFormInput
+          readOnly={withDeleteButton}
         />
       </div>
       {!withDeleteButton && (

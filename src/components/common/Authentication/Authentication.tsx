@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
-import LoadingContainer from '../LoadingContainer';
+import LoadingContainer from '../LoadingScreen';
 
 interface Props {
   children: React.ReactNode;

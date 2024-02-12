@@ -49,7 +49,7 @@ const PassQuestion = ({
                 name={questionId}
                 type="checkbox"
                 id={ans.id + ''}
-                width="1em"
+                className={s.customCheckbox}
                 onChange={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
               />
             )}
@@ -58,7 +58,7 @@ const PassQuestion = ({
                 id={ans.id + ''}
                 name={questionId}
                 type="radio"
-                width="1em"
+                className={s.customCheckbox}
                 onChange={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
               />
             )}

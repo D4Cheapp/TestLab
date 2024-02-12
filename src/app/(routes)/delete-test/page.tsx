@@ -7,10 +7,13 @@ import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import Authentication from '@/src/components/common/Authentication';
 import TestForm from '@/src/components/pages/TestForm';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import LoadingContainer from '@/src/components/common/LoadingContainer';
+import LoadingContainer from '@/src/components/common/LoadingScreen';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import { loadingStateSelector } from '@/src/reduxjs/base/selectors';
-import { testFormInitialValues, testFormValidation } from '@/src/components/pages/TestForm/TestFormFormik';
+import {
+  testFormInitialValues,
+  testFormValidation,
+} from '@/src/components/pages/TestForm/TestFormFormik';
 
 const DeleteTest = (): React.ReactNode => {
   const initTest = useAppSelector(currentTestSelector);

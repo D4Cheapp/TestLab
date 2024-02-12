@@ -29,7 +29,7 @@ const HomeNavbar = ({
     <nav className={s.nav}>
       <h1 className={s.navTitle}>TestLab</h1>
       <CustomInput
-        classNames={{input: s.filter}}
+        classNames={{ input: s.filter }}
         placeholder="Поиск по тестам"
         name="FilterInput"
         onChange={onFilterInput}

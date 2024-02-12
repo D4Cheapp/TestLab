@@ -38,62 +38,66 @@ function TestForm({ title, initTest, withDeleteButton = false }: Props): React.R
   const [currentQuestion, setCurrentQuestion] = useState<CreateQuestionRequestType>();
   const isLocal = !initTest;
 
-  const questionValidation = (
-    questionType?: TestFormType['questionType'],
-    title?: string,
-    checkedAnswerCount?: number,
-    answerCount?: number,
-    numberAnswer?: number,
-  ): boolean => {
-    const isTitleEmpty = !title?.trim();
-    const isSingleQuestionError = questionType === 'single' && !checkedAnswerCount;
-    const isMultiplyQuestionError =
-      questionType === 'multiple' &&
-      (!checkedAnswerCount || (checkedAnswerCount && checkedAnswerCount < 2));
-    const isNumberQuestion = questionType === 'number';
-    const isAnswerAmountError =
-      (questionType === 'multiple' || questionType === 'single') &&
-      (!answerCount || (answerCount && answerCount < 2));
-    if (!questionType) {
-      return false;
-    }
-    if (isTitleEmpty) {
-      setErrorsState('Error: Question title should not be empty');
-      return false;
-    }
-    if (isAnswerAmountError) {
-      setErrorsState('Error: Question should be at least 2 answer option in the question');
-      return false;
-    }
-    if (isSingleQuestionError) {
-      setErrorsState('Error: Question should be 1 correct answer in the question');
-      return false;
-    }
-    if (isMultiplyQuestionError) {
-      setErrorsState('Error: There cannot be less than 2 correct answers in the question');
-      return false;
-    }
-    if (isNumberQuestion) {
-      const isAnswerNotANumber = numberAnswer && isNaN(+numberAnswer);
-      const isAnswerEmpty = numberAnswer === undefined;
-      if (isAnswerNotANumber) {
-        setErrorsState('Error: Answer should be a number');
+  const questionValidation = useCallback(
+    (
+      questionType?: TestFormType['questionType'],
+      title?: string,
+      checkedAnswerCount?: number,
+      answerCount?: number,
+      numberAnswer?: number,
+    ): boolean => {
+      const isTitleEmpty = !title?.trim();
+      const isSingleQuestionError = questionType === 'single' && !checkedAnswerCount;
+      const isMultiplyQuestionError =
+        questionType === 'multiple' &&
+        (!checkedAnswerCount || (checkedAnswerCount && checkedAnswerCount < 2));
+      const isNumberQuestion = questionType === 'number';
+      const isAnswerAmountError =
+        (questionType === 'multiple' || questionType === 'single') &&
+        (!answerCount || (answerCount && answerCount < 2));
+      if (!questionType) {
         return false;
       }
-      if (isAnswerEmpty) {
-        setErrorsState('Error: Input field should not be empty');
+      if (isTitleEmpty) {
+        setErrorsState('Error: Question title should not be empty');
         return false;
       }
-    }
-    return true;
-  };
+      if (isAnswerAmountError) {
+        setErrorsState('Error: Question should be at least 2 answer option in the question');
+        return false;
+      }
+      if (isSingleQuestionError) {
+        setErrorsState('Error: Question should be 1 correct answer in the question');
+        return false;
+      }
+      if (isMultiplyQuestionError) {
+        setErrorsState('Error: There cannot be less than 2 correct answers in the question');
+        return false;
+      }
+      if (isNumberQuestion) {
+        const isAnswerNotANumber = numberAnswer && isNaN(+numberAnswer);
+        const isAnswerEmpty = numberAnswer === undefined;
+        if (isAnswerNotANumber) {
+          setErrorsState('Error: Answer should be a number');
+          return false;
+        }
+        if (isAnswerEmpty) {
+          setErrorsState('Error: Input field should not be empty');
+          return false;
+        }
+      }
+      return true;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const handleQuestionModifyClick = useCallback(
     (isEdit: boolean): boolean => {
       const title = values.questionTitle;
-      const question_type = (currentQuestion?.id
-        ? currentQuestion?.question_type
-        : values.questionType) as TestFormType['questionType'];
+      const question_type = (
+        currentQuestion?.id ? currentQuestion?.question_type : values.questionType
+      ) as TestFormType['questionType'];
       const checkedAnswerCount: number | undefined = answers
         ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
         : undefined;

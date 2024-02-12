@@ -90,21 +90,14 @@ const EntryForm = ({
         })}
         onSubmit={handleFormSubmit}
       >
-        {({ errors, handleChange }) => (
+        {({ errors }) => (
           <Form className={s.form}>
             <h1 className={s.title}>{title}</h1>
-            <EntryInput
-              title="Логин"
-              name="username"
-              handleChange={handleChange}
-              isPassword={false}
-              error={errors.username}
-            />
+            <EntryInput title="Логин" name="username" isPassword={false} error={errors.username} />
             <EntryInput
               isPassword
               title="Пароль"
               name="password"
-              handleChange={handleChange}
               isShownPassword={showPassword}
               onShowPasswordClick={handleShowPasswordClick}
               error={errors.password}
@@ -115,7 +108,6 @@ const EntryForm = ({
                   isPassword
                   title="Подтвердите пароль"
                   name="password_confirmation"
-                  handleChange={handleChange}
                   isShownPassword={showConfirmPassword}
                   onShowPasswordClick={handleShowConfirmPasswordClick}
                   error={errors.password_confirmation}
@@ -125,8 +117,8 @@ const EntryForm = ({
                   <CustomInput
                     name="is_admin"
                     type="checkbox"
-                    width="1.2em"
-                    onChange={handleChange}
+                    isFormInput
+                    className={s.isAdminCheckbox}
                   />
                 </label>
               </>
