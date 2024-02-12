@@ -1,12 +1,12 @@
 'use client';
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
-import classNames from 'classnames';
-import s from './ModalWindow.module.scss';
+import cn from 'classnames';
 import ModalButtons from './ModalButtons';
+import s from './ModalWindow.module.scss';
 
 interface Props {
   setIsActive: Dispatch<SetStateAction<boolean>>;
-  confirmAction?: () => void;
+  onConfirmClick?: () => void;
   children?: React.ReactNode;
   title: string;
   buttonInfo: {
@@ -15,56 +15,53 @@ interface Props {
   };
 }
 
-function ModalWindow({
+const ModalWindow = ({
   setIsActive,
-  confirmAction,
+  onConfirmClick,
   children,
   title,
   buttonInfo,
-}: Props): React.ReactNode {
-  const onCloseWindowClick = useCallback(() => {
+}: Props): React.ReactNode => {
+  const handleCloseWindowClick = useCallback(() => {
     setIsActive(false);
   }, [setIsActive]);
 
-  const onEscapeKeyDown = useCallback(
+  const escapeKeyClick = useCallback(
     (event: KeyboardEvent) => {
       const isEscapePressed = event.key === 'Escape';
       if (isEscapePressed) {
-        onCloseWindowClick();
+        handleCloseWindowClick();
       }
     },
-    [onCloseWindowClick],
+    [handleCloseWindowClick],
   );
 
   useEffect(() => {
-    addEventListener('keydown', onEscapeKeyDown);
-    return () => removeEventListener('keydown', onEscapeKeyDown);
-  }, [onEscapeKeyDown]);
+    addEventListener('keydown', escapeKeyClick);
+    return () => removeEventListener('keydown', escapeKeyClick);
+  }, [escapeKeyClick]);
 
   return (
     <aside className={s.root}>
-      <div className={s.background} onClick={onCloseWindowClick} />
-
+      <div className={s.background} onClick={handleCloseWindowClick} />
       <div
-        className={classNames(s.componentFrom, {
+        className={cn(s.componentFrom, {
           [s.invisibleContent]: !children,
         })}
       >
         <div className={s.formHeader}>
           <h1 className={s.title}>{title}</h1>
-          <button className={s.closeButton} onClick={onCloseWindowClick} />
+          <button className={s.closeButton} onClick={handleCloseWindowClick} />
         </div>
-
         {children}
-
         <ModalButtons
-          confirmAction={confirmAction}
-          onCloseWindowClick={onCloseWindowClick}
+          onConfirmClick={onConfirmClick}
+          onCloseWindowClick={handleCloseWindowClick}
           buttonInfo={buttonInfo}
         />
       </div>
     </aside>
   );
-}
+};
 
 export default ModalWindow;

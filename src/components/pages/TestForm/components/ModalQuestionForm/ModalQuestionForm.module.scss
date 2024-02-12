@@ -1,0 +1,31 @@
+.addAnswer {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 1em;
+
+  .answerAddButton {
+    box-sizing: border-box;
+    border: 2px $babyPowder solid;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    padding-inline: 0.32em;
+    @include fontType(1.9em, $babyPowder);
+    @include colorButton($zomp);
+  }
+}
+
+.answersContainer {
+  display: inline-flex;
+  overflow: visible;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.severalScroll {
+  overflow: hidden;
+  overflow-y: scroll;
+}

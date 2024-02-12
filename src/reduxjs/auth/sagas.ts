@@ -1,12 +1,9 @@
 import { all, put, takeEvery } from 'redux-saga/effects';
 import { sagaHandling } from '@/src/utils/sagaHandling';
-import {
-  ProfileAuthReceiveType,
-  ProfileLogoutReceiveType,
-} from '@/src/types/receiveTypes';
+import { ProfileAuthReceiveType, ProfileLogoutReceiveType } from '@/src/types/receiveTypes';
 import { deleteCurrentProfile, setCurrentProfile } from '@/src/reduxjs/auth';
-import { ProfileLoginActionType, ProfileRegisterActionType } from './types';
 import { reducersActions } from '..';
+import { ProfileLoginActionType, ProfileRegisterActionType } from './types';
 
 function* profileRegisterSaga(action: ProfileRegisterActionType) {
   yield sagaHandling<ProfileAuthReceiveType>({

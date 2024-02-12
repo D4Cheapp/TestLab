@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import s from './NotFoundPage.module.scss';
 
-function NotFoundPage(): React.ReactNode {
+const NotFoundPage = (): React.ReactNode => {
   return (
     <div className={s.root}>
       <div className={s.errorContainer}>
@@ -13,6 +13,6 @@ function NotFoundPage(): React.ReactNode {
       </div>
     </div>
   );
-}
+};
 
 export default NotFoundPage;

@@ -10,32 +10,10 @@
   padding-block: 2em;
   padding-inline: 3em;
 
-  h2.title {
+  .title {
     cursor: default;
     margin-block: 0;
-
     @include fontType(1.8em);
-  }
-
-  input.numberAnswer {
-    box-sizing: border-box;
-    border: 2px $babyPowder solid;
-    border-radius: 5px;
-    background: none;
-    outline: none;
-    padding-block: 0.5em;
-    padding-inline: 1em;
-
-    @include fontType(1.2em, $babyPowder);
-
-    &::placeholder {
-      color: rgba($babyPowder, 0.6);
-    }
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      display: none;
-    }
   }
 }
 
@@ -47,33 +25,19 @@
   border-color: $oldRose;
 }
 
-label.answer {
+.answer {
   position: relative;
   display: inline-flex;
   cursor: pointer;
 
-  input.checkbox,
-  input.radioButton {
-    opacity: 0;
-
-    &:checked + .customCheckbox::after,
-    &:checked + .customRadio::after {
-      opacity: 1;
-    }
-  }
-
   .customCheckbox {
-    @include customCheckbox(1em);
+    width: 1em;
+    height: 1em;
   }
 
-  .customRadio {
-    @include customRadio(1em);
-  }
-
-  p.answerTitle {
+  .answerTitle {
     margin-left: 1em;
     margin-block: 0;
-
     @include fontType(1.3em);
   }
 }

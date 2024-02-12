@@ -1,14 +1,13 @@
 export type EntryFormType = {
-  is_admin: boolean;
   username: string;
   password: string;
+  is_admin?: boolean;
   password_confirmation?: string;
 };
-
 export type TestFormType = {
-  title: string;
-  questionType: 'single' | 'multiple' | 'number';
+  testTitle: string;
+  questionType: 'single' | 'multiple' | 'number' | '';
   questionTitle: string;
-  answerInput: string;
-  numberAnswer: number;
+  answerVariant: string;
+  numberAnswer: string;
 };

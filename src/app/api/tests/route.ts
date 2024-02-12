@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
-import { TestReceiveType } from '@/src/types/receiveTypes';
-import { CreateTestRequestType, RequestTypesType } from '@/src/types/requestTypes';
 import { authApiHandler } from '@/src/utils/authApiHandler';
 import { createFetch } from '@/src/utils/createFetch';
+import { TestReceiveType } from '@/src/types/receiveTypes';
+import { CreateTestRequestType, RequestTypesType } from '@/src/types/requestTypes';
 
 export async function GET(req: NextRequest) {
   const url = req.url;

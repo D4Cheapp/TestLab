@@ -1,62 +1,62 @@
-import React, { useContext, useState } from 'react';
-import classNames from 'classnames';
+import React, { useCallback, useContext, useState } from 'react';
+import cn from 'classnames';
+import { useFormikContext } from 'formik';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 import ModalWindow from '@/src/components/common/ModalWindow';
+import ModalQuestionForm from '../ModalQuestionForm';
+import { TestFormContext } from '../../TestFormContext';
 import s from './FormQuestion.module.scss';
-import { TestFormContext } from '../../../TestFormContext';
-import QuestionForm from '../../QuestionForm';
 
 interface Props {
   question: CreateQuestionRequestType;
 }
 
-function FormQuestion({ question }: Props): React.ReactNode {
+const FormQuestion = ({ question }: Props): React.ReactNode => {
   const {
     setCurrentQuestion,
     withDeleteButton,
     onQuestionModifyClick,
     onDeleteQuestionConfirmClick,
-    form,
   } = useContext(TestFormContext);
+  const { resetForm } = useFormikContext();
   const [isDeleteQuestionWindowActive, setIsDeleteQuestionWindowActive] = useState(false);
   const [isEditQuestionWindowActive, setIsEditQuestionWindowActive] = useState(false);
 
-  const onDeleteQuestionClick = () => {
+  const handleDeleteQuestionClick = () => {
     setIsDeleteQuestionWindowActive(true);
   };
 
-  const onEditQuestionClick = (question: CreateQuestionRequestType) => {
+  const handleEditQuestionClick = (question: CreateQuestionRequestType) => {
     setCurrentQuestion(question);
     setIsEditQuestionWindowActive(true);
   };
 
-  const saveConfirmAction = () => {
+  const handleSaveConfirmClick = useCallback(() => {
     if (onQuestionModifyClick(true)) {
       setIsEditQuestionWindowActive(false);
     }
-  };
+  }, [onQuestionModifyClick]);
 
-  const setActiveWindowAction = () => {
+  const handleSetActiveWindowAction = useCallback(() => {
     setIsEditQuestionWindowActive(false);
     setCurrentQuestion(undefined);
-    form.reset();
-  };
+    resetForm();
+  }, [resetForm, setCurrentQuestion]);
 
-  const deleteConfirmAction = () => {
+  const handleDeleteConfirmClick = useCallback(() => {
     question.id ? onDeleteQuestionConfirmClick(question.id) : undefined;
     setIsDeleteQuestionWindowActive(false);
-  };
+  }, [onDeleteQuestionConfirmClick, question.id]);
 
-  const setDeleteWindowAction = () => {
+  const handleSetDeleteWindowAction = useCallback(() => {
     setIsDeleteQuestionWindowActive(false);
     setCurrentQuestion(undefined);
-    form.reset();
-  };
+    resetForm();
+  }, [resetForm, setCurrentQuestion]);
 
   return (
     <div className={s.question}>
       <p className={s.questionTitle}>{question.title}</p>
-
       <div className={s.questionButtons}>
         {!withDeleteButton && (
           <>
@@ -67,36 +67,35 @@ function FormQuestion({ question }: Props): React.ReactNode {
                   confirmTitle: 'Сохранить',
                   withConfirmButton: true,
                 }}
-                confirmAction={saveConfirmAction}
-                setIsActive={setActiveWindowAction}
+                onConfirmClick={handleSaveConfirmClick}
+                setIsActive={handleSetActiveWindowAction}
               >
-                <QuestionForm />
+                <ModalQuestionForm />
               </ModalWindow>
             )}
             <button
               type="button"
-              className={classNames(s.questionButton, s.editButton)}
-              onClick={() => onEditQuestionClick(question)}
+              className={cn(s.questionButton, s.editButton)}
+              onClick={() => handleEditQuestionClick(question)}
             />
           </>
         )}
-
         {isDeleteQuestionWindowActive && (
           <ModalWindow
             title="Подтвердите удаление вопроса"
             buttonInfo={{ withConfirmButton: true }}
-            confirmAction={deleteConfirmAction}
-            setIsActive={setDeleteWindowAction}
-          ></ModalWindow>
+            onConfirmClick={handleDeleteConfirmClick}
+            setIsActive={handleSetDeleteWindowAction}
+          />
         )}
         <button
           type="button"
-          className={classNames(s.questionButton, s.deleteButton)}
-          onClick={() => (question.id ? onDeleteQuestionClick() : undefined)}
+          className={cn(s.questionButton, s.deleteButton)}
+          onClick={() => (question.id ? handleDeleteQuestionClick() : undefined)}
         />
       </div>
     </div>
   );
-}
+};
 
 export default FormQuestion;

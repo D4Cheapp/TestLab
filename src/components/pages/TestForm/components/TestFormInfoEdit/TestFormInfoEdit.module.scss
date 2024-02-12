@@ -1,10 +1,25 @@
+@mixin formInput($fontSize) {
+  box-sizing: border-box;
+  border: 2px $babyPowder solid;
+  border-radius: 5px;
+  background: $charcoal;
+  outline: none;
+  padding-block: 0.4em;
+  padding-inline: 1em;
+  @include fontType($fontSize, $babyPowder);
+
+  &::placeholder {
+    @include fontType(null, rgba($babyPowder, 0.7));
+  }
+}
+
 .editContainer {
   display: inline-flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
 
-  @include miniature {
+  @include bigTablet {
     height: auto;
     flex-direction: column;
     gap: 1em;
@@ -17,6 +32,10 @@
 
 .mainInput {
   width: 80% !important;
+
+  @include tablet {
+    width: 100% !important;
+  }
 }
 
 .contentContainer {
@@ -28,29 +47,28 @@
   justify-content: space-between;
   gap: 1em;
 
-  h2.testNameTitle {
+  @include bigTablet {
+    width: 100%;
+    gap: 1em;
+  }
+
+  .testNameTitle {
     margin: 0;
     text-align: center;
-
     @include fontType(1.8em);
   }
 
-  input.testNameInput,
-  select.questionType {
+  .testNameInput,
+  .questionType {
     @include formInput(1.4em);
   }
 
-  input.testNameInput {
+  .testNameInput {
     width: 100%;
 
     &::placeholder {
       @include fontType(null, rgba($babyPowder, 0.7));
     }
-  }
-
-  @include miniature {
-    width: 100%;
-    gap: 1em;
   }
 }
 
@@ -61,7 +79,7 @@
   justify-content: space-between;
   gap: 1em;
 
-  select.questionType {
+  .questionType {
     position: relative;
     width: 100%;
     padding-right: 2em;
@@ -74,21 +92,21 @@
     cursor: pointer;
     padding-block: 0.4em;
 
-    option.questionTypeOption:not([value='']) {
+    @include bigTablet {
+      width: 100%;
+    }
+
+    .questionTypeOption:not([value='']) {
       @include fontType(null, $babyPowder);
     }
 
-    &:has(option.questionTypeOption[value='']:checked),
-    option.questionTypeOption[value=''] {
+    &:has(.questionTypeOption[value='']:checked),
+    .questionTypeOption[value=''] {
       @include fontType(null, rgba($babyPowder, 0.7));
-    }
-
-    @include miniature {
-      width: 100%;
     }
   }
 
-  button.addButton {
+  .addButton {
     box-sizing: border-box;
     border: 2px $babyPowder solid;
     border-radius: 5px;
@@ -96,7 +114,6 @@
     cursor: pointer;
     padding-block: 0.15em;
     padding-inline: 0.5em;
-
     @include fontType(1.8em, $babyPowder);
     @include colorButton($zomp);
   }

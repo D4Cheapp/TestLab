@@ -1,7 +1,7 @@
 import React from 'react';
 import EntryForm from '@/src/components/pages/EntryForm';
 
-function Login(): React.ReactNode {
+const Login = (): React.ReactNode => {
   return (
     <EntryForm
       redirectTo="/register"
@@ -10,6 +10,6 @@ function Login(): React.ReactNode {
       redirectTitle="Нет учетной записи?"
     />
   );
-}
+};
 
 export default Login;

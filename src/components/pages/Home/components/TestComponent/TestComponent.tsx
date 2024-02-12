@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
 import s from './TestComponent.module.scss';
 
@@ -12,17 +12,19 @@ interface Props {
   onPassTestConfirmClick: (index: number) => void;
 }
 
-function TestComponent({
+const TestComponent = ({
   title,
   testId,
   isAdmin,
   onDeleteTestClick,
   onEditTestClick,
   onPassTestConfirmClick,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const [isPassTestWindowActive, setIsPassTestWindowActive] = useState<boolean>(false);
-  const onPassTestClick = () => setIsPassTestWindowActive(true);
-  const passTestConfirmAction = () => {
+
+  const handlePassTestClick = () => setIsPassTestWindowActive(true);
+
+  const handlePassTestConfirmClick = () => {
     onPassTestConfirmClick(testId);
     setIsPassTestWindowActive(false);
   };
@@ -32,24 +34,23 @@ function TestComponent({
       {isPassTestWindowActive && (
         <ModalWindow
           title="Начать прохождение теста?"
-          confirmAction={passTestConfirmAction}
+          onConfirmClick={handlePassTestConfirmClick}
           buttonInfo={{ withConfirmButton: true }}
           setIsActive={setIsPassTestWindowActive}
-        ></ModalWindow>
+        />
       )}
-      <p className={s.testTitle} onClick={onPassTestClick}>
+      <p className={s.testTitle} onClick={handlePassTestClick}>
         {title}
       </p>
-
       <div className={s.buttonsContainer}>
         {isAdmin && (
           <>
             <button
-              className={classNames(s.testButton, s.editTestButton)}
+              className={cn(s.testButton, s.editTestButton)}
               onClick={() => onEditTestClick(testId)}
             />
             <button
-              className={classNames(s.testButton, s.deleteTestButton)}
+              className={cn(s.testButton, s.deleteTestButton)}
               onClick={() => onDeleteTestClick(testId)}
             />
           </>
@@ -57,6 +58,6 @@ function TestComponent({
       </div>
     </div>
   );
-}
+};
 
 export default TestComponent;

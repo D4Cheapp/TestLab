@@ -1,12 +1,12 @@
 'use client';
 import React, { MouseEvent, ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import classNames from 'classnames';
+import cn from 'classnames';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
-import s from './PassTestPage.module.scss';
-import PassQuestion from './PassQuestion';
 import ModalWindow from '../../common/ModalWindow';
+import PassQuestion from './PassQuestion';
+import s from './PassTestPage.module.scss';
 
 type PassTestQuestionType =
   | {
@@ -16,7 +16,7 @@ type PassTestQuestionType =
     }[]
   | undefined;
 
-function PassTestPage(): React.ReactNode {
+const PassTestPage = (): React.ReactNode => {
   const searchParams = useSearchParams().get('id');
   const currentTest = useAppSelector(currentTestSelector);
   const [passProgress, setPassProgress] = useState<PassTestQuestionType>([]);
@@ -25,7 +25,7 @@ function PassTestPage(): React.ReactNode {
   const router = useRouter();
   const { setErrorsState, getTest } = useActions();
 
-  const onAddAnswerClick = useCallback(
+  const handleAddAnswerClick = useCallback(
     (
       event: MouseEvent<HTMLInputElement> | ChangeEvent<HTMLInputElement>,
       questionIndex: number,
@@ -38,7 +38,6 @@ function PassTestPage(): React.ReactNode {
         const questionType = currentTest?.questions[questionIndex].question_type;
         const currentQuestion = passProgress[questionIndex];
         const currentProgress = structuredClone(passProgress);
-
         switch (questionType) {
           case 'multiple':
             const answerCheck = (event.target as HTMLInputElement).checked;
@@ -54,11 +53,9 @@ function PassTestPage(): React.ReactNode {
             }
             currentProgress[questionIndex].answers = answers;
             break;
-
           case 'single':
             currentProgress[questionIndex].answers = [answerId];
             break;
-
           case 'number':
             const target = (event?.target as HTMLInputElement).value;
             const answer = target === '' ? undefined : +target;
@@ -71,7 +68,7 @@ function PassTestPage(): React.ReactNode {
     [currentTest?.questions, passProgress],
   );
 
-  const onPassTestClick = () => {
+  const handlePassTestClick = useCallback(() => {
     const isReadyToPass = currentTest?.questions && passProgress;
     if (isReadyToPass) {
       const correctQuestions = currentTest?.questions;
@@ -82,22 +79,18 @@ function PassTestPage(): React.ReactNode {
         if (isErrorInReduce) {
           return -1;
         }
-
         const currentQuestion = passProgress[index];
         const questionType = correctQuestion.question_type;
         const isAnswerExists =
           currentQuestion.answer === undefined && currentQuestion.answers === undefined;
-
         if (isAnswerExists) {
           setErrorsState('Error: Fill out all the answers to the questions');
           return -1;
         }
-
         switch (questionType) {
           case 'multiple':
             const isNotEnoughQuestions =
               currentQuestion.answers && currentQuestion?.answers?.length < 2;
-
             if (isNotEnoughQuestions) {
               setErrorsState(
                 'Error: There cannot be less than 2 correct answers in the multiple question',
@@ -106,35 +99,25 @@ function PassTestPage(): React.ReactNode {
             }
             const correctAnswers = correctQuestion.answers?.filter((ans) => ans.is_right);
             const currentAnswers = currentQuestion.answers?.sort();
-
             const isCorrectMultiAnswer =
               correctAnswers?.length === currentAnswers?.length &&
               currentAnswers?.every(
                 (ans, index) => correctAnswers && ans === correctAnswers[index].id,
               );
-
             newProgress[index].correct = isCorrectMultiAnswer;
             return isCorrectMultiAnswer ? accumulator + 1 : accumulator;
-
           case 'single':
-            const correctAnswer = correctQuestion.answers?.filter(
-              (ans) => ans.is_right,
-            )[0];
+            const correctAnswer = correctQuestion.answers?.filter((ans) => ans.is_right)[0];
             const isCorrectSingleAnswer =
-              currentQuestion?.answers &&
-              correctAnswer?.id === currentQuestion?.answers[0];
-
+              currentQuestion?.answers && correctAnswer?.id === currentQuestion?.answers[0];
             newProgress[index].correct = isCorrectSingleAnswer;
             return isCorrectSingleAnswer ? accumulator + 1 : accumulator;
-
           case 'number':
-            const isCorrectNumberAnswer =
-              correctQuestion.answer === currentQuestion.answer;
+            const isCorrectNumberAnswer = correctQuestion.answer === currentQuestion.answer;
             newProgress[index].correct = isCorrectNumberAnswer;
             return isCorrectNumberAnswer ? accumulator + 1 : accumulator;
         }
       }, 0);
-
       const isScoreCorrupted = score !== -1;
       if (isScoreCorrupted) {
         setPassProgress(newProgress);
@@ -143,14 +126,15 @@ function PassTestPage(): React.ReactNode {
         setIsResultWindowActive(true);
       }
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTest?.questions, passProgress]);
 
-  const onGoBackClick = () => {
+  const handleGoBackClick = () => {
     router.push('/');
   };
 
-  const goBackConfirmAction = () => {
-    onGoBackClick();
+  const handleGoBackConfirmClick = () => {
+    handleGoBackClick();
     setIsResultWindowActive(false);
   };
 
@@ -169,7 +153,7 @@ function PassTestPage(): React.ReactNode {
     if (isIdExists) {
       getTest({ id: +searchParams });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   if (!currentTest?.questions) {
@@ -185,7 +169,7 @@ function PassTestPage(): React.ReactNode {
             key={question.id}
             question={question}
             questionIndex={index}
-            onAddAnswerClick={onAddAnswerClick}
+            onAddAnswerClick={handleAddAnswerClick}
             isCorrect={passProgress && passProgress[index]?.correct}
           />
         ))}
@@ -197,32 +181,26 @@ function PassTestPage(): React.ReactNode {
               confirmTitle: 'Вернуться к списку тестов',
               withConfirmButton: true,
             }}
-            confirmAction={goBackConfirmAction}
+            onConfirmClick={handleGoBackConfirmClick}
             setIsActive={setIsResultWindowActive}
             title={'Результаты прохождения теста'}
           >
             <div className={s.resultContainer}>
-              <p className={s.resultTitle}>
-                Всего вопросов: {currentTest.questions.length}
-              </p>
+              <p className={s.resultTitle}>Всего вопросов: {currentTest.questions.length}</p>
               <p className={s.resultTitle}>Правильных ответов: {testResult?.correct} </p>
               <p className={s.resultTitle}>Неправильных ответов: {testResult?.wrong}</p>
             </div>
           </ModalWindow>
         )}
-        <button
-          className={classNames(s.passTestButton, s.testButton)}
-          onClick={onPassTestClick}
-        >
+        <button className={cn(s.passTestButton, s.testButton)} onClick={handlePassTestClick}>
           Закончить прохождение теста
         </button>
-
-        <button className={classNames(s.goBackButton, s.testButton)} onClick={onGoBackClick}>
+        <button className={cn(s.goBackButton, s.testButton)} onClick={handleGoBackClick}>
           Вернуться к списку тестов
         </button>
       </div>
     </div>
   );
-}
+};
 
 export default PassTestPage;

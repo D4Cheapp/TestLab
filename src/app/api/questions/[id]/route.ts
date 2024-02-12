@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
-import { RequestTypesType } from '@/src/types/requestTypes';
 import { createFetch } from '@/src/utils/createFetch';
 import { authApiHandler } from '@/src/utils/authApiHandler';
+import { RequestTypesType } from '@/src/types/requestTypes';
 import { CreateAnswerReceiveType } from '@/src/types/receiveTypes';
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: number } }) {

@@ -1,4 +1,4 @@
-aside.root {
+.root {
   position: absolute;
   z-index: 10;
   top: 0;
@@ -30,6 +30,7 @@ aside.root {
   display: inline-flex;
   width: 45%;
   height: fit-content;
+  min-height: 35%;
   max-height: 70%;
   box-sizing: border-box;
   flex-direction: column;
@@ -40,13 +41,13 @@ aside.root {
   background: $charcoal;
   gap: 1em;
 
-  @include spacious {
+  @include mediumDesktop {
     width: 70%;
     max-height: 75%;
     padding: 5%;
   }
 
-  @include miniature {
+  @include bigTablet {
     width: 80%;
     max-height: 85%;
   }
@@ -58,16 +59,15 @@ aside.root {
   align-items: center;
   justify-content: space-between;
 
-  h1.title {
+  .title {
     width: 80%;
     margin-left: 10%;
     margin-block: 0;
     text-align: center;
-
     @include fontType(2em);
   }
 
-  button.closeButton {
+  .closeButton {
     width: 34px;
     height: 34px;
     align-self: flex-start;
@@ -79,7 +79,6 @@ aside.root {
     transition:
       border-color 0.2s,
       scale 0.2s;
-
     @include cross(1.3em, 3px);
 
     @include hover {

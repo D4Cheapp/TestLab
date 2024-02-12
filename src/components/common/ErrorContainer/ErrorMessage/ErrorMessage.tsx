@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
 import s from './ErrorMessage.module.scss';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   onCloseClick: (index: number) => void;
 }
 
-function ErrorMessage({ error, index, onCloseClick }: Props): null | React.ReactNode {
+const ErrorMessage = ({ error, index, onCloseClick }: Props): null | React.ReactNode => {
   const [isFaded, setIsFaded] = useState(false);
 
   useEffect(() => {
@@ -21,11 +21,11 @@ function ErrorMessage({ error, index, onCloseClick }: Props): null | React.React
   }, [index, onCloseClick]);
 
   return (
-    <div className={classNames(s.errorMessage, { [s.fadeAnimation]: isFaded })}>
+    <div className={cn(s.errorMessage, { [s.fadeAnimation]: isFaded })}>
       <p className={s.error}>{error}</p>
       <button className={s.close} onClick={() => onCloseClick(index)} />
     </div>
   );
-}
+};
 
 export default ErrorMessage;

@@ -6,7 +6,7 @@
   place-items: center;
 }
 
-form.form {
+.form {
   display: inline-flex;
   width: 50%;
   height: fit-content;
@@ -16,26 +16,28 @@ form.form {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  padding: 2em;
+  padding: 3vh;
   border: 1px $babyPowder solid;
   border-radius: 10px;
   background-color: $charcoal;
   gap: 2em;
 
-  h1.title {
-    margin-bottom: 3vh;
-    text-align: center;
-
-    @include fontType(3w, $babyPowder, 500);
-
-    @include compact {
-      @include fontType(4.7vh, null, 700);
-    }
+  @include mediumDesktop {
+    width: 90%;
+    min-height: 75%;
+    gap: 1.5em;
   }
 
-  @include compact {
-    width: 90%;
-    padding: 1em;
+  .title {
+    margin-top: 0;
+    margin-bottom: 3vh;
+    text-align: center;
+    @include fontType(2.2em, $babyPowder, 500);
+
+    @include mediumDesktop {
+      margin-bottom: 0.5em;
+      @include fontType(null, null, 700);
+    }
   }
 }
 
@@ -43,21 +45,6 @@ form.form {
   display: inline-flex;
   width: 100%;
   flex-direction: column;
-
-  p.matchErrorTitle {
-    margin-top: 0.4em;
-    margin-bottom: 0;
-    margin-left: 10%;
-    transition: 0.2s;
-
-    @include fontType(1vw, $oldRose);
-
-    @include compact {
-      margin-left: 5%;
-
-      @include fontType(2.2vh);
-    }
-  }
 }
 
 .bottomContent {
@@ -68,7 +55,7 @@ form.form {
   gap: 1em;
 }
 
-button.submit {
+.submit {
   width: 50%;
   height: 2em;
   padding: 0;
@@ -81,12 +68,10 @@ button.submit {
     border-color 0.2s,
     color 0.2s,
     scale 0.2s;
-
-  @include fontType(1.5vw, $babyPowder, 600);
+  @include fontType(1.4em, $babyPowder, 600);
 
   @include hover {
     border-color: $zomp;
-
     @include fontType(null, $mintCream);
   }
 
@@ -94,10 +79,9 @@ button.submit {
     scale: 0.97;
   }
 
-  @include compact {
+  @include mediumDesktop {
     width: 90%;
     height: 2.5em;
-
     @include fontType(3vh);
   }
 }
@@ -118,18 +102,18 @@ button.submit {
   justify-content: space-around;
   gap: 1em;
 
-  button.redirectLink {
+  .redirectLink {
     width: fit-content;
     padding: 0 0 1px;
     border: none;
     border-bottom: 1px solid transparent;
     background-color: transparent;
     cursor: pointer;
+    text-decoration: none;
     transition:
       border-bottom-color 0.2s,
       color 0.2s;
-
-    @include fontType(1vw, $babyPowder);
+    @include fontType(1.2em, $babyPowder);
 
     @include hover {
       border-bottom-color: $babyPowder;
@@ -137,72 +121,38 @@ button.submit {
 
     &:active {
       border-bottom-color: $jungleGreen;
-
       @include fontType(null, $jungleGreen);
     }
 
-    @include compact {
-      @include fontType(2.2vh);
+    @include mediumDesktop {
+      margin-left: 5%;
+      @include fontType(1.1em);
     }
   }
 }
 
-label.isAdmin {
+.isAdmin {
   display: inline-flex;
   width: 80%;
   align-items: center;
   cursor: pointer;
   gap: 1em;
 
-  p.isAdminTitle {
+  @include mediumDesktop {
+    width: 90%;
+  }
+
+  .isAdminTitle {
     margin: 0;
     text-align: left;
+    @include fontType(1.2em, $babyPowder);
 
-    @include fontType(1vw, $babyPowder);
-
-    @include compact {
-      @include fontType(2.2vh);
+    @include mediumDesktop {
+      @include fontType(1.1em);
     }
   }
 
-  .customCheckbox {
-    position: relative;
-    display: flex;
+  .isAdminCheckbox {
     width: 1.2em;
-    height: 1.2em;
-    align-items: flex-start;
-    justify-content: center;
-    border: 2px solid $babyPowder;
-    border-radius: 3px;
-
-    &::before {
-      position: absolute;
-      width: 25%;
-      height: 60%;
-      border-right: 2px solid rgba($babyPowder, 1);
-      border-bottom: 2px solid rgba($babyPowder, 1);
-      margin-top: 5%;
-      content: '';
-      opacity: 0;
-      rotate: 45deg;
-      transition: opacity 0.2s;
-    }
-
-    @include compact {
-      width: 2.2vh;
-      height: 2.2vh;
-    }
-  }
-
-  input.checkbox {
-    display: none;
-
-    &:checked + .customCheckbox::before {
-      opacity: 1;
-    }
-  }
-
-  @include compact {
-    width: 90%;
   }
 }

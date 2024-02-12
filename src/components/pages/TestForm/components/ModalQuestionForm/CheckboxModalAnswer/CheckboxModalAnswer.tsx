@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import s from './CheckboxModalAnswer.module.scss';
+import CustomInputButton from '@/src/components/common/CustomInputButton';
 import { QuestionAnswerType } from '../../../TestFormContext';
+import s from './CheckboxModalAnswer.module.scss';
 
 interface Props {
   answer: QuestionAnswerType;
@@ -9,10 +10,7 @@ interface Props {
     onAnswerDragStart: (answer: QuestionAnswerType) => void;
     onAnswerDragEnd: (event: React.DragEvent<HTMLDivElement>) => void;
     onAnswerDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-    onAnswerDrop: (
-      event: React.DragEvent<HTMLDivElement>,
-      answer: QuestionAnswerType,
-    ) => void;
+    onAnswerDrop: (event: React.DragEvent<HTMLDivElement>, answer: QuestionAnswerType) => void;
   };
   answerEvents: {
     onAddAnswerClick: () => void;
@@ -22,14 +20,15 @@ interface Props {
   };
 }
 
-function CheckboxModalAnswer({
+const CheckboxModalAnswer = ({
   answer,
   questionType,
   dragEvents,
   answerEvents,
-}: Props): React.ReactNode {
+}: Props): React.ReactNode => {
   const [isInputMode, setIsInputMode] = useState(false);
-  const onDoubleClick = () => {
+
+  const handleDoubleClick = () => {
     setIsInputMode(true);
   };
 
@@ -43,37 +42,29 @@ function CheckboxModalAnswer({
       onDragLeave={dragEvents.onAnswerDragEnd}
       onDragOver={dragEvents.onAnswerDragOver}
       onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
-      onDoubleClick={onDoubleClick}
+      onDoubleClick={handleDoubleClick}
     >
       <label className={s.answerLabel} htmlFor={`answer-input-${answer.id}`}>
         {questionType === 'multiple' && (
-          <>
-            <input
-              className={s.answerCheckbox}
-              type="checkbox"
-              id={`answer-input-${answer.id}`}
-              name="multiple-answer"
-              onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
-              defaultChecked={answer.is_right}
-            />
-            <div className={s.customCheckbox} />
-          </>
+          <CustomInputButton
+            id={`answer-input-${answer.id}`}
+            name="multiple-answer"
+            type="checkbox"
+            className={s.answerCheckbox}
+            onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+            defaultChecked={answer.is_right}
+          />
         )}
-
         {questionType === 'single' && (
-          <>
-            <input
-              className={s.answerRadio}
-              type="radio"
-              id={`answer-input-${answer.id}`}
-              name="single-answer"
-              onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
-              defaultChecked={answer.is_right}
-            />
-            <div className={s.customRadio} />
-          </>
+          <CustomInputButton
+            id={`answer-input-${answer.id}`}
+            name="single-answer"
+            type="radio"
+            className={s.answerRadio}
+            onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+            defaultChecked={answer.is_right}
+          />
         )}
-
         {isInputMode ? (
           <input
             className={s.answerTitleInput}
@@ -101,6 +92,6 @@ function CheckboxModalAnswer({
       </button>
     </div>
   );
-}
+};
 
 export default CheckboxModalAnswer;

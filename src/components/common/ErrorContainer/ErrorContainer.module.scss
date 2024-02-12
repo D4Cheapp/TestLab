@@ -11,12 +11,12 @@
   gap: 0.5em;
   margin-inline: 20%;
 
-  @include miniature {
+  @include bigTablet {
     width: 80%;
     margin-inline: 10%;
   }
 
-  @include narrow {
+  @include tablet {
     width: 90%;
     margin-inline: 5%;
   }

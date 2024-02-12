@@ -1,11 +1,4 @@
 import { Dispatch, SetStateAction, createContext } from 'react';
-import {
-  UseFormGetValues,
-  UseFormRegister,
-  UseFormReset,
-  UseFormSetValue,
-} from 'react-hook-form';
-import { TestFormType } from '@/src/types/formTypes';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
 
 export type QuestionAnswerType = {
@@ -27,12 +20,6 @@ type TestFormContext = {
   onQuestionModifyClick: (isEdit: boolean) => boolean;
   setCurrentQuestion: Dispatch<SetStateAction<CreateQuestionRequestType | undefined>>;
   onDeleteQuestionConfirmClick: (id: number) => void;
-  form: {
-    getValues: UseFormGetValues<TestFormType>;
-    setValue: UseFormSetValue<TestFormType>;
-    register: UseFormRegister<TestFormType>;
-    reset: UseFormReset<TestFormType>;
-  };
 };
 
 //@ts-ignore

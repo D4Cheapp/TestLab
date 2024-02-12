@@ -1,12 +1,13 @@
 import React, { Dispatch, SetStateAction, useContext } from 'react';
-import classNames from 'classnames';
+import cn from 'classnames';
+import { Field, useFormikContext } from 'formik';
 import ModalWindow from '@/src/components/common/ModalWindow';
-import s from './TestFormInfoEdit.module.scss';
+import CustomInput from '@/src/components/common/CustomInput';
+import ModalQuestionForm from '../ModalQuestionForm';
 import { TestFormContext } from '../../TestFormContext';
-import QuestionForm from '../QuestionForm';
+import s from './TestFormInfoEdit.module.scss';
 
 interface Props {
-  title?: string;
   onAddQuestionClick: () => void;
   modalWindowData: {
     isAddQuestionWindowActive: boolean;
@@ -14,53 +15,42 @@ interface Props {
   };
 }
 
-function TestFormInfoEdit({
-  title,
-  onAddQuestionClick,
-  modalWindowData,
-}: Props): React.ReactNode {
-  const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion, form } =
+const TestFormInfoEdit = ({ onAddQuestionClick, modalWindowData }: Props): React.ReactNode => {
+  const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion } =
     useContext(TestFormContext);
-  const setAddWindowAction = () => {
+  const { resetForm } = useFormikContext();
+
+  const handleCloseAddWindowAction = () => {
     modalWindowData.setIsAddQuestionWindowActive(false);
     setCurrentQuestion(undefined);
-    form.reset();
+    resetForm();
   };
 
   return (
     <div
-      className={classNames(s.editContainer, {
+      className={cn(s.editContainer, {
         [s.singleContainer]: withDeleteButton,
       })}
     >
       <div
-        className={classNames(s.contentContainer, {
+        className={cn(s.contentContainer, {
           [s.mainInput]: withDeleteButton,
         })}
       >
         <h2 className={s.testNameTitle}>Название теста</h2>
-        <input
-          className={s.testNameInput}
-          type="text"
-          readOnly={withDeleteButton}
+        <CustomInput
+          classNames={{ input: s.testNameInput }}
           placeholder="Введите название теста"
-          defaultValue={title ?? ''}
-          id="title"
-          {...form.register('title')}
+          name="testTitle"
+          isFormInput
+          readOnly={withDeleteButton}
         />
       </div>
-
       {!withDeleteButton && (
         <div className={s.contentContainer}>
           <h2 className={s.testNameTitle}>Добавление вопроса</h2>
-
           <div className={s.chooseQuestionContainer}>
-            <select
-              className={s.questionType}
-              defaultValue={''}
-              id="questionSelect"
-              {...form.register('questionType')}
-            >
+            <Field className={s.questionType} as="select" name="questionType">
               <option className={s.questionTypeOption} value="">
                 Выберите тип вопроса
               </option>
@@ -73,19 +63,17 @@ function TestFormInfoEdit({
               <option className={s.questionTypeOption} value="number">
                 Численный ответ
               </option>
-            </select>
-
+            </Field>
             {modalWindowData.isAddQuestionWindowActive && (
               <ModalWindow
                 title="Добавление вопроса"
-                setIsActive={setAddWindowAction}
-                confirmAction={() => onQuestionModifyClick(false)}
+                setIsActive={handleCloseAddWindowAction}
+                onConfirmClick={() => onQuestionModifyClick(false)}
                 buttonInfo={{ confirmTitle: 'Сохранить', withConfirmButton: true }}
               >
-                <QuestionForm />
+                <ModalQuestionForm />
               </ModalWindow>
             )}
-
             <button type="button" className={s.addButton} onClick={onAddQuestionClick}>
               +
             </button>
@@ -94,6 +82,6 @@ function TestFormInfoEdit({
       )}
     </div>
   );
-}
+};
 
 export default TestFormInfoEdit;

@@ -1,22 +1,21 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import classNames from 'classnames';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import cn from 'classnames';
+import { useFormikContext } from 'formik';
 import { useActions } from '@/src/hooks/reduxHooks';
-import s from './QuestionForm.module.scss';
-import CheckboxModalAnswer from './CheckboxModalAnswer';
+import CustomInput from '@/src/components/common/CustomInput';
+import { TestFormType } from '@/src/types/formTypes';
 import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
+import CheckboxModalAnswer from './CheckboxModalAnswer';
+import s from './ModalQuestionForm.module.scss';
 
-function QuestionForm(): React.ReactNode {
-  const { currentQuestion, setCurrentQuestion, answers, setAnswers, form } =
-    useContext(TestFormContext);
+const ModalQuestionForm = (): React.ReactNode => {
+  const { currentQuestion, setCurrentQuestion, answers, setAnswers } = useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
   const { setErrorsState } = useActions();
+  const { values, setFieldValue } = useFormikContext<TestFormType>();
+  const questionType = currentQuestion?.id ? currentQuestion?.question_type : values.questionType;
 
-  const { getValues, setValue, register } = form;
-  const questionType = currentQuestion?.id
-    ? currentQuestion?.question_type
-    : getValues('questionType');
-
-  const onAnswerCheckClick = useCallback(
+  const handleAnswerCheckClick = useCallback(
     (id: number) => {
       const changedAnswers = answers.map((answer) =>
         answer.id === id
@@ -32,9 +31,8 @@ function QuestionForm(): React.ReactNode {
     [answers, setAnswers],
   );
 
-  const onAddAnswerClick = useCallback(() => {
-    const answerValue = getValues('answerInput');
-
+  const handleAddAnswerClick = useCallback(async () => {
+    const answerValue = values.answerVariant;
     if (answerValue) {
       setAnswers([
         ...answers,
@@ -46,14 +44,14 @@ function QuestionForm(): React.ReactNode {
           isCreated: true,
         },
       ]);
-      setValue('answerInput', '');
+      await setFieldValue('answerVariant', '');
     } else {
       setErrorsState('Error: Fill in the contents of the response before adding it');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answers, getValues, setAnswers, setValue]);
+  }, [answers, setAnswers, values.answerVariant, setFieldValue]);
 
-  const onDeleteAnswerClick = useCallback(
+  const handleDeleteAnswerClick = useCallback(
     (answerId: number) => {
       const changedAnswers = answers.map((ans) =>
         ans.id === answerId ? { ...ans, isDeleted: true } : ans,
@@ -63,24 +61,21 @@ function QuestionForm(): React.ReactNode {
     [answers, setAnswers],
   );
 
-  const onAnswerFocusOut = useCallback(
+  const handleAnswerFocusOut = useCallback(
     (event: FocusEvent, id?: number) => {
       //@ts-ignore
       const changedAnswerValue = event.target?.value + '';
       const isNumberAnswer = questionType === 'number' && !id;
-
       if (isNumberAnswer) {
         const isDataExists = currentQuestion?.id && currentQuestion?.title;
         if (isDataExists) {
           setCurrentQuestion({ ...currentQuestion, answer: +changedAnswerValue });
         }
       }
-
       if (!isNumberAnswer) {
         const currentAnswer = answers.filter((ans) => ans.id === id)[0];
         const isCorrectAnswer =
           changedAnswerValue !== currentAnswer.text && changedAnswerValue.trim() && id;
-
         if (isCorrectAnswer) {
           !!changedAnswerValue?.trim()
             ? setAnswers(
@@ -94,7 +89,7 @@ function QuestionForm(): React.ReactNode {
                     : ans,
                 ),
               )
-            : onDeleteAnswerClick(id);
+            : handleDeleteAnswerClick(id);
         }
       }
     },
@@ -104,27 +99,26 @@ function QuestionForm(): React.ReactNode {
       setCurrentQuestion,
       answers,
       setAnswers,
-      onDeleteAnswerClick,
+      handleDeleteAnswerClick,
     ],
   );
 
-  const onAnswerDragStart = useCallback((answer: QuestionAnswerType) => {
+  const handleAnswerDragStart = useCallback((answer: QuestionAnswerType) => {
     setDraggableAnswer(answer);
   }, []);
 
-  const onAnswerDragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const handleAnswerDragEnd = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.currentTarget.classList.remove('dragStart');
   }, []);
 
-  const onAnswerDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const handleAnswerDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.currentTarget.classList.add('dragStart');
   }, []);
 
-  const onAnswerDrop = useCallback(
+  const handleAnswerDrop = useCallback(
     (event: React.DragEvent<HTMLDivElement>, answer: QuestionAnswerType) => {
       event.preventDefault();
-
       setAnswers(
         answers.map((ans) => {
           const isCurrentDragAnswer = draggableAnswer && ans.id === draggableAnswer.id;
@@ -138,7 +132,6 @@ function QuestionForm(): React.ReactNode {
             : ans;
         }),
       );
-
       event.currentTarget.classList.remove('dragStart');
       setDraggableAnswer(null);
     },
@@ -146,25 +139,43 @@ function QuestionForm(): React.ReactNode {
   );
 
   const dragEvents = {
-    onAnswerDragStart,
-    onAnswerDragEnd,
-    onAnswerDragOver,
-    onAnswerDrop,
+    onAnswerDragStart: handleAnswerDragStart,
+    onAnswerDragEnd: handleAnswerDragEnd,
+    onAnswerDragOver: handleAnswerDragOver,
+    onAnswerDrop: handleAnswerDrop,
   };
 
   const answerEvents = {
-    onAddAnswerClick,
-    onDeleteAnswerClick,
-    onAnswerCheckClick,
-    onAnswerFocusOut,
+    onAddAnswerClick: handleAddAnswerClick,
+    onDeleteAnswerClick: handleDeleteAnswerClick,
+    onAnswerCheckClick: handleAnswerCheckClick,
+    onAnswerFocusOut: handleAnswerFocusOut,
   };
+
+  const sortedList = useMemo(
+    () =>
+      answers
+        .sort((a, b) => (a.position > b.position ? 1 : -1))
+        .map((answer) =>
+          !answer.isDeleted ? (
+            <CheckboxModalAnswer
+              key={answer.id}
+              answer={answer}
+              questionType={questionType as 'single' | 'multiple'}
+              dragEvents={dragEvents}
+              answerEvents={answerEvents}
+            />
+          ) : undefined,
+        ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [answers],
+  );
 
   useEffect(() => {
     const isCurrentQuestionEmptyOrNumber =
       currentQuestion !== undefined &&
       currentQuestion.question_type !== 'number' &&
       currentQuestion?.answers;
-
     if (isCurrentQuestionEmptyOrNumber) {
       //@ts-ignore
       const changedAnswers = currentQuestion.answers.map((answer, index) => {
@@ -178,77 +189,44 @@ function QuestionForm(): React.ReactNode {
 
   return (
     <>
-      <div className={s.questionAddTitle}>
-        <input
-          className={classNames(s.questionInput, s.input)}
-          type="text"
-          placeholder="Введите вопрос"
-          id="questionTitle"
-          defaultValue={currentQuestion?.title}
-          {...register('questionTitle')}
-        />
-        <label className={s.inputTitle} htmlFor="questionTitle">
-          Вопрос
-        </label>
-      </div>
-
+      <CustomInput placeholder="Введите вопрос" isFormInput label="Вопрос" name="questionTitle" />
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
-          <input
-            className={classNames(s.answerAddInput, s.input)}
-            type="text"
+          <CustomInput
             placeholder="Введите вариант ответа"
-            id="answerVariant"
-            {...register('answerInput')}
+            isFormInput
+            name="answerVariant"
+            label="Вариант ответа"
           />
-          <label className={s.inputTitle} htmlFor="answerVariant">
-            Вариант ответа
-          </label>
-          <button className={s.answerAddButton} type="button" onClick={onAddAnswerClick}>
+          <button
+            className={s.answerAddButton}
+            type="button"
+            onClick={() => void handleAddAnswerClick()}
+          >
             +
           </button>
         </div>
       )}
-
       <div
-        className={classNames(s.answersContainer, {
+        className={cn(s.answersContainer, {
           [s.severalScroll]: questionType !== 'number',
         })}
       >
-        {((questionType === 'single' || questionType === 'multiple') &&
-          answers
-            .sort((a, b) => (a.position > b.position ? 1 : -1))
-            .map((answer) =>
-              !answer.isDeleted ? (
-                <CheckboxModalAnswer
-                  key={answer.id}
-                  answer={answer}
-                  questionType={questionType}
-                  dragEvents={dragEvents}
-                  answerEvents={answerEvents}
-                />
-              ) : undefined,
-            )) ||
+        {((questionType === 'single' || questionType === 'multiple') && sortedList) ||
           (questionType === 'number' && (
-            <div className={s.numberAnswerContainer}>
-              <input
-                className={s.answerNumber}
-                type="number"
-                id="numberAnswer"
-                placeholder="Введите ответ на вопрос"
-                //@ts-ignore
-                onBlur={(event) => onAnswerFocusOut(event)}
-                defaultValue={getValues('numberAnswer')}
-                {...register('numberAnswer')}
-              />
-              <label className={s.inputTitle} htmlFor="numberAnswer">
-                Ответ
-              </label>
-            </div>
+            <CustomInput
+              placeholder="Введите ответ на вопрос"
+              isFormInput
+              type="number"
+              name="numberAnswer"
+              label="Ответ"
+              //@ts-ignore
+              onBlur={handleAnswerFocusOut}
+            />
           ))}
       </div>
     </>
   );
-}
+};
 
-export default QuestionForm;
+export default ModalQuestionForm;

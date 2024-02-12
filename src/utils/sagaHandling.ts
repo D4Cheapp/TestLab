@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects';
-import { setErrorsState, setLoadingState } from '@/src/reduxjs/base';
 import { createFetch } from '@/src/utils/createFetch';
+import { setErrorsState, setLoadingState } from '@/src/reduxjs/base';
 
 type SagaHandlingPropsType<T> = {
   href: string;
@@ -12,10 +12,7 @@ type SagaHandlingPropsType<T> = {
 
 const createErrorsString = (response: { error: string }): string => {
   return Object.entries(response).map(([key, value]): string => {
-    const errorType: string = (key.charAt(0).toUpperCase() + key.slice(1)).replace(
-      '_',
-      ' ',
-    );
+    const errorType: string = (key.charAt(0).toUpperCase() + key.slice(1)).replace('_', ' ');
     return `${errorType}: ${value}`;
   })[0];
 };
@@ -36,18 +33,15 @@ function* sagaHandling<T>({
       body: body ?? undefined,
     }),
   );
-
   const isActionExist = action !== undefined;
   const isResponseCrashed = response instanceof Error;
   const isResponseOkCrashed = !isResponseCrashed && !response[1].ok;
   const isResponseContainsErrorMessage =
     // @ts-ignore
     isResponseOkCrashed && 'error' in response[0];
-
   if (isResponseCrashed) {
     yield put(setErrorsState(response.message));
   }
-
   if (isResponseOkCrashed) {
     if (isResponseContainsErrorMessage) {
       //@ts-ignore
@@ -57,7 +51,6 @@ function* sagaHandling<T>({
       yield put(setErrorsState(`Error: ${response[1].statusText}`));
     }
   }
-
   if (isActionExist) {
     if (isDataInAction) {
       // @ts-ignore
@@ -67,11 +60,8 @@ function* sagaHandling<T>({
       yield action();
     }
   }
-
   yield put(setLoadingState(false));
-  return !isResponseCrashed && !isResponseContainsErrorMessage
-    ? response[0]
-    : { error: true };
+  return !isResponseCrashed && !isResponseContainsErrorMessage ? response[0] : { error: true };
 }
 
 export { sagaHandling };

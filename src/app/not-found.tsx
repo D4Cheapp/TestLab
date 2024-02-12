@@ -1,8 +1,8 @@
 import React from 'react';
 import NotFoundPage from '../components/pages/NotFoundPage';
 
-function NotFound() {
+const NotFound = (): React.ReactNode => {
   return <NotFoundPage />;
-}
+};
 
 export default NotFound;

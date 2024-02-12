@@ -75,7 +75,6 @@ const testSlice = createSlice({
     setPaginationTests: (state, action: SetPaginationTestActionType) => {
       const isPageFirst = action.payload.page === 1;
       state.testMeta = action.payload.meta;
-
       if (isPageFirst) {
         state.testList = action.payload.tests;
       } else {
@@ -88,7 +87,6 @@ const testSlice = createSlice({
       if (!state.currentTest) {
         state.currentTest = {};
       }
-
       state.currentTest.questions =
         //@ts-ignore
         questions?.length > 0 ? [...questions, question.payload] : [question.payload];
@@ -96,7 +94,6 @@ const testSlice = createSlice({
 
     editLocalQuestion: (state, question: EditLocalQuestionAction) => {
       const questions = state.currentTest?.questions;
-
       //@ts-ignore
       state.currentTest.questions = questions?.map((q) => {
         const isTargetQuestion = q.id === question.payload.id;

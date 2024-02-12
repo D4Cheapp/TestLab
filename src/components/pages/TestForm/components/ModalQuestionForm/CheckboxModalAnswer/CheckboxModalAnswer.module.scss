@@ -9,50 +9,38 @@
   padding-block: 0.5em;
   padding-inline: 1em;
 
-  label.answerLabel {
+  .answerLabel {
     position: relative;
     display: inline-flex;
   }
 
-  input.answerTitleInput {
+  .answerCheckbox {
+    width: 0.9em;
+    height: 0.9em;
+  }
+
+  .answerRadio {
+    width: 1em;
+    height: 1em;
+  }
+
+  .answerTitleInput {
     padding: 0;
     border: none;
     border-bottom: 1px $babyPowder solid;
     background: transparent;
     outline: none;
-
     @include fontType(1.2em, $babyPowder);
   }
 
-  p.answerTitle {
+  .answerTitle {
     margin: 0;
+    margin-left: 0.5em;
     cursor: pointer;
-
     @include fontType(1.2em, $babyPowder);
   }
 
-  .customCheckbox {
-    @include customCheckbox(0.9em);
-  }
-
-  .customRadio {
-    @include customRadio(1em);
-  }
-
-  input.answerCheckbox,
-  input.answerRadio {
-    margin-right: 1em;
-    opacity: 0;
-
-    &:checked + .customCheckbox::after,
-    &:checked + .customRadio::after {
-      opacity: 1;
-    }
-  }
-
-  button.answerDeleteButton {
-    @include cross(1.3em, 2px);
-
+  .answerDeleteButton {
     box-sizing: border-box;
     border: none;
     border-radius: 5px;
@@ -61,5 +49,6 @@
     padding-block: 0.1em;
     padding-inline: 0.6em;
     transition: background-color 0.2s;
+    @include cross(1.3em, 2px);
   }
 }

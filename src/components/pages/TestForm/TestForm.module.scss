@@ -1,4 +1,4 @@
-form.root {
+.root {
   display: grid;
   width: 80vw;
   height: 90vh;
@@ -6,24 +6,40 @@ form.root {
   padding-block: 5vh;
   padding-inline: 10vw;
 
-  h1.formTitle {
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    text-align: center;
-
-    @include fontType(2.3em);
-
-    @include narrow {
-      display: none;
-    }
-  }
-
-  @include standard {
+  @include desktop {
     width: 90vw;
     padding-inline: 5vw;
   }
 
-  @include narrow {
+  @include tablet {
     grid-template-rows: 1fr 5fr 1fr;
+  }
+
+  .formTitle {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    text-align: center;
+    @include fontType(2.3em);
+
+    @include tablet {
+      display: none;
+    }
+  }
+}
+
+.content {
+  overflow: hidden;
+  margin-block: 2em;
+
+  .formQuestions {
+    display: inline-flex;
+    overflow: hidden scroll;
+    width: calc(100% - 0.5em);
+    max-height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-right: 0.5em;
+    gap: 1em;
   }
 }
