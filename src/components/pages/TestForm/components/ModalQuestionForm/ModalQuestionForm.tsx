@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import cn from 'classnames';
-import { Field, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { useActions } from '@/src/hooks/reduxHooks';
+import CustomInput from '@/src/components/common/CustomInput';
 import { TestFormType } from '@/src/types/formTypes';
 import { TestFormContext, QuestionAnswerType } from '../../TestFormContext';
 import CheckboxModalAnswer from './CheckboxModalAnswer';
@@ -11,7 +12,7 @@ const ModalQuestionForm = (): React.ReactNode => {
   const { currentQuestion, setCurrentQuestion, answers, setAnswers } = useContext(TestFormContext);
   const [draggableAnswer, setDraggableAnswer] = useState<QuestionAnswerType | null>(null);
   const { setErrorsState } = useActions();
-  const { values, setFieldValue } = useFormikContext<TestFormType>();
+  const { values, setFieldValue, handleChange } = useFormikContext<TestFormType>();
   const questionType = currentQuestion?.id ? currentQuestion?.question_type : values.questionType;
 
   const handleAnswerCheckClick = useCallback(
@@ -169,30 +170,20 @@ const ModalQuestionForm = (): React.ReactNode => {
 
   return (
     <>
-      <div className={s.questionAddTitle}>
-        <Field
-          className={cn(s.questionInput, s.input)}
-          type="text"
-          placeholder="Введите вопрос"
-          name="questionTitle"
-          id="questionTitle"
-        />
-        <label className={s.inputTitle} htmlFor="questionTitle">
-          Вопрос
-        </label>
-      </div>
+      <CustomInput
+        placeholder="Введите вопрос"
+        label="Вопрос"
+        name="questionTitle"
+        onChange={handleChange}
+      />
       {(questionType === 'single' || questionType === 'multiple') && (
         <div className={s.addAnswer}>
-          <Field
-            className={cn(s.answerAddInput, s.input)}
-            type="text"
+          <CustomInput
             placeholder="Введите вариант ответа"
             name="answerVariant"
-            id="answerVariant"
+            label="Вариант ответа"
+            onChange={handleChange}
           />
-          <label className={s.inputTitle} htmlFor="answerVariant">
-            Вариант ответа
-          </label>
           <button
             className={s.answerAddButton}
             type="button"
@@ -222,18 +213,15 @@ const ModalQuestionForm = (): React.ReactNode => {
               ) : undefined,
             )) ||
           (questionType === 'number' && (
-            <div className={s.numberAnswerContainer}>
-              <Field
-                className={s.answerNumber}
-                type="number"
-                name="numberAnswer"
-                placeholder="Введите ответ на вопрос"
-                onBlur={(event: FocusEvent) => handleAnswerFocusOut(event)}
-              />
-              <label className={s.inputTitle} htmlFor="numberAnswer">
-                Ответ
-              </label>
-            </div>
+            <CustomInput
+              type="number"
+              name="numberAnswer"
+              placeholder="Введите ответ на вопрос"
+              label="Ответ"
+              //@ts-ignore
+              onBlur={handleAnswerFocusOut}
+              onChange={handleChange}
+            />
           ))}
       </div>
     </>

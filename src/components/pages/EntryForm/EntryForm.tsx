@@ -3,10 +3,11 @@ import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import * as Yup from 'yup';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { useActions, useAppSelector } from '@/src/hooks/reduxHooks';
 import { currentProfileSelector } from '@/src/reduxjs/auth/selectors';
 import { EntryFormType } from '@/src/types/formTypes';
+import CustomInput from '../../common/CustomInputButton';
 import EntryInput from './EntryInput';
 import s from './EntryForm.module.scss';
 
@@ -89,14 +90,21 @@ const EntryForm = ({
         })}
         onSubmit={handleFormSubmit}
       >
-        {({ errors }) => (
+        {({ errors, handleChange }) => (
           <Form className={s.form}>
             <h1 className={s.title}>{title}</h1>
-            <EntryInput title="Логин" name="username" isPassword={false} error={errors.username} />
+            <EntryInput
+              title="Логин"
+              name="username"
+              handleChange={handleChange}
+              isPassword={false}
+              error={errors.username}
+            />
             <EntryInput
               isPassword
               title="Пароль"
               name="password"
+              handleChange={handleChange}
               isShownPassword={showPassword}
               onShowPasswordClick={handleShowPasswordClick}
               error={errors.password}
@@ -107,14 +115,19 @@ const EntryForm = ({
                   isPassword
                   title="Подтвердите пароль"
                   name="password_confirmation"
+                  handleChange={handleChange}
                   isShownPassword={showConfirmPassword}
                   onShowPasswordClick={handleShowConfirmPasswordClick}
                   error={errors.password_confirmation}
                 />
                 <label className={s.isAdmin}>
                   <p className={s.isAdminTitle}>Учетная запись администратора</p>
-                  <Field className={s.checkbox} type="checkbox" name="is_admin" id="is_admin" />
-                  <div className={s.customCheckbox} />
+                  <CustomInput
+                    name="is_admin"
+                    type="checkbox"
+                    width="1.2em"
+                    onChange={handleChange}
+                  />
                 </label>
               </>
             )}

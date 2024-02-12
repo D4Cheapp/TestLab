@@ -39,7 +39,7 @@ function TestForm({ title, initTest, withDeleteButton = false }: Props): React.R
   const isLocal = !initTest;
 
   const questionValidation = (
-    questionType?: 'number' | 'multiple' | 'single',
+    questionType?: TestFormType['questionType'],
     title?: string,
     checkedAnswerCount?: number,
     answerCount?: number,
@@ -91,9 +91,9 @@ function TestForm({ title, initTest, withDeleteButton = false }: Props): React.R
   const handleQuestionModifyClick = useCallback(
     (isEdit: boolean): boolean => {
       const title = values.questionTitle;
-      const question_type = currentQuestion?.id
+      const question_type = (currentQuestion?.id
         ? currentQuestion?.question_type
-        : values.questionType;
+        : values.questionType) as TestFormType['questionType'];
       const checkedAnswerCount: number | undefined = answers
         ? answers.reduce((counter, answer) => (counter += +answer.is_right), 0)
         : undefined;

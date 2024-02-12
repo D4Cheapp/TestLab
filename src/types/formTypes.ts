@@ -6,7 +6,7 @@ export type EntryFormType = {
 };
 export type TestFormType = {
   testTitle: string;
-  questionType: 'single' | 'multiple' | 'number';
+  questionType: 'single' | 'multiple' | 'number' | '';
   questionTitle: string;
   answerVariant: string;
   numberAnswer: string;

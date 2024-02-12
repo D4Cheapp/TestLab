@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useContext } from 'react';
 import cn from 'classnames';
 import { Field, useFormikContext } from 'formik';
 import ModalWindow from '@/src/components/common/ModalWindow';
+import CustomInput from '@/src/components/common/CustomInput';
 import ModalQuestionForm from '../ModalQuestionForm';
 import { TestFormContext } from '../../TestFormContext';
 import s from './TestFormInfoEdit.module.scss';
@@ -37,13 +38,11 @@ const TestFormInfoEdit = ({ onAddQuestionClick, modalWindowData }: Props): React
         })}
       >
         <h2 className={s.testNameTitle}>Название теста</h2>
-        <Field
-          className={s.testNameInput}
-          type="text"
-          readOnly={withDeleteButton}
+        <CustomInput
+          classNames={{ input: s.testNameInput }}
+          readonly={withDeleteButton}
           placeholder="Введите название теста"
           name="testTitle"
-          id="testTitle"
         />
       </div>
       {!withDeleteButton && (

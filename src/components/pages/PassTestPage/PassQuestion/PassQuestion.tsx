@@ -1,6 +1,8 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
 import cn from 'classnames';
 import { CreateQuestionRequestType } from '@/src/types/requestTypes';
+import CustomInputButton from '@/src/components/common/CustomInputButton';
+import CustomInput from '@/src/components/common/CustomInput';
 import s from './PassQuestion.module.scss';
 
 interface Props {
@@ -33,40 +35,32 @@ const PassQuestion = ({
     >
       <h2 className={s.title}>{question.title}</h2>
       {isNumberAnswer ? (
-        <input
-          className={s.numberAnswer}
+        <CustomInput
           type="number"
-          placeholder={'Введите числовой ответ'}
+          placeholder="Введите числовой ответ"
           name={questionId}
-          id={questionId}
           onChange={(event) => onAddAnswerClick(event, questionIndex)}
         />
       ) : (
         question.answers?.map((ans) => (
           <label className={s.answer} key={ans.id}>
             {question.question_type === 'multiple' && (
-              <>
-                <input
-                  className={s.checkbox}
-                  type="checkbox"
-                  id={ans.id + ''}
-                  name={questionId}
-                  onClick={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
-                />
-                <div className={s.customCheckbox} />
-              </>
+              <CustomInputButton
+                name={questionId}
+                type="checkbox"
+                id={ans.id + ''}
+                width="1em"
+                onChange={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
+              />
             )}
             {question.question_type === 'single' && (
-              <>
-                <input
-                  className={s.radioButton}
-                  type="radio"
-                  id={ans.id + ''}
-                  name={questionId}
-                  onClick={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
-                />
-                <div className={s.customRadio} />
-              </>
+              <CustomInputButton
+                id={ans.id + ''}
+                name={questionId}
+                type="radio"
+                width="1em"
+                onChange={(event) => onAddAnswerClick(event, questionIndex, ans.id)}
+              />
             )}
             <p className={s.answerTitle}>{ans.text}</p>
           </label>

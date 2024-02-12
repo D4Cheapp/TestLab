@@ -35,19 +35,7 @@
   }
 
   .filter {
-    width: 100%;
-    box-sizing: border-box;
-    border: 2px $babyPowder solid;
-    border-radius: 5px;
-    background: $charcoal;
-    outline: none;
-    padding-block: 0.5em;
-    padding-inline: 1em;
-    @include fontType(1.4em, $babyPowder);
-
-    &::placeholder {
-      @include fontType(null, rgba($babyPowder, 0.5));
-    }
+    @include fontType(1.4em);
   }
 }
 

@@ -5,7 +5,7 @@ export const testFormInitialValues = {
   answerVariant: '',
   numberAnswer: '',
   questionTitle: '',
-  questionType: 'single',
+  questionType: '',
   testTitle: '',
 } as TestFormType;
 

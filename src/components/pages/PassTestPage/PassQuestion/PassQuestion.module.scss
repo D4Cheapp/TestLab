@@ -15,26 +15,6 @@
     margin-block: 0;
     @include fontType(1.8em);
   }
-
-  .numberAnswer {
-    box-sizing: border-box;
-    border: 2px $babyPowder solid;
-    border-radius: 5px;
-    background: none;
-    outline: none;
-    padding-block: 0.5em;
-    padding-inline: 1em;
-    @include fontType(1.2em, $babyPowder);
-
-    &::placeholder {
-      color: rgba($babyPowder, 0.6);
-    }
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      display: none;
-    }
-  }
 }
 
 .correctQuestion {
@@ -49,24 +29,6 @@
   position: relative;
   display: inline-flex;
   cursor: pointer;
-
-  .checkbox,
-  .radioButton {
-    opacity: 0;
-
-    &:checked + .customCheckbox::after,
-    &:checked + .customRadio::after {
-      opacity: 1;
-    }
-  }
-
-  .customCheckbox {
-    @include customCheckbox(1em);
-  }
-
-  .customRadio {
-    @include customRadio(1em);
-  }
 
   .answerTitle {
     margin-left: 1em;

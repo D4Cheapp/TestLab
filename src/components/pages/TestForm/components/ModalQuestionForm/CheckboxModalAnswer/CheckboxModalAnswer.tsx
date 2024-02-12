@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CustomInputButton from '@/src/components/common/CustomInputButton';
 import { QuestionAnswerType } from '../../../TestFormContext';
 import s from './CheckboxModalAnswer.module.scss';
 
@@ -45,30 +46,24 @@ const CheckboxModalAnswer = ({
     >
       <label className={s.answerLabel} htmlFor={`answer-input-${answer.id}`}>
         {questionType === 'multiple' && (
-          <>
-            <input
-              className={s.answerCheckbox}
-              type="checkbox"
-              id={`answer-input-${answer.id}`}
-              name="multiple-answer"
-              onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
-              defaultChecked={answer.is_right}
-            />
-            <div className={s.customCheckbox} />
-          </>
+          <CustomInputButton
+            id={`answer-input-${answer.id}`}
+            name="multiple-answer"
+            type="checkbox"
+            width="0.9em"
+            onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+            defaultChecked={answer.is_right}
+          />
         )}
         {questionType === 'single' && (
-          <>
-            <input
-              className={s.answerRadio}
-              type="radio"
-              id={`answer-input-${answer.id}`}
-              name="single-answer"
-              onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
-              defaultChecked={answer.is_right}
-            />
-            <div className={s.customRadio} />
-          </>
+          <CustomInputButton
+            id={`answer-input-${answer.id}`}
+            name="single-answer"
+            type="radio"
+            width='1em'
+            onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+            defaultChecked={answer.is_right}
+          />
         )}
         {isInputMode ? (
           <input

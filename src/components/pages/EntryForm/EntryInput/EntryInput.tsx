@@ -1,11 +1,12 @@
 import cn from 'classnames';
-import { Field } from 'formik';
+import CustomInput from '@/src/components/common/CustomInput';
 import s from './EntryInput.module.scss';
 
 interface Props {
   isPassword: boolean;
   title: string;
   name: 'is_admin' | 'username' | 'password' | 'password_confirmation';
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onShowPasswordClick?: () => void;
   error?: string;
   isShownPassword?: boolean;
@@ -15,6 +16,7 @@ const EntryInput = ({
   isPassword,
   title,
   name,
+  handleChange,
   onShowPasswordClick,
   error,
   isShownPassword = false,
@@ -22,14 +24,17 @@ const EntryInput = ({
   return (
     <div className={s.entryInputContainer}>
       <div className={s.inputContainer}>
-        <Field
-          className={cn(s.input, { [s.passwordError]: error })}
+        <CustomInput
+          classNames={{
+            input: cn(s.input, { [s.passwordError]: error }),
+            title: cn({ [s.errorTitle]: error }),
+          }}
           type={isPassword ? (isShownPassword ? 'text' : 'password') : 'text'}
-          placeholder={title}
+          onChange={handleChange}
           name={name}
-          id={name}
+          placeholder={title}
+          label={title}
         />
-        <div className={cn(s.inputLabel, { [s.errorTitle]: error })}>{title}</div>
         {isPassword && (
           <button
             type="button"

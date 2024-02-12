@@ -25,27 +25,9 @@
 
   .answerTitle {
     margin: 0;
+    margin-left: 0.5em;
     cursor: pointer;
     @include fontType(1.2em, $babyPowder);
-  }
-
-  .customCheckbox {
-    @include customCheckbox(0.9em);
-  }
-
-  .customRadio {
-    @include customRadio(1em);
-  }
-
-  .answerCheckbox,
-  .answerRadio {
-    margin-right: 1em;
-    opacity: 0;
-
-    &:checked + .customCheckbox::after,
-    &:checked + .customRadio::after {
-      opacity: 1;
-    }
   }
 
   .answerDeleteButton {

@@ -151,41 +151,4 @@
       @include fontType(1.1em);
     }
   }
-
-  .customCheckbox {
-    position: relative;
-    display: flex;
-    width: 1.2em;
-    height: 1.2em;
-    align-items: flex-start;
-    justify-content: center;
-    border: 2px solid $babyPowder;
-    border-radius: 3px;
-
-    @include mediumDesktop {
-      width: 2.2vh;
-      height: 2.2vh;
-    }
-
-    &::before {
-      position: absolute;
-      width: 25%;
-      height: 60%;
-      border-right: 2px solid rgba($babyPowder, 1);
-      border-bottom: 2px solid rgba($babyPowder, 1);
-      margin-top: 5%;
-      content: '';
-      opacity: 0;
-      rotate: 45deg;
-      transition: opacity 0.2s;
-    }
-  }
-
-  .checkbox {
-    display: none;
-
-    &:checked + .customCheckbox::before {
-      opacity: 1;
-    }
-  }
 }

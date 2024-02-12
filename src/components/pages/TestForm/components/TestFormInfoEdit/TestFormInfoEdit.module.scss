@@ -1,3 +1,18 @@
+@mixin formInput($fontSize) {
+  box-sizing: border-box;
+  border: 2px $babyPowder solid;
+  border-radius: 5px;
+  background: $charcoal;
+  outline: none;
+  padding-block: 0.4em;
+  padding-inline: 1em;
+  @include fontType($fontSize, $babyPowder);
+
+  &::placeholder {
+    @include fontType(null, rgba($babyPowder, 0.7));
+  }
+}
+
 .editContainer {
   display: inline-flex;
   width: 100%;

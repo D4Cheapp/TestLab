@@ -1,6 +1,7 @@
 import React, { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import cn from 'classnames';
 import ModalWindow from '@/src/components/common/ModalWindow';
+import CustomInput from '@/src/components/common/CustomInput';
 import s from './HomeNavbar.module.scss';
 
 interface Props {
@@ -27,13 +28,11 @@ const HomeNavbar = ({
   return (
     <nav className={s.nav}>
       <h1 className={s.navTitle}>TestLab</h1>
-      <input
-        className={s.filter}
-        type="text"
-        onChange={onFilterInput}
+      <CustomInput
+        classNames={{input: s.filter}}
         placeholder="Поиск по тестам"
         name="FilterInput"
-        id="FilterInput"
+        onChange={onFilterInput}
         defaultValue={defaultFilterValue}
       />
       <div className={s.secondLine}>
