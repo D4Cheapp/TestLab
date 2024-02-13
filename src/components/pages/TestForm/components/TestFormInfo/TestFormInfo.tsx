@@ -5,7 +5,7 @@ import ModalWindow from '@/src/components/common/ModalWindow';
 import CustomInput from '@/src/components/common/CustomInput';
 import ModalQuestionForm from '../ModalQuestionForm';
 import { TestFormContext } from '../../TestFormContext';
-import s from './TestFormInfoEdit.module.scss';
+import s from './TestFormInfo.module.scss';
 
 interface Props {
   onAddQuestionClick: () => void;
@@ -15,7 +15,8 @@ interface Props {
   };
 }
 
-const TestFormInfoEdit = ({ onAddQuestionClick, modalWindowData }: Props): React.ReactNode => {
+const TestFormInfo = ({ onAddQuestionClick, modalWindowData }: Props): React.ReactNode => {
+  console.log('render');
   const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion } =
     useContext(TestFormContext);
   const { resetForm } = useFormikContext();
@@ -84,4 +85,4 @@ const TestFormInfoEdit = ({ onAddQuestionClick, modalWindowData }: Props): React
   );
 };
 
-export default TestFormInfoEdit;
+export default TestFormInfo;

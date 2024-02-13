@@ -22,24 +22,18 @@ function CustomInputButton({
   id,
   defaultChecked,
 }: Props): React.ReactNode {
+  const inputInfo = {
+    className: cn({ [s.checkbox]: type === 'checkbox', [s.radioButton]: type === 'radio' }),
+    type,
+    id: id ? id : name,
+    name,
+  };
   return (
     <>
       {isFormInput ? (
-        <Field
-          className={cn({ [s.checkbox]: type === 'checkbox', [s.radioButton]: type === 'radio' })}
-          type={type}
-          id={id ? id : name}
-          name={name}
-        />
+        <Field {...inputInfo} />
       ) : (
-        <input
-          className={cn({ [s.checkbox]: type === 'checkbox', [s.radioButton]: type === 'radio' })}
-          type={type}
-          id={id ? id : name}
-          name={name}
-          onChange={onChange}
-          defaultChecked={defaultChecked}
-        />
+        <input {...inputInfo} onChange={onChange} defaultChecked={defaultChecked} />
       )}
       <div
         className={cn(

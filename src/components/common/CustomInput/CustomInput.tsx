@@ -33,31 +33,21 @@ function CustomInput({
   id,
   classNames,
 }: Props): React.ReactNode {
+  const inputInfo = {
+    className: cn(s.input, classNames ? classNames.input : ''),
+    type,
+    id: id ? id : name,
+    name,
+    placeholder,
+    onBlur,
+    readOnly,
+  };
   return (
     <div className={s.root}>
-      {/* {isFormInput ? <Field {...inputProps} /> : <input {...inputProps}/>} */}
       {isFormInput ? (
-        <Field
-          className={cn(s.input, classNames ? classNames.input : '')}
-          type={type}
-          id={id ? id : name}
-          name={name}
-          placeholder={placeholder}
-          onBlur={onBlur}
-          readOnly={readOnly}
-        />
+        <Field {...inputInfo} />
       ) : (
-        <input
-          className={cn(s.input, classNames ? classNames.input : '')}
-          type={type}
-          id={id ? id : name}
-          name={name}
-          placeholder={placeholder}
-          onChange={onChange}
-          onBlur={onBlur}
-          readOnly={readOnly}
-          defaultValue={defaultValue}
-        />
+        <input {...inputInfo} onChange={onChange} defaultValue={defaultValue} />
       )}
       {label && (
         <label className={cn(s.label, classNames ? classNames.title : '')} htmlFor={id ? id : name}>
