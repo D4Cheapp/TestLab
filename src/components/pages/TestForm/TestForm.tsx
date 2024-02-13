@@ -8,7 +8,7 @@ import { CurrentTestType } from '@/src/reduxjs/test/types';
 import { currentTestSelector } from '@/src/reduxjs/test/selectors';
 import TestFormButtons from './components/TestFormButtons';
 import FormQuestion from './components/FormQuestion';
-import TestFormInfoEdit from './components/TestFormInfoEdit';
+import TestFormInfo from './components/TestFormInfo';
 import { TestFormContext, QuestionAnswerType } from './TestFormContext';
 import s from './TestForm.module.scss';
 
@@ -223,7 +223,7 @@ function TestForm({ title, initTest, withDeleteButton = false }: Props): React.R
           currentQuestion,
         }}
       >
-        <TestFormInfoEdit
+        <TestFormInfo
           onAddQuestionClick={handleAddQuestionClick}
           modalWindowData={{
             isAddQuestionWindowActive,
