@@ -16,7 +16,6 @@ interface Props {
 }
 
 const TestFormInfo = ({ onAddQuestionClick, modalWindowData }: Props): React.ReactNode => {
-  console.log('render');
   const { withDeleteButton, onQuestionModifyClick, setCurrentQuestion } =
     useContext(TestFormContext);
   const { resetForm } = useFormikContext();
@@ -25,6 +24,10 @@ const TestFormInfo = ({ onAddQuestionClick, modalWindowData }: Props): React.Rea
     modalWindowData.setIsAddQuestionWindowActive(false);
     setCurrentQuestion(undefined);
     resetForm();
+  };
+
+  const handleQuestionModifyClick = () => {
+onQuestionModifyClick(false)
   };
 
   return (
@@ -69,7 +72,7 @@ const TestFormInfo = ({ onAddQuestionClick, modalWindowData }: Props): React.Rea
               <ModalWindow
                 title="Добавление вопроса"
                 setIsActive={handleCloseAddWindowAction}
-                onConfirmClick={() => onQuestionModifyClick(false)}
+                onConfirmClick={handleQuestionModifyClick}
                 buttonInfo={{ confirmTitle: 'Сохранить', withConfirmButton: true }}
               >
                 <ModalQuestionForm />

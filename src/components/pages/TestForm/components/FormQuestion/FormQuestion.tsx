@@ -23,10 +23,10 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
   const [isEditQuestionWindowActive, setIsEditQuestionWindowActive] = useState(false);
 
   const handleDeleteQuestionClick = () => {
-    setIsDeleteQuestionWindowActive(true);
+    question.id ? setIsDeleteQuestionWindowActive(true) : undefined
   };
 
-  const handleEditQuestionClick = (question: CreateQuestionRequestType) => {
+  const handleEditQuestionClick = () => {
     setCurrentQuestion(question);
     setIsEditQuestionWindowActive(true);
   };
@@ -76,7 +76,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
             <button
               type="button"
               className={cn(s.questionButton, s.editButton)}
-              onClick={() => handleEditQuestionClick(question)}
+              onClick={handleEditQuestionClick}
             />
           </>
         )}
@@ -91,7 +91,7 @@ const FormQuestion = ({ question }: Props): React.ReactNode => {
         <button
           type="button"
           className={cn(s.questionButton, s.deleteButton)}
-          onClick={() => (question.id ? handleDeleteQuestionClick() : undefined)}
+          onClick={handleDeleteQuestionClick}
         />
       </div>
     </div>

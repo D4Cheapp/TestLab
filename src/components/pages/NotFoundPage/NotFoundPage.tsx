@@ -7,7 +7,7 @@ const NotFoundPage = (): React.ReactNode => {
     <div className={s.root}>
       <div className={s.errorContainer}>
         <h1 className={s.title}>Страница не найдена</h1>
-        <Link href={'/'} className={s.goBack}>
+        <Link href="/" className={s.goBack}>
           Вернуться на главную страницу
         </Link>
       </div>
