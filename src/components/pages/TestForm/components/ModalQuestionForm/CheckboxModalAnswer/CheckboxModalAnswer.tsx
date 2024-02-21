@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { DragEventHandler, FocusEventHandler, useState } from 'react';
 import CustomInputButton from '@/src/components/common/CustomInputButton';
+import CustomInput from '@/src/components/common/CustomInput';
 import { QuestionAnswerType } from '../../../TestFormContext';
 import s from './CheckboxModalAnswer.module.scss';
 
@@ -32,16 +33,38 @@ const CheckboxModalAnswer = ({
     setIsInputMode(true);
   };
 
+  const handleAnswerTitleBlur: FocusEventHandler = (event) => {
+    setIsInputMode(false);
+    //@ts-ignore
+    answerEvents.onAnswerFocusOut(event, answer.id);
+  };
+
+  const handleAnswerDragStart = () => {
+    dragEvents.onAnswerDragStart(answer);
+  };
+
+  const handleAnswerDrop: DragEventHandler<HTMLDivElement> = (event) => {
+    dragEvents.onAnswerDrop(event, answer);
+  };
+
+  const handleAnswerCheckClick = () => {
+    answerEvents.onAnswerCheckClick(answer.id);
+  };
+
+  const handleAnswerDeleteClick = () => {
+    answerEvents.onDeleteAnswerClick(answer.id);
+  };
+
   return (
     <div
       className={s.answer}
       key={answer.id}
       draggable={true}
-      onDragStart={() => dragEvents.onAnswerDragStart(answer)}
+      onDragStart={handleAnswerDragStart}
       onDragEnd={dragEvents.onAnswerDragEnd}
       onDragLeave={dragEvents.onAnswerDragEnd}
       onDragOver={dragEvents.onAnswerDragOver}
-      onDrop={(event) => dragEvents.onAnswerDrop(event, answer)}
+      onDrop={handleAnswerDrop}
       onDoubleClick={handleDoubleClick}
     >
       <label className={s.answerLabel} htmlFor={`answer-input-${answer.id}`}>
@@ -51,7 +74,7 @@ const CheckboxModalAnswer = ({
             name="multiple-answer"
             type="checkbox"
             className={s.answerCheckbox}
-            onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+            onChange={handleAnswerCheckClick}
             defaultChecked={answer.is_right}
           />
         )}
@@ -61,33 +84,25 @@ const CheckboxModalAnswer = ({
             name="single-answer"
             type="radio"
             className={s.answerRadio}
-            onChange={() => answerEvents.onAnswerCheckClick(answer.id)}
+            onChange={handleAnswerCheckClick}
             defaultChecked={answer.is_right}
           />
         )}
         {isInputMode ? (
-          <input
-            className={s.answerTitleInput}
+          <CustomInput
+            classNames={{ input: s.answerTitleInput }}
             type="text"
             id={`answer-title-${answer.id}`}
             name={`answer-${answer.id}`}
             defaultValue={answer.text}
             autoFocus={true}
-            onBlur={(event) => {
-              setIsInputMode(false);
-              //@ts-ignore
-              answerEvents.onAnswerFocusOut(event, answer.id);
-            }}
+            onBlur={handleAnswerTitleBlur}
           />
         ) : (
           <p className={s.answerTitle}>{answer.text}</p>
         )}
       </label>
-      <button
-        className={s.answerDeleteButton}
-        type="button"
-        onClick={() => answerEvents.onDeleteAnswerClick(answer.id)}
-      >
+      <button className={s.answerDeleteButton} type="button" onClick={handleAnswerDeleteClick}>
         -
       </button>
     </div>

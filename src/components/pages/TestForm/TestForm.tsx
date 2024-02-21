@@ -38,7 +38,7 @@ function TestForm({ title, initTest, withDeleteButton = false }: Props): React.R
   const [currentQuestion, setCurrentQuestion] = useState<CreateQuestionRequestType>();
   const isLocal = !initTest;
 
-  const questionValidation = useCallback(
+  const handleQuestionValidation = useCallback(
     (
       questionType?: TestFormType['questionType'],
       title?: string,
@@ -103,7 +103,13 @@ function TestForm({ title, initTest, withDeleteButton = false }: Props): React.R
         : undefined;
       const numberAnswer = values.numberAnswer !== undefined ? +values.numberAnswer : undefined;
       if (
-        questionValidation(question_type, title, checkedAnswerCount, answers.length, numberAnswer)
+        handleQuestionValidation(
+          question_type,
+          title,
+          checkedAnswerCount,
+          answers.length,
+          numberAnswer,
+        )
       ) {
         const isServerQuestion = !isLocal && title && question_type;
         if (isServerQuestion) {

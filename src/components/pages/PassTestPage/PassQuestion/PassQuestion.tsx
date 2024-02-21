@@ -24,6 +24,11 @@ const PassQuestion = ({
 }: Props): React.ReactNode => {
   const isNumberAnswer = question.answer !== null;
   const questionId = question.id + '';
+
+  const handleAddNumberAnswerClick = (event: ChangeEvent<HTMLInputElement>) => {
+    onAddAnswerClick(event, questionIndex);
+  };
+
   return (
     <div
       className={cn(
@@ -39,7 +44,7 @@ const PassQuestion = ({
           type="number"
           placeholder="Введите числовой ответ"
           name={questionId}
-          onChange={(event) => onAddAnswerClick(event, questionIndex)}
+          onChange={handleAddNumberAnswerClick}
         />
       ) : (
         question.answers?.map((ans) => (

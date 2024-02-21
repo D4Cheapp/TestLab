@@ -22,11 +22,21 @@ const TestComponent = ({
 }: Props): React.ReactNode => {
   const [isPassTestWindowActive, setIsPassTestWindowActive] = useState<boolean>(false);
 
-  const handlePassTestClick = () => setIsPassTestWindowActive(true);
+  const handlePassTestClick = () => {
+    setIsPassTestWindowActive(true);
+  };
 
   const handlePassTestConfirmClick = () => {
     onPassTestConfirmClick(testId);
     setIsPassTestWindowActive(false);
+  };
+
+  const handleEditTestClick = () => {
+    onEditTestClick(testId);
+  };
+
+  const handleDeleteTestClick = () => {
+    onDeleteTestClick(testId);
   };
 
   return (
@@ -45,13 +55,10 @@ const TestComponent = ({
       <div className={s.buttonsContainer}>
         {isAdmin && (
           <>
-            <button
-              className={cn(s.testButton, s.editTestButton)}
-              onClick={() => onEditTestClick(testId)}
-            />
+            <button className={cn(s.testButton, s.editTestButton)} onClick={handleEditTestClick} />
             <button
               className={cn(s.testButton, s.deleteTestButton)}
-              onClick={() => onDeleteTestClick(testId)}
+              onClick={handleDeleteTestClick}
             />
           </>
         )}

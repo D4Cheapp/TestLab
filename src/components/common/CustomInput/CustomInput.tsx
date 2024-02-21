@@ -5,10 +5,11 @@ import s from './CustomInput.module.scss';
 
 interface Props {
   name: string;
-  placeholder: string;
+  placeholder?: string;
   isFormInput?: boolean;
   label?: string;
   readOnly?: boolean;
+  autoFocus?: boolean;
   type?: 'text' | 'password' | 'number';
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: FocusEventHandler;
@@ -26,6 +27,7 @@ function CustomInput({
   isFormInput,
   label,
   readOnly,
+  autoFocus,
   type = 'text',
   onChange,
   onBlur,
@@ -39,6 +41,7 @@ function CustomInput({
     id: id ? id : name,
     name,
     placeholder,
+    autoFocus,
     onBlur,
     readOnly,
   };
