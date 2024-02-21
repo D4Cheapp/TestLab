@@ -26,7 +26,7 @@ const ModalWindow = ({
     setIsActive(false);
   }, [setIsActive]);
 
-  const escapeKeyClick = useCallback(
+  const handleEscapeKeyClick = useCallback(
     (event: KeyboardEvent) => {
       const isEscapePressed = event.key === 'Escape';
       if (isEscapePressed) {
@@ -37,9 +37,9 @@ const ModalWindow = ({
   );
 
   useEffect(() => {
-    addEventListener('keydown', escapeKeyClick);
-    return () => removeEventListener('keydown', escapeKeyClick);
-  }, [escapeKeyClick]);
+    addEventListener('keydown', handleEscapeKeyClick);
+    return () => removeEventListener('keydown', handleEscapeKeyClick);
+  }, [handleEscapeKeyClick]);
 
   return (
     <aside className={s.root}>

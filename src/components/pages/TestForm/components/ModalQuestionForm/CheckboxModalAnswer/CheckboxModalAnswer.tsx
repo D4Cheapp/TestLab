@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { FocusEventHandler, useState } from 'react';
 import CustomInputButton from '@/src/components/common/CustomInputButton';
+import CustomInput from '@/src/components/common/CustomInput';
 import { QuestionAnswerType } from '../../../TestFormContext';
 import s from './CheckboxModalAnswer.module.scss';
 
@@ -30,6 +31,12 @@ const CheckboxModalAnswer = ({
 
   const handleDoubleClick = () => {
     setIsInputMode(true);
+  };
+
+  const handleAnswerTitleBlur: FocusEventHandler = (event) => {
+    setIsInputMode(false);
+    //@ts-ignore
+    answerEvents.onAnswerFocusOut(event, answer.id);
   };
 
   return (
@@ -66,18 +73,14 @@ const CheckboxModalAnswer = ({
           />
         )}
         {isInputMode ? (
-          <input
-            className={s.answerTitleInput}
+          <CustomInput
+            classNames={{input: s.answerTitleInput}}
             type="text"
             id={`answer-title-${answer.id}`}
             name={`answer-${answer.id}`}
             defaultValue={answer.text}
             autoFocus={true}
-            onBlur={(event) => {
-              setIsInputMode(false);
-              //@ts-ignore
-              answerEvents.onAnswerFocusOut(event, answer.id);
-            }}
+            onBlur={handleAnswerTitleBlur}
           />
         ) : (
           <p className={s.answerTitle}>{answer.text}</p>
